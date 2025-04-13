@@ -1,0 +1,32 @@
+import uni from "../../assets/img/uniCard.png";
+import media from "../../assets/img/mediaCard.png";
+import ingo from "../../assets/img/ingoCard.png";
+import RoleCard from "../fragments/Card";
+import HeaderDashboard from "../fragments/HeaderDashboard";
+import HeroDashboard from "../fragments/HeroDashboard";
+const DashboardLayout = () => {
+  return (
+    <>
+      <HeaderDashboard username="Username" role="Role" />
+      <HeroDashboard username="Username" />
+      <div className="my-8 mx-[10dvw]">
+        <p className="font-semibold text-2xl">Dashboard Stakeholder</p>
+      </div>
+      <div className="flex flex-col items-center justify-center h-auto gap-4">
+        <div className="flex grid-cols-3 items-center justify-around gap-4 w-[80dvw]">
+          <RoleCard
+            roleName="Universitas, Lembaga (NGO), & Komunitas"
+            image={uni}
+          />
+          <RoleCard
+            roleName="Media Massa, Dunia Usaha & Pemerintahan"
+            image={media}
+          />
+          <RoleCard roleName="Lembaga Internasional (INGO)" image={ingo} />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default DashboardLayout;
