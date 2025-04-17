@@ -13,7 +13,7 @@ const DashboardLayout = (props) => {
         <p className="font-semibold text-2xl">Dashboard Stakeholder</p>
       </div>
       <div className="flex flex-col items-center justify-center h-auto gap-4">
-        <div className="flex grid-cols-3 items-center justify-around gap-4 w-[80dvw]">
+        <div className="flex grid-cols-3 items-center justify-between gap-4 w-[80dvw] mb-[10dvh]">
           <Card
             name="Universitas, Lembaga (NGO), & Komunitas"
             image={uni}
