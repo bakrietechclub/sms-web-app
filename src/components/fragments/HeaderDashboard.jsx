@@ -17,7 +17,7 @@ const HeaderDashboard = (props) => {
         <img src={avatar} alt="Avatar" className="h-9" />
         <div className="inline-grid">
           <strong>{props.username}</strong>
-          <span className="text-sm text-[#28A745]">{props.role}</span>
+          <span className="text-sm">{props.role}</span>
         </div>
 
         <div className="relative">
