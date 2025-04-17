@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { DoorOpenIcon } from "lucide-react";
+import { DivideSquare, DoorOpenIcon } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 import logoBCF from "../../assets/img/logoBCF.png";
 import avatar from "../../assets/img/userAvatar.png";
@@ -17,7 +17,7 @@ const HeaderDashboard = (props) => {
         <img src={avatar} alt="Avatar" className="h-9" />
         <div className="inline-grid">
           <strong>{props.username}</strong>
-          <span className="text-sm">{props.role}</span>
+          <span className="text-sm text-[#28A745]">{props.role}</span>
         </div>
 
         <div className="relative">

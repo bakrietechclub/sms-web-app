@@ -1,10 +1,10 @@
 import uni from "../../assets/img/uniCard.png";
 import media from "../../assets/img/mediaCard.png";
 import ingo from "../../assets/img/ingoCard.png";
-import RoleCard from "../fragments/Card";
+import Card from "../fragments/Card";
 import HeaderDashboard from "../fragments/HeaderDashboard";
 import HeroDashboard from "../fragments/HeroDashboard";
-const DashboardLayout = () => {
+const DashboardLayout = (props) => {
   return (
     <>
       <HeaderDashboard username="Username" role="Role" />
@@ -14,15 +14,21 @@ const DashboardLayout = () => {
       </div>
       <div className="flex flex-col items-center justify-center h-auto gap-4">
         <div className="flex grid-cols-3 items-center justify-around gap-4 w-[80dvw]">
-          <RoleCard
-            roleName="Universitas, Lembaga (NGO), & Komunitas"
+          <Card
+            name="Universitas, Lembaga (NGO), & Komunitas"
             image={uni}
+            manageAccess={true} //access point
           />
-          <RoleCard
-            roleName="Media Massa, Dunia Usaha & Pemerintahan"
+          <Card
+            name="Media Massa, Dunia Usaha & Pemerintahan"
             image={media}
+            manageAccess={false} //accesss point
           />
-          <RoleCard roleName="Lembaga Internasional (INGO)" image={ingo} />
+          <Card
+            name="Lembaga Internasional (INGO)"
+            image={ingo}
+            manageAccess={false} //access point
+          />
         </div>
       </div>
     </>
