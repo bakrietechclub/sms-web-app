@@ -1,6 +1,6 @@
 import cubeHero from "../../assets/img/cube-cube.png";
 import girlHero from "../../assets/img/girl-base.png";
-const HeroDashboard = (props) => {
+const HeroLandingPg = (props) => {
   return (
     <div className="flex items-center justify-center">
       <div className="relative bg-linear-to-r from-[#0D4690] to-white w-[80dvw] h-75 rounded-lg bg-cover bg-center text-white p-7 overflow-hidden">
@@ -18,4 +18,4 @@ const HeroDashboard = (props) => {
     </div>
   );
 };
-export default HeroDashboard;
+export default HeroLandingPg;

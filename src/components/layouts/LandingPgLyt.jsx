@@ -2,13 +2,13 @@ import uni from "../../assets/img/uniCard.png";
 import media from "../../assets/img/mediaCard.png";
 import ingo from "../../assets/img/ingoCard.png";
 import Card from "../fragments/Card";
-import HeaderDashboard from "../fragments/HeaderDashboard";
-import HeroDashboard from "../fragments/HeroDashboard";
-const DashboardLayout = (props) => {
+import Header from "../fragments/HeaderLandingPg";
+import Hero from "../fragments/HeroLandingPg";
+const LandingPgLyt = (props) => {
   return (
     <>
-      <HeaderDashboard username="Username" role="Role" />
-      <HeroDashboard username="Username" />
+      <Header username="Username" role="Role" />
+      <Hero username="Username" />
       <div className="my-8 mx-[10dvw]">
         <p className="font-semibold text-2xl">Dashboard Stakeholder</p>
       </div>
@@ -35,4 +35,4 @@ const DashboardLayout = (props) => {
   );
 };
 
-export default DashboardLayout;
+export default LandingPgLyt;

@@ -3,7 +3,7 @@ import { DivideSquare, DoorOpenIcon } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 import logoBCF from "../../assets/img/logoBCF.png";
 import avatar from "../../assets/img/userAvatar.png";
-const HeaderDashboard = (props) => {
+const HeaderLandingPg = (props) => {
   const handleMenuClick = () => {
     const menu = document.querySelector(".menu-dropdown");
     menu.classList.toggle("hidden");
@@ -43,4 +43,4 @@ const HeaderDashboard = (props) => {
     </header>
   );
 };
-export default HeaderDashboard;
+export default HeaderLandingPg;
