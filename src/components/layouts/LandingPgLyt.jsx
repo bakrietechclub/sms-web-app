@@ -1,10 +1,12 @@
 import uni from "../../assets/img/uniCard.png";
 import media from "../../assets/img/mediaCard.png";
 import ingo from "../../assets/img/ingoCard.png";
+
 import Card from "../fragments/Card";
 import Header from "../fragments/HeaderLandingPg";
 import Hero from "../fragments/HeroLandingPg";
-const LandingPgLyt = (props) => {
+
+const LandingPgLyt = () => {
   return (
     <>
       <Header username="Username" role="Role" />
