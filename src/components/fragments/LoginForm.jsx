@@ -1,8 +1,34 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../features/auth/authSlice";
+
 import InputField from "../elements/InputField";
 import AlertBox from "../elements/AlertBox";
-import Button from "../elements/Button"
+import Button from "../elements/Button";
+
+// Data user 
+const users = [
+  {
+    email: "vanno@gmail.com",
+    password: "vanno123",
+    username: "Vanno",
+    role: "Admin Universitas",
+  },
+  {
+    email: "media@gmail.com",
+    password: "media123",
+    username: "MediaUser",
+    role: "Admin Media",
+  },
+  {
+    email: "ingo@gmail.com",
+    password: "ingo123",
+    username: "IngoUser",
+    role: "Admin INGO",
+  },
+];
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -10,23 +36,30 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [showAlert, setShowAlert] = useState(false);
-  const [showPage, setShowPage] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => setShowPage(true), 300);
-  }, []);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = (event) => {
     event.preventDefault();
-    if (email !== "vanno@gmail.com" || password !== "vanno123") {
+
+    const foundUser = users.find(
+      (user) => user.email === email && user.password === password
+    );
+
+    if (!foundUser) {
       setError("Email dan kata sandi tidak cocok. Hubungi Super Admin.");
       setShowAlert(true);
     } else {
-      setError("");
-      alert("Login berhasil");
+      const userData = {
+        username: foundUser.username,
+        role: foundUser.role,
+      };
+      dispatch(login(userData));
+      localStorage.setItem("user", JSON.stringify(userData)); // <-- Save ke localStorage
+      navigate("/home");
     }
   };
-  
 
   useEffect(() => {
     if (error) {
@@ -37,7 +70,7 @@ const LoginForm = () => {
   }, [error]);
 
   return (
-    <form onSubmit={handleLogin} className={`mt-6 w-full max-w-md animate-fadeIn`}>
+    <form onSubmit={handleLogin} className="mt-6 w-full max-w-md animate-fadeIn">
       {showAlert && (
         <AlertBox
           message={error}
@@ -60,6 +93,7 @@ const LoginForm = () => {
         }}
         className="placeholder:italic placeholder:text-base"
       />
+
       <InputField
         id="password"
         label="Kata Sandi"

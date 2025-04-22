@@ -1,20 +1,22 @@
 import SecondaryButton from "../elements/SecondaryButton";
 
-const Card = (props) => {
-  const outlined = !props.manageAccess;
-  // outlined kalau aksesnya false/tidak ada
-  const label = props.manageAccess ? "Kelola" : "Lihat";
+const Card = ({ name, image, manageAccess }) => {
+  const isOutlined = !manageAccess;
+  const buttonLabel = manageAccess ? "Kelola" : "Lihat";
+
   return (
     <div
-      className="relative bg-position-[bottom_-1rem_left_-1rem] w-90 outline-neutral-700 rounded-md shadow-sm p-4 flex flex-col h-50 overflow-hidden"
+      className="relative w-90 rounded-md shadow-sm p-4 flex flex-col h-50 overflow-hidden"
       style={{
-        backgroundImage: `url(${props.image})`,
+        backgroundImage: `url(${image})`,
         backgroundRepeat: "no-repeat",
+        backgroundPosition: "bottom -1rem left -1rem",
       }}
     >
-      <h2 className="font-semibold text-xl">{props.name}</h2>
-      <SecondaryButton outlined={outlined} label={label} />
+      <h2 className="font-semibold text-xl">{name}</h2>
+      <SecondaryButton outlined={isOutlined} label={buttonLabel} />
     </div>
   );
 };
+
 export default Card;
