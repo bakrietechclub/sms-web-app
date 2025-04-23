@@ -87,6 +87,7 @@ const DataTable = () => {
   return (
     <table className="table-fixed text-center w-full">
       <thead className="text-[#0D4690] bg-[#E7EDF4]">
+        {/* header table dibuat lebih menonjol, lebar dan font-bold */}
         <tr className="table-row h-10">
           <th className="text-md font-medium rounded-tl-xl">No</th>
           <th className="text-md font-medium">Nama Instansi</th>
@@ -100,6 +101,7 @@ const DataTable = () => {
       <tbody>
         {dummydata.map((value, index) => (
           <tr key={index} className="table-row border-b border-[#E7EDF4] h-10">
+            {/* Tulisan nya usahakan satu baris */}
             <td>{index + 1}</td>
             <td>{value.name}</td>
             <td>{value.jenis}</td>
