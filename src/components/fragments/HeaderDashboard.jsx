@@ -1,4 +1,4 @@
-import { DoorOpenIcon, BellIcon, ChevronDown } from "lucide-react";
+import { DoorOpenIcon, BellIcon, ChevronDown, HomeIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import avatar from "../../assets/img/userAvatar.png";
 
@@ -34,17 +34,25 @@ export const HeaderDashboard = (props) => {
           >
             <ChevronDown className="w-4 h-4" />
           </button>
-          <div className="menu-dropdown hidden absolute top-10 right-4 mt-2 w-50 bg-white border border-gray-200 rounded-md shadow-lg p-2 animate-fadeIn">
+          <div className="menu-dropdown hidden absolute top-10 right-4 mt-2 w-max bg-white border border-gray-200 rounded-md shadow-lg p-2 animate-fadeIn">
+            <button
+              className="px-4 py-2 hover:bg-[#E7EDF4] cursor-pointer flex items-center text-sm w-full rounded-md transition duration-300 ease-in-out"
+              onClick={() => {
+                navigate("/home");
+              }}
+            >
+              <HomeIcon className="w-4 h-4 mr-2 text-[#0d4690]" />
+              Dashboard Utama
+            </button>
             <button
               className="px-4 py-2 hover:bg-[#fae1e3] cursor-pointer flex items-center text-sm w-full rounded-md transition duration-300 ease-in-out"
               onClick={() => {
-                alert("Logout"), navigate("/");
+                navigate("/");
               }}
             >
               <DoorOpenIcon className="w-4 h-4 mr-2 text-[#DC3545]" />
               Keluar
             </button>
-            {/* Menu utama */}
           </div>
         </div>
       </div>
