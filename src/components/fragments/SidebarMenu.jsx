@@ -123,11 +123,11 @@ export const SidebarMenu = () => {
             </div>
 
             {menu.submenu && openMenu === menu.title && (
-              <div className="pl-10 flex flex-col gap-2 py-2">
+              <div className="flex flex-col px-11 gap-8 my-5">
                 {menu.submenu.map((sub, subIdx) => (
                   <div
                     key={subIdx}
-                    className="text-[#999999] hover:text-[#0D4690] text-sm cursor-pointer transition-all duration-200"
+                    className="text-[#999999] hover:text-[#0D4690] text-sm font-medium cursor-pointer transition-all duration-200"
                   >
                     {sub}
                   </div>
