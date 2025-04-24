@@ -11,11 +11,11 @@ const DashboardLayout = ({ children }) => {
       <main className="ml-64 w-full min-h-screen py-4 px-8 transition-all">
         {/* Main content harus nge-refer dari ROLE USER & SIDEBAR */}
         <HeaderDashboard title="Universitas, Lembaga (NGO) & Komunitas" />
-        <h1 className="mx-6 text-[#1f1f1f] text-3xl font-bold mb-4">
+        <h1 className="text-[#1f1f1f] text-3xl font-semibold mb-8">
           Daftar Riset Potensial Mitra
           {/*Menu ini harus sesuai dengan menu yang aktif di sidebar*/}
         </h1>
-        <div className="flex px-10 items-center justify-end gap-4 mb-3">
+        <div className="flex items-center justify-end gap-4 mb-3">
           <div className="relative w-1/4">
             <input
               type="text"
@@ -32,9 +32,11 @@ const DashboardLayout = ({ children }) => {
             <Plus className="w-4 h-4" />
             Tambah
           </button>
-          {/* Button sama component account sejajar dengan table */}
         </div>
-        <DataTable />
+        <div className="">
+          {/* Table sudah sejajar dengan button */}
+          <DataTable />
+        </div>
       </main>
     </div>
   );

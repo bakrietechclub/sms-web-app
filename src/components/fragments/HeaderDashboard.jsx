@@ -9,7 +9,7 @@ const HeaderDashboard = (props) => {
   };
   const navigate = useNavigate();
   return (
-    <header className="bg-white py-4 px-6 flex justify-between items-end">
+    <header className="bg-white py-4 flex justify-between items-end">
       <h1 className="text-xl font-medium text-[#E89229]">
         {props.title || "Dashboard"}
       </h1>
@@ -29,7 +29,7 @@ const HeaderDashboard = (props) => {
 
         <div className="relative">
           <button
-            className="px-4 py-2 rounded-md focus:outline-none cursor-pointer"
+            className="py-2 rounded-md focus:outline-none cursor-pointer"
             onClick={handleMenuClick}
           >
             <ChevronDown className="w-4 h-4" />
