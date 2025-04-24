@@ -1,4 +1,4 @@
-const Label = ({ label, status }) => {
+export const Label = ({ label, status }) => {
   if (!label) return null;
 
   const styles = {
@@ -17,5 +17,3 @@ const Label = ({ label, status }) => {
     </label>
   );
 };
-
-export default Label;

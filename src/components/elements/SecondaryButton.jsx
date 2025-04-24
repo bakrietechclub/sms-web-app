@@ -1,4 +1,4 @@
-const SecondaryButton = ({ outlined, label }) => {
+export const SecondaryButton = ({ outlined, label }) => {
   const baseClass =
     "absolute bottom-5 right-5 rounded-lg px-4 py-2 mt-4 transition duration-300 ease-in-out cursor-pointer";
 
@@ -14,5 +14,3 @@ const SecondaryButton = ({ outlined, label }) => {
     </button>
   );
 };
-
-export default SecondaryButton;

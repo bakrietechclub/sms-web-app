@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux"; // <-- Tambahin ini
 import { logout } from "../../features/auth/authSlice"; // <-- Tambahin ini
-import { DivideSquare, DoorOpenIcon, ChevronDown } from "lucide-react";
+import { DoorOpenIcon, ChevronDown } from "lucide-react";
 import logoBCF from "../../assets/img/logoBCF.png";
 import avatar from "../../assets/img/userAvatar.png";
 
-const HeaderLandingPg = (props) => {
+export const HeaderLandingPg = (props) => {
   const dispatch = useDispatch(); // <-- Panggil dispatch
   const navigate = useNavigate();
 
@@ -15,8 +15,8 @@ const HeaderLandingPg = (props) => {
   };
 
   const handleLogout = () => {
-    dispatch(logout()); 
-    navigate("/");      
+    dispatch(logout());
+    navigate("/");
   };
 
   return (
@@ -50,5 +50,3 @@ const HeaderLandingPg = (props) => {
     </header>
   );
 };
-
-export default HeaderLandingPg;

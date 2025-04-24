@@ -1,6 +1,6 @@
-import Label from "../elements/Label";
+import { Label } from "../elements/Label";
 
-const DataTable = () => {
+export const DataTable = () => {
   const dummydata = [
     {
       name: "Universitas Indonesia",
@@ -125,4 +125,3 @@ const DataTable = () => {
     // Pagination nanti akan ditambahkan di sini yee ;).
   );
 };
-export default DataTable;

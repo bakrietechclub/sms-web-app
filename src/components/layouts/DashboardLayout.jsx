@@ -1,10 +1,10 @@
-import SidebarMenu from "../fragments/SidebarMenu";
-import DataTable from "../fragments/DataTable";
-import HeaderDashboard from "../fragments/HeaderDashboard";
+import { SidebarMenu } from "../fragments/SidebarMenu";
+import { DataTable } from "../fragments/DataTable";
+import { HeaderDashboard } from "../fragments/HeaderDashboard";
 
 import { SearchIcon, ListFilter, Plus } from "lucide-react";
 
-const DashboardLayout = ({ children }) => {
+export const DashboardLayout = ({}) => {
   return (
     <div className="flex">
       <SidebarMenu />
@@ -41,5 +41,3 @@ const DashboardLayout = ({ children }) => {
     </div>
   );
 };
-
-export default DashboardLayout;

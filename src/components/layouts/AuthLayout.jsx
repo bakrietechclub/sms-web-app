@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import logoBCF from "../../assets/img/logoBCF.png";
 import loginIllustration from "../../assets/img/loginIllustration.png";
 
-const AuthLayout = ({ children }) => {
+export const AuthLayout = ({ children }) => {
   const [showPage, setShowPage] = useState(false);
 
   useEffect(() => {
@@ -59,5 +59,3 @@ const AuthLayout = ({ children }) => {
     </div>
   );
 };
-
-export default AuthLayout;

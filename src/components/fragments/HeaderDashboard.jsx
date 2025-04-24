@@ -2,7 +2,7 @@ import { DoorOpenIcon, BellIcon, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import avatar from "../../assets/img/userAvatar.png";
 
-const HeaderDashboard = (props) => {
+export const HeaderDashboard = (props) => {
   const handleMenuClick = () => {
     const menu = document.querySelector(".menu-dropdown");
     menu.classList.toggle("hidden");
@@ -51,4 +51,3 @@ const HeaderDashboard = (props) => {
     </header>
   );
 };
-export default HeaderDashboard;

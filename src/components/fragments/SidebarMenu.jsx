@@ -76,7 +76,7 @@ const sidebarMenus = {
   ],
 };
 
-const SidebarMenu = () => {
+export const SidebarMenu = () => {
   const { role } = useSelector((state) => state.auth.user);
   const [openMenu, setOpenMenu] = useState("");
 
@@ -140,5 +140,3 @@ const SidebarMenu = () => {
     </aside>
   );
 };
-
-export default SidebarMenu;

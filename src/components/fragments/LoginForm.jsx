@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../features/auth/authSlice";
 
-import InputField from "../elements/InputField";
-import AlertBox from "../elements/AlertBox";
-import Button from "../elements/Button";
+import { InputField } from "../elements/InputField";
+import { AlertBox } from "../elements/AlertBox";
+import { Button } from "../elements/Button";
 
-// Data user 
+// Data user
 const users = [
   {
     email: "vanno@gmail.com",
@@ -30,7 +30,7 @@ const users = [
   },
 ];
 
-const LoginForm = () => {
+export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -70,7 +70,10 @@ const LoginForm = () => {
   }, [error]);
 
   return (
-    <form onSubmit={handleLogin} className="mt-6 w-full max-w-md animate-fadeIn">
+    <form
+      onSubmit={handleLogin}
+      className="mt-6 w-full max-w-md animate-fadeIn"
+    >
       {showAlert && (
         <AlertBox
           message={error}
@@ -113,5 +116,3 @@ const LoginForm = () => {
     </form>
   );
 };
-
-export default LoginForm;

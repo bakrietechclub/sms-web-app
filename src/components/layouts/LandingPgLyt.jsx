@@ -2,12 +2,11 @@ import uni from "../../assets/img/uniCard.png";
 import media from "../../assets/img/mediaCard.png";
 import ingo from "../../assets/img/ingoCard.png";
 
-import Card from "../fragments/Card";
-import Header from "../fragments/HeaderLandingPg";
-import Hero from "../fragments/HeroLandingPg";
+import { Card } from "../fragments/Card";
+import { HeaderLandingPg } from "../fragments/HeaderLandingPg";
+import { HeroLandingPg } from "../fragments/HeroLandingPg";
 
-const LandingPgLyt = ({ username, role }) => {
-
+export const LandingPgLyt = ({ username, role }) => {
   const cardsData = [
     {
       name: "Universitas, Lembaga (NGO), & Komunitas",
@@ -28,8 +27,8 @@ const LandingPgLyt = ({ username, role }) => {
 
   return (
     <>
-      <Header username={username} role={role} />
-      <Hero username={username} />
+      <HeaderLandingPg username={username} role={role} />
+      <HeroLandingPg username={username} />
       <div className="my-8 mx-[10dvw]">
         <p className="font-semibold text-2xl">Dashboard Stakeholder</p>
       </div>
@@ -40,7 +39,7 @@ const LandingPgLyt = ({ username, role }) => {
               key={index}
               name={card.name}
               image={card.image}
-              manageAccess={role === card.accessRole} 
+              manageAccess={role === card.accessRole}
             />
           ))}
         </div>
@@ -48,5 +47,3 @@ const LandingPgLyt = ({ username, role }) => {
     </>
   );
 };
-
-export default LandingPgLyt;

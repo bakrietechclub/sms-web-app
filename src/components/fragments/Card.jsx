@@ -1,6 +1,6 @@
-import SecondaryButton from "../elements/SecondaryButton";
+import { SecondaryButton } from "../elements/SecondaryButton";
 
-const Card = ({ name, image, manageAccess }) => {
+export const Card = ({ name, image, manageAccess }) => {
   const isOutlined = !manageAccess;
   const buttonLabel = manageAccess ? "Kelola" : "Lihat";
 
@@ -18,5 +18,3 @@ const Card = ({ name, image, manageAccess }) => {
     </div>
   );
 };
-
-export default Card;
