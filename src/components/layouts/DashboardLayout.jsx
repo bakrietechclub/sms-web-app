@@ -1,5 +1,5 @@
 import { SidebarMenu } from "../fragments/SidebarMenu";
-import { DataTable } from "../fragments/DataTable";
+import { AudienceTable, ResearchPartnerTable } from "../fragments/DataTable";
 import { HeaderDashboard } from "../fragments/HeaderDashboard";
 
 import { SearchIcon, ListFilter, Plus } from "lucide-react";
@@ -35,7 +35,7 @@ export const DashboardLayout = ({}) => {
         </div>
         <div className="">
           {/* Table sudah sejajar dengan button */}
-          <DataTable />
+          <ResearchPartnerTable />
         </div>
       </main>
     </div>
