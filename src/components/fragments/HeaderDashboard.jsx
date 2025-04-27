@@ -1,8 +1,10 @@
 import { DoorOpenIcon, BellIcon, ChevronDown, HomeIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import avatar from "../../assets/img/userAvatar.png";
 
 export const HeaderDashboard = (props) => {
+  const user = useSelector((state) => state.auth.user);
   const handleMenuClick = () => {
     const menu = document.querySelector(".menu-dropdown");
     menu.classList.toggle("hidden");
@@ -19,11 +21,11 @@ export const HeaderDashboard = (props) => {
         </button>
         <img src={avatar} alt="Avatar" className="h-9" />
         <div className="inline-grid text-[#1f1f1f]">
-          <strong>Username</strong>
+          <strong>{user?.username}</strong>
           <div className="flex gap-2">
-            <span className="text-sm text-[#28A745]">Role</span>
+            <span className="text-sm text-[#28A745]">{user?.role}</span>
             <span className="text-sm">|</span>
-            <span className="text-sm">SECT</span>
+            <span className="text-sm">{user?.division}</span>
           </div>
         </div>
 

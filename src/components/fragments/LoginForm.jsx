@@ -15,18 +15,20 @@ const users = [
     password: "vanno123",
     username: "Vanno",
     role: "Admin Universitas",
+    division: "PD",
   },
   {
     email: "media@gmail.com",
     password: "media123",
     username: "MediaUser",
     role: "Admin Media",
+    division: "SDI",
   },
   {
     email: "ingo@gmail.com",
     password: "ingo123",
     username: "IngoUser",
-    role: "Admin INGO",
+    role: "IT",
   },
 ];
 
@@ -54,6 +56,7 @@ export const LoginForm = () => {
       const userData = {
         username: foundUser.username,
         role: foundUser.role,
+        division: foundUser.division,
       };
       dispatch(login(userData));
       localStorage.setItem("user", JSON.stringify(userData)); // <-- Save ke localStorage
