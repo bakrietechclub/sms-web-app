@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveStakeholder } from "../../features/stakeholder/activeStakeholderSlice"; 
 import {
   ChevronDown,
   ChevronUp,
@@ -19,18 +20,10 @@ import clsx from "clsx";
 
 const sidebarMenus = {
   universitas: [
-    {
-      title: "Riset Mitra",
-      icon: Search,
-      submenu: ["Riset Potensial", "Riset Kolaborasi"],
-    },
+    { title: "Riset Mitra", icon: Search, submenu: ["Riset Potensial", "Riset Kolaborasi"] },
     { title: "Audiensi", icon: CalendarPlus2 },
     { title: "Grup Koordinasi", icon: Users },
-    {
-      title: "Legalitas Kerjasama",
-      icon: MailOpen,
-      submenu: ["MoU/PKS", "SPK/TOR", "IA"],
-    },
+    { title: "Legalitas Kerjasama", icon: MailOpen, submenu: ["MoU/PKS", "SPK/TOR", "IA"] },
     { title: "Penomoran Surat", icon: MailPlus },
     { title: "Rekap PTA", icon: Clipboard },
     { title: "Satisfaction Survey", icon: FileCheck },
@@ -41,33 +34,17 @@ const sidebarMenus = {
     { title: "Riset Mitra", icon: Search },
     { title: "Audiensi", icon: CalendarPlus2 },
     { title: "Grup Koordinasi", icon: Users },
-    {
-      title: "Legalitas Kerjasama",
-      icon: MailOpen,
-      submenu: ["MoU/PKS", "Tanda Kerjasama"],
-    },
+    { title: "Legalitas Kerjasama", icon: MailOpen, submenu: ["MoU/PKS", "Tanda Kerjasama"] },
     { title: "Penomoran Surat", icon: MailPlus },
-    {
-      title: "Pemberitaan BCF",
-      icon: FileText,
-      submenu: ["Rekap Media", "Rekap Program"],
-    },
+    { title: "Pemberitaan BCF", icon: FileText, submenu: ["Rekap Media", "Rekap Program"] },
     { title: "Rekap Kerjasama", icon: Clipboard },
     { title: "Partnership Awards", icon: Trophy },
   ],
   lembagaInternasional: [
-    {
-      title: "Riset Mitra",
-      icon: Search,
-      submenu: ["Riset Potensial", "Riset Kolaborasi"],
-    },
+    { title: "Riset Mitra", icon: Search, submenu: ["Riset Potensial", "Riset Kolaborasi"] },
     { title: "Audiensi", icon: CalendarPlus2 },
     { title: "Grup Koordinasi", icon: Users },
-    {
-      title: "Legalitas Kerjasama",
-      icon: MailOpen,
-      submenu: ["MoU/PKS", "SPK/TOR", "IA", "Tanda Kerjasama"],
-    },
+    { title: "Legalitas Kerjasama", icon: MailOpen, submenu: ["MoU/PKS", "SPK/TOR", "IA", "Tanda Kerjasama"] },
     { title: "Penomoran Surat", icon: MailPlus },
     { title: "Rekap Kerjasama", icon: Clipboard },
     { title: "Satisfaction Survey", icon: FileCheck },
@@ -77,17 +54,18 @@ const sidebarMenus = {
 };
 
 export const SidebarMenu = () => {
-  const { role } = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const activeStakeholder = useSelector((state) => state.activeStakeholder.activeStakeholder);
   const [openMenu, setOpenMenu] = useState("");
 
-  const menus =
-    sidebarMenus[
-      role?.toLowerCase()?.includes("media")
-        ? "media"
-        : role?.toLowerCase()?.includes("ingo")
-        ? "lembagaInternasional"
-        : "universitas"
-    ];
+  useEffect(() => {
+    const storedStakeholder = localStorage.getItem("activeStakeholder");
+    if (storedStakeholder) {
+      dispatch(setActiveStakeholder(storedStakeholder));
+    }
+  }, [dispatch]);
+
+  const menus = sidebarMenus[activeStakeholder || "universitas"];
 
   return (
     <aside className="w-64 h-screen bg-white border-r border-gray-300 fixed flex flex-col">
@@ -101,25 +79,17 @@ export const SidebarMenu = () => {
         {menus.map((menu, idx) => (
           <div key={idx} className="text-[#999999]">
             <div
-              onClick={() =>
-                setOpenMenu(openMenu === menu.title ? "" : menu.title)
-              }
+              onClick={() => setOpenMenu(openMenu === menu.title ? "" : menu.title)}
               className={clsx(
                 "flex items-center justify-between p-3 cursor-pointer focused:text-[#0D4690] hover:bg-[#E7EDF4] hover:text-[#0D4690] rounded-md transition-all duration-200",
-                openMenu === menu.title &&
-                  "text-[#0D4690] font-semibold bg-[#E7EDF4]"
+                openMenu === menu.title && "text-[#0D4690] font-semibold bg-[#E7EDF4]"
               )}
             >
               <div className="flex items-center gap-3">
                 {menu.icon && <menu.icon size={20} />}
                 <span className="text-sm font-medium">{menu.title}</span>
               </div>
-              {menu.submenu &&
-                (openMenu === menu.title ? (
-                  <ChevronUp size={18} />
-                ) : (
-                  <ChevronDown size={18} />
-                ))}
+              {menu.submenu && (openMenu === menu.title ? <ChevronUp size={18} /> : <ChevronDown size={18} />)}
             </div>
 
             {menu.submenu && openMenu === menu.title && (

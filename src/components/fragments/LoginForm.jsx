@@ -28,7 +28,8 @@ const users = [
     email: "ingo@gmail.com",
     password: "ingo123",
     username: "IngoUser",
-    role: "IT",
+    role: "Admin INGO",
+    division: "IT",
   },
 ];
 
