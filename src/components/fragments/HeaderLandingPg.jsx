@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux"; // <-- Tambahin ini
-import { logout } from "../../features/auth/authSlice"; // <-- Tambahin ini
+import { useDispatch } from "react-redux"; 
+import { logout } from "../../features/auth/authSlice"; 
 import { DoorOpenIcon, ChevronDown } from "lucide-react";
 import logoBCF from "../../assets/img/logoBCF.png";
 import avatar from "../../assets/img/userAvatar.png";
 
 export const HeaderLandingPg = (props) => {
-  const dispatch = useDispatch(); // <-- Panggil dispatch
+  const dispatch = useDispatch(); 
   const navigate = useNavigate();
 
   const handleMenuClick = () => {
@@ -39,7 +39,7 @@ export const HeaderLandingPg = (props) => {
           <div className="menu-dropdown hidden absolute top-10 right-4 mt-2 w-50 bg-white border border-gray-200 rounded-md shadow-lg p-2 animate-fadeIn">
             <button
               className="px-4 py-2 hover:bg-[#fae1e3] cursor-pointer flex items-center text-sm w-full rounded-md transition duration-300 ease-in-out"
-              onClick={handleLogout} // <-- Panggil function logout baru
+              onClick={handleLogout} 
             >
               <DoorOpenIcon className="w-4 h-4 mr-2 text-[#DC3545]" />
               Keluar

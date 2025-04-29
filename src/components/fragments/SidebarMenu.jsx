@@ -1,62 +1,16 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveStakeholder } from "../../features/stakeholder/activeStakeholderSlice"; 
-import {
-  ChevronDown,
-  ChevronUp,
-  Search,
-  FileText,
-  CalendarPlus2,
-  Users,
-  MailOpen,
-  MailPlus,
-  Clipboard,
-  Sheet,
-  FileCheck,
-  Trophy,
-} from "lucide-react";
+import { sidebarMenus } from "../../config/sidebarMenus";
+import { ChevronDown, ChevronUp} from "lucide-react";
 import LogoBCF from "../../assets/img/logoBCF.png";
 import clsx from "clsx";
 
-const sidebarMenus = {
-  universitas: [
-    { title: "Riset Mitra", icon: Search, submenu: ["Riset Potensial", "Riset Kolaborasi"] },
-    { title: "Audiensi", icon: CalendarPlus2 },
-    { title: "Grup Koordinasi", icon: Users },
-    { title: "Legalitas Kerjasama", icon: MailOpen, submenu: ["MoU/PKS", "SPK/TOR", "IA"] },
-    { title: "Penomoran Surat", icon: MailPlus },
-    { title: "Rekap PTA", icon: Clipboard },
-    { title: "Satisfaction Survey", icon: FileCheck },
-    { title: "Partnership BCF", icon: Sheet },
-    { title: "Partnership Awards", icon: Trophy },
-  ],
-  media: [
-    { title: "Riset Mitra", icon: Search },
-    { title: "Audiensi", icon: CalendarPlus2 },
-    { title: "Grup Koordinasi", icon: Users },
-    { title: "Legalitas Kerjasama", icon: MailOpen, submenu: ["MoU/PKS", "Tanda Kerjasama"] },
-    { title: "Penomoran Surat", icon: MailPlus },
-    { title: "Pemberitaan BCF", icon: FileText, submenu: ["Rekap Media", "Rekap Program"] },
-    { title: "Rekap Kerjasama", icon: Clipboard },
-    { title: "Partnership Awards", icon: Trophy },
-  ],
-  lembagaInternasional: [
-    { title: "Riset Mitra", icon: Search, submenu: ["Riset Potensial", "Riset Kolaborasi"] },
-    { title: "Audiensi", icon: CalendarPlus2 },
-    { title: "Grup Koordinasi", icon: Users },
-    { title: "Legalitas Kerjasama", icon: MailOpen, submenu: ["MoU/PKS", "SPK/TOR", "IA", "Tanda Kerjasama"] },
-    { title: "Penomoran Surat", icon: MailPlus },
-    { title: "Rekap Kerjasama", icon: Clipboard },
-    { title: "Satisfaction Survey", icon: FileCheck },
-    { title: "Partnership BCF", icon: Clipboard },
-    { title: "Partnership Awards", icon: Trophy },
-  ],
-};
 
 export const SidebarMenu = () => {
   const dispatch = useDispatch();
   const activeStakeholder = useSelector((state) => state.activeStakeholder.activeStakeholder);
-  const [openMenu, setOpenMenu] = useState("");
+  const [openMenus, setOpenMenus] = useState([]);
 
   useEffect(() => {
     const storedStakeholder = localStorage.getItem("activeStakeholder");
@@ -79,20 +33,26 @@ export const SidebarMenu = () => {
         {menus.map((menu, idx) => (
           <div key={idx} className="text-[#999999]">
             <div
-              onClick={() => setOpenMenu(openMenu === menu.title ? "" : menu.title)}
+              onClick={() => {
+                if (openMenus.includes(menu.title)) {
+                  setOpenMenus(openMenus.filter((title) => title !== menu.title)); 
+                } else {
+                  setOpenMenus([...openMenus, menu.title]); 
+                }
+              }}
               className={clsx(
                 "flex items-center justify-between p-3 cursor-pointer focused:text-[#0D4690] hover:bg-[#E7EDF4] hover:text-[#0D4690] rounded-md transition-all duration-200",
-                openMenu === menu.title && "text-[#0D4690] font-semibold bg-[#E7EDF4]"
+                openMenus === menu.title && "text-[#0D4690] font-semibold bg-[#E7EDF4]"
               )}
             >
               <div className="flex items-center gap-3">
                 {menu.icon && <menu.icon size={20} />}
                 <span className="text-sm font-medium">{menu.title}</span>
               </div>
-              {menu.submenu && (openMenu === menu.title ? <ChevronUp size={18} /> : <ChevronDown size={18} />)}
+              {menu.submenu && (openMenus === menu.title ? <ChevronUp size={18} /> : <ChevronDown size={18} />)}
             </div>
 
-            {menu.submenu && openMenu === menu.title && (
+            {menu.submenu && openMenus.includes(menu.title)  && (
               <div className="flex flex-col px-11 gap-8 my-5">
                 {menu.submenu.map((sub, subIdx) => (
                   <div
