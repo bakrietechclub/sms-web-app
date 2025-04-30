@@ -7,10 +7,6 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<LoginPage />} />
-      <Route
-        path="/*"
-        element={<h1>Page return into nothing you expect.</h1>}
-      />
       <Route path="/home" element={<LandingPage />} />
       <Route path="/dashboard" element={<DashboardPage />}>
         <Route path="univ">
@@ -54,6 +50,10 @@ const App = () => {
           <Route path="partner-awards" element={<h1>Partnership Awards</h1>} />
         </Route>
       </Route>
+      <Route
+        path="/*"
+        element={<h1>Page return into nothing you expect.</h1>}
+      />
     </Routes>
   );
 };
