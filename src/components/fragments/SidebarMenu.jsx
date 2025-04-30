@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveStakeholder } from "../../features/stakeholder/activeStakeholderSlice"; 
+import { setActiveStakeholder } from "../../features/stakeholder/activeStakeholderSlice";
 import { sidebarMenus } from "../../config/sidebarMenus";
-import { ChevronDown, ChevronUp} from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import LogoBCF from "../../assets/img/logoBCF.png";
 import clsx from "clsx";
 
-
 export const SidebarMenu = () => {
   const dispatch = useDispatch();
-  const activeStakeholder = useSelector((state) => state.activeStakeholder.activeStakeholder);
+  const activeStakeholder = useSelector(
+    (state) => state.activeStakeholder.activeStakeholder
+  );
   const [openMenus, setOpenMenus] = useState([]);
 
   useEffect(() => {
@@ -35,24 +36,32 @@ export const SidebarMenu = () => {
             <div
               onClick={() => {
                 if (openMenus.includes(menu.title)) {
-                  setOpenMenus(openMenus.filter((title) => title !== menu.title)); 
+                  setOpenMenus(
+                    openMenus.filter((title) => title !== menu.title)
+                  );
                 } else {
-                  setOpenMenus([...openMenus, menu.title]); 
+                  setOpenMenus([...openMenus, menu.title]);
                 }
               }}
               className={clsx(
                 "flex items-center justify-between p-3 cursor-pointer focused:text-[#0D4690] hover:bg-[#E7EDF4] hover:text-[#0D4690] rounded-md transition-all duration-200",
-                openMenus === menu.title && "text-[#0D4690] font-semibold bg-[#E7EDF4]"
+                openMenus === menu.title &&
+                  "text-[#0D4690] font-semibold bg-[#E7EDF4]"
               )}
             >
               <div className="flex items-center gap-3">
                 {menu.icon && <menu.icon size={20} />}
                 <span className="text-sm font-medium">{menu.title}</span>
               </div>
-              {menu.submenu && (openMenus === menu.title ? <ChevronUp size={18} /> : <ChevronDown size={18} />)}
+              {menu.submenu &&
+                (openMenus === menu.title ? (
+                  <ChevronUp size={18} />
+                ) : (
+                  <ChevronDown size={18} />
+                ))}
             </div>
 
-            {menu.submenu && openMenus.includes(menu.title)  && (
+            {menu.submenu && openMenus.includes(menu.title) && (
               <div className="flex flex-col px-11 gap-8 my-5">
                 {menu.submenu.map((sub, subIdx) => (
                   <div
