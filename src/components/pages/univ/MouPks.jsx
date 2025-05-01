@@ -1,0 +1,137 @@
+import { FreezeTable } from "../../fragments/Table";
+import { TableToolbar } from "../../fragments/TableToolbar";
+
+export const MouPks = () => {
+  const data = [
+    {
+      name: "Universitas Indonesia",
+      jenis: "Universitas",
+      division: "Universitas",
+      colabType: "MoU",
+      duration: "5 Tahun",
+      dueDate: "24/10/2029",
+      signYear: "2024",
+    },
+    {
+      name: "Universitas Jakarta",
+      jenis: "Universitas",
+      division: "Prodi Ilmu Komputer",
+      colabType: "MoU",
+      duration: "5 Tahun",
+      dueDate: "24/10/2029",
+      signYear: "2024",
+    },
+    {
+      name: "Universitas Sriwijaya",
+      jenis: "Universitas",
+      division: "FISIP",
+      colabType: "MoU",
+      duration: "5 Tahun",
+      dueDate: "24/10/2029",
+      signYear: "2024",
+    },
+    {
+      name: "Universitas Gunadarma",
+      jenis: "Universitas",
+      division: "Prodi Farmasi",
+      colabType: "MoU",
+      duration: "5 Tahun",
+      dueDate: "24/10/2029",
+      signYear: "2024",
+    },
+    {
+      name: "Universitas Telkom",
+      jenis: "Universitas",
+      division: "Fakultas Ilmu Komputer",
+      colabType: "MoU",
+      duration: "5 Tahun",
+      dueDate: "24/10/2029",
+      signYear: "2024",
+    },
+    {
+      name: "STPI Penabulu",
+      jenis: "Lembaga Sosial",
+      division: "Organisasi",
+      colabType: "MoU",
+      duration: "5 Tahun",
+      dueDate: "24/10/2029",
+      signYear: "2024",
+    },
+    {
+      name: "Gerakan TBC",
+      jenis: "Lembaga Sosial",
+      division: "Organisasi",
+      colabType: "MoU",
+      duration: "5 Tahun",
+      dueDate: "24/10/2029",
+      signYear: "2024",
+    },
+    {
+      name: "Gerakan TBC",
+      jenis: "Lembaga Sosial",
+      division: "Organisasi",
+      colabType: "MoU",
+      duration: "5 Tahun",
+      dueDate: "24/10/2029",
+      signYear: "2024",
+    },
+    {
+      name: "Gerakan TBC",
+      jenis: "Lembaga Sosial",
+      division: "Organisasi",
+      colabType: "MoU",
+      duration: "5 Tahun",
+      dueDate: "24/10/2029",
+      signYear: "2024",
+    },
+    {
+      name: "Gerakan TBC",
+      jenis: "Lembaga Sosial",
+      division: "Organisasi",
+      colabType: "MoU",
+      duration: "5 Tahun",
+      dueDate: "24/10/2029",
+      signYear: "2024",
+    },
+  ];
+
+  const headers = [
+    "No",
+    "Nama Instansi",
+    "Jenis Instansi",
+    "Divisi Instansi",
+    "Jenis Kerjasama",
+    "Jangka Kerjasama",
+    "Jatuh Tempo",
+    "Tahun Tanda Tangan",
+    "Aksi",
+  ];
+
+  const renderRow = (value, index) => (
+    <tr key={index} className="border-b border-[#E7EDF4] h-10">
+      <td className="py-3">{index + 1}</td>
+      <td>{value.name}</td>
+      <td>{value.jenis}</td>
+      <td>{value.division}</td>
+      <td>{value.colabType}</td>
+      <td>{value.duration}</td>
+      <td>{value.dueDate}</td>
+      <td>{value.signYear}</td>
+      <td>
+        <a href="#" className="text-[#0D4690] underline">
+          Lihat Detail
+        </a>
+      </td>
+    </tr>
+  );
+
+  return (
+    <div>
+      <h1 className="text-2xl font-semibold">Tabel MoU / PKS</h1>
+      <TableToolbar />
+      <div className="overflow-x-scroll">
+        <FreezeTable headers={headers} data={data} renderRow={renderRow} />
+      </div>
+    </div>
+  );
+};

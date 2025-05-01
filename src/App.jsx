@@ -3,6 +3,11 @@ import LoginPage from "./components/pages/LoginPage";
 import LandingPage from "./components/pages/LandingPage";
 import DashboardPage from "./components/pages/DashboardPage";
 
+import { PotentialPartnerResearch } from "./components/pages/univ/PotentialPartnerResearch";
+import { ColabPartnerResearch } from "./components/pages/univ/ColabPartnerResearch";
+import { Audience } from "./components/pages/univ/Audience";
+import { CoordinationGroup } from "./components/pages/univ/CoordinationGroup";
+
 const App = () => {
   return (
     <Routes>
@@ -10,10 +15,10 @@ const App = () => {
       <Route path="/home" element={<LandingPage />} />
       <Route path="/dashboard" element={<DashboardPage />}>
         <Route path="univ">
-          <Route index element={<h1>Daftar Riset Potensial Mitra</h1>} />
-          <Route path="colab" element={<h1>Kolaborasi Mitra</h1>} />
-          <Route path="audience" element={<h1>Audiensi</h1>} />
-          <Route path="coor-group" element={<h1>Grup Koordinasi</h1>} />
+          <Route index element={<PotentialPartnerResearch />} />
+          <Route path="colab" element={<ColabPartnerResearch />} />
+          <Route path="audience" element={<Audience />} />
+          <Route path="coor-group" element={<CoordinationGroup />} />
           <Route path="mou-pks" element={<h1>MoU / PKS</h1>} />
           <Route path="spk-tor" element={<h1>SPK / TOR</h1>} />
           <Route path="ia" element={<h1>IA</h1>} />
@@ -43,6 +48,7 @@ const App = () => {
           <Route path="mou-pks" element={<h1>MoU / PKS</h1>} />
           <Route path="spk-tor" element={<h1>SPK / TOR</h1>} />
           <Route path="ia" element={<h1>IA</h1>} />
+          <Route path="coop-sign" element={<h1>Tanda Kerjasama</h1>} />
           <Route path="letter-numbering" element={<h1>Penomoran Surat</h1>} />
           <Route path="colab-recap" element={<h1>Rekap Kerjasama</h1>} />
           <Route path="satis-survey" element={<h1>Satisfaction Survey</h1>} />
