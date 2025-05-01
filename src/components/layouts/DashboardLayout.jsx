@@ -5,7 +5,6 @@ import { useLocation, Outlet, Link } from "react-router-dom";
 export const DashboardLayout = ({}) => {
   const location = useLocation();
   const dashboardTitle = location.state?.title || "Dashboard";
-  const mainTitle = "Daftar Riset Potensial Mitra";
 
   return (
     <div className="flex">
