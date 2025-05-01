@@ -107,13 +107,18 @@ export const MouPks = () => {
     "Aksi",
   ];
 
-  const renderRow = (value, index) => (
-    <tr key={index} className="border-b border-[#E7EDF4] h-10">
+  const renderRowFreeze = (value, index) => (
+    <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
       <td className="py-3">{index + 1}</td>
       <td>{value.name}</td>
       <td>{value.jenis}</td>
       <td>{value.division}</td>
-      <td>{value.colabType}</td>
+    </tr>
+  );
+
+  const renderRow = (value, index) => (
+    <tr key={index} className="border-b border-[#E7EDF4] h-10">
+      <td className="py-3">{value.colabType}</td>
       <td>{value.duration}</td>
       <td>{value.dueDate}</td>
       <td>{value.signYear}</td>
@@ -130,7 +135,13 @@ export const MouPks = () => {
       <h1 className="text-2xl font-semibold">Tabel MoU / PKS</h1>
       <TableToolbar />
       <div className="overflow-x-scroll">
-        <FreezeTable headers={headers} data={data} renderRow={renderRow} />
+        <FreezeTable
+          headers={headers}
+          data={data}
+          renderRow={renderRow}
+          renderRowFreeze={renderRowFreeze}
+          freezeCol={4}
+        />
       </div>
     </div>
   );
