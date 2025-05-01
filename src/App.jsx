@@ -29,9 +29,9 @@ const App = () => {
           <Route path="partner-awards" element={<h1>Partnership Awards</h1>} />
         </Route>
         <Route path="media">
-          <Route index element={<h1>Riset Mitra</h1>} />
-          <Route path="audience" element={<h1>Tabel Audiensi Media</h1>} />
-          <Route path="coor-group" element={<h1>Grup Koordinasi</h1>} />
+          <Route index element={<></>} />
+          <Route path="audience" element={<></>} />
+          <Route path="coor-group" element={<h1></h1>} />
           <Route path="mou-pks" element={<h1>MoU / PKS</h1>} />
           <Route path="coop-sign" element={<h1>Tanda Kerjasama</h1>} />
           <Route path="letter-numbering" element={<h1>Penomoran Surat</h1>} />
@@ -41,7 +41,7 @@ const App = () => {
           <Route path="bcf-partner" element={<h1>Partnership BCF</h1>} />
         </Route>
         <Route path="ingo">
-          <Route index element={<h1>Riset Potensial</h1>} />
+          <Route index element={<h1></h1>} />
           <Route path="colab" element={<h1>Kolaborasi Mitra</h1>} />
           <Route path="audience" element={<h1>Tabel Audiensi INGO</h1>} />
           <Route path="coor-group" element={<h1>Grup Koordinasi</h1>} />
