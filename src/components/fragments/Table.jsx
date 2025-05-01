@@ -30,8 +30,9 @@ export const FreezeTable = ({
   const unfrozenHeaders = headers.slice(freezeCol);
   return (
     <div className="relative">
-      <div className="flex">
-        <table className="table-auto text-center w-[60%] shadow-2xl z-10">
+      {/* Height content? */}
+      <div className="flex h-140">
+        <table className="fixed table-auto text-center w-[46%] z-10">
           <thead className="text-[#0D4690] bg-[#E7EDF4]">
             <tr className="h-10">
               {frozenHeaders.map((header, index) => (
@@ -50,7 +51,7 @@ export const FreezeTable = ({
             {data.map((item, index) => renderRowFreeze(item, index))}
           </tbody>
         </table>
-        <table className="absolute table-auto text-center w-full left-[60%] z-0">
+        <table className="absolute table-auto text-center w-[80%] left-[46dvw] z-0">
           <thead className="text-[#0D4690] bg-[#E7EDF4]">
             <tr className="h-10">
               {unfrozenHeaders.map((header, index) => (
