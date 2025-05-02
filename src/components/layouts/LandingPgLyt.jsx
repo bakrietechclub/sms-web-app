@@ -9,7 +9,7 @@ import { HeroLandingPg } from "../fragments/HeroLandingPg";
 export const LandingPgLyt = ({ username, role }) => {
   const cardsData = [
     {
-      name: "Universitas, Lembaga (NGO), & Komunitas",
+      name: "Universitas, Lembaga (NGO) & Komunitas",
       image: uni,
       accessRole: "Admin Universitas",
       stakeholderKey: "universitas",
@@ -35,8 +35,8 @@ export const LandingPgLyt = ({ username, role }) => {
       <div className="my-8 mx-[10dvw]">
         <p className="font-semibold text-2xl">Dashboard Stakeholder</p>
       </div>
-      <div className="flex flex-col items-center justify-center h-auto gap-4">
-        <div className="flex grid-cols-3 items-center justify-between gap-4 w-[80dvw] mb-[10dvh]">
+      <div className="flex flex-col items-center justify-center h-auto">
+        <div className="flex grid-cols-3 items-center justify-between gap-4 w-[80dvw] mb-0">
           {cardsData.map((card, index) => (
             <Card
               key={index}

@@ -20,7 +20,7 @@ export const Card = ({ name, image, manageAccess, stakeholderKey }) => {
 
   return (
     <div
-      className="relative w-90 rounded-md shadow-sm p-4 flex flex-col h-50 overflow-hidden"
+      className="relative max-w-96 h-48 rounded-md shadow-sm p-4 flex flex-2/4 overflow-hidden"
       style={{
         backgroundImage: `url(${image})`,
         backgroundRepeat: "no-repeat",
