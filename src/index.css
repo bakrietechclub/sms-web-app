@@ -3,3 +3,24 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+
+/* Custom scrollbar style */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  scrollbar-width: thin;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(107, 114, 120, 0.9);
+  border-radius: 4px;
+}
+
+/* distance between table and horizontal scrollbar */
+.scroll-area {
+  padding-bottom: 13px;
+}
+
+/* set horizontal scrollbar height  */
+.scroll-area::-webkit-scrollbar {
+  height: 5px;
+}

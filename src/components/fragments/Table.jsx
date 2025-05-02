@@ -23,22 +23,22 @@ export const FreezeTable = ({
   data,
   renderRow,
   renderRowFreeze,
-  freezeCol,
+  freezeCol = 4,
 }) => {
-  freezeCol = freezeCol || 1;
   const frozenHeaders = headers.slice(0, freezeCol);
   const unfrozenHeaders = headers.slice(freezeCol);
+
   return (
-    <div className="relative">
-      {/* Height content? */}
-      <div className="flex h-140">
-        <table className="fixed table-auto text-center w-[46%] z-10">
+    <div className="flex w-full overflow-hidden">
+      {/* fixed column */}
+      <div className="flex-[3]">
+        <table className="table-auto text-center w-full">
           <thead className="text-[#0D4690] bg-[#E7EDF4]">
             <tr className="h-10">
               {frozenHeaders.map((header, index) => (
                 <th
                   key={index}
-                  className={`text-lg font-medium ${
+                  className={`text-lg font-medium px-4 py-2 ${
                     index === 0 ? "rounded-tl-xl" : ""
                   }`}
                 >
@@ -51,25 +51,33 @@ export const FreezeTable = ({
             {data.map((item, index) => renderRowFreeze(item, index))}
           </tbody>
         </table>
-        <table className="absolute table-auto text-center w-[80%] left-[46dvw] z-0">
-          <thead className="text-[#0D4690] bg-[#E7EDF4]">
-            <tr className="h-10">
-              {unfrozenHeaders.map((header, index) => (
-                <th
-                  key={index}
-                  className={`text-lg font-medium ${
-                    index === unfrozenHeaders.length - 1 ? "rounded-tr-xl" : ""
-                  }`}
-                >
-                  {header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="bg-white">
-            {data.map((item, index) => renderRow(item, index))}
-          </tbody>
-        </table>
+      </div>
+
+      {/* scrollable column */}
+      <div className="flex-[2] overflow-x-auto custom-scrollbar scroll-area touch-auto scrollbar-thin">
+        <div className="min-w-max">
+          <table className="table-auto text-center w-full">
+            <thead className="text-[#0D4690] bg-[#E7EDF4]">
+              <tr className="h-10">
+                {unfrozenHeaders.map((header, index) => (
+                  <th
+                    key={index}
+                    className={`text-lg font-medium px-6 py-2  ${
+                      index === unfrozenHeaders.length - 1
+                        ? "rounded-tr-xl pr-6"
+                        : ""
+                    }`}
+                  >
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="bg-white">
+              {data.map((item, index) => renderRow(item, index))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

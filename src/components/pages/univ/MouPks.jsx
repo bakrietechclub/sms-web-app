@@ -122,7 +122,7 @@ export const MouPks = () => {
       <td>{value.duration}</td>
       <td>{value.dueDate}</td>
       <td>{value.signYear}</td>
-      <td>
+      <td className="px-6 py-3">
         <a href="#" className="text-[#0D4690] underline">
           Lihat Detail
         </a>
@@ -131,10 +131,12 @@ export const MouPks = () => {
   );
 
   return (
-    <div>
+    <div className="p-4 space-y-4 w-full">
       <h1 className="text-2xl font-semibold">Tabel MoU / PKS</h1>
-      <TableToolbar />
-      <div className="overflow-x-scroll">
+      <div className="w-full">
+        <TableToolbar />
+      </div>
+      <div className="w-full">
         <FreezeTable
           headers={headers}
           data={data}
