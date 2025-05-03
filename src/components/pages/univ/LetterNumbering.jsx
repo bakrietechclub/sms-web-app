@@ -134,7 +134,7 @@ export const LetterNumbering = () => {
     <div>
       <h1 className="text-2xl font-semibold">Tabel Penomoran Surat</h1>
       <TableToolbar />
-      <div className="overflow-x-scroll">
+      <div>
         <FreezeTable
           headers={headers}
           data={data}

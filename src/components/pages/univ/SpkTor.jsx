@@ -96,7 +96,7 @@ export const SpkTor = () => {
   ];
 
   const headers = [
-    "No",
+    "No.",
     "Nama Instansi",
     "Jenis Instansi",
     "Divisi Instansi",
@@ -134,7 +134,7 @@ export const SpkTor = () => {
     <div>
       <h1 className="text-2xl font-semibold">Tabel Surat SPK/TOR</h1>
       <TableToolbar />
-      <div className="overflow-x-scroll">
+      <div>
         <FreezeTable
           headers={headers}
           data={data}
