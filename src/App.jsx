@@ -8,6 +8,9 @@ import { ColabPartnerResearch } from "./components/pages/univ/ColabPartnerResear
 import { Audience } from "./components/pages/univ/Audience";
 import { CoordinationGroup } from "./components/pages/univ/CoordinationGroup";
 import { MouPks } from "./components/pages/univ/MouPks";
+import { SpkTor } from "./components/pages/univ/SpkTor";
+import { Ia } from "./components/pages/univ/Ia";
+import { LetterNumbering } from "./components/pages/univ/LetterNumbering";
 
 const App = () => {
   return (
@@ -21,9 +24,9 @@ const App = () => {
           <Route path="audience" element={<Audience />} />
           <Route path="coor-group" element={<CoordinationGroup />} />
           <Route path="mou-pks" element={<MouPks />} />
-          <Route path="spk-tor" element={<h1>SPK / TOR</h1>} />
-          <Route path="ia" element={<h1>IA</h1>} />
-          <Route path="letter-numbering" element={<h1>Penomoran Surat</h1>} />
+          <Route path="spk-tor" element={<SpkTor />} />
+          <Route path="ia" element={<Ia />} />
+          <Route path="letter-numbering" element={<LetterNumbering />} />
           <Route path="pta-recap" element={<h1>Rekap PTA</h1>} />
           <Route path="satis-survey" element={<h1>Satisfaction Survey</h1>} />
           <Route path="bcf-partner" element={<h1>Partnership BCF</h1>} />
