@@ -96,7 +96,7 @@ export const MouPks = () => {
   ];
 
   const headers = [
-    "No",
+    "No.",
     "Nama Instansi",
     "Jenis Instansi",
     "Divisi Instansi",
@@ -136,7 +136,7 @@ export const MouPks = () => {
       <div className="w-full">
         <TableToolbar />
       </div>
-      <div className="w-full">
+      <div className="w-full overflow-hidden h-fit">
         <FreezeTable
           headers={headers}
           data={data}

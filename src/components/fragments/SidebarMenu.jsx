@@ -27,10 +27,10 @@ export const SidebarMenu = () => {
   return (
     <aside className="w-64 h-screen bg-white border-r border-gray-300 fixed flex flex-col">
       <div className="flex items-center justify-center h-auto my-4">
-        <img src={LogoBCF} alt="Logo BCF" className="h-15" />
+        <img src={LogoBCF} alt="Logo BCF" className="h-12 w-28" />
       </div>
 
-      <nav className="flex-1 overflow-y-auto p-4">
+      <nav>
         {menus.map((menu, idx) => (
           <div key={idx} className="text-[#999999]">
             <div
@@ -52,7 +52,7 @@ export const SidebarMenu = () => {
             >
               <div className="flex items-center gap-3">
                 {menu.icon && <menu.icon size={20} />}
-                <span className="text-sm font-medium">{menu.title}</span>
+                <span className="text-base font-medium">{menu.title}</span>
               </div>
               {menu.submenu &&
                 (openMenus.includes(menu.title) ? (
