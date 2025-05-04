@@ -122,7 +122,7 @@ export const SpkTor = () => {
       <td>{value.signDate}</td>
       <td>{value.duration}</td>
       <td>{value.dueDate}</td>
-      <td>
+      <td className="px-5">
         <a href="#" className="text-[#0D4690] underline">
           Lihat Detail
         </a>

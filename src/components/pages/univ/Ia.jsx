@@ -119,15 +119,15 @@ export const Ia = () => {
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3">
+      <td className="py-3 px-4">
         <Label label={value.colabStatus} status="success" />
       </td>
-      <td>
+      <td className="px-4">
         <Label label={value.program} status="warning" />
       </td>
-      <td>{value.year}</td>
-      <td>{value.batchEdition}</td>
-      <td>
+      <td className="px-4">{value.year}</td>
+      <td className="px-4">{value.batchEdition}</td>
+      <td className="px-4">
         <a href="#" className="text-[#0D4690] underline">
           Lihat Detail
         </a>
