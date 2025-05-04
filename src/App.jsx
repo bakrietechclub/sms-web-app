@@ -3,6 +3,7 @@ import LoginPage from "./components/pages/LoginPage";
 import LandingPage from "./components/pages/LandingPage";
 import DashboardPage from "./components/pages/DashboardPage";
 
+// Univ, NGO, Community
 import { PotentialPartnerResearch } from "./components/pages/univ/PotentialPartnerResearch";
 import { ColabPartnerResearch } from "./components/pages/univ/ColabPartnerResearch";
 import { Audience } from "./components/pages/univ/Audience";
@@ -13,6 +14,13 @@ import { Ia } from "./components/pages/univ/Ia";
 import { LetterNumbering } from "./components/pages/univ/LetterNumbering";
 import { PtaRecap } from "./components/pages/univ/PtaRecap";
 
+// Media
+import { PartnerResearch } from "./components/pages/media/PartnerResearch";
+import { AudienceMedia } from "./components/pages/media/Audience";
+import { CoordinationGroupMedia } from "./components/pages/media/CoordinationGroup"
+
+// INGO
+
 const App = () => {
   return (
     <Routes>
@@ -22,7 +30,7 @@ const App = () => {
         <Route path="univ">
           <Route index element={<PotentialPartnerResearch />} />
           <Route path="colab" element={<ColabPartnerResearch />} />
-          <Route path="audience" element={<Audience />} />
+          <Route path="audience" element={<AudienceMedia />} />
           <Route path="coor-group" element={<CoordinationGroup />} />
           <Route path="mou-pks" element={<MouPks />} />
           <Route path="spk-tor" element={<SpkTor />} />
@@ -34,9 +42,9 @@ const App = () => {
           <Route path="partner-awards" element={<h1>Partnership Awards</h1>} />
         </Route>
         <Route path="media">
-          <Route index element={<h1>Riset Mitra</h1>} />
-          <Route path="audience" element={<></>} />
-          <Route path="coor-group" element={<h1></h1>} />
+          <Route index element={<PartnerResearch />} />
+          <Route path="audience" element={<Audience />} />
+          <Route path="coor-group" element={<CoordinationGroupMedia />} />
           <Route path="mou-pks" element={<h1>MoU / PKS</h1>} />
           <Route path="coop-sign" element={<h1>Tanda Kerjasama</h1>} />
           <Route path="letter-numbering" element={<h1>Penomoran Surat</h1>} />
