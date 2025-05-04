@@ -11,6 +11,7 @@ import { MouPks } from "./components/pages/univ/MouPks";
 import { SpkTor } from "./components/pages/univ/SpkTor";
 import { Ia } from "./components/pages/univ/Ia";
 import { LetterNumbering } from "./components/pages/univ/LetterNumbering";
+import { PtaRecap } from "./components/pages/univ/PtaRecap";
 
 const App = () => {
   return (
@@ -27,7 +28,7 @@ const App = () => {
           <Route path="spk-tor" element={<SpkTor />} />
           <Route path="ia" element={<Ia />} />
           <Route path="letter-numbering" element={<LetterNumbering />} />
-          <Route path="pta-recap" element={<h1>Rekap PTA</h1>} />
+          <Route path="pta-recap" element={<PtaRecap />} />
           <Route path="satis-survey" element={<h1>Satisfaction Survey</h1>} />
           <Route path="bcf-partner" element={<h1>Partnership BCF</h1>} />
           <Route path="partner-awards" element={<h1>Partnership Awards</h1>} />
