@@ -118,12 +118,12 @@ export const LetterNumbering = () => {
       <td className="" title={value.letterPurpose}>
         {value.letterPurpose}
       </td>
-      <td>
+      <td className="flex justify-center items-center mt-2">
         <Button
-          className="flex items-center w-auto bg-[#e89229] text-[#f1f1f1] rounded-md py-2 px-4 hover:bg-[#d18325] cursor-pointer"
+          className="flex items-center justify-center w-28 h-8 bg-[#e89229] text-[#f1f1f1] rounded-md p-auto px-4 hover:bg-[#d18325] cursor-pointer"
           onClick={() => alert("Download Template Surat")}
         >
-          <Download className="w-4 h-4 mr-2" />
+          <Download className="mr-2" />
           Unduh
         </Button>
       </td>
