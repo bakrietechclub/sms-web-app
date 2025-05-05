@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 export const Table = ({ headers, data, renderRow }) => (
   <table className="table-auto text-center w-full">
@@ -26,12 +27,19 @@ export const FreezeTable = ({
   renderRow,
   renderRowFreeze,
   freezeCol = 4,
+  customHeaderLeft,
+  customHeaderRight,
+  withHeaderColumnBorders = false
 }) => {
   const frozenHeaders = headers.slice(0, freezeCol);
   const unfrozenHeaders = headers.slice(freezeCol);
 
   const leftTableRef = useRef(null);
   const rightTableRef = useRef(null);
+
+  const location = useLocation();
+  const isRecapPtaPage = location.pathname === "/media-recap";
+
 
   useEffect(() => {
     const leftRows = leftTableRef.current?.querySelectorAll("tbody tr") || [];
@@ -53,19 +61,24 @@ export const FreezeTable = ({
         {/* Fixed Column */}
         <div className="w-[60%] overflow-hidden mr-[1px]" ref={leftTableRef}>
           <table className="table-auto text-center w-full">
-            <thead className="bg-[#E7EDF4] text-[#0D4690] border-r-1 border-gray-200">
-              <tr>
-                {frozenHeaders.map((header, index) => (
-                  <th
-                    key={index}
-                    className={`p-3 text-base font-semibold ${
-                      index === 0 ? "rounded-tl-xl" : ""
-                    }`}
-                  >
-                    {header}
-                  </th>
-                ))}
-              </tr>
+            <thead className="bg-[#E7EDF4] text-[#0D4690] border-r-1 border-gray-200 h-24">
+              {customHeaderLeft ? (
+                customHeaderLeft
+              ) : (
+                <tr>
+                  {frozenHeaders.map((header, index) => (
+                    <th
+  key={index}
+  className={`p-3 text-base font-semibold 
+    ${index === 0 ? "rounded-tl-xl" : ""} 
+    ${withHeaderColumnBorders || isRecapPtaPage ? "border border-gray-400" : ""}
+  `}
+>
+  {header}
+</th>
+                  ))}
+                </tr>
+              )}
             </thead>
             <tbody className="bg-white text-base font-normal border-r-2 border-gray-200">
               {data.map((item, index) => renderRowFreeze(item, index))}
@@ -80,21 +93,25 @@ export const FreezeTable = ({
         >
           <div className="min-w-max">
             <table className="table-auto text-center w-full">
-              <thead className="bg-[#E7EDF4] text-[#0D4690]">
-                <tr>
-                  {unfrozenHeaders.map((header, index) => (
-                    <th
-                      key={index}
-                      className={`p-3 text-base font-semibold ${
-                        index === unfrozenHeaders.length - 1
-                          ? "rounded-tr-xl"
-                          : ""
-                      }`}
-                    >
-                      {header}
-                    </th>
-                  ))}
-                </tr>
+              <thead className="bg-[#E7EDF4] text-[#0D4690] h-24">
+                {customHeaderRight ? (
+                  customHeaderRight
+                ) : (
+                  <tr>
+                    {unfrozenHeaders.map((header, index) => (
+                      <th
+                        key={index}
+                        className={`p-3 text-base font-semibold ${
+                          index === unfrozenHeaders.length - 1
+                            ? "rounded-tr-xl"
+                            : ""
+                        }${withHeaderColumnBorders ? "border-r border-gray-400" : ""}`}
+                      >
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                )}
               </thead>
               <tbody className="bg-white text-base font-normal">
                 {data.map((item, index) => renderRow(item, index))}

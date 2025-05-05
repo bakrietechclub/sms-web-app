@@ -18,6 +18,7 @@ import { PtaRecap } from "./components/pages/univ/PtaRecap";
 import { PartnerResearch } from "./components/pages/media/PartnerResearch";
 import { AudienceMedia } from "./components/pages/media/Audience";
 import { CoordinationGroupMedia } from "./components/pages/media/CoordinationGroup"
+import { MouPksMedia } from "./components/pages/media/MouPks";
 
 // INGO
 
@@ -45,7 +46,7 @@ const App = () => {
           <Route index element={<PartnerResearch />} />
           <Route path="audience" element={<Audience />} />
           <Route path="coor-group" element={<CoordinationGroupMedia />} />
-          <Route path="mou-pks" element={<h1>MoU / PKS</h1>} />
+          <Route path="mou-pks" element={<MouPksMedia />} />
           <Route path="coop-sign" element={<h1>Tanda Kerjasama</h1>} />
           <Route path="letter-numbering" element={<h1>Penomoran Surat</h1>} />
           <Route path="media-recap" element={<h1>Rekap Media</h1>} />

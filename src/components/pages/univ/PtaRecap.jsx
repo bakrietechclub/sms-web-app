@@ -121,10 +121,10 @@ export const PtaRecap = () => {
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3">{value.mouDue}</td>
-      <td>{value.pksDue}</td>
-      <td>{value.dueDate}</td>
-      <td className="justify-start">
+      <td className="border border-gray-200 px-4 py-2">{value.mouDue}</td>
+      <td className="border border-gray-200 px-4 py-2">{value.pksDue}</td>
+      <td className="border border-gray-200 px-4 py-2">{value.dueDate}</td>
+      <td className="border border-gray-200 px-4 py-2 flex flex-wrap gap-1">
         {value.status.length > 0 ? (
           value.status.map((status, idx) => (
             <Label
@@ -141,32 +141,65 @@ export const PtaRecap = () => {
                   ? "danger"
                   : "default"
               }
-              className=""
             />
           ))
         ) : (
           <span>-</span>
         )}
       </td>
-      <td>
+      <td className="border border-gray-200 px-4 py-2">
         <a href="#" className="text-[#0D4690] underline">
           Lihat Detail
         </a>
       </td>
     </tr>
   );
+  
+
+  const customHeaderRight = (
+    <>
+      <tr>
+        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2" rowSpan={2}>
+          Jatuh Tempo MoU
+        </th>
+        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2" rowSpan={2}>
+          Jatuh Tempo PKS
+        </th>
+        <th
+          className="p-3 text-base font-semibold border border-gray-400 px-4 py-2 rounded-tr-xl"
+          colSpan={3}
+        >
+          Implementasi Kerja Sama
+        </th>
+      </tr>
+      <tr>
+        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2">
+          Jatuh Tempo
+        </th>
+        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2">
+          Status
+        </th>
+        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2">
+          Aksi
+        </th>
+      </tr>
+    </>
+  );
+  
 
   return (
     <div>
       <h1 className="text-2xl font-semibold">Rekap PTA</h1>
       <TableToolbar />
-      <div className="overflow-x-scroll">
+      <div>
         <FreezeTable
           headers={headers}
           data={data}
           renderRow={renderRow}
           renderRowFreeze={renderRowFreeze}
           freezeCol={4}
+          customHeaderRight={customHeaderRight}
+          withHeaderColumnBorders={true}
         />
       </div>
     </div>
