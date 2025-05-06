@@ -13,12 +13,16 @@ import { SpkTor } from "./components/pages/univ/SpkTor";
 import { Ia } from "./components/pages/univ/Ia";
 import { LetterNumbering } from "./components/pages/univ/LetterNumbering";
 import { PtaRecap } from "./components/pages/univ/PtaRecap";
+import { SatisfactionSurvey } from "./components/pages/univ/SatisfactionSurvey";
 
 // Media
 import { PartnerResearch } from "./components/pages/media/PartnerResearch";
 import { AudienceMedia } from "./components/pages/media/Audience";
-import { CoordinationGroupMedia } from "./components/pages/media/CoordinationGroup"
+import { CoordinationGroupMedia } from "./components/pages/media/CoordinationGroup";
 import { MouPksMedia } from "./components/pages/media/MouPks";
+import { LetterNumberingMedia } from "./components/pages/media/LetterNumbering";
+import { ColabRecapMedia } from "./components/pages/media/ColabRecap";
+
 
 // INGO
 
@@ -38,7 +42,7 @@ const App = () => {
           <Route path="ia" element={<Ia />} />
           <Route path="letter-numbering" element={<LetterNumbering />} />
           <Route path="pta-recap" element={<PtaRecap />} />
-          <Route path="satis-survey" element={<h1>Satisfaction Survey</h1>} />
+          <Route path="satis-survey" element={<SatisfactionSurvey />} />
           <Route path="bcf-partner" element={<h1>Partnership BCF</h1>} />
           <Route path="partner-awards" element={<h1>Partnership Awards</h1>} />
         </Route>
@@ -48,10 +52,10 @@ const App = () => {
           <Route path="coor-group" element={<CoordinationGroupMedia />} />
           <Route path="mou-pks" element={<MouPksMedia />} />
           <Route path="coop-sign" element={<h1>Tanda Kerjasama</h1>} />
-          <Route path="letter-numbering" element={<h1>Penomoran Surat</h1>} />
+          <Route path="letter-numbering" element={<LetterNumberingMedia />} />
           <Route path="media-recap" element={<h1>Rekap Media</h1>} />
           <Route path="program-recap" element={<h1>Rekap Program</h1>} />
-          <Route path="colab-recap" element={<h1>Rekap Kerjasama</h1>} />
+          <Route path="colab-recap" element={<ColabRecapMedia />} />
           <Route path="bcf-partner" element={<h1>Partnership BCF</h1>} />
         </Route>
         <Route path="ingo">
