@@ -1,6 +1,6 @@
 import { Label } from "../../elements/Label";
 import { FreezeTable } from "../../fragments/Table";
-import { TableToolbar } from "../../fragments/TableToolbar";
+import { TableToolbar2 } from "../../fragments/TableToolbar";
 
 export const PtaRecap = () => {
   const data = [
@@ -154,15 +154,20 @@ export const PtaRecap = () => {
       </td>
     </tr>
   );
-  
 
   const customHeaderRight = (
     <>
       <tr>
-        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2" rowSpan={2}>
+        <th
+          className="p-3 text-base font-semibold border border-gray-400 px-4 py-2"
+          rowSpan={2}
+        >
           Jatuh Tempo MoU
         </th>
-        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2" rowSpan={2}>
+        <th
+          className="p-3 text-base font-semibold border border-gray-400 px-4 py-2"
+          rowSpan={2}
+        >
           Jatuh Tempo PKS
         </th>
         <th
@@ -185,12 +190,11 @@ export const PtaRecap = () => {
       </tr>
     </>
   );
-  
 
   return (
     <div>
       <h1 className="text-2xl font-semibold">Rekap PTA</h1>
-      <TableToolbar />
+      <TableToolbar2 />
       <div>
         <FreezeTable
           headers={headers}

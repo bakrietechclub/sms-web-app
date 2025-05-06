@@ -14,6 +14,7 @@ import { Ia } from "./components/pages/univ/Ia";
 import { LetterNumbering } from "./components/pages/univ/LetterNumbering";
 import { PtaRecap } from "./components/pages/univ/PtaRecap";
 import { SatisfactionSurvey } from "./components/pages/univ/SatisfactionSurvey";
+import { BcfPartnership } from "./components/pages/univ/BcfPartnership";
 
 // Media
 import { PartnerResearch } from "./components/pages/media/PartnerResearch";
@@ -52,7 +53,7 @@ const App = () => {
           <Route path="letter-numbering" element={<LetterNumbering />} />
           <Route path="pta-recap" element={<PtaRecap />} />
           <Route path="satis-survey" element={<SatisfactionSurvey />} />
-          <Route path="bcf-partner" element={<h1>Partnership BCF</h1>} />
+          <Route path="bcf-partner" element={<BcfPartnership />} />
           <Route path="partner-awards" element={<h1>Partnership Awards</h1>} />
         </Route>
         <Route path="media">

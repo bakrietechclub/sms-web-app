@@ -1,6 +1,7 @@
 import { Eye } from "lucide-react";
 import { FreezeTable } from "../../fragments/Table";
 import { Button } from "../../elements/Button";
+import { TableToolbar2 } from "../../fragments/TableToolbar";
 
 export const BcfPartnership = () => {
   const data = [
@@ -10,7 +11,7 @@ export const BcfPartnership = () => {
       division: "Universitas",
       region: "DKI Jakarta",
       category: "CLP",
-      colabProgress: "24/10/2029",
+      colabProgress: "Belum Dikontak",
     },
     {
       name: "Universitas Jakarta",
@@ -18,7 +19,7 @@ export const BcfPartnership = () => {
       division: "Prodi Ilmu Komputer",
       region: "DKI Jakarta",
       category: "CLP",
-      colabProgress: "24/10/2029",
+      colabProgress: "Dikontak",
     },
     {
       name: "Universitas Sriwijaya",
@@ -26,7 +27,7 @@ export const BcfPartnership = () => {
       division: "FISIP",
       region: "Sumatera Selatan",
       category: "CLP",
-      colabProgress: "24/10/2029",
+      colabProgress: "Sedang Proses",
     },
     {
       name: "Universitas Gunadarma",
@@ -34,7 +35,7 @@ export const BcfPartnership = () => {
       division: "Prodi Farmasi",
       region: "Jawa Barat",
       category: "CLP",
-      colabProgress: "24/10/2029",
+      colabProgress: "Sedang Berlangsung",
     },
     {
       name: "Universitas Telkom",
@@ -42,7 +43,7 @@ export const BcfPartnership = () => {
       division: "Fakultas Ilmu Komputer",
       region: "Jawa Barat",
       category: "CLP",
-      colabProgress: "24/10/2029",
+      colabProgress: "Terminasi",
     },
     {
       name: "STPI Penabulu",
@@ -50,7 +51,7 @@ export const BcfPartnership = () => {
       division: "Organisasi",
       region: "TOR",
       category: "CLP",
-      colabProgress: "24/10/2029",
+      colabProgress: "Perlu Follow Up",
     },
     {
       name: "Gerakan TBC",
@@ -58,7 +59,7 @@ export const BcfPartnership = () => {
       division: "Organisasi",
       region: "SPK",
       category: "CLP",
-      colabProgress: "24/10/2029",
+      colabProgress: "Belum Dikontak",
     },
     {
       name: "Gerakan TBC",
@@ -66,7 +67,7 @@ export const BcfPartnership = () => {
       division: "Organisasi",
       region: "TOR",
       category: "CLP",
-      colabProgress: "24/10/2029",
+      colabProgress: "Dikontak",
     },
     {
       name: "Gerakan TBC",
@@ -74,7 +75,7 @@ export const BcfPartnership = () => {
       division: "Organisasi",
       region: "SPK",
       category: "CLP",
-      colabProgress: "24/10/2029",
+      colabProgress: "Sedang Proses",
     },
     {
       name: "Gerakan TBC",
@@ -82,26 +83,11 @@ export const BcfPartnership = () => {
       division: "Organisasi",
       region: "TOR",
       category: "CLP",
-      colabProgress: "24/10/2029",
+      colabProgress: "Sedang Berlangsung",
     },
   ];
 
-  const headers = [
-    "No.",
-    "Nama Instansi",
-    "type Instansi",
-    "Divisi Instansi",
-    "Region",
-    "Kategori Program",
-    "Progress Kerjasama",
-    "Status",
-    "Jatuh Tempo",
-    "Aksi",
-    "Status",
-    "Jatuh Tempo",
-    "Aksi",
-    "Kontak",
-  ];
+  const headers = ["No.", "Nama Instansi", "Jenis Instansi", "Divisi Instansi"];
 
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
@@ -132,18 +118,82 @@ export const BcfPartnership = () => {
     </tr>
   );
 
+  const customHeaderRight = (
+    <>
+      <tr>
+        <th
+          className="p-3 text-base font-semibold border border-gray-400 px-4 py-2"
+          rowSpan={2}
+        >
+          Region
+        </th>
+        <th
+          className="p-3 text-base font-semibold border border-gray-400 px-4 py-2"
+          rowSpan={2}
+        >
+          Kategori Program
+        </th>
+        <th
+          className="p-3 text-base font-semibold border border-gray-400 px-4 py-2"
+          rowSpan={2}
+        >
+          Progress Kerjasama
+        </th>
+        <th
+          className="p-3 text-base font-semibold border border-gray-400 px-4 py-2 rounded"
+          colSpan={3}
+        >
+          MoU
+        </th>
+        <th
+          className="p-3 text-base font-semibold border border-gray-400 px-4 py-2 rounded"
+          colSpan={3}
+        >
+          PKS
+        </th>
+        <th
+          className="p-3 text-base font-semibold border border-gray-400 px-4 py-2 rounded-tr-xl"
+          rowSpan={2}
+        >
+          Kontak
+        </th>
+      </tr>
+      <tr>
+        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2">
+          Status
+        </th>
+        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2">
+          Jatuh Tempo
+        </th>
+        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2">
+          Aksi
+        </th>
+        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2">
+          Status
+        </th>
+        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2">
+          Jatuh Tempo
+        </th>
+        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2">
+          Aksi
+        </th>
+      </tr>
+    </>
+  );
+
   return (
     <div>
       <h1 className="text-2xl font-semibold mb-3">Database Partnership</h1>
-      <div className="overflow-x-scroll">
-        <FreezeTable
-          headers={headers}
-          data={data}
-          renderRow={renderRow}
-          renderRowFreeze={renderRowFreeze}
-          freezeCol={4}
-        />
-      </div>
+      <TableToolbar2 />
+      <FreezeTable
+        headers={headers}
+        data={data}
+        renderRow={renderRow}
+        renderRowFreeze={renderRowFreeze}
+        freezeCol={4}
+        customHeaderRight={customHeaderRight}
+        withHeaderColumnBorders={true}
+      />
     </div>
   );
 };
