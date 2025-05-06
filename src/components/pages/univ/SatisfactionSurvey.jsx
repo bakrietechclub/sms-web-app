@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { Download, Share2 } from "lucide-react";
 import { FreezeTable } from "../../fragments/Table";
 import { Button } from "../../elements/Button";
 
 export const SatisfactionSurvey = () => {
-  const data = [
+  // Data defaultnya masuk lewat sini
+  const [data, setData] = useState([
     {
       name: "Fajar Berduri",
       email: "pesonafajar@gmail.com",
@@ -104,7 +106,7 @@ export const SatisfactionSurvey = () => {
       partnerOrigin: "DKI Jakarta",
       colabYear: "Batch 6: Jan-Jun 2023",
     },
-  ];
+  ]);
 
   const headers = [
     "No",
@@ -143,6 +145,335 @@ export const SatisfactionSurvey = () => {
     </tr>
   );
 
+  // State untuk menyimpan status tab yang aktif
+  const [lead, setLead] = useState(true);
+  const [clp, setClp] = useState(false);
+  const [hol, setHol] = useState(false);
+
+  const handleLead = () => {
+    setLead(true);
+    setClp(false);
+    setHol(false);
+    setData([
+      {
+        name: "Fajar Berduri",
+        email: "pesonafajar@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Rektorat",
+        partnerName: "Universitas Indonesia",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 8: Jan-Jun 2023",
+      },
+      {
+        name: "Faiz Americano",
+        email: "americanolezatos@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Kepala Prodi",
+        partnerName: "Politeknik Negeri Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 7: Jul-Dec 2023",
+      },
+      {
+        name: "Ricky Buryam",
+        email: "bosricky@gmail.com",
+        partnerCategory: "Lembaga",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "PPTI DKI Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 4: Jan-Jun 2022",
+      },
+      {
+        name: "El Malik",
+        email: "radenelmalik@gmail.com",
+        partnerCategory: "Dunia Usaha",
+        whatsapp: "08123456789",
+        position: "Pemilik",
+        partnerName: "Malik Foundation",
+        partnerOrigin: "Jawa Barat",
+        colabYear: "Batch 1: Jul-Dec 2020",
+      },
+      {
+        name: "Platama Alhan",
+        email: "alhanplatama12@gmail.com",
+        partnerCategory: "Pemerintah",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "Kementrian Kesehatan",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 6: Jan-Jun 2023",
+      },
+      {
+        name: "Fajar Berduri",
+        email: "pesonafajar@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Rektorat",
+        partnerName: "Universitas Indonesia",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 8: Jan-Jun 2023",
+      },
+      {
+        name: "Faiz Americano",
+        email: "americanolezatos@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Kepala Prodi",
+        partnerName: "Politeknik Negeri Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 7: Jul-Dec 2023",
+      },
+      {
+        name: "Ricky Buryam",
+        email: "bosricky@gmail.com",
+        partnerCategory: "Lembaga",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "PPTI DKI Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 4: Jan-Jun 2022",
+      },
+      {
+        name: "El Malik",
+        email: "radenelmalik@gmail.com",
+        partnerCategory: "Dunia Usaha",
+        whatsapp: "08123456789",
+        position: "Pemilik",
+        partnerName: "Malik Foundation",
+        partnerOrigin: "Jawa Barat",
+        colabYear: "Batch 1: Jul-Dec 2020",
+      },
+      {
+        name: "Platama Alhan",
+        email: "alhanplatama12@gmail.com",
+        partnerCategory: "Pemerintah",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "Kementrian Kesehatan",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 6: Jan-Jun 2023",
+      },
+    ]); // Ganti data kalau dari tab lain, sebenarnya datanya sama aja yang default
+  };
+
+  const handleClp = () => {
+    setLead(false);
+    setClp(true);
+    setHol(false);
+    setData([
+      {
+        name: "Fajar Ganti",
+        email: "pesonafajar@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Rektorat",
+        partnerName: "Universitas Indonesia",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 8: Jan-Jun 2023",
+      },
+      {
+        name: "Faiz Gila",
+        email: "americanolezatos@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Kepala Prodi",
+        partnerName: "Politeknik Negeri Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 7: Jul-Dec 2023",
+      },
+      {
+        name: "Ricky Mie Ayam Enak Banget Jir",
+        email: "bosricky@gmail.com",
+        partnerCategory: "Lembaga",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "PPTI DKI Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 4: Jan-Jun 2022",
+      },
+      {
+        name: "El Malik",
+        email: "radenelmalik@gmail.com",
+        partnerCategory: "Dunia Usaha",
+        whatsapp: "08123456789",
+        position: "Pemilik",
+        partnerName: "Malik Foundation",
+        partnerOrigin: "Jawa Barat",
+        colabYear: "Batch 1: Jul-Dec 2020",
+      },
+      {
+        name: "Platama Alhan",
+        email: "alhanplatama12@gmail.com",
+        partnerCategory: "Pemerintah",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "Kementrian Kesehatan",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 6: Jan-Jun 2023",
+      },
+      {
+        name: "Fajar Berduri",
+        email: "pesonafajar@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Rektorat",
+        partnerName: "Universitas Indonesia",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 8: Jan-Jun 2023",
+      },
+      {
+        name: "Faiz Americano",
+        email: "americanolezatos@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Kepala Prodi",
+        partnerName: "Politeknik Negeri Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 7: Jul-Dec 2023",
+      },
+      {
+        name: "Ricky Buryam",
+        email: "bosricky@gmail.com",
+        partnerCategory: "Lembaga",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "PPTI DKI Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 4: Jan-Jun 2022",
+      },
+      {
+        name: "El Malik",
+        email: "radenelmalik@gmail.com",
+        partnerCategory: "Dunia Usaha",
+        whatsapp: "08123456789",
+        position: "Pemilik",
+        partnerName: "Malik Foundation",
+        partnerOrigin: "Jawa Barat",
+        colabYear: "Batch 1: Jul-Dec 2020",
+      },
+      {
+        name: "Platama Alhan",
+        email: "alhanplatama12@gmail.com",
+        partnerCategory: "Pemerintah",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "Kementrian Kesehatan",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 6: Jan-Jun 2023",
+      },
+    ]); // Ganti data, data masuk lewat sini
+  };
+
+  const handleHol = () => {
+    setLead(false);
+    setClp(false);
+    setHol(true);
+    setData([
+      {
+        name: "Fajar Cimol Bojot AA",
+        email: "pesonafajar@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Rektorat",
+        partnerName: "Universitas Indonesia",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 8: Jan-Jun 2023",
+      },
+      {
+        name: "Faiz Kopi FM",
+        email: "americanolezatos@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Kepala Prodi",
+        partnerName: "Politeknik Negeri Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 7: Jul-Dec 2023",
+      },
+      {
+        name: "Ricky Buryam",
+        email: "bosricky@gmail.com",
+        partnerCategory: "Lembaga",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "PPTI DKI Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 4: Jan-Jun 2022",
+      },
+      {
+        name: "Sumpah Mie Ayam",
+        email: "radenelmalik@gmail.com",
+        partnerCategory: "Dunia Usaha",
+        whatsapp: "08123456789",
+        position: "Pemilik",
+        partnerName: "Malik Foundation",
+        partnerOrigin: "Jawa Barat",
+        colabYear: "Batch 1: Jul-Dec 2020",
+      },
+      {
+        name: "Enak Banget",
+        email: "alhanplatama12@gmail.com",
+        partnerCategory: "Pemerintah",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "Kementrian Kesehatan",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 6: Jan-Jun 2023",
+      },
+      {
+        name: "Serius Dah",
+        email: "pesonafajar@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Rektorat",
+        partnerName: "Universitas Indonesia",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 8: Jan-Jun 2023",
+      },
+      {
+        name: "Faiz Americano",
+        email: "americanolezatos@gmail.com",
+        partnerCategory: "Universitas",
+        whatsapp: "08123456789",
+        position: "Kepala Prodi",
+        partnerName: "Politeknik Negeri Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 7: Jul-Dec 2023",
+      },
+      {
+        name: "Ricky Buryam",
+        email: "bosricky@gmail.com",
+        partnerCategory: "Lembaga",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "PPTI DKI Jakarta",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 4: Jan-Jun 2022",
+      },
+      {
+        name: "El Malik",
+        email: "radenelmalik@gmail.com",
+        partnerCategory: "Dunia Usaha",
+        whatsapp: "08123456789",
+        position: "Pemilik",
+        partnerName: "Malik Foundation",
+        partnerOrigin: "Jawa Barat",
+        colabYear: "Batch 1: Jul-Dec 2020",
+      },
+      {
+        name: "Platama Alhan",
+        email: "alhanplatama12@gmail.com",
+        partnerCategory: "Pemerintah",
+        whatsapp: "08123456789",
+        position: "Ketua Umum",
+        partnerName: "Kementrian Kesehatan",
+        partnerOrigin: "DKI Jakarta",
+        colabYear: "Batch 6: Jan-Jun 2023",
+      },
+    ]); // Ganti data, data masuk lewat sini
+  };
+
   return (
     <div>
       <h1 className="text-2xl font-semibold">Data Hasil Survey</h1>
@@ -165,24 +496,42 @@ export const SatisfactionSurvey = () => {
       <div className="flex justify-start mb-4 gap-3 font-bold">
         <Button
           type="button"
-          className="text-[#0D4690] bg-[#E7EDF4] py-4 px-8 rounded-xl"
+          className={
+            (lead
+              ? "text-[#0D4690] bg-[#E7EDF4]"
+              : "text-[#999999] border border-[#e6e6e6]") +
+            " py-4 px-8 rounded-xl cursor-pointer ease-in-out duration-300 w-40"
+          }
+          onClick={handleLead}
         >
           LEAD
         </Button>
         <Button
           type="button"
-          className="text-[#0D4690] bg-[#E7EDF4] py-4 px-8 rounded-xl"
+          className={
+            (clp
+              ? "text-[#0D4690] bg-[#E7EDF4]"
+              : "text-[#999999] border border-[#e6e6e6]") +
+            " py-4 px-8 rounded-xl cursor-pointer ease-in-out duration-300 w-40"
+          }
+          onClick={handleClp}
         >
           CLP
         </Button>
         <Button
           type="button"
-          className="text-[#0D4690] bg-[#E7EDF4] py-4 px-8 rounded-xl"
+          className={
+            (hol
+              ? "text-[#0D4690] bg-[#E7EDF4]"
+              : "text-[#999999] border border-[#e6e6e6]") +
+            " py-4 px-8 rounded-xl cursor-pointer ease-in-out duration-300 w-40"
+          }
+          onClick={handleHol}
         >
           HOL
         </Button>
       </div>
-      <div className="overflow-x-scroll">
+      <div className="">
         <FreezeTable
           headers={headers}
           data={data}
