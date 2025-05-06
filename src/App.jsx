@@ -23,8 +23,17 @@ import { MouPksMedia } from "./components/pages/media/MouPks";
 import { LetterNumberingMedia } from "./components/pages/media/LetterNumbering";
 import { ColabRecapMedia } from "./components/pages/media/ColabRecap";
 
-
 // INGO
+import { PotentialPartnerResearchINGO } from "./components/pages/ingo/PotentialPartnerResearch";
+import { ColabPartnerResearchINGO } from "./components/pages/ingo/ColabPartnerResearch";
+import { AudienceINGO } from "./components/pages/ingo/Audience";
+import { CoordinationGroupINGO } from "./components/pages/ingo/CoordinationGroup";
+import { MouPksINGO } from "./components/pages/ingo/MouPks";
+import { SpkTorINGO } from "./components/pages/ingo/SpkTor";
+import { IaINGO } from "./components/pages/ingo/Ia";
+import { CooperationSignINGO } from "./components/pages/ingo/CooperationSign";
+import { LetterNumberingINGO } from "./components/pages/ingo/LetterNumbering";
+import { ColabRecapINGO } from "./components/pages/ingo/ColabRecap";
 
 const App = () => {
   return (
@@ -59,16 +68,16 @@ const App = () => {
           <Route path="bcf-partner" element={<h1>Partnership BCF</h1>} />
         </Route>
         <Route path="ingo">
-          <Route index element={<h1>Riset Potensial</h1>} />
-          <Route path="colab" element={<h1>Riset Kolaborasi</h1>} />
-          <Route path="audience" element={<h1>Tabel Audiensi INGO</h1>} />
-          <Route path="coor-group" element={<h1>Grup Koordinasi</h1>} />
-          <Route path="mou-pks" element={<h1>MoU / PKS</h1>} />
-          <Route path="spk-tor" element={<h1>SPK / TOR</h1>} />
-          <Route path="ia" element={<h1>IA</h1>} />
-          <Route path="coop-sign" element={<h1>Tanda Kerjasama</h1>} />
-          <Route path="letter-numbering" element={<h1>Penomoran Surat</h1>} />
-          <Route path="colab-recap" element={<h1>Rekap Kerjasama</h1>} />
+          <Route index element={<PotentialPartnerResearchINGO />} />
+          <Route path="colab" element={<ColabPartnerResearchINGO />} />
+          <Route path="audience" element={<AudienceINGO />} />
+          <Route path="coor-group" element={<CoordinationGroupINGO />} />
+          <Route path="mou-pks" element={<MouPksINGO />} />
+          <Route path="spk-tor" element={<SpkTorINGO />} />
+          <Route path="ia" element={<IaINGO />} />
+          <Route path="coop-sign" element={<CooperationSignINGO />} />
+          <Route path="letter-numbering" element={<LetterNumberingINGO />} />
+          <Route path="colab-recap" element={<ColabRecapINGO />} />
           <Route path="satis-survey" element={<h1>Satisfaction Survey</h1>} />
           <Route path="bcf-partner" element={<h1>Partnership BCF</h1>} />
           <Route path="partner-awards" element={<h1>Partnership Awards</h1>} />
