@@ -123,20 +123,20 @@ export const SatisfactionSurvey = () => {
 
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
-      <td className="py-3">{index + 1}</td>
-      <td>{value.name}</td>
+      <td className="border-b border-gray-200 py-3">{index + 1}</td>
+      <td className="border-b border-gray-200">{value.name}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3">{value.email}</td>
-      <td>{value.whatsapp}</td>
-      <td>{value.partnerCategory}</td>
-      <td>{value.position}</td>
-      <td>{value.partnerName}</td>
-      <td>{value.partnerOrigin}</td>
-      <td>{value.colabYear}</td>
+      <td className="border-b border-gray-200 p-3">{value.email}</td>
+      <td className="border-b border-gray-200">{value.whatsapp}</td>
+      <td className="border-b border-gray-200">{value.partnerCategory}</td>
+      <td className="border-b border-gray-200">{value.position}</td>
+      <td className="border-b border-gray-200">{value.partnerName}</td>
+      <td className="border-b border-gray-200">{value.partnerOrigin}</td>
+      <td className="border-b border-gray-200">{value.colabYear}</td>
       <td>
         <a href="#" className="text-[#0D4690] underline">
           Lihat Detail

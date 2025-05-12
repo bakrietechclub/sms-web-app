@@ -109,20 +109,20 @@ export const MouPks = () => {
 
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
-      <td className="py-3">{index + 1}</td>
-      <td>{value.name}</td>
-      <td>{value.jenis}</td>
-      <td>{value.division}</td>
+      <td className="py-3 border-b border-gray-200">{index + 1}</td>
+      <td className="border-b border-gray-200">{value.name}</td>
+      <td className="border-b border-gray-200">{value.jenis}</td>
+      <td className="border-b border-gray-200">{value.division}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3">{value.colabType}</td>
-      <td>{value.duration}</td>
-      <td>{value.dueDate}</td>
-      <td>{value.signYear}</td>
-      <td className="px-6 py-3">
+      <td className="py-3 border-b border-gray-200">{value.colabType}</td>
+      <td className="border-b border-gray-200">{value.duration}</td>
+      <td className="border-b border-gray-200">{value.dueDate}</td>
+      <td className="border-b border-gray-200">{value.signYear}</td>
+      <td className="px-6 py-3 border-b border-gray-200">
         <a href="#" className="text-[#0D4690] underline">
           Lihat Detail
         </a>

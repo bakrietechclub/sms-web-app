@@ -109,22 +109,22 @@ export const PtaRecap = () => {
   ];
 
   const renderRowFreeze = (value, index) => (
-    <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
-      <td className="py-3">{index + 1}</td>
-      <td>{value.name}</td>
-      <td>{value.type}</td>
-      <td>
+    <tr key={index} className="border-x border-r border-[#E7EDF4] h-10">
+      <td className="border-b border-gray-200 py-3">{index + 1}</td>
+      <td className="border-b border-gray-200">{value.name}</td>
+      <td className="border-b border-gray-200">{value.type}</td>
+      <td className="border-b border-gray-200">
         <Label label={value.colabStatus} status="success" />
       </td>
     </tr>
   );
 
   const renderRow = (value, index) => (
-    <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="border border-gray-200 px-4 py-2">{value.mouDue}</td>
-      <td className="border border-gray-200 px-4 py-2">{value.pksDue}</td>
-      <td className="border border-gray-200 px-4 py-2">{value.dueDate}</td>
-      <td className="border border-gray-200 px-4 py-2 flex flex-wrap gap-1">
+    <tr key={index} className="border-x border-[#E7EDF4] h-10">
+      <td className="border-b border-gray-200 px-4 py-2">{value.mouDue}</td>
+      <td className="border-b border-gray-200 px-4 py-2">{value.pksDue}</td>
+      <td className="border-b border-gray-200 px-4 py-2">{value.dueDate}</td>
+      <td className="border-b border-gray-200 px-4 py-3 flex flex-wrap gap-1">
         {value.status.length > 0 ? (
           value.status.map((status, idx) => (
             <Label
@@ -147,7 +147,7 @@ export const PtaRecap = () => {
           <span>-</span>
         )}
       </td>
-      <td className="border border-gray-200 px-4 py-2">
+      <td className="border-b border-gray-200 px-4 py-2">
         <a href="#" className="text-[#0D4690] underline">
           Lihat Detail
         </a>

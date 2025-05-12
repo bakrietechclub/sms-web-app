@@ -100,25 +100,31 @@ export const LetterNumbering = () => {
 
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
-      <td className="py-3">{index + 1}</td>
-      <td>{value.name}</td>
-      <td>{value.jenis}</td>
-      <td>{value.division}</td>
+      <td className="py-3 border-b border-gray-200">{index + 1}</td>
+      <td className="border-b border-gray-200">{value.name}</td>
+      <td className="border-b border-gray-200">{value.jenis}</td>
+      <td className="border-b border-gray-200">{value.division}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="p-3 max-w-3 truncate" title={value.letterType}>
+      <td
+        className="p-3 max-w-3 truncate border-b border-gray-200"
+        title={value.letterType}
+      >
         {value.letterType}
       </td>
-      <td className="p-3 max-w-3 truncate" title={value.letterNumber}>
+      <td
+        className="p-3 max-w-3 truncate border-b border-gray-200"
+        title={value.letterNumber}
+      >
         {value.letterNumber}
       </td>
-      <td className="" title={value.letterPurpose}>
+      <td className="border-b border-gray-200" title={value.letterPurpose}>
         {value.letterPurpose}
       </td>
-      <td className="flex justify-center items-center mt-2 px-4">
+      <td className="mt-2 px-4 border-b border-gray-200">
         <Button
           className="flex items-center justify-center w-28 h-8 bg-[#e89229] text-[#f1f1f1] rounded-md p-auto px-4 hover:bg-[#d18325] cursor-pointer"
           onClick={() => alert("Download Template Surat")}

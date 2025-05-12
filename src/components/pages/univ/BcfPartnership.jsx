@@ -90,27 +90,30 @@ export const BcfPartnership = () => {
   const headers = ["No.", "Nama Instansi", "Jenis Instansi", "Divisi Instansi"];
 
   const renderRowFreeze = (value, index) => (
-    <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
-      <td className="py-3">{index + 1}</td>
-      <td>{value.name}</td>
-      <td>{value.name}</td>
-      <td>{value.name}</td>
+    <tr key={index} className="border-x border-r border-[#E7EDF4] h-10">
+      <td className="border-b border-gray-200 py-3">{index + 1}</td>
+      <td className="border-b border-gray-200">{value.name}</td>
+      <td className="border-b border-gray-200">{value.name}</td>
+      <td className="border-b border-gray-200">{value.name}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
-    <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3">{value.region}</td>
-      <td>{value.category}</td>
-      <td>{value.colabProgress}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>
-        <Button>
+    <tr key={index} className="border-x border-[#E7EDF4] h-10">
+      <td className="border-b border-gray-200 py-3">{value.region}</td>
+      <td className="border-b border-gray-200">{value.category}</td>
+      <td className="border-b border-gray-200">{value.colabProgress}</td>
+      <td className="border-b border-gray-200"></td>
+      <td className="border-b border-gray-200"></td>
+      <td className="border-b border-gray-200"></td>
+      <td className="border-b border-gray-200"></td>
+      <td className="border-b border-gray-200"></td>
+      <td className="border-b border-gray-200"></td>
+      <td className="border-b border-gray-200">
+        <Button
+          className="flex text-sm p-1 m-2 items-center justify-center bg-[#e89229] text-[#f1f1f1] rounded-md hover:bg-[#d18325] cursor-pointer gap-1"
+          onClick={() => alert("Lihat Kontak")}
+        >
           <Eye className="inline" />
           Lihat Kontak
         </Button>
