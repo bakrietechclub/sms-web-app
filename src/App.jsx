@@ -15,6 +15,7 @@ import { LetterNumbering } from "./components/pages/univ/LetterNumbering";
 import { PtaRecap } from "./components/pages/univ/PtaRecap";
 import { SatisfactionSurvey } from "./components/pages/univ/SatisfactionSurvey";
 import { BcfPartnership } from "./components/pages/univ/BcfPartnership";
+import { PartnershipAwards } from "./components/pages/univ/PartnershipAwards";
 
 // Media
 import { PartnerResearch } from "./components/pages/media/PartnerResearch";
@@ -36,6 +37,7 @@ import { CooperationSignINGO } from "./components/pages/ingo/CooperationSign";
 import { LetterNumberingINGO } from "./components/pages/ingo/LetterNumbering";
 import { ColabRecapINGO } from "./components/pages/ingo/ColabRecap";
 
+
 const App = () => {
   return (
     <Routes>
@@ -54,7 +56,7 @@ const App = () => {
           <Route path="pta-recap" element={<PtaRecap />} />
           <Route path="satis-survey" element={<SatisfactionSurvey />} />
           <Route path="bcf-partner" element={<BcfPartnership />} />
-          <Route path="partner-awards" element={<h1>Partnership Awards</h1>} />
+          <Route path="partner-awards" element={<PartnershipAwards />} />
         </Route>
         <Route path="media">
           <Route index element={<PartnerResearch />} />

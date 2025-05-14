@@ -9,7 +9,7 @@ export const DashboardLayout = ({}) => {
   return (
     <div className="flex">
       <SidebarMenu />
-      <main className="ml-64 w-full min-h-screen py-4 px-8 transition-all">
+      <main className="ml-64 flex-1 min-h-screen py-4 px-8 transition-all overflow-x-hidden">
         <HeaderDashboard title={dashboardTitle} />
         <Outlet />
       </main>

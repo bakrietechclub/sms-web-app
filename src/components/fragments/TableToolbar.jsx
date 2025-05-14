@@ -109,7 +109,7 @@ export const TableToolbar2 = () => {
 };
 export const SearchBar = () => {
   return (
-    <div className="relative w-1/4">
+    <div className="relative w-1/3 flex justify-self-end">
       <input
         type="text"
         placeholder="Cari..."
