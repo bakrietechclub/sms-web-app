@@ -154,7 +154,7 @@ export const sidebarMenus = {
     },
     {
       title: "Partnership BCF",
-      icon: Clipboard,
+      icon: Sheet,
       path: "/dashboard/ingo/bcf-partner",
     },
     {

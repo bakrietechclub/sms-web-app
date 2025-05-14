@@ -40,6 +40,9 @@ import { IaINGO } from "./components/pages/ingo/Ia";
 import { CooperationSignINGO } from "./components/pages/ingo/CooperationSign";
 import { LetterNumberingINGO } from "./components/pages/ingo/LetterNumbering";
 import { ColabRecapINGO } from "./components/pages/ingo/ColabRecap";
+import { SatisfactionSurveyINGO } from "./components/pages/ingo/SatisfactionSurvey";
+import { BcfPartnershipINGO } from "./components/pages/ingo/BcfPartnership";
+import { PartnershipAwardsINGO } from "./components/pages/ingo/PartnershipAwards";
 
 const App = () => {
   return (
@@ -84,9 +87,9 @@ const App = () => {
           <Route path="coop-sign" element={<CooperationSignINGO />} />
           <Route path="letter-numbering" element={<LetterNumberingINGO />} />
           <Route path="colab-recap" element={<ColabRecapINGO />} />
-          <Route path="satis-survey" element={<h1>Satisfaction Survey</h1>} />
-          <Route path="bcf-partner" element={<h1>Partnership BCF</h1>} />
-          <Route path="partner-awards" element={<h1>Partnership Awards</h1>} />
+          <Route path="satis-survey" element={<SatisfactionSurveyINGO />} />
+          <Route path="bcf-partner" element={<BcfPartnershipINGO />} />
+          <Route path="partner-awards" element={<PartnershipAwardsINGO />} />
         </Route>
       </Route>
       <Route
