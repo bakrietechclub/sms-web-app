@@ -21,8 +21,16 @@ export const sidebarMenus = {
         { title: "Riset Kolaborasi", path: "/dashboard/univ/colab" },
       ],
     },
-    { title: "Audiensi", icon: CalendarPlus2, path: "/dashboard/univ/audience" },
-    { title: "Grup Koordinasi", icon: Users, path: "/dashboard/univ/coor-group" },
+    {
+      title: "Audiensi",
+      icon: CalendarPlus2,
+      path: "/dashboard/univ/audience",
+    },
+    {
+      title: "Grup Koordinasi",
+      icon: Users,
+      path: "/dashboard/univ/coor-group",
+    },
     {
       title: "Legalitas Kerjasama",
       icon: MailOpen,
@@ -32,17 +40,41 @@ export const sidebarMenus = {
         { title: "IA", path: "/dashboard/univ/ia" },
       ],
     },
-    { title: "Penomoran Surat", icon: MailPlus, path: "/dashboard/univ/letter-numbering" },
+    {
+      title: "Penomoran Surat",
+      icon: MailPlus,
+      path: "/dashboard/univ/letter-numbering",
+    },
     { title: "Rekap PTA", icon: Clipboard, path: "/dashboard/univ/pta-recap" },
-    { title: "Satisfaction Survey", icon: FileCheck, path: "/dashboard/univ/satis-survey" },
-    { title: "Partnership BCF", icon: Sheet, path: "/dashboard/univ/bcf-partner" },
-    { title: "Partnership Awards", icon: Trophy, path: "/dashboard/univ/partner-awards" },
+    {
+      title: "Satisfaction Survey",
+      icon: FileCheck,
+      path: "/dashboard/univ/satis-survey",
+    },
+    {
+      title: "Partnership BCF",
+      icon: Sheet,
+      path: "/dashboard/univ/bcf-partner",
+    },
+    {
+      title: "Partnership Awards",
+      icon: Trophy,
+      path: "/dashboard/univ/partner-awards",
+    },
   ],
 
   media: [
     { title: "Riset Mitra", icon: Search, path: "/dashboard/media" },
-    { title: "Audiensi", icon: CalendarPlus2, path: "/dashboard/media/audience" },
-    { title: "Grup Koordinasi", icon: Users, path: "/dashboard/media/coor-group" },
+    {
+      title: "Audiensi",
+      icon: CalendarPlus2,
+      path: "/dashboard/media/audience",
+    },
+    {
+      title: "Grup Koordinasi",
+      icon: Users,
+      path: "/dashboard/media/coor-group",
+    },
     {
       title: "Legalitas Kerjasama",
       icon: MailOpen,
@@ -51,7 +83,11 @@ export const sidebarMenus = {
         { title: "Tanda Kerjasama", path: "/dashboard/media/coop-sign" },
       ],
     },
-    { title: "Penomoran Surat", icon: MailPlus, path: "/dashboard/media/letter-numbering" },
+    {
+      title: "Penomoran Surat",
+      icon: MailPlus,
+      path: "/dashboard/media/letter-numbering",
+    },
     {
       title: "Pemberitaan BCF",
       icon: FileText,
@@ -60,8 +96,16 @@ export const sidebarMenus = {
         { title: "Rekap Program", path: "/dashboard/media/program-recap" },
       ],
     },
-    { title: "Rekap Kerjasama", icon: Clipboard, path: "/dashboard/media/colab-recap" },
-    { title: "Partnership Awards", icon: Trophy, path: "/dashboard/media/bcf-partner" },
+    {
+      title: "Rekap Kerjasama",
+      icon: Clipboard,
+      path: "/dashboard/media/colab-recap",
+    },
+    {
+      title: "Partnership BCF",
+      icon: Sheet,
+      path: "/dashboard/media/bcf-partner",
+    },
   ],
 
   lembagaInternasional: [
@@ -73,8 +117,16 @@ export const sidebarMenus = {
         { title: "Riset Kolaborasi", path: "/dashboard/ingo/colab" },
       ],
     },
-    { title: "Audiensi", icon: CalendarPlus2, path: "/dashboard/ingo/audience" },
-    { title: "Grup Koordinasi", icon: Users, path: "/dashboard/ingo/coor-group" },
+    {
+      title: "Audiensi",
+      icon: CalendarPlus2,
+      path: "/dashboard/ingo/audience",
+    },
+    {
+      title: "Grup Koordinasi",
+      icon: Users,
+      path: "/dashboard/ingo/coor-group",
+    },
     {
       title: "Legalitas Kerjasama",
       icon: MailOpen,
@@ -85,10 +137,30 @@ export const sidebarMenus = {
         { title: "Tanda Kerjasama", path: "/dashboard/ingo/coop-sign" },
       ],
     },
-    { title: "Penomoran Surat", icon: MailPlus, path: "/dashboard/ingo/letter-numbering" },
-    { title: "Rekap Kerjasama", icon: Clipboard, path: "/dashboard/ingo/colab-recap" },
-    { title: "Satisfaction Survey", icon: FileCheck, path: "/dashboard/ingo/satis-survey" },
-    { title: "Partnership BCF", icon: Clipboard, path: "/dashboard/ingo/bcf-partner" },
-    { title: "Partnership Awards", icon: Trophy, path: "/dashboard/ingo/partner-awards" },
+    {
+      title: "Penomoran Surat",
+      icon: MailPlus,
+      path: "/dashboard/ingo/letter-numbering",
+    },
+    {
+      title: "Rekap Kerjasama",
+      icon: Clipboard,
+      path: "/dashboard/ingo/colab-recap",
+    },
+    {
+      title: "Satisfaction Survey",
+      icon: FileCheck,
+      path: "/dashboard/ingo/satis-survey",
+    },
+    {
+      title: "Partnership BCF",
+      icon: Clipboard,
+      path: "/dashboard/ingo/bcf-partner",
+    },
+    {
+      title: "Partnership Awards",
+      icon: Trophy,
+      path: "/dashboard/ingo/partner-awards",
+    },
   ],
 };

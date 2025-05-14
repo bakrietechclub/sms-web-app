@@ -24,6 +24,10 @@ import { CoordinationGroupMedia } from "./components/pages/media/CoordinationGro
 import { MouPksMedia } from "./components/pages/media/MouPks";
 import { LetterNumberingMedia } from "./components/pages/media/LetterNumbering";
 import { ColabRecapMedia } from "./components/pages/media/ColabRecap";
+import { CooperationSign } from "./components/pages/media/CooperationSign";
+import { MediaRecap } from "./components/pages/media/MediaRecap";
+import { ProgramRecap } from "./components/pages/media/ProgramRecap";
+import { BcfPartnershipMedia } from "./components/pages/media/BcfPartnership";
 
 // INGO
 import { PotentialPartnerResearchINGO } from "./components/pages/ingo/PotentialPartnerResearch";
@@ -36,7 +40,6 @@ import { IaINGO } from "./components/pages/ingo/Ia";
 import { CooperationSignINGO } from "./components/pages/ingo/CooperationSign";
 import { LetterNumberingINGO } from "./components/pages/ingo/LetterNumbering";
 import { ColabRecapINGO } from "./components/pages/ingo/ColabRecap";
-
 
 const App = () => {
   return (
@@ -63,12 +66,12 @@ const App = () => {
           <Route path="audience" element={<Audience />} />
           <Route path="coor-group" element={<CoordinationGroupMedia />} />
           <Route path="mou-pks" element={<MouPksMedia />} />
-          <Route path="coop-sign" element={<h1>Tanda Kerjasama</h1>} />
+          <Route path="coop-sign" element={<CooperationSign />} />
           <Route path="letter-numbering" element={<LetterNumberingMedia />} />
-          <Route path="media-recap" element={<h1>Rekap Media</h1>} />
-          <Route path="program-recap" element={<h1>Rekap Program</h1>} />
+          <Route path="media-recap" element={<MediaRecap />} />
+          <Route path="program-recap" element={<ProgramRecap />} />
           <Route path="colab-recap" element={<ColabRecapMedia />} />
-          <Route path="bcf-partner" element={<h1>Partnership BCF</h1>} />
+          <Route path="bcf-partner" element={<BcfPartnershipMedia />} />
         </Route>
         <Route path="ingo">
           <Route index element={<PotentialPartnerResearchINGO />} />
