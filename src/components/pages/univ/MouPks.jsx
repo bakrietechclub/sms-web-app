@@ -131,7 +131,7 @@ export const MouPks = () => {
   );
 
   return (
-    <div className="p-4 space-y-4 w-full">
+    <div>
       <h1 className="text-2xl font-semibold">Tabel MoU / PKS</h1>
       <div className="w-full">
         <TableToolbar />
