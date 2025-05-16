@@ -49,7 +49,7 @@ export const CardItem = ({ title, winner, icon }) => (
       <h5 className="text-xl font-semibold text-blue-900 w-64">{title}</h5>
       <img src={icon} alt="icon" className="ml-3 w-9 h-9 mt-1" />
     </div>
-    <div className="w-full bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between min-h-[110px] mt-auto">
+    <div className="w-full bg-white rounded-lg border-1 border-gray-200 p-4 flex flex-col justify-between min-h-[110px] mt-auto">
       <div className="flex items-center mb-2">
         <img src={trophy} alt="trophy" className="w-6 h-6 mr-2" />
         <div>

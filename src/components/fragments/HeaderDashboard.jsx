@@ -36,7 +36,7 @@ export const HeaderDashboard = (props) => {
           >
             <ChevronDown className="w-4 h-4" />
           </button>
-          <div className="menu-dropdown hidden absolute top-10 right-4 mt-2 w-max bg-white border border-gray-200 rounded-md shadow-lg p-2 animate-fadeIn">
+          <div className="menu-dropdown hidden absolute top-10 right-4 mt-2 w-max bg-white border border-gray-200 rounded-md shadow-lg p-2 animate-fadeIn z-50">
             <button
               className="px-4 py-2 hover:bg-[#E7EDF4] cursor-pointer flex items-center text-sm w-full rounded-md transition duration-300 ease-in-out"
               onClick={() => {
