@@ -143,7 +143,15 @@ export const SpkTorINGO = () => {
           if (type === "Kategori B") openModalB();
         }}
         addOptions={["Kategori A", "Kategori B"]}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+          {
+            label: "Jenis Surat",
+            options: [
+              {label: "MoU", value: "MoU"},
+              {label: "PKS", value: "PKS"},            
+            ]
+          }          
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />

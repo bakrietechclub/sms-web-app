@@ -1,17 +1,26 @@
-import { SearchIcon, ListFilter, Plus, ChevronsRight } from "lucide-react";
+import { SearchIcon, ListFilter, Plus, ChevronRight, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 export const TableToolbar = ({
   searchValue,
   onSearchChange,
   onAddClick,
-  addOptions = null, 
+  addOptions = null,
   filters = null,
   onFilterSet = () => {},
   searchWidth = "w-1/4",
 }) => {
   const [showFilterMenu, setShowFilterMenu] = useState(false);
+  const [expandedFields, setExpandedFields] = useState([]);
   const [showAddOptions, setShowAddOptions] = useState(false);
+
+  const toggleField = (fieldLabel) => {
+    setExpandedFields((prev) =>
+      prev.includes(fieldLabel)
+        ? prev.filter((f) => f !== fieldLabel)
+        : [...prev, fieldLabel]
+    );
+  };
 
   return (
     <div className="flex items-center justify-end gap-4 mb-3 pt-4 relative">
@@ -24,12 +33,12 @@ export const TableToolbar = ({
           onChange={(e) => onSearchChange(e.target.value)}
           className="w-full p-2 pl-10 border border-gray-300 rounded-md mb-4"
         />
-        <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-4.5 w-5 h-5 text-gray-400" />
+        <SearchIcon className="absolute left-3 top-5.5 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
       </div>
 
       {/* Filter */}
-      {filters && (
-        <div>
+      {filters?.length > 0 && (
+        <div className="relative">
           <button
             className="flex gap-3 items-center border border-[#CCCCCC] text-[#999999] hover:bg-[#E6E6E6] px-4 py-2 rounded-md mb-4 ml-2 cursor-pointer"
             onClick={() => setShowFilterMenu(!showFilterMenu)}
@@ -39,28 +48,58 @@ export const TableToolbar = ({
           </button>
 
           {showFilterMenu && (
-            <div className="absolute right-44 mt-3 w-48 px-3 py-4 bg-white rounded-md shadow-2xl z-10 text-sm">
-              <div className="flex items-center justify-between mb-4 mx-1">
+            <div className="absolute right-0 mt-2 w-[300px] bg-white shadow-2xl rounded-md z-10 text-sm py-4 px-4 max-h-[400px] overflow-auto">
+              <div className="flex items-center justify-between mb-3">
                 <p className="font-semibold">Filter</p>
                 <button
-                  className="text-[#0D4690] cursor-pointer"
-                  onClick={onFilterSet}
+                  className="text-[#0D4690] text-sm font-medium hover:text-[#08326b] cursor-pointer"
+                  onClick={() => {
+                    onFilterSet();
+                    setShowFilterMenu(false);
+                  }}
                 >
-                  Set
+                  Simpan
                 </button>
               </div>
-              <hr className="border border-gray-200 mb-2" />
-              <ul className="py-1">
-                {filters.map((filter, idx) => (
-                  <li
-                    key={idx}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
+
+              <hr className="border border-gray-200 mb-3" />
+
+              {/* Filter Fields */}
+              {filters.map((filter, idx) => (
+                <div key={idx} className="mb-3">
+                  <button
+                    className="flex justify-between items-center w-full text-left font-medium text-[#0D4690] py-1"
+                    onClick={() => {
+                      if (filter.options?.length > 0) {
+                        toggleField(filter.label);
+                      }
+                    }}
                   >
-                    <input type="checkbox" id={`filter-${idx}`} />
-                    <label htmlFor={`filter-${idx}`}>{filter}</label>
-                  </li>
-                ))}
-              </ul>
+                    <span>{filter.label}</span>
+                    {filter.options?.length > 0 && (
+                      expandedFields.includes(filter.label) ? (
+                        <ChevronDown size={16} />
+                      ) : (
+                        <ChevronRight size={16} />
+                      )
+                    )}
+                  </button>
+
+                  {expandedFields.includes(filter.label) && filter.options?.length > 0 && (
+                    <div className="mt-2 ml-2 flex flex-col gap-2">
+                      {filter.options.map((option, i) => (
+                        <label
+                          key={i}
+                          className="flex items-center gap-2 cursor-pointer text-gray-700"
+                        >
+                          <input type="checkbox" value={option.value} />
+                          {option.label}
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           )}
         </div>
@@ -79,19 +118,20 @@ export const TableToolbar = ({
             Tambah
           </button>
 
+          {/* Dropdown Add Options */}
           {addOptions && showAddOptions && (
-            <div className="absolute right-0 mt-2 w-48 bg-white shadow-xl rounded-md z-10 text-sm py-2">
+            <div className="absolute right-0 mt-2 w-[200px] bg-white shadow-md rounded-md z-10 text-sm py-2">
               {addOptions.map((option, idx) => (
-                <div
+                <button
                   key={idx}
                   onClick={() => {
-                    setShowAddOptions(false);
                     onAddClick(option);
+                    setShowAddOptions(false);
                   }}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100"
                 >
                   {option}
-                </div>
+                </button>
               ))}
             </div>
           )}

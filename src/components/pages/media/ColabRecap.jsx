@@ -196,7 +196,25 @@ export const ColabRecapMedia = () => {
       <TableToolbar 
         searchValue={search}
         onSearchChange={setSearch}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+          {
+            label: "Jenis Instansi",
+            options: [
+              {label: "Pemerintah Pusat", value: "pemerintah pusat"},
+              {label: "Pemerintah Daerah", value: "pemerintah daerah"},
+              {label: "Dunia Usaha", value: "dunia usaha"},
+              {label: "Media Masa", value: "media masa"}
+            ]
+          },
+          {
+            label: "Tahun Kerjasama",
+            options: [
+              {label: "2022", value: "2022"},
+              {label: "2023", value: "2023"},
+              {label: "2024", value: "2024"}
+            ]
+          }
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />

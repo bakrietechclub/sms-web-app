@@ -200,7 +200,16 @@ export const ColabRecapINGO = () => {
       <TableToolbar 
         searchValue={search}
         onSearchChange={setSearch}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+          {
+            label: "Tahun Kerjasama",
+            options: [
+              {label: "2022", value: "2022"},
+              {label: "2023", value: "2023"},
+              {label: "2024", value: "2024"}
+            ]
+          }
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/3"     
       />

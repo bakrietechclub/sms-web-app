@@ -150,7 +150,26 @@ export const LetterNumbering = () => {
           if (type === "Kategori B") openModalB();
         }}
         addOptions={["Kategori A", "Kategori B"]}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+        {
+           label: "Jenis Instansi",
+           options: [
+          { label: "Universitas", value: "universitas" },
+          { label: "Lembaga Sosial", value: "lembaga sosial" },
+        ],
+        },
+        {
+          label: "Jenis Surat",
+          options: [
+            {label: "Surat Permohonan Kerjasama", value: "surat permohonan kerjasama"},
+            {label: "Surat Undangan Audiensi", value: "surat undangan audiensi"},
+            {label: "MoU (Nota Kesepahaman)", value: "MoU (nota kesepahaman)"},
+            {label: "PKS (Perjanjian Kerjasama)", value: "PKS (perjanjian kerjasama)"},
+            {label: "IA (Implementation Agreement)", value: "IA (implementation agreement)"},      
+            {label: "SPK (Surat Pernyataan Komitmen)", value: "SPK (surat pernyataan komitmen)"},      
+          ]
+        }
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />

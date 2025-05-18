@@ -98,6 +98,25 @@ export const MediaRecap = () => {
         searchValue={search}
         onSearchChange={setSearch}  
         searchWidth="w-1/3"
+                filters={[
+          {
+            label: "Tahun",
+            options: [
+              {label: "2023", value: "2023"},
+              {label: "2024", value: "2024"}
+            ]
+          },
+          {
+            label: "Program",
+            options: [
+              {label: "BCF", value: "bcf"},
+              {label: "CLP", value: "clp"},
+              {label: "Lead", value: "lead"},
+              {label: "HOL", value: "hol"},
+              {label: "SDI", value: "sdi"}
+            ]
+          },
+        ]}
       />
       <Table headers={headers} data={data} renderRow={renderRow} />
     </div>

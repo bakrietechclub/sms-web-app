@@ -150,7 +150,25 @@ export const AudienceMedia = () => {
           if (type === "Kategori B") openModalB();
         }}
         addOptions={["Kategori A", "Kategori B"]}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+         {
+            label: "Jenis Instansi",
+            options: [
+          { label: "Pemerintah Pusat", value: "pemerintah pusat" },
+          { label: "Pemerintah Daerah", value: "pemerintah daerah" },
+          { label: "Dunia Usaha", value: "dunia usaha" },
+          { label: "Media Masa", value: "media masa" },
+         ],
+        },
+          {
+            label: "Status",
+            options: [
+              {label: "Belum Audiensi", value: "belum audiensi"},
+              {label: "Re-audiensi", value: "re-audiensi"},
+              {label: "Selesai", value: "selesai"}             
+            ]
+          }          
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />

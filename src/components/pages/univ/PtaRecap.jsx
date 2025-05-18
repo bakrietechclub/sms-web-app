@@ -200,7 +200,25 @@ export const PtaRecap = () => {
       <TableToolbar 
         searchValue={search}
         onSearchChange={setSearch}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+        {
+           label: "Jenis Instansi",
+           options: [
+          { label: "Universitas", value: "universitas" },
+          { label: "Lembaga Sosial", value: "lembaga sosial" },
+        ],
+        },
+        {
+          label: "Tahun Kerjasama",
+          options: [
+            {label: "2020", value: "2020"},
+            {label: "2021", value: "2021"},
+            {label: "2022", value: "2022"},
+            {label: "2023", value: "2023"},
+            {label: "2024", value: "2024"},      
+          ]
+        }
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/3"     
       />

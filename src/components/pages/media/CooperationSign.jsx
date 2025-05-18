@@ -103,7 +103,17 @@ export const CooperationSign = () => {
           if (type === "Kategori B") openModalB();
         }}
         addOptions={["Kategori A", "Kategori B"]}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+          {
+            label: "Jenis Instansi",
+            options: [
+              {label: "Pemerintah Pusat", alue: "pemerintah pusat"},
+              {label: "Pemerintah Daerah", value: "pemerintah daerah"},
+              {label: "Dunia Usaha", value: "dunia usaha"},
+              {label: "Media Masa", value: "media masa"}
+            ]
+          },
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />

@@ -121,7 +121,23 @@ export const PotentialPartnerResearchINGO = () => {
           if (type === "Kategori B") openModalB();
         }}
         addOptions={["Kategori A", "Kategori B"]}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+         {
+            label: "Cluster",
+            options: [
+          { label: "Kesehatan", value: "kesehatan" },
+          { label: "Pendidikan", value: "pendidikan" },
+          { label: "Lingkungan", value: "lingkungan"  }
+         ],
+        },
+        {
+           label: "Status Kontak",
+           options: [
+          { label: "Sudah dikontak", value: "sudah" },
+          { label: "Belum dikontak", value: "belum" },
+        ],
+        },
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />

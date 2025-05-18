@@ -150,7 +150,16 @@ export const AudienceINGO = () => {
           if (type === "Kategori B") openModalB();
         }}
         addOptions={["Kategori A", "Kategori B"]}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+          {
+            label: "Status",
+            options: [
+              {label: "Belum Audiensi", value: "belum audiensi"},
+              {label: "Re-audiensi", value: "re-audiensi"},
+              {label: "Selesai", value: "selesai"}             
+            ]
+          }                    
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />

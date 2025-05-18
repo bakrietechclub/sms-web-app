@@ -193,7 +193,24 @@ export const BcfPartnershipMedia = () => {
         <TableToolbar 
         searchValue={search}
         onSearchChange={setSearch}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+        {
+           label: "Jenis Instansi",
+           options: [
+          { label: "Universitas", value: "universitas" },
+          { label: "Lembaga Sosial", value: "lembaga sosial" },
+          { label: "Lembaga Internasional", value: "lembaga internasional" },
+          { label: "Media Masa", value: "media masa" },
+          { label: "Dunia Usaha", value: "dunia usaha" },
+        ],
+        },
+        {
+          label: "Status Kerjasama",
+          options: [
+          {}
+          ]
+        }
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />    

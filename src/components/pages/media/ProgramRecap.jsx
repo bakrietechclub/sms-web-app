@@ -126,7 +126,25 @@ export const ProgramRecap = () => {
           if (type === "Kategori B") openModalB();
         }}
         addOptions={["Kategori A", "Kategori B"]}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+          {
+            label: "Tahun",
+            options: [
+              {label: "2023", value: "2023"},
+              {label: "2024", value: "2024"}
+            ]
+          },
+          {
+            label: "Program",
+            options: [
+              {label: "BCF", value: "bcf"},
+              {label: "CLP", value: "clp"},
+              {label: "Lead", value: "lead"},
+              {label: "HOL", value: "hol"},
+              {label: "SDI", value: "sdi"}
+            ]
+          },
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />

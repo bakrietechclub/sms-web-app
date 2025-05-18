@@ -103,8 +103,6 @@ export const ColabPartnerResearchINGO = () => {
           if (type === "Kategori B") openModalB();
         }}
         addOptions={["Kategori A", "Kategori B"]}
-        filters={["Status: Aktif", "Kategori: Umum"]}
-        onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />
       <Table headers={headers} data={data} renderRow={renderRow} />

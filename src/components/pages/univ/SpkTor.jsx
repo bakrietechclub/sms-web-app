@@ -144,7 +144,22 @@ export const SpkTor = () => {
           if (type === "Kategori B") openModalB();
         }}
         addOptions={["Kategori A", "Kategori B"]}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        filters={[
+         {
+            label: "Jenis Surat",
+            options: [
+          { label: "MoU", value: "MoU" },
+          { label: "PKS", value: "PKS" },
+         ],
+        },
+        {
+           label: "Jenis Instansi",
+           options: [
+          { label: "Universitas", value: "universitas" },
+          { label: "Lembaga", value: "lembaga" },
+        ],
+        },
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />

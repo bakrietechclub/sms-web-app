@@ -120,8 +120,26 @@ export const PotentialPartnerResearch = () => {
           if (type === "Kategori A") openModalA();
           if (type === "Kategori B") openModalB();
         }}
-        addOptions={["Kategori A", "Kategori B"]}
-        filters={["Status: Aktif", "Kategori: Umum"]}
+        addOptions={[
+          { label: "Kategori A", value: "Kategori A", checked: false },
+          { label: "Kategori B", value: "Kategori B", checked: false }
+        ]}
+        filters={[
+         {
+            label: "Jenis Instansi",
+            options: [
+          { label: "Universitas", value: "universitas" },
+          { label: "Lembaga Sosial", value: "lembaga sosial" },
+         ],
+        },
+        {
+           label: "Status Kontak",
+           options: [
+          { label: "Sudah dikontak", value: "sudah" },
+          { label: "Belum dikontak", value: "belum" },
+        ],
+        },
+        ]}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"     
       />
