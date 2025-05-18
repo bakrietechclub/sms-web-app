@@ -2,8 +2,11 @@ import { Download } from "lucide-react";
 import { Button } from "../../elements/Button";
 import { FreezeTable } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { useState } from "react";
 
 export const LetterNumberingINGO = () => {
+  const  [search, setSearch] = useState("");
+
   const data = [
     {
       name: "Universitas Indonesia",
@@ -133,7 +136,18 @@ export const LetterNumberingINGO = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Penomoran Surat</h1>
-      <TableToolbar />
+      <TableToolbar 
+        searchValue={search}
+        onSearchChange={setSearch}
+        onAddClick={(type) => {
+          if (type === "Kategori A") openModalA();
+          if (type === "Kategori B") openModalB();
+        }}
+        addOptions={["Kategori A", "Kategori B"]}
+        filters={["Status: Aktif", "Kategori: Umum"]}
+        onFilterSet={() => console.log("Filter diset")}
+        searchWidth="w-1/4"     
+      />
       <div>
         <FreezeTable
           headers={headers}

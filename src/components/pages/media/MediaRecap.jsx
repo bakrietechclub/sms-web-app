@@ -1,7 +1,9 @@
 import { Table } from "../../fragments/Table";
-import { TableToolbar, SearchBar } from "../../fragments/TableToolbar";
+import { TableToolbar} from "../../fragments/TableToolbar";
+import { useState } from "react";
 
 export const MediaRecap = () => {
+  const  [search, setSearch] = useState("");
   const data = [
     {
       name: "Kementrian Kesehatan",
@@ -92,7 +94,11 @@ export const MediaRecap = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Output Pemberitaan per-Media</h1>
-      <SearchBar />
+      <TableToolbar
+        searchValue={search}
+        onSearchChange={setSearch}  
+        searchWidth="w-1/3"
+      />
       <Table headers={headers} data={data} renderRow={renderRow} />
     </div>
   );

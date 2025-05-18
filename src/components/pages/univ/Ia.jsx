@@ -1,8 +1,11 @@
 import { FreezeTable } from "../../fragments/Table";
 import { Label } from "../../elements/Label";
+import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
 
 export const Ia = () => {
+  const  [search, setSearch] = useState("");
+
   const data = [
     {
       name: "Universitas Indonesia",
@@ -138,7 +141,18 @@ export const Ia = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel IA</h1>
-      <TableToolbar />
+      <TableToolbar 
+        searchValue={search}
+        onSearchChange={setSearch}
+        onAddClick={(type) => {
+          if (type === "Kategori A") openModalA();
+          if (type === "Kategori B") openModalB();
+        }}
+        addOptions={["Kategori A", "Kategori B"]}
+        filters={["Status: Aktif", "Kategori: Umum"]}
+        onFilterSet={() => console.log("Filter diset")}
+        searchWidth="w-1/4"     
+      />
       <div>
         <FreezeTable
           headers={headers}

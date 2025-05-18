@@ -1,8 +1,11 @@
 import { Label } from "../../elements/Label";
 import { FreezeTable } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { useState } from "react";
 
 export const ColabRecapMedia = () => {
+  const  [search, setSearch] = useState("");
+
   const data = [
     {
       name: "Universitas Indonesia",
@@ -190,7 +193,13 @@ export const ColabRecapMedia = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Rekap Implementasi Kerjasama</h1>
-      <TableToolbar />
+      <TableToolbar 
+        searchValue={search}
+        onSearchChange={setSearch}
+        filters={["Status: Aktif", "Kategori: Umum"]}
+        onFilterSet={() => console.log("Filter diset")}
+        searchWidth="w-1/4"     
+      />
       <div>
         <FreezeTable
           headers={headers}

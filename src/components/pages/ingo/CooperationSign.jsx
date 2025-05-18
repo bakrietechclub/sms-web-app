@@ -1,7 +1,10 @@
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { useState } from "react";
 
 export const CooperationSignINGO = () => {
+  const  [search, setSearch] = useState("");
+
   const data = [
     {
       name: "MacArthur Foundation",
@@ -92,7 +95,11 @@ export const CooperationSignINGO = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Tanda Kerjasama</h1>
-      <TableToolbar />
+      <TableToolbar
+        searchValue={search}
+        onSearchChange={setSearch}
+        onAddClick={() => setShowForm(true)}
+      />
       <Table headers={headers} data={data} renderRow={renderRow} />
     </div>
   );

@@ -1,8 +1,11 @@
 import { Button } from "../../elements/Button";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { useState } from "react";
 
 export const CoordinationGroupMedia = () => {
+  const  [search, setSearch] = useState("");
+
   const whatsappLink = "https://wa.me/";
   const data = [
     {
@@ -113,7 +116,18 @@ export const CoordinationGroupMedia = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Grup Koordinasi</h1>
-      <TableToolbar />
+      <TableToolbar 
+        searchValue={search}
+        onSearchChange={setSearch}
+        onAddClick={(type) => {
+          if (type === "Kategori A") openModalA();
+          if (type === "Kategori B") openModalB();
+        }}
+        addOptions={["Kategori A", "Kategori B"]}
+        filters={["Status: Aktif", "Kategori: Umum"]}
+        onFilterSet={() => console.log("Filter diset")}
+        searchWidth="w-1/4"     
+      />
       <Table headers={headers} data={data} renderRow={renderRow} />
     </div>
   );

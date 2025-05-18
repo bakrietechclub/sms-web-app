@@ -1,7 +1,10 @@
 import { FreezeTable } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { useState } from "react";
 
 export const MouPksMedia = () => {
+  const  [search, setSearch] = useState("");
+  
   const data = [
     {
       name: "Kementrian Kesehatan",
@@ -134,7 +137,18 @@ export const MouPksMedia = () => {
     <div>
       <h1 className="text-2xl font-semibold">Tabel MoU / PKS</h1>
       <div className="w-full">
-        <TableToolbar />
+      <TableToolbar 
+        searchValue={search}
+        onSearchChange={setSearch}
+        onAddClick={(type) => {
+          if (type === "Kategori A") openModalA();
+          if (type === "Kategori B") openModalB();
+        }}
+        addOptions={["Kategori A", "Kategori B"]}
+        filters={["Status: Aktif", "Kategori: Umum"]}
+        onFilterSet={() => console.log("Filter diset")}
+        searchWidth="w-1/4"     
+      />
       </div>
       <div className="w-full overflow-hidden h-fit">
         <FreezeTable

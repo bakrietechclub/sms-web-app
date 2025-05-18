@@ -53,7 +53,7 @@ const App = () => {
         <Route path="univ">
           <Route index element={<PotentialPartnerResearch />} />
           <Route path="colab" element={<ColabPartnerResearch />} />
-          <Route path="audience" element={<AudienceMedia />} />
+          <Route path="audience" element={<Audience />} />
           <Route path="coor-group" element={<CoordinationGroup />} />
           <Route path="mou-pks" element={<MouPks />} />
           <Route path="spk-tor" element={<SpkTor />} />
@@ -66,7 +66,7 @@ const App = () => {
         </Route>
         <Route path="media">
           <Route index element={<PartnerResearch />} />
-          <Route path="audience" element={<Audience />} />
+          <Route path="audience" element={<AudienceMedia />} />
           <Route path="coor-group" element={<CoordinationGroupMedia />} />
           <Route path="mou-pks" element={<MouPksMedia />} />
           <Route path="coop-sign" element={<CooperationSign />} />

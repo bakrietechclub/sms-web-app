@@ -1,7 +1,10 @@
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { useState } from "react";
 
 export const CooperationSign = () => {
+  const  [search, setSearch] = useState("");
+
   const data = [
     {
       name: "Kementrian Kesehatan",
@@ -92,7 +95,18 @@ export const CooperationSign = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Tanda Kerjasama</h1>
-      <TableToolbar />
+      <TableToolbar 
+        searchValue={search}
+        onSearchChange={setSearch}
+        onAddClick={(type) => {
+          if (type === "Kategori A") openModalA();
+          if (type === "Kategori B") openModalB();
+        }}
+        addOptions={["Kategori A", "Kategori B"]}
+        filters={["Status: Aktif", "Kategori: Umum"]}
+        onFilterSet={() => console.log("Filter diset")}
+        searchWidth="w-1/4"     
+      />
       <Table headers={headers} data={data} renderRow={renderRow} />
     </div>
   );

@@ -1,9 +1,12 @@
 import { Eye } from "lucide-react";
 import { FreezeTable } from "../../fragments/Table";
 import { Button } from "../../elements/Button";
-import { TableToolbar2 } from "../../fragments/TableToolbar";
+import { TableToolbar } from "../../fragments/TableToolbar";
+import { useState } from "react";
 
 export const BcfPartnership = () => {
+  const  [search, setSearch] = useState("");
+
   const data = [
     {
       name: "Universitas Indonesia",
@@ -187,7 +190,13 @@ export const BcfPartnership = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold mb-3">Database Partnership</h1>
-      <TableToolbar2 />
+      <TableToolbar 
+        searchValue={search}
+        onSearchChange={setSearch}
+        filters={["Status: Aktif", "Kategori: Umum"]}
+        onFilterSet={() => console.log("Filter diset")}
+        searchWidth="w-1/3"     
+      />
       <FreezeTable
         headers={headers}
         data={data}

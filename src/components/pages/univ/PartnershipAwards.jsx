@@ -1,6 +1,7 @@
 import { CardItem } from "../../fragments/Card";
 import { HorizontalScrollSection } from "../../fragments/HorizontalScrollSection";
-import { SearchBar } from "../../fragments/TableToolbar";
+import { useState } from "react";
+import { TableToolbar } from "../../fragments/TableToolbar";
 
 import applicants from "../../../assets/icons/applicants.png"
 import accepted from "../../../assets/icons/accepted.png"
@@ -16,6 +17,7 @@ import supervisor from "../../../assets/icons/supervisor.png"
 import valuable from "../../../assets/icons/valuable.png"
 
 export const PartnershipAwards = () => {
+  const [search, setSearch ] = useState("");
   const universitasCards = [
     {
       title: "THE Most Applicants of University",
@@ -101,7 +103,11 @@ export const PartnershipAwards = () => {
   return (
     <div className="w-full overflow-x-hidden">          
         <h1 className="text-[1.75rem] font-semibold">Partnership Awards</h1>
-        <SearchBar />
+        <TableToolbar
+           searchValue={search}
+           onSearchChange={setSearch}
+           searchWidth="w-1/3"
+         />
     <div className="pt-1 text-2xl">
       <HorizontalScrollSection
         title="Universitas"

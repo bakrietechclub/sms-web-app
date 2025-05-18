@@ -1,8 +1,11 @@
 import { Button } from "../../elements/Button";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { useState } from "react";
 
 export const CoordinationGroupINGO = () => {
+  const  [search, setSearch] = useState("");
+
   const whatsappLink = "https://wa.me/";
   const data = [
     {
@@ -113,7 +116,12 @@ export const CoordinationGroupINGO = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Grup Koordinasi</h1>
-      <TableToolbar />
+      <TableToolbar
+        searchValue={search}
+        onSearchChange={setSearch}
+        onAddClick={() => setShowForm(true)}
+      />
+
       <Table headers={headers} data={data} renderRow={renderRow} />
     </div>
   );

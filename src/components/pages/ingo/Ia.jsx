@@ -1,8 +1,11 @@
 import { FreezeTable } from "../../fragments/Table";
 import { Label } from "../../elements/Label";
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { useState } from "react";
 
 export const IaINGO = () => {
+  const  [search, setSearch] = useState("");
+
   const data = [
     {
       name: "Universitas Indonesia",
@@ -138,7 +141,11 @@ export const IaINGO = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel IA</h1>
-      <TableToolbar />
+      <TableToolbar
+        searchValue={search}
+        onSearchChange={setSearch}
+        onAddClick={() => setShowForm(true)}
+      />
       <div>
         <FreezeTable
           headers={headers}
