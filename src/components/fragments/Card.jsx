@@ -3,7 +3,7 @@ import { Button } from "../elements/Button";
 import { useDispatch } from "react-redux";
 import { setActiveStakeholder } from "../../features/stakeholder/activeStakeholderSlice";
 
-import trophy from "../../assets/icons/trophy.png"
+import trophy from "../../assets/icons/trophy.png";
 
 export const Card = ({ name, image, manageAccess, stakeholderKey }) => {
   const isOutlined = manageAccess
@@ -13,11 +13,17 @@ export const Card = ({ name, image, manageAccess, stakeholderKey }) => {
   const buttonLabel = manageAccess ? "Kelola" : "Lihat";
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigateRole =
+    stakeholderKey === "universitas"
+      ? "univ"
+      : stakeholderKey === "media"
+      ? "media"
+      : "ingo";
 
   const handleClick = () => {
-    dispatch(setActiveStakeholder(stakeholderKey));  
-    localStorage.setItem('activeStakeholder', stakeholderKey);
-    navigate("/dashboard", { state: { title: name } });
+    dispatch(setActiveStakeholder(stakeholderKey));
+    localStorage.setItem("activeStakeholder", stakeholderKey);
+    navigate("/dashboard/" + navigateRole);
   };
 
   return (
@@ -63,7 +69,3 @@ export const CardItem = ({ title, winner, icon }) => (
     </div>
   </div>
 );
-
-
-
-
