@@ -138,11 +138,8 @@ export const SpkTorINGO = () => {
       <TableToolbar 
         searchValue={search}
         onSearchChange={setSearch}
-        onAddClick={(type) => {
-          if (type === "Kategori A") openModalA();
-          if (type === "Kategori B") openModalB();
-        }}
-        addOptions={["Kategori A", "Kategori B"]}
+        onAddClick={(opt) => handleAdd(opt)}
+        addOptions={["Atas Nama Pribadi", "Atas Nama Instansi"]}
         filters={[
           {
             label: "Jenis Surat",

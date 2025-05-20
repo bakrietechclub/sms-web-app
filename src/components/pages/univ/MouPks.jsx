@@ -140,11 +140,8 @@ export const MouPks = () => {
       <TableToolbar 
         searchValue={search}
         onSearchChange={setSearch}
-        onAddClick={(type) => {
-          if (type === "Kategori A") openModalA();
-          if (type === "Kategori B") openModalB();
-        }}
-        addOptions={["Kategori A", "Kategori B"]}
+        onAddClick={(opt) => handleAdd(opt)}
+        addOptions={["MoU", "PKS"]}
         filters={[
          {
             label: "Jenis Surat",
