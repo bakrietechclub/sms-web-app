@@ -2,10 +2,12 @@ import { Label } from "../../elements/Label";
 import { Table } from "../../fragments/Table";
 import { useState } from "react"
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { useNavigate } from "react-router-dom";
 
 export const PotentialPartnerResearch = () => {
   const [search, setSearch] = useState("");
-
+  const navigate = useNavigate();
+  
   const data = [
     {
       name: "Universitas Indonesia",
@@ -116,14 +118,13 @@ export const PotentialPartnerResearch = () => {
       <TableToolbar 
         searchValue={search}
         onSearchChange={setSearch}
-        onAddClick={(type) => {
-          if (type === "Kategori A") openModalA();
-          if (type === "Kategori B") openModalB();
+        onAddClick={() => {}}
+        addOptions={{
+          "Jenis Instansi": [
+            { label: "Universitas", onClick: () => navigate("/form-universitas") },
+            { label: "Lembaga Sosial", onClick: () => navigate("/form-lembaga") },
+          ],
         }}
-        addOptions={[
-          { label: "Kategori A", value: "Kategori A", checked: false },
-          { label: "Kategori B", value: "Kategori B", checked: false }
-        ]}
         filters={[
          {
             label: "Jenis Instansi",

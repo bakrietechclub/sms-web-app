@@ -1,4 +1,10 @@
-import { SearchIcon, ListFilter, Plus, ChevronRight, ChevronDown } from "lucide-react";
+import {
+  SearchIcon,
+  ListFilter,
+  Plus,
+  ChevronRight,
+  ChevronDown,
+} from "lucide-react";
 import { useState } from "react";
 
 export const TableToolbar = ({
@@ -13,6 +19,7 @@ export const TableToolbar = ({
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [expandedFields, setExpandedFields] = useState([]);
   const [showAddOptions, setShowAddOptions] = useState(false);
+  const [openAddSubmenu, setOpenAddSubmenu] = useState(null);
 
   const toggleField = (fieldLabel) => {
     setExpandedFields((prev) =>
@@ -21,6 +28,8 @@ export const TableToolbar = ({
         : [...prev, fieldLabel]
     );
   };
+
+  const isNestedAdd = typeof addOptions === "object" && !Array.isArray(addOptions);
 
   return (
     <div className="flex items-center justify-end gap-4 mb-3 pt-4 relative">
@@ -64,34 +73,25 @@ export const TableToolbar = ({
 
               <hr className="border border-gray-200 mb-3" />
 
-              {/* Filter Fields */}
               {filters.map((filter, idx) => (
                 <div key={idx} className="mb-3">
                   <button
                     className="flex justify-between items-center w-full text-left font-medium text-[#0D4690] py-1"
-                    onClick={() => {
-                      if (filter.options?.length > 0) {
-                        toggleField(filter.label);
-                      }
-                    }}
+                    onClick={() => toggleField(filter.label)}
                   >
                     <span>{filter.label}</span>
-                    {filter.options?.length > 0 && (
-                      expandedFields.includes(filter.label) ? (
+                    {filter.options?.length > 0 &&
+                      (expandedFields.includes(filter.label) ? (
                         <ChevronDown size={16} />
                       ) : (
                         <ChevronRight size={16} />
-                      )
-                    )}
+                      ))}
                   </button>
 
                   {expandedFields.includes(filter.label) && filter.options?.length > 0 && (
                     <div className="mt-2 ml-2 flex flex-col gap-2">
                       {filter.options.map((option, i) => (
-                        <label
-                          key={i}
-                          className="flex items-center gap-2 cursor-pointer text-gray-700"
-                        >
+                        <label key={i} className="flex items-center gap-2 text-gray-700">
                           <input type="checkbox" value={option.value} />
                           {option.label}
                         </label>
@@ -118,21 +118,61 @@ export const TableToolbar = ({
             Tambah
           </button>
 
-          {/* Dropdown Add Options */}
+          {/* Add Dropdown */}
           {addOptions && showAddOptions && (
-            <div className="absolute right-0 mt-2 w-[200px] bg-white shadow-md rounded-md z-10 text-sm py-2">
-              {addOptions.map((option, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    onAddClick(option);
-                    setShowAddOptions(false);
-                  }}
-                  className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                >
-                  {option}
-                </button>
-              ))}
+            <div className="absolute right-0 mt-2 bg-white shadow-2xl rounded-md z-10 text-sm py-4 px-4 w-[250px]">
+              <p className="font-base text-black mb-2">Tambah Data</p>
+
+              {isNestedAdd ? (
+                Object.keys(addOptions).map((key, idx) => (
+                  <div key={idx} className="mb-2">
+                    <button
+                      onClick={() =>
+                        setOpenAddSubmenu((prev) => (prev === key ? null : key))
+                      }
+                      className="flex justify-between items-center w-full text-left font-medium text-[#0D4690] py-1"
+                    >
+                      <span>{key}</span>
+                      {openAddSubmenu === key ? (
+                        <ChevronDown size={16} />
+                      ) : (
+                        <ChevronRight size={16} />
+                      )}
+                    </button>
+
+                    {openAddSubmenu === key && (
+                      <div className="mt-2 ml-2 flex flex-col gap-2">
+                        {addOptions[key].map((btn, i) => (
+                          <button
+                            key={i}
+                            onClick={() => {
+                              btn.onClick();
+                              setShowAddOptions(false);
+                              setOpenAddSubmenu(null);
+                            }}
+                            className="w-full text-left px-3 py-2 bg-[#F5F9FF] text-[#0D4690] rounded-md hover:bg-[#EAF1FC]"
+                          >
+                            {btn.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                addOptions.map((option, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      onAddClick(option);
+                      setShowAddOptions(false);
+                    }}
+                    className="w-full text-left px-3 py-2 bg-[#F5F9FF] text-[#0D4690] rounded-md hover:bg-[#EAF1FC]"
+                  >
+                    {option}
+                  </button>
+                ))
+              )}
             </div>
           )}
         </div>
