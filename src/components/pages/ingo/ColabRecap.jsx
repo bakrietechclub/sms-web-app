@@ -2,9 +2,10 @@ import { Label } from "../../elements/Label";
 import { FreezeTable } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
+import { Pagination } from "../../fragments/Pagination";
 
 export const ColabRecapINGO = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const data = [
     {
@@ -197,21 +198,21 @@ export const ColabRecapINGO = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Rekap Implementasi Kerjasama</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         filters={[
           {
             label: "Tahun Kerjasama",
             options: [
-              {label: "2022", value: "2022"},
-              {label: "2023", value: "2023"},
-              {label: "2024", value: "2024"}
-            ]
-          }
+              { label: "2022", value: "2022" },
+              { label: "2023", value: "2023" },
+              { label: "2024", value: "2024" },
+            ],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/3"     
+        searchWidth="w-1/3"
       />
       <div>
         <FreezeTable
@@ -224,6 +225,7 @@ export const ColabRecapINGO = () => {
           withHeaderColumnBorders={true}
         />
       </div>
+      <Pagination />
     </div>
   );
 };

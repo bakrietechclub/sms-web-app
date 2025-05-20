@@ -1,9 +1,10 @@
+import { Pagination } from "../../fragments/Pagination";
 import { FreezeTable } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 
 export const SpkTorINGO = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
   const data = [
     {
       name: "Universitas Indonesia",
@@ -135,7 +136,7 @@ export const SpkTorINGO = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Surat SPK/TOR</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(opt) => handleAdd(opt)}
@@ -144,13 +145,13 @@ export const SpkTorINGO = () => {
           {
             label: "Jenis Surat",
             options: [
-              {label: "MoU", value: "MoU"},
-              {label: "PKS", value: "PKS"},            
-            ]
-          }          
+              { label: "MoU", value: "MoU" },
+              { label: "PKS", value: "PKS" },
+            ],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <div>
         <FreezeTable
@@ -161,6 +162,7 @@ export const SpkTorINGO = () => {
           freezeCol={4}
         />
       </div>
+      <Pagination />
     </div>
   );
 };

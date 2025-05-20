@@ -1,10 +1,11 @@
 import { FreezeTable } from "../../fragments/Table";
 import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { Pagination } from "../../fragments/Pagination";
 
 export const SpkTor = () => {
-  const  [search, setSearch] = useState("");
-  
+  const [search, setSearch] = useState("");
+
   const data = [
     {
       name: "Universitas Indonesia",
@@ -136,29 +137,29 @@ export const SpkTor = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Surat SPK/TOR</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(opt) => handleAdd(opt)}
         addOptions={["Atas Nama Pribadi", "Atas Nama Instansi"]}
         filters={[
-         {
+          {
             label: "Jenis Surat",
             options: [
-          { label: "MoU", value: "MoU" },
-          { label: "PKS", value: "PKS" },
-         ],
-        },
-        {
-           label: "Jenis Instansi",
-           options: [
-          { label: "Universitas", value: "universitas" },
-          { label: "Lembaga", value: "lembaga" },
-        ],
-        },
+              { label: "MoU", value: "MoU" },
+              { label: "PKS", value: "PKS" },
+            ],
+          },
+          {
+            label: "Jenis Instansi",
+            options: [
+              { label: "Universitas", value: "universitas" },
+              { label: "Lembaga", value: "lembaga" },
+            ],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <div>
         <FreezeTable
@@ -169,6 +170,7 @@ export const SpkTor = () => {
           freezeCol={4}
         />
       </div>
+      <Pagination />
     </div>
   );
 };

@@ -1,9 +1,10 @@
+import { Pagination } from "../../fragments/Pagination";
 import { FreezeTable } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 
 export const MouPks = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const data = [
     {
@@ -137,30 +138,30 @@ export const MouPks = () => {
     <div>
       <h1 className="text-2xl font-semibold">Tabel MoU / PKS</h1>
       <div className="w-full">
-      <TableToolbar 
-        searchValue={search}
-        onSearchChange={setSearch}
-        onAddClick={(opt) => handleAdd(opt)}
-        addOptions={["MoU", "PKS"]}
-        filters={[
-         {
-            label: "Jenis Surat",
-            options: [
-          { label: "MoU", value: "MoU" },
-          { label: "PKS", value: "PKS" },
-         ],
-        },
-        {
-           label: "Jenis Instansi",
-           options: [
-          { label: "Universitas", value: "universitas" },
-          { label: "Lembaga Sosial", value: "lembaga sosial" },
-        ],
-        },
-        ]}
-        onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
-      />
+        <TableToolbar
+          searchValue={search}
+          onSearchChange={setSearch}
+          onAddClick={(opt) => handleAdd(opt)}
+          addOptions={["MoU", "PKS"]}
+          filters={[
+            {
+              label: "Jenis Surat",
+              options: [
+                { label: "MoU", value: "MoU" },
+                { label: "PKS", value: "PKS" },
+              ],
+            },
+            {
+              label: "Jenis Instansi",
+              options: [
+                { label: "Universitas", value: "universitas" },
+                { label: "Lembaga Sosial", value: "lembaga sosial" },
+              ],
+            },
+          ]}
+          onFilterSet={() => console.log("Filter diset")}
+          searchWidth="w-1/4"
+        />
       </div>
       <div className="w-full overflow-hidden h-fit">
         <FreezeTable
@@ -171,6 +172,7 @@ export const MouPks = () => {
           freezeCol={4}
         />
       </div>
+      <Pagination />
     </div>
   );
 };

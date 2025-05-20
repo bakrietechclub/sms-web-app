@@ -1,11 +1,12 @@
 import { Label } from "../../elements/Label";
+import { Pagination } from "../../fragments/Pagination";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 
 export const PartnerResearch = () => {
-  const  [search, setSearch] = useState("");
-    
+  const [search, setSearch] = useState("");
+
   const data = [
     {
       name: "Kementrian Kesehatan",
@@ -113,7 +114,7 @@ export const PartnerResearch = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Daftar Riset Mitra</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(type) => {
@@ -122,27 +123,28 @@ export const PartnerResearch = () => {
         }}
         addOptions={["Kategori A", "Kategori B"]}
         filters={[
-         {
+          {
             label: "Jenis Instansi",
             options: [
-          { label: "Pemerintah Pusat", value: "pemerintah pusat" },
-          { label: "Pemerintah Daerah", value: "pemerintah daerah" },
-          { label: "Dunia Usaha", value: "dunia usaha" },
-          { label: "Media Masa", value: "media masa" },
-         ],
-        },
-        {
-           label: "Status",
-           options: [
-          { label: "Sudah Dikontak", value: "sudah dikontak" },
-          { label: "Belum Dikontak", value: "belum dikontak" },
-        ],
-        },
+              { label: "Pemerintah Pusat", value: "pemerintah pusat" },
+              { label: "Pemerintah Daerah", value: "pemerintah daerah" },
+              { label: "Dunia Usaha", value: "dunia usaha" },
+              { label: "Media Masa", value: "media masa" },
+            ],
+          },
+          {
+            label: "Status",
+            options: [
+              { label: "Sudah Dikontak", value: "sudah dikontak" },
+              { label: "Belum Dikontak", value: "belum dikontak" },
+            ],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <Table headers={headers} data={data} renderRow={renderRow} />
+      <Pagination />
     </div>
   );
 };

@@ -3,9 +3,10 @@ import { Button } from "../../elements/Button";
 import { FreezeTable } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
+import { Pagination } from "../../fragments/Pagination";
 
 export const LetterNumberingINGO = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const data = [
     {
@@ -136,7 +137,7 @@ export const LetterNumberingINGO = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Penomoran Surat</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(type) => {
@@ -145,20 +146,38 @@ export const LetterNumberingINGO = () => {
         }}
         addOptions={["Kategori A", "Kategori B"]}
         filters={[
-        {
-          label: "Jenis Surat",
-          options: [
-            {label: "Surat Permohonan Kerjasama", value: "surat permohonan kerjasama"},
-            {label: "Surat Undangan Audiensi", value: "surat undangan audiensi"},
-            {label: "MoU (Nota Kesepahaman)", value: "MoU (nota kesepahaman)"},
-            {label: "PKS (Perjanjian Kerjasama)", value: "PKS (perjanjian kerjasama)"},
-            {label: "IA (Implementation Agreement)", value: "IA (implementation agreement)"},      
-            {label: "SPK (Surat Pernyataan Komitmen)", value: "SPK (surat pernyataan komitmen)"},      
-          ]
-        }
+          {
+            label: "Jenis Surat",
+            options: [
+              {
+                label: "Surat Permohonan Kerjasama",
+                value: "surat permohonan kerjasama",
+              },
+              {
+                label: "Surat Undangan Audiensi",
+                value: "surat undangan audiensi",
+              },
+              {
+                label: "MoU (Nota Kesepahaman)",
+                value: "MoU (nota kesepahaman)",
+              },
+              {
+                label: "PKS (Perjanjian Kerjasama)",
+                value: "PKS (perjanjian kerjasama)",
+              },
+              {
+                label: "IA (Implementation Agreement)",
+                value: "IA (implementation agreement)",
+              },
+              {
+                label: "SPK (Surat Pernyataan Komitmen)",
+                value: "SPK (surat pernyataan komitmen)",
+              },
+            ],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <div>
         <FreezeTable
@@ -169,6 +188,7 @@ export const LetterNumberingINGO = () => {
           freezeCol={4}
         />
       </div>
+      <Pagination />
     </div>
   );
 };

@@ -1,9 +1,10 @@
+import { Pagination } from "../../fragments/Pagination";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 
 export const CooperationSign = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const data = [
     {
@@ -95,7 +96,7 @@ export const CooperationSign = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Tanda Kerjasama</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(type) => {
@@ -107,17 +108,18 @@ export const CooperationSign = () => {
           {
             label: "Jenis Instansi",
             options: [
-              {label: "Pemerintah Pusat", alue: "pemerintah pusat"},
-              {label: "Pemerintah Daerah", value: "pemerintah daerah"},
-              {label: "Dunia Usaha", value: "dunia usaha"},
-              {label: "Media Masa", value: "media masa"}
-            ]
+              { label: "Pemerintah Pusat", alue: "pemerintah pusat" },
+              { label: "Pemerintah Daerah", value: "pemerintah daerah" },
+              { label: "Dunia Usaha", value: "dunia usaha" },
+              { label: "Media Masa", value: "media masa" },
+            ],
           },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <Table headers={headers} data={data} renderRow={renderRow} />
+      <Pagination />
     </div>
   );
 };

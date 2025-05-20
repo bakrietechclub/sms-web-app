@@ -1,9 +1,10 @@
+import { Pagination } from "../../fragments/Pagination";
 import { Table } from "../../fragments/Table";
-import { TableToolbar} from "../../fragments/TableToolbar";
+import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 
 export const MediaRecap = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
   const data = [
     {
       name: "Kementrian Kesehatan",
@@ -96,29 +97,30 @@ export const MediaRecap = () => {
       <h1 className="text-2xl font-semibold">Output Pemberitaan per-Media</h1>
       <TableToolbar
         searchValue={search}
-        onSearchChange={setSearch}  
+        onSearchChange={setSearch}
         searchWidth="w-1/3"
-                filters={[
+        filters={[
           {
             label: "Tahun",
             options: [
-              {label: "2023", value: "2023"},
-              {label: "2024", value: "2024"}
-            ]
+              { label: "2023", value: "2023" },
+              { label: "2024", value: "2024" },
+            ],
           },
           {
             label: "Program",
             options: [
-              {label: "BCF", value: "bcf"},
-              {label: "CLP", value: "clp"},
-              {label: "Lead", value: "lead"},
-              {label: "HOL", value: "hol"},
-              {label: "SDI", value: "sdi"}
-            ]
+              { label: "BCF", value: "bcf" },
+              { label: "CLP", value: "clp" },
+              { label: "Lead", value: "lead" },
+              { label: "HOL", value: "hol" },
+              { label: "SDI", value: "sdi" },
+            ],
           },
         ]}
       />
       <Table headers={headers} data={data} renderRow={renderRow} />
+      <Pagination />
     </div>
   );
 };

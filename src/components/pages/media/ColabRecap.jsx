@@ -1,4 +1,5 @@
 import { Label } from "../../elements/Label";
+import { Pagination } from "../../fragments/Pagination";
 import { FreezeTable } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
@@ -229,6 +230,7 @@ export const ColabRecapMedia = () => {
           withHeaderColumnBorders={true}
         />
       </div>
+      <Pagination/>
     </div>
   );
 };

@@ -1,13 +1,14 @@
 import { Label } from "../../elements/Label";
 import { Table } from "../../fragments/Table";
-import { useState } from "react"
+import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useNavigate } from "react-router-dom";
+import { Pagination } from "../../fragments/Pagination";
 
 export const PotentialPartnerResearch = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
-  
+
   const data = [
     {
       name: "Universitas Indonesia",
@@ -115,36 +116,43 @@ export const PotentialPartnerResearch = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Daftar Riset Potensial Mitra</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={() => {}}
         addOptions={{
           "Jenis Instansi": [
-            { label: "Universitas", onClick: () => navigate("/form-universitas") },
-            { label: "Lembaga Sosial", onClick: () => navigate("/form-lembaga") },
+            {
+              label: "Universitas",
+              onClick: () => navigate("/form-universitas"),
+            },
+            {
+              label: "Lembaga Sosial",
+              onClick: () => navigate("/form-lembaga"),
+            },
           ],
         }}
         filters={[
-         {
+          {
             label: "Jenis Instansi",
             options: [
-          { label: "Universitas", value: "universitas" },
-          { label: "Lembaga Sosial", value: "lembaga sosial" },
-         ],
-        },
-        {
-           label: "Status Kontak",
-           options: [
-          { label: "Sudah dikontak", value: "sudah" },
-          { label: "Belum dikontak", value: "belum" },
-        ],
-        },
+              { label: "Universitas", value: "universitas" },
+              { label: "Lembaga Sosial", value: "lembaga sosial" },
+            ],
+          },
+          {
+            label: "Status Kontak",
+            options: [
+              { label: "Sudah dikontak", value: "sudah" },
+              { label: "Belum dikontak", value: "belum" },
+            ],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <Table headers={headers} data={data} renderRow={renderRow} />
+      <Pagination />
     </div>
   );
 };

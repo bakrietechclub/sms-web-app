@@ -2,9 +2,10 @@ import { Label } from "../../elements/Label";
 import { FreezeTable } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
+import { Pagination } from "../../fragments/Pagination";
 
 export const PtaRecap = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const data = [
     {
@@ -197,30 +198,30 @@ export const PtaRecap = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Rekap PTA</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         filters={[
-        {
-           label: "Jenis Instansi",
-           options: [
-          { label: "Universitas", value: "universitas" },
-          { label: "Lembaga Sosial", value: "lembaga sosial" },
-        ],
-        },
-        {
-          label: "Tahun Kerjasama",
-          options: [
-            {label: "2020", value: "2020"},
-            {label: "2021", value: "2021"},
-            {label: "2022", value: "2022"},
-            {label: "2023", value: "2023"},
-            {label: "2024", value: "2024"},      
-          ]
-        }
+          {
+            label: "Jenis Instansi",
+            options: [
+              { label: "Universitas", value: "universitas" },
+              { label: "Lembaga Sosial", value: "lembaga sosial" },
+            ],
+          },
+          {
+            label: "Tahun Kerjasama",
+            options: [
+              { label: "2020", value: "2020" },
+              { label: "2021", value: "2021" },
+              { label: "2022", value: "2022" },
+              { label: "2023", value: "2023" },
+              { label: "2024", value: "2024" },
+            ],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/3"     
+        searchWidth="w-1/3"
       />
       <div>
         <FreezeTable
@@ -233,6 +234,7 @@ export const PtaRecap = () => {
           withHeaderColumnBorders={true}
         />
       </div>
+      <Pagination />
     </div>
   );
 };

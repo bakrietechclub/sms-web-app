@@ -1,23 +1,24 @@
 import { CardItem } from "../../fragments/Card";
+import { Pagination } from "../../fragments/Pagination";
 import { HorizontalScrollSection } from "../../fragments/HorizontalScrollSection";
 import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
 
-import applicants from "../../../assets/icons/applicants.png"
-import accepted from "../../../assets/icons/accepted.png"
-import engagement from "../../../assets/icons/engagement.png"
-import favorite from "../../../assets/icons/favorite.png"
-import implementator from "../../../assets/icons/implementator.png"
-import inovative from "../../../assets/icons/inovative.png"
-import pic from "../../../assets/icons/pic.png"
-import presentator from "../../../assets/icons/presentator.png"
-import proceedings from "../../../assets/icons/proceedings.png"
-import socialMedia from "../../../assets/icons/socialMedia.png"
-import supervisor from "../../../assets/icons/supervisor.png"
-import valuable from "../../../assets/icons/valuable.png"
+import applicants from "../../../assets/icons/applicants.png";
+import accepted from "../../../assets/icons/accepted.png";
+import engagement from "../../../assets/icons/engagement.png";
+import favorite from "../../../assets/icons/favorite.png";
+import implementator from "../../../assets/icons/implementator.png";
+import inovative from "../../../assets/icons/inovative.png";
+import pic from "../../../assets/icons/pic.png";
+import presentator from "../../../assets/icons/presentator.png";
+import proceedings from "../../../assets/icons/proceedings.png";
+import socialMedia from "../../../assets/icons/socialMedia.png";
+import supervisor from "../../../assets/icons/supervisor.png";
+import valuable from "../../../assets/icons/valuable.png";
 
 export const PartnershipAwards = () => {
-  const [search, setSearch ] = useState("");
+  const [search, setSearch] = useState("");
   const universitasCards = [
     {
       title: "THE Most Applicants of University",
@@ -101,29 +102,40 @@ export const PartnershipAwards = () => {
   ];
 
   return (
-    <div className="w-full overflow-x-hidden">          
-        <h1 className="text-[1.75rem] font-semibold">Partnership Awards</h1>
-        <TableToolbar
-           searchValue={search}
-           onSearchChange={setSearch}
-           searchWidth="w-1/3"
-         />
-    <div className="pt-1 text-2xl">
-      <HorizontalScrollSection
-        title="Universitas"
-        items={universitasCards}
-        renderItem={(item, index) => (
-          <CardItem key={index} title={item.title} winner={item.winner} icon={item.icon} />
-        )}
+    <div className="w-full overflow-x-hidden">
+      <h1 className="text-[1.75rem] font-semibold">Partnership Awards</h1>
+      <TableToolbar
+        searchValue={search}
+        onSearchChange={setSearch}
+        searchWidth="w-1/3"
       />
-      <HorizontalScrollSection
-        title="Lembaga"
-        items={lembagaCards}
-        renderItem={(item, index) => (
-          <CardItem key={index} title={item.title} winner={item.winner} icon={item.icon} />
-        )}
-      />
-    </div>
+      <div className="pt-1 text-2xl">
+        <HorizontalScrollSection
+          title="Universitas"
+          items={universitasCards}
+          renderItem={(item, index) => (
+            <CardItem
+              key={index}
+              title={item.title}
+              winner={item.winner}
+              icon={item.icon}
+            />
+          )}
+        />
+        <HorizontalScrollSection
+          title="Lembaga"
+          items={lembagaCards}
+          renderItem={(item, index) => (
+            <CardItem
+              key={index}
+              title={item.title}
+              winner={item.winner}
+              icon={item.icon}
+            />
+          )}
+        />
+      </div>
+      <Pagination />
     </div>
   );
 };

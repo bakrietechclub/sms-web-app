@@ -2,9 +2,10 @@ import { FreezeTable } from "../../fragments/Table";
 import { Label } from "../../elements/Label";
 import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { Pagination } from "../../fragments/Pagination";
 
 export const Ia = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const data = [
     {
@@ -141,7 +142,7 @@ export const Ia = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel IA</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(type) => {
@@ -150,16 +151,16 @@ export const Ia = () => {
         }}
         addOptions={["Kategori A", "Kategori B"]}
         filters={[
-        {
-           label: "Jenis Instansi",
-           options: [
-          { label: "Universitas", value: "universitas" },
-          { label: "Lembaga Sosial", value: "lembaga sosial" },
-        ],
-        },
+          {
+            label: "Jenis Instansi",
+            options: [
+              { label: "Universitas", value: "universitas" },
+              { label: "Lembaga Sosial", value: "lembaga sosial" },
+            ],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <div>
         <FreezeTable
@@ -170,6 +171,7 @@ export const Ia = () => {
           freezeCol={4}
         />
       </div>
+      <Pagination />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Download, Share2 } from "lucide-react";
 import { FreezeTable } from "../../fragments/Table";
 import { Button } from "../../elements/Button";
+import { Pagination } from "../../fragments/Pagination";
 
 export const SatisfactionSurveyINGO = () => {
   // Data defaultnya masuk lewat sini
@@ -540,6 +541,7 @@ export const SatisfactionSurveyINGO = () => {
           freezeCol={2}
         />
       </div>
+      <Pagination />
     </div>
   );
 };

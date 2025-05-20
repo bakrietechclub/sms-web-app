@@ -2,6 +2,7 @@ import { Button } from "../../elements/Button";
 import { Table } from "../../fragments/Table";
 import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
+import { Pagination } from "../../fragments/Pagination";
 
 export const CoordinationGroup = () => {
   const [search, setSearch] = useState("");
@@ -116,7 +117,7 @@ export const CoordinationGroup = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Grup Koordinasi</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(type) => {
@@ -128,15 +129,16 @@ export const CoordinationGroup = () => {
           {
             label: "Jenis Instansi",
             options: [
-              { label: "Universitas", value: "universitas"},
-              {label: "Lembaga Sosial", value: "lembaga sosial"}
-            ]
+              { label: "Universitas", value: "universitas" },
+              { label: "Lembaga Sosial", value: "lembaga sosial" },
+            ],
           },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <Table headers={headers} data={data} renderRow={renderRow} />
+      <Pagination />
     </div>
   );
 };

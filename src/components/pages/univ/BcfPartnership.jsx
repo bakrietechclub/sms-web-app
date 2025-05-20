@@ -3,9 +3,10 @@ import { FreezeTable } from "../../fragments/Table";
 import { Button } from "../../elements/Button";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
+import { Pagination } from "../../fragments/Pagination";
 
 export const BcfPartnership = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const data = [
     {
@@ -190,29 +191,30 @@ export const BcfPartnership = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold mb-3">Database Partnership</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         filters={[
-        {
-           label: "Jenis Instansi",
-           options: [
-          { label: "Universitas", value: "universitas" },
-          { label: "Lembaga Sosial", value: "lembaga sosial" },
-          { label: "Lembaga Internasional", value: "lembaga internasional" },
-          { label: "Media Masa", value: "media masa" },
-          { label: "Dunia Usaha", value: "dunia usaha" },
-        ],
-        },
-        {
-          label: "Status Kerjasama",
-          options: [
-          {}
-          ]
-        }
+          {
+            label: "Jenis Instansi",
+            options: [
+              { label: "Universitas", value: "universitas" },
+              { label: "Lembaga Sosial", value: "lembaga sosial" },
+              {
+                label: "Lembaga Internasional",
+                value: "lembaga internasional",
+              },
+              { label: "Media Masa", value: "media masa" },
+              { label: "Dunia Usaha", value: "dunia usaha" },
+            ],
+          },
+          {
+            label: "Status Kerjasama",
+            options: [{}],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/3"     
+        searchWidth="w-1/3"
       />
       <FreezeTable
         headers={headers}
@@ -223,6 +225,7 @@ export const BcfPartnership = () => {
         customHeaderRight={customHeaderRight}
         withHeaderColumnBorders={true}
       />
+      <Pagination />
     </div>
   );
 };

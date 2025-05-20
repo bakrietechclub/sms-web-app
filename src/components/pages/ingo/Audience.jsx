@@ -1,11 +1,12 @@
 import { Label } from "../../elements/Label";
+import { Pagination } from "../../fragments/Pagination";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 
 export const AudienceINGO = () => {
-  const  [search, setSearch] = useState("");
-  
+  const [search, setSearch] = useState("");
+
   const data = [
     {
       name: "Universitas Indonesia",
@@ -142,7 +143,7 @@ export const AudienceINGO = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Data Audiensi</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(type) => {
@@ -154,16 +155,17 @@ export const AudienceINGO = () => {
           {
             label: "Status",
             options: [
-              {label: "Belum Audiensi", value: "belum audiensi"},
-              {label: "Re-audiensi", value: "re-audiensi"},
-              {label: "Selesai", value: "selesai"}             
-            ]
-          }                    
+              { label: "Belum Audiensi", value: "belum audiensi" },
+              { label: "Re-audiensi", value: "re-audiensi" },
+              { label: "Selesai", value: "selesai" },
+            ],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <Table headers={headers} data={data} renderRow={renderRow} />
+      <Pagination />
     </div>
   );
 };

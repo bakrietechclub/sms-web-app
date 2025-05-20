@@ -1,9 +1,10 @@
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
+import { Pagination } from "../../fragments/Pagination";
 
 export const CooperationSignINGO = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const data = [
     {
@@ -101,6 +102,7 @@ export const CooperationSignINGO = () => {
         onAddClick={() => setShowForm(true)}
       />
       <Table headers={headers} data={data} renderRow={renderRow} />
+      <Pagination />
     </div>
   );
 };

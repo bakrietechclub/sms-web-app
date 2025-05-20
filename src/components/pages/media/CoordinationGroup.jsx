@@ -1,10 +1,11 @@
 import { Button } from "../../elements/Button";
+import { Pagination } from "../../fragments/Pagination";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 
 export const CoordinationGroupMedia = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const whatsappLink = "https://wa.me/";
   const data = [
@@ -116,7 +117,7 @@ export const CoordinationGroupMedia = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel Grup Koordinasi</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(type) => {
@@ -128,17 +129,18 @@ export const CoordinationGroupMedia = () => {
           {
             label: "Jenis Instansi",
             options: [
-              {label: "Pemerintah Pusat", value: "pemerintah pusat"},
-              {label: "Pemerintah Daerah", value: "pemerintah daerah"},
-              {label: "Dunia Usaha", alue: "dunia usaha"},
-              {label: "Media Masa", value: "media masa"}
-            ]
+              { label: "Pemerintah Pusat", value: "pemerintah pusat" },
+              { label: "Pemerintah Daerah", value: "pemerintah daerah" },
+              { label: "Dunia Usaha", alue: "dunia usaha" },
+              { label: "Media Masa", value: "media masa" },
+            ],
           },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <Table headers={headers} data={data} renderRow={renderRow} />
+      <Pagination />
     </div>
   );
 };

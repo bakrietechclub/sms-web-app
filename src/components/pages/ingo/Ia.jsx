@@ -2,9 +2,10 @@ import { FreezeTable } from "../../fragments/Table";
 import { Label } from "../../elements/Label";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
+import { Pagination } from "../../fragments/Pagination";
 
 export const IaINGO = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const data = [
     {
@@ -155,6 +156,7 @@ export const IaINGO = () => {
           freezeCol={4}
         />
       </div>
+      <Pagination />
     </div>
   );
 };

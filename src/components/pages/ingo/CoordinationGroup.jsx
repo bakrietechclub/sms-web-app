@@ -1,10 +1,11 @@
 import { Button } from "../../elements/Button";
+import { Pagination } from "../../fragments/Pagination";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 
 export const CoordinationGroupINGO = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const whatsappLink = "https://wa.me/";
   const data = [
@@ -123,6 +124,7 @@ export const CoordinationGroupINGO = () => {
       />
 
       <Table headers={headers} data={data} renderRow={renderRow} />
+      <Pagination />
     </div>
   );
 };

@@ -1,9 +1,10 @@
+import { Pagination } from "../../fragments/Pagination";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 
 export const ProgramRecap = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
   const data = [
     {
       name: "Kementrian Kesehatan",
@@ -118,7 +119,7 @@ export const ProgramRecap = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Output Pemberitaan per-Program</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(type) => {
@@ -130,23 +131,23 @@ export const ProgramRecap = () => {
           {
             label: "Tahun",
             options: [
-              {label: "2023", value: "2023"},
-              {label: "2024", value: "2024"}
-            ]
+              { label: "2023", value: "2023" },
+              { label: "2024", value: "2024" },
+            ],
           },
           {
             label: "Program",
             options: [
-              {label: "BCF", value: "bcf"},
-              {label: "CLP", value: "clp"},
-              {label: "Lead", value: "lead"},
-              {label: "HOL", value: "hol"},
-              {label: "SDI", value: "sdi"}
-            ]
+              { label: "BCF", value: "bcf" },
+              { label: "CLP", value: "clp" },
+              { label: "Lead", value: "lead" },
+              { label: "HOL", value: "hol" },
+              { label: "SDI", value: "sdi" },
+            ],
           },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <div className="overflow-x-auto w-full">
         <table className="text-center w-600 table-auto">
@@ -169,6 +170,7 @@ export const ProgramRecap = () => {
           </tbody>
         </table>
       </div>
+      <Pagination />
     </div>
   );
 };

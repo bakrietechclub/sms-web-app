@@ -1,10 +1,11 @@
 import { Label } from "../../elements/Label";
+import { Pagination } from "../../fragments/Pagination";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 
 export const PotentialPartnerResearchINGO = () => {
-  const  [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   const data = [
     {
@@ -113,7 +114,7 @@ export const PotentialPartnerResearchINGO = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Daftar Riset Potensial Mitra</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(type) => {
@@ -122,26 +123,27 @@ export const PotentialPartnerResearchINGO = () => {
         }}
         addOptions={["Kategori A", "Kategori B"]}
         filters={[
-         {
+          {
             label: "Cluster",
             options: [
-          { label: "Kesehatan", value: "kesehatan" },
-          { label: "Pendidikan", value: "pendidikan" },
-          { label: "Lingkungan", value: "lingkungan"  }
-         ],
-        },
-        {
-           label: "Status Kontak",
-           options: [
-          { label: "Sudah dikontak", value: "sudah" },
-          { label: "Belum dikontak", value: "belum" },
-        ],
-        },
+              { label: "Kesehatan", value: "kesehatan" },
+              { label: "Pendidikan", value: "pendidikan" },
+              { label: "Lingkungan", value: "lingkungan" },
+            ],
+          },
+          {
+            label: "Status Kontak",
+            options: [
+              { label: "Sudah dikontak", value: "sudah" },
+              { label: "Belum dikontak", value: "belum" },
+            ],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <Table headers={headers} data={data} renderRow={renderRow} />
+      <Pagination />
     </div>
   );
 };
