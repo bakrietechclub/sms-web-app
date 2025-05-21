@@ -15,7 +15,6 @@ import proceedings from "../../../assets/icons/proceedings.png";
 import socialMedia from "../../../assets/icons/socialMedia.png";
 import supervisor from "../../../assets/icons/supervisor.png";
 import valuable from "../../../assets/icons/valuable.png";
-import { Pagination } from "../../fragments/Pagination";
 
 export const PartnershipAwardsINGO = () => {
   const [search, setSearch] = useState("");
@@ -136,7 +135,6 @@ export const PartnershipAwardsINGO = () => {
           )}
         />
       </div>
-      <Pagination />
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import { CardItem } from "../../fragments/Card";
-import { Pagination } from "../../fragments/Pagination";
 import { HorizontalScrollSection } from "../../fragments/HorizontalScrollSection";
 import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
@@ -135,7 +134,6 @@ export const PartnershipAwards = () => {
           )}
         />
       </div>
-      <Pagination />
     </div>
   );
 };
