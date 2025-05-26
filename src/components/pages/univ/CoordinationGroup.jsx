@@ -1,5 +1,6 @@
 import { Button } from "../../elements/Button";
 import { Table } from "../../fragments/Table";
+import { Label } from "../../elements/Label";
 import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { Pagination } from "../../fragments/Pagination";
@@ -85,6 +86,33 @@ export const CoordinationGroup = () => {
       division: "Organisasi",
       link: whatsappLink + "628123456789",
       contact: "Sagun",
+    },
+  ];
+
+  const dataDetails = [
+    {
+      name: "El Vanno",
+      position: "Presiden",
+      phone: "081234567890",
+      email: "elvanno@gmail.com",
+      status: "Join Grup",
+      activeStatus: "Tidak Aktif",
+    },
+    {
+      name: "El Tangguh",
+      position: "Presiden",
+      phone: "081234567890",
+      email: "eltangguh@gmail.com",
+      status: "Belum Join Grup",
+      activeStatus: "Tidak Aktif",
+    },
+    {
+      name: "El Putra",
+      position: "Presiden",
+      phone: "081234567890",
+      email: "elputra@gmail.com",
+      status: "Join Grup",
+      activeStatus: "Aktif",
     },
   ];
 
@@ -210,7 +238,7 @@ export const CoordinationGroup = () => {
               href={selected.link}
               className="ml-2 text-[#0D4690] italic underline"
             >
-              Clickable Link
+              {selected.link}
             </a>
           </div>
         </div>
@@ -218,8 +246,14 @@ export const CoordinationGroup = () => {
           <div className="">
             <p className="font-semibold">Kontak</p>
           </div>
-          <div className="">
-            <p className="font-semibold">Tambah Kontak</p>
+          <div className="flex justify-end">
+            <Button
+              className={
+                "bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2"
+              }
+            >
+              Tambah Kontak
+            </Button>
           </div>
         </div>
         <table className="table-auto text-center w-full">
@@ -236,16 +270,34 @@ export const CoordinationGroup = () => {
             </tr>
           </thead>
           <tbody className="text-base border-l border-r border-[#E7EDF4]">
-            <tr className="border-b border-[#E7EDF4] h-10 font-normal">
-              <td className="py-3">No.</td>
-              <td className="">Nama</td>
-              <td className="">Jabatan</td>
-              <td className="">No. Hp</td>
-              <td className="">Email</td>
-              <td className="">Status</td>
-              <td className="">Status Aktif</td>
-              <td className="">Aksi</td>
-            </tr>
+            {dataDetails.map((item, index) => (
+              <tr key={index} className="border-b border-[#E7EDF4] h-10">
+                <td className="py-3">{index + 1}</td>
+                <td>{item.name}</td>
+                <td>{item.position}</td>
+                <td className="text-[#0d4690]">{item.phone}</td>
+                <td className="text-[#0d4690]">{item.email}</td>
+                <td>
+                  <Label
+                    label={item.status}
+                    status={
+                      item.status === "Belum Join Grup" ? "danger" : "success"
+                    }
+                  />
+                </td>
+                <td>
+                  <Label
+                    label={item.activeStatus}
+                    status={
+                      item.activeStatus === "Tidak Aktif" ? "danger" : "success"
+                    }
+                  />
+                </td>
+                <td className="text-[#0D4690] underline">
+                  <a>Edit Data</a>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
