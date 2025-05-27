@@ -1,11 +1,18 @@
 import { Label } from "../../elements/Label";
+import { Button } from "../../elements/Button";
 import { Pagination } from "../../fragments/Pagination";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
+import { ChevronLeft } from "lucide-react";
 
 export const AudienceINGO = () => {
+  const [showDetail, setShowDetail] = useState(false);
   const [search, setSearch] = useState("");
+
+  const handleClick = () => {
+    setShowDetail(!showDetail);
+  };
 
   const data = [
     {
@@ -15,6 +22,10 @@ export const AudienceINGO = () => {
       jam: "09:00",
       audiensi: true,
       status: "re-audiensi",
+      division: "Fakultas Ilmu Komputer",
+      place: "Wisma Bakrie, Lt. 2",
+      link: "https://bcf.or.id/campus-leaders-program-9-mandiri",
+      note: "Catatan",
     },
     {
       name: "Universitas Jakarta",
@@ -90,6 +101,19 @@ export const AudienceINGO = () => {
     },
   ];
 
+  const [selected, setSelected] = useState({
+    name: "",
+    type: "",
+    tanggal: "",
+    jam: "",
+    audiensi: false,
+    status: "belum",
+    division: "",
+    place: "",
+    link: "",
+    note: "",
+  });
+
   const headers = [
     "No",
     "Nama Instansi",
@@ -133,39 +157,141 @@ export const AudienceINGO = () => {
         />
       </td>
       <td>
-        <a href="#" className="text-[#0D4690] underline">
+        <Button
+          onClick={() => {
+            handleClick();
+            setSelected(value);
+          }}
+          className="text-[#0D4690] underline cursor-pointer"
+        >
           Lihat Detail
-        </a>
+        </Button>
       </td>
     </tr>
   );
 
-  return (
-    <div>
-      <h1 className="text-2xl font-semibold">Tabel Data Audiensi</h1>
-      <TableToolbar
-        searchValue={search}
-        onSearchChange={setSearch}
-        onAddClick={(type) => {
-          if (type === "Kategori A") openModalA();
-          if (type === "Kategori B") openModalB();
-        }}
-        addOptions={["Kategori A", "Kategori B"]}
-        filters={[
-          {
-            label: "Status",
-            options: [
-              { label: "Belum Audiensi", value: "belum audiensi" },
-              { label: "Re-audiensi", value: "re-audiensi" },
-              { label: "Selesai", value: "selesai" },
-            ],
-          },
-        ]}
-        onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"
-      />
-      <Table headers={headers} data={data} renderRow={renderRow} />
-      <Pagination />
-    </div>
-  );
+  if (!showDetail) {
+    return (
+      <div>
+        <h1 className="text-2xl font-semibold">Tabel Data Audiensi</h1>
+        <TableToolbar
+          searchValue={search}
+          onSearchChange={setSearch}
+          onAddClick={(type) => {
+            if (type === "Kategori A") openModalA();
+            if (type === "Kategori B") openModalB();
+          }}
+          addOptions={["Kategori A", "Kategori B"]}
+          filters={[
+            {
+              label: "Status",
+              options: [
+                { label: "Belum Audiensi", value: "belum audiensi" },
+                { label: "Re-audiensi", value: "re-audiensi" },
+                { label: "Selesai", value: "selesai" },
+              ],
+            },
+          ]}
+          onFilterSet={() => console.log("Filter diset")}
+          searchWidth="w-1/4"
+        />
+        <Table headers={headers} data={data} renderRow={renderRow} />
+        <Pagination />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Button
+          className={"text-[#0D4690] cursor-pointer flex"}
+          onClick={() => {
+            handleClick();
+          }}
+        >
+          <ChevronLeft /> Kembali
+        </Button>
+        <h1 className="text-2xl font-semibold mt-4">Data Lengkap Audiensi</h1>
+        <div className="flex justify-end">
+          <Button
+            className={
+              "bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2"
+            }
+          >
+            Perbarui
+          </Button>
+        </div>
+        <div className="grid grid-cols-2 gap-y-7 mb-7">
+          <div className="">
+            <p className="font-semibold">Nama Instansi:</p>
+            <p className="ml-2">{selected.name}</p>
+          </div>
+          <div className="">
+            <p className="font-semibold">Tanggal:</p>
+            <p className="ml-2">{selected.tanggal}</p>
+          </div>
+          <div className="">
+            <p className="font-semibold">Jenis Instansi:</p>
+            <p className="ml-2">{selected.type}</p>
+          </div>
+          <div className="">
+            <p className="font-semibold">Jam:</p>
+            <p className="ml-2">{selected.jam}</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 mb-7">
+          <div className="">
+            <p className="font-semibold">Divisi Instansi:</p>
+            <p className="ml-2">{selected.division}</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-y-7 mb-7">
+          <div className="">
+            <p className="font-semibold">Jenis Audiensi:</p>
+            <Label
+              label={selected.audiensi ? "Online" : "Offline"}
+              status={selected.audiensi ? "info" : "white"}
+            />
+          </div>
+          <div className="">
+            <p className="font-semibold">Status Audiensi:</p>
+            <Label
+              label={
+                selected.status === "re-audiensi"
+                  ? "Re-Audiensi"
+                  : selected.status === "selesai"
+                  ? "Selesai"
+                  : "Belum Audiensi"
+              }
+              status={
+                selected.status === "re-audiensi"
+                  ? "warning"
+                  : selected.status === "selesai"
+                  ? "success"
+                  : "danger"
+              }
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-y-7 mb-7">
+          <div className="">
+            <p className="font-semibold">Tempat Audiensi:</p>
+            <p className="ml-2">{selected.place}</p>
+          </div>
+          <div className="">
+            <p className="font-semibold">Link Dokumentasi:</p>
+            <a
+              className="ml-2 text-[#0D4690] italic underline"
+              href={selected.link}
+            >
+              {selected.link}
+            </a>
+          </div>
+          <div className="">
+            <p className="font-semibold">Catatan Tambahan:</p>
+            <p className="ml-2">{selected.note}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 };
