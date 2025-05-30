@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { X, AlertTriangle } from "lucide-react";
 
-const AlertBox = ({ onClose }) => {
+export const AlertBox = ({ onClose }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-
     const showTimer = setTimeout(() => setVisible(true), 10);
 
     const autoCloseTimer = setTimeout(() => {
-      setVisible(false); 
-      setTimeout(onClose, 500); 
+      setVisible(false);
+      setTimeout(onClose, 500);
     }, 3000);
 
     return () => {
@@ -20,8 +19,8 @@ const AlertBox = ({ onClose }) => {
   }, [onClose]);
 
   const handleClose = () => {
-    setVisible(false); 
-    setTimeout(onClose, 500); 
+    setVisible(false);
+    setTimeout(onClose, 500);
   };
 
   return (
@@ -33,15 +32,17 @@ const AlertBox = ({ onClose }) => {
         <div className="flex items-center gap-2">
           <AlertTriangle className="w-5 h-5 text-red-500" />
           <p className="text-xs">
-            Email dan kata sandi tidak cocok. Hubungi <strong>Super Admin.</strong>
+            Email dan kata sandi tidak cocok. Hubungi{" "}
+            <strong>Super Admin.</strong>
           </p>
         </div>
-        <button onClick={handleClose} className="text-red-500 hover:text-red-700">
+        <button
+          onClick={handleClose}
+          className="text-red-500 hover:text-red-700"
+        >
           <X className="w-4 h-4" />
         </button>
       </div>
     </div>
   );
 };
-
-export default AlertBox;
