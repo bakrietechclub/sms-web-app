@@ -1,14 +1,20 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Label } from "../../elements/Label";
 import { Table } from "../../fragments/Table";
-import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
-import { useNavigate } from "react-router-dom";
 import { Pagination } from "../../fragments/Pagination";
+import { AddModalUniv } from "../../fragments/modalforms/univ/AddModalUniv";
+import { AddModalSocialInstitution } from "../../fragments/modalforms/univ/addModalSocialInstitution";
+import { useForm } from "react-hook-form";
 
 export const PotentialPartnerResearch = () => {
   const [search, setSearch] = useState("");
-  const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
+  const navigate = useNavigate();
+  
   const data = [
     {
       name: "Universitas Indonesia",
@@ -116,19 +122,26 @@ export const PotentialPartnerResearch = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Daftar Riset Potensial Mitra</h1>
+
       <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
-        onAddClick={() => {}}
+        onAddClick={() => setOpenModal(true)}
         addOptions={{
           "Jenis Instansi": [
             {
               label: "Universitas",
-              onClick: () => navigate("/form-universitas"),
+              onClick: () => {
+                setModalType("universitas")
+                setOpenModal(true);
+              },
             },
             {
               label: "Lembaga Sosial",
-              onClick: () => navigate("/form-lembaga"),
+              onClick: () => {
+                setModalType("lembaga sosial")
+                setOpenModal(true);
+              },
             },
           ],
         }}
@@ -151,6 +164,26 @@ export const PotentialPartnerResearch = () => {
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"
       />
+
+        {modalType === "universitas" && (
+          <AddModalUniv
+            isOpen={openModal}
+            onClose={() => {
+              setOpenModal(false);
+              setModalType(null);
+            }}
+          />
+        )}
+
+        {modalType === "lembaga sosial" && (
+          <AddModalSocialInstitution
+            isOpen={openModal}
+            onClose={() => {
+              setOpenModal(false);
+              setModalType(null);
+            }}
+         />
+        )}
       <Table headers={headers} data={data} renderRow={renderRow} />
       <Pagination />
     </div>

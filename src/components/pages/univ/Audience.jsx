@@ -7,9 +7,14 @@ import { Pagination } from "../../fragments/Pagination";
 
 import { ChevronLeft } from "lucide-react";
 
+import { GenericModalForm } from "../../fragments/modalforms/GenericModalForm"; 
+
 export const Audience = () => {
   const [showDetail, setShowDetail] = useState(false);
   const [search, setSearch] = useState("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalFields, setModalFields] = useState([]);
 
   const handleClick = () => {
     setShowDetail(!showDetail);
@@ -178,11 +183,9 @@ export const Audience = () => {
         <TableToolbar
           searchValue={search}
           onSearchChange={setSearch}
-          onAddClick={(type) => {
-            if (type === "Kategori A") openModalA();
-            if (type === "Kategori B") openModalB();
+          onAddClick={() => {
+          openModalA();
           }}
-          addOptions={["Kategori A", "Kategori B"]}
           filters={[
             {
               label: "Status",

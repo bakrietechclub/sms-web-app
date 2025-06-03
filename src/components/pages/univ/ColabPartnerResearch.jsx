@@ -3,9 +3,11 @@ import { Table } from "../../fragments/Table";
 import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { Pagination } from "../../fragments/Pagination";
+import { AddModalColabPartnerResearch } from "../../fragments/modalforms/univ/AddModalColabPartnerResearch";
 
 export const ColabPartnerResearch = () => {
   const [search, setSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const data = [
     {
@@ -94,31 +96,33 @@ export const ColabPartnerResearch = () => {
     </tr>
   );
 
+  const openModal = () => {
+    setIsModalOpen(true); 
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); 
+  };
+
   return (
     <div>
       <h1 className="text-2xl font-semibold">Daftar Riset Kolaborasi Mitra</h1>
       <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
-        onAddClick={(type) => {
-          if (type === "Kategori A") openModalA();
-          if (type === "Kategori B") openModalB();
-        }}
-        addOptions={["Kategori A", "Kategori B"]}
-        filters={[
-          {
-            label: "Jenis Instansi",
-            options: [
-              { label: "Universitas", value: "universitas" },
-              { label: "Lembaga Sosial", value: "lembaga sosial" },
-            ],
-          },
-        ]}
+        onAddClick={openModal}
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"
       />
       <Table headers={headers} data={data} renderRow={renderRow} />
       <Pagination />
+
+      {isModalOpen && (
+        <AddModalColabPartnerResearch
+          isOpen={isModalOpen}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };
