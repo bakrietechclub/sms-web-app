@@ -2,71 +2,10 @@ import { Pagination } from "../../fragments/Pagination";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
+import { MediaRecapData } from "../../../data/data_media";
 
-export const MediaRecap = () => {
+export const Media = () => {
   const [search, setSearch] = useState("");
-  const data = [
-    {
-      name: "Kementrian Kesehatan",
-      program: "Pemerintah Pusat",
-      year: "DKI Jakarta",
-      newsCount: "BCF",
-    },
-    {
-      name: "DPRD Sulawesi Utara",
-      program: "Pemerintah Daerah",
-      year: "Sulawesi Utara",
-      newsCount: "BCF",
-    },
-    {
-      name: "Kementrian Luar Negeri",
-      program: "Pemerintah Pusat",
-      year: "DKI Jakarta",
-      newsCount: "CLP",
-    },
-    {
-      name: "DPRD Jawa Timur",
-      program: "Pemerintah Daerah",
-      year: "Jawa Timur",
-      newsCount: "BCF",
-    },
-    {
-      name: "KADIN Indonesia",
-      program: "Dunia Usaha",
-      year: "DKI Jakarta",
-      newsCount: "CLP, LEAD",
-    },
-    {
-      name: "Johnson & Johnson",
-      program: "Dunia Usaha",
-      year: "DKI Jakarta",
-      newsCount: "CLP, LEAD",
-    },
-    {
-      name: "KADIN Sumatera Utara",
-      program: "Dunia Usaha",
-      year: "Sumatera Utara",
-      newsCount: "CLP, LEAD",
-    },
-    {
-      name: "Media Tempo",
-      program: "Media Massa",
-      year: "Banten",
-      newsCount: "CLP, LEAD",
-    },
-    {
-      name: "Kompas",
-      program: "Media Massa",
-      year: "Banten",
-      newsCount: "CLP",
-    },
-    {
-      name: "The Jakarta Post",
-      program: "Media Massa",
-      year: "DKI Jakarta",
-      newsCount: "CLP",
-    },
-  ];
 
   const headers = [
     "No",
@@ -119,7 +58,7 @@ export const MediaRecap = () => {
           },
         ]}
       />
-      <Table headers={headers} data={data} renderRow={renderRow} />
+      <Table headers={headers} data={MediaRecapData} renderRow={renderRow} />
       <Pagination />
     </div>
   );

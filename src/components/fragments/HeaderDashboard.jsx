@@ -3,18 +3,29 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import avatar from "../../assets/img/userAvatar.png";
 
-export const HeaderDashboard = (props) => {
+export const HeaderDashboard = () => {
   const user = useSelector((state) => state.auth.user);
+
   const handleMenuClick = () => {
     const menu = document.querySelector(".menu-dropdown");
     menu.classList.toggle("hidden");
   };
+
+  const activeStakeholder = useSelector(
+    (state) => state.activeStakeholder.activeStakeholder
+  );
+
+  const headerTitle =
+    activeStakeholder === "universitas"
+      ? "Universitas, Lembaga (NGO) & Komunitas"
+      : activeStakeholder === "media"
+      ? "Media Massa, Dunia Usaha & Pemerintahan"
+      : "Lembaga Internasional (INGO)";
+
   const navigate = useNavigate();
   return (
     <header className="bg-white py-4 flex justify-between items-end">
-      <h1 className="text-xl font-medium text-[#E89229]">
-        {props.title || "Dashboard"}
-      </h1>
+      <h1 className="text-xl font-medium text-[#E89229]">{headerTitle}</h1>
       <div className="flex items-center justify-between space-x-4">
         <button className="relative flex items-center justify-center w-10 h-10 rounded-full border border-[#E6E6E6] text-black cursor-pointer">
           <BellIcon className="w-5 h-5" />

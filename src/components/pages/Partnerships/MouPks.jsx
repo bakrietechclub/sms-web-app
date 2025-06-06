@@ -6,106 +6,31 @@ import { ChevronLeft } from "lucide-react";
 import { Button } from "../../elements/Button";
 import { Label } from "../../elements/Label";
 
+import { useSelector } from "react-redux";
+import { UnivMouPks } from "../../../data/data_univ";
+import { MediaMouPks } from "../../../data/data_media";
+import { INGOMouPks } from "../../../data/data_ingo";
+
 export const MouPks = () => {
   const [showDetail, setShowDetail] = useState(false);
   const [search, setSearch] = useState("");
 
+  const stakeholder = useSelector(
+    (state) => state.activeStakeholder.activeStakeholder
+  );
+
+  let dataRaw;
+  if (stakeholder === "universitas") {
+    dataRaw = UnivMouPks;
+  } else if (stakeholder === "media") {
+    dataRaw = MediaMouPks;
+  } else {
+    dataRaw = INGOMouPks;
+  }
+
   const handleClick = () => {
     setShowDetail(!showDetail);
   };
-
-  const data = [
-    {
-      name: "Universitas Indonesia",
-      jenis: "Universitas",
-      division: "Universitas",
-      colabType: "MoU",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signYear: "2024",
-    },
-    {
-      name: "Universitas Jakarta",
-      jenis: "Universitas",
-      division: "Prodi Ilmu Komputer",
-      colabType: "MoU",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signYear: "2024",
-    },
-    {
-      name: "Universitas Sriwijaya",
-      jenis: "Universitas",
-      division: "FISIP",
-      colabType: "MoU",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signYear: "2024",
-    },
-    {
-      name: "Universitas Gunadarma",
-      jenis: "Universitas",
-      division: "Prodi Farmasi",
-      colabType: "MoU",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signYear: "2024",
-    },
-    {
-      name: "Universitas Telkom",
-      jenis: "Universitas",
-      division: "Fakultas Ilmu Komputer",
-      colabType: "MoU",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signYear: "2024",
-    },
-    {
-      name: "STPI Penabulu",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabType: "MoU",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signYear: "2024",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabType: "MoU",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signYear: "2024",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabType: "MoU",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signYear: "2024",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabType: "MoU",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signYear: "2024",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabType: "MoU",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signYear: "2024",
-    },
-  ];
 
   const headers = [
     "No.",
@@ -191,7 +116,7 @@ export const MouPks = () => {
         <div className="w-full overflow-hidden h-fit">
           <FreezeTable
             headers={headers}
-            data={data}
+            data={dataRaw}
             renderRow={renderRow}
             renderRowFreeze={renderRowFreeze}
             freezeCol={4}

@@ -1,95 +1,28 @@
 import { Eye } from "lucide-react";
-import { FreezeTable } from "../../fragments/Table";
-import { Button } from "../../elements/Button";
-import { TableToolbar } from "../../fragments/TableToolbar";
+import { FreezeTable } from "../fragments/Table";
+import { Button } from "../elements/Button";
+import { TableToolbar } from "../fragments/TableToolbar";
 import { useState } from "react";
-import { Pagination } from "../../fragments/Pagination";
+import { Pagination } from "../fragments/Pagination";
+import { useSelector } from "react-redux";
+import { UnivBcfPartnership } from "../../data/data_univ";
+import { MediaBcfPartnership } from "../../data/data_media";
+import { INGOBcfPartnership } from "../../data/data_ingo";
 
-export const BcfPartnershipMedia = () => {
+export const BcfPartnership = () => {
   const [search, setSearch] = useState("");
+  const stakeholder = useSelector(
+    (state) => state.activeStakeholder.activeStakeholder
+  );
 
-  const data = [
-    {
-      name: "Universitas Indonesia",
-      type: "Universitas",
-      division: "Universitas",
-      region: "DKI Jakarta",
-      category: "CLP",
-      colabProgress: "Belum Dikontak",
-    },
-    {
-      name: "Universitas Jakarta",
-      type: "Universitas",
-      division: "Prodi Ilmu Komputer",
-      region: "DKI Jakarta",
-      category: "CLP",
-      colabProgress: "Dikontak",
-    },
-    {
-      name: "Universitas Sriwijaya",
-      type: "Universitas",
-      division: "FISIP",
-      region: "Sumatera Selatan",
-      category: "CLP",
-      colabProgress: "Sedang Proses",
-    },
-    {
-      name: "Universitas Gunadarma",
-      type: "Universitas",
-      division: "Prodi Farmasi",
-      region: "Jawa Barat",
-      category: "CLP",
-      colabProgress: "Sedang Berlangsung",
-    },
-    {
-      name: "Universitas Telkom",
-      type: "Universitas",
-      division: "Fakultas Ilmu Komputer",
-      region: "Jawa Barat",
-      category: "CLP",
-      colabProgress: "Terminasi",
-    },
-    {
-      name: "STPI Penabulu",
-      type: "Lembaga Sosial",
-      division: "Organisasi",
-      region: "TOR",
-      category: "CLP",
-      colabProgress: "Perlu Follow Up",
-    },
-    {
-      name: "Gerakan TBC",
-      type: "Lembaga Sosial",
-      division: "Organisasi",
-      region: "SPK",
-      category: "CLP",
-      colabProgress: "Belum Dikontak",
-    },
-    {
-      name: "Gerakan TBC",
-      type: "Lembaga Sosial",
-      division: "Organisasi",
-      region: "TOR",
-      category: "CLP",
-      colabProgress: "Dikontak",
-    },
-    {
-      name: "Gerakan TBC",
-      type: "Lembaga Sosial",
-      division: "Organisasi",
-      region: "SPK",
-      category: "CLP",
-      colabProgress: "Sedang Proses",
-    },
-    {
-      name: "Gerakan TBC",
-      type: "Lembaga Sosial",
-      division: "Organisasi",
-      region: "TOR",
-      category: "CLP",
-      colabProgress: "Sedang Berlangsung",
-    },
-  ];
+  let data;
+  if (stakeholder === "universitas") {
+    data = UnivBcfPartnership;
+  } else if (stakeholder === "media") {
+    data = MediaBcfPartnership;
+  } else {
+    data = INGOBcfPartnership;
+  }
 
   const headers = ["No.", "Nama Instansi", "Jenis Instansi", "Divisi Instansi"];
 
@@ -214,7 +147,7 @@ export const BcfPartnershipMedia = () => {
           },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"
+        searchWidth="w-1/3"
       />
       <FreezeTable
         headers={headers}

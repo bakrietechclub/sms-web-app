@@ -3,102 +3,23 @@ import { Label } from "../../elements/Label";
 import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { Pagination } from "../../fragments/Pagination";
+import { useSelector } from "react-redux";
+
+import { UnivIA } from "../../../data/data_univ";
+import { INGOIA } from "../../../data/data_ingo";
 
 export const Ia = () => {
   const [search, setSearch] = useState("");
 
-  const data = [
-    {
-      name: "Universitas Indonesia",
-      jenis: "Universitas",
-      division: "Universitas",
-      colabStatus: "Sedang Berlangsung",
-      program: "CLP",
-      year: "2024",
-      batchEdition: "Batch 8",
-    },
-    {
-      name: "Universitas Jakarta",
-      jenis: "Universitas",
-      division: "Prodi Ilmu Komputer",
-      colabStatus: "Sedang Berlangsung",
-      program: "CLP",
-      year: "2024",
-      batchEdition: "Batch 8",
-    },
-    {
-      name: "Universitas Sriwijaya",
-      jenis: "Universitas",
-      division: "FISIP",
-      colabStatus: "Sedang Berlangsung",
-      program: "CLP",
-      year: "2024",
-      batchEdition: "Batch 8",
-    },
-    {
-      name: "Universitas Gunadarma",
-      jenis: "Universitas",
-      division: "Prodi Farmasi",
-      colabStatus: "Sedang Berlangsung",
-      program: "CLP",
-      year: "2024",
-      batchEdition: "Batch 8",
-    },
-    {
-      name: "Universitas Telkom",
-      jenis: "Universitas",
-      division: "Fakultas Ilmu Komputer",
-      colabStatus: "Sedang Berlangsung",
-      program: "CLP",
-      year: "2023",
-      batchEdition: "Batch 7",
-    },
-    {
-      name: "STPI Penabulu",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabStatus: "Sedang Berlangsung",
-      program: "CLP",
-      year: "2023",
-      batchEdition: "Batch 7",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabStatus: "Sedang Berlangsung",
-      program: "CLP",
-      year: "2023",
-      batchEdition: "Batch 7",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabStatus: "Sedang Berlangsung",
-      program: "CLP",
-      year: "2022",
-      batchEdition: "Batch 6",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabStatus: "Sedang Berlangsung",
-      program: "CLP",
-      year: "2022",
-      batchEdition: "Batch 6",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabStatus: "Sedang Berlangsung",
-      program: "CLP",
-      year: "2022",
-      batchEdition: "Batch 6",
-    },
-  ];
+  const stakeholder = useSelector(
+    (state) => state.activeStakeholder.activeStakeholder
+  );
+  let dataRaw;
+  if (stakeholder === "universitas") {
+    dataRaw = UnivIA;
+  } else {
+    dataRaw = INGOIA;
+  }
 
   const headers = [
     "No",
@@ -165,7 +86,7 @@ export const Ia = () => {
       <div>
         <FreezeTable
           headers={headers}
-          data={data}
+          data={dataRaw}
           renderRow={renderRow}
           renderRowFreeze={renderRowFreeze}
           freezeCol={4}

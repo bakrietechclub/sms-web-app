@@ -1,120 +1,42 @@
-import { Button } from "../../elements/Button";
-import { Table } from "../../fragments/Table";
-import { Label } from "../../elements/Label";
+import { Button } from "../elements/Button";
+import { Table } from "../fragments/Table";
+import { Label } from "../elements/Label";
 import { useState } from "react";
-import { TableToolbar } from "../../fragments/TableToolbar";
-import { Pagination } from "../../fragments/Pagination";
-import WAIcon from "../../../assets/icons/whatsappIcon.png";
+import { TableToolbar } from "../fragments/TableToolbar";
+import { Pagination } from "../fragments/Pagination";
+import WAIcon from "../../assets/icons/whatsappIcon.png";
 import { ChevronLeft } from "lucide-react";
 
-export const CoordinationGroup = () => {
+import { useSelector } from "react-redux";
+
+import { UnivCoordinationGroup, UCG } from "../../data/data_univ";
+import { MediaCoordinationGroup, MCG } from "../../data/data_media";
+import { INGOCoordinationGroup, ICG } from "../../data/data_ingo";
+
+export const CoordinationGroups = () => {
   const [showDetail, setShowDetail] = useState(false);
   const [search, setSearch] = useState("");
+
+  const stekholder = useSelector(
+    (state) => state.activeStakeholder.activeStakeholder
+  );
+
+  let dataRaw;
+  let dataDetails;
+  if (stekholder === "universitas") {
+    dataRaw = UnivCoordinationGroup;
+    dataDetails = UCG;
+  } else if (stekholder === "media") {
+    dataRaw = MediaCoordinationGroup;
+    dataDetails = MCG;
+  } else {
+    dataRaw = INGOCoordinationGroup;
+    dataDetails = ICG;
+  }
 
   const handleClick = () => {
     setShowDetail(!showDetail);
   };
-
-  const whatsappLink = "https://wa.me/";
-  const data = [
-    {
-      name: "Universitas Indonesia",
-      jenis: "Universitas",
-      division: "Universitas",
-      link: whatsappLink + "628123456789",
-      contact: "Faizal",
-    },
-    {
-      name: "Universitas Jakarta",
-      jenis: "Universitas",
-      division: "Prodi Ilmu Komputer",
-      link: whatsappLink + "628123456789",
-      contact: "Ricky",
-    },
-    {
-      name: "Universitas Sriwijaya",
-      jenis: "Universitas",
-      division: "FISIP",
-      link: whatsappLink + "628123456789",
-      contact: "Fajar",
-    },
-    {
-      name: "Universitas Gunadarma",
-      jenis: "Universitas",
-      division: "Prodi Farmasi",
-      link: whatsappLink + "628123456789",
-      contact: "El Malik",
-    },
-    {
-      name: "Universitas Telkom",
-      jenis: "Universitas",
-      division: "Fakultas Ilmu Komputer",
-      link: whatsappLink + "628123456789",
-      contact: "Tristan",
-    },
-    {
-      name: "STPI Penabulu",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      link: whatsappLink + "628123456789",
-      contact: "Fauzan",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      link: whatsappLink + "628123456789",
-      contact: "Alhan",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      link: whatsappLink + "628123456789",
-      contact: "Rista",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      link: whatsappLink + "628123456789",
-      contact: "Freda",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      link: whatsappLink + "628123456789",
-      contact: "Sagun",
-    },
-  ];
-
-  const dataDetails = [
-    {
-      name: "El Vanno",
-      position: "Presiden",
-      phone: "081234567890",
-      email: "elvanno@gmail.com",
-      status: "Join Grup",
-      activeStatus: "Tidak Aktif",
-    },
-    {
-      name: "El Tangguh",
-      position: "Presiden",
-      phone: "081234567890",
-      email: "eltangguh@gmail.com",
-      status: "Belum Join Grup",
-      activeStatus: "Tidak Aktif",
-    },
-    {
-      name: "El Putra",
-      position: "Presiden",
-      phone: "081234567890",
-      email: "elputra@gmail.com",
-      status: "Join Grup",
-      activeStatus: "Aktif",
-    },
-  ];
 
   const [selected, setSelected] = useState({
     name: "",
@@ -190,7 +112,7 @@ export const CoordinationGroup = () => {
           onFilterSet={() => console.log("Filter diset")}
           searchWidth="w-1/4"
         />
-        <Table headers={headers} data={data} renderRow={renderRow} />
+        <Table headers={headers} data={dataRaw} renderRow={renderRow} />
         <Pagination />
       </div>
     );

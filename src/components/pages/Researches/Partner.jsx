@@ -3,82 +3,10 @@ import { Pagination } from "../../fragments/Pagination";
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
+import { MediaPartnerResearch } from "../../../data/data_media";
 
-export const PartnerResearch = () => {
+export const Partner = () => {
   const [search, setSearch] = useState("");
-
-  const data = [
-    {
-      name: "Kementrian Kesehatan",
-      jenis: "Pemerintah Pusat",
-      region: "DKI Jakarta",
-      program: "BCF",
-      status: false,
-    },
-    {
-      name: "DPRD Sulawesi Utara",
-      jenis: "Pemerintah Daerah",
-      region: "Sulawesi Utara",
-      program: "BCF",
-      status: true,
-    },
-    {
-      name: "Kementrian Luar Negeri",
-      jenis: "Pemerintah Pusat",
-      region: "DKI Jakarta",
-      program: "CLP",
-      status: false,
-    },
-    {
-      name: "DPRD Jawa Timur",
-      jenis: "Pemerintah Daerah",
-      region: "Jawa Timur",
-      program: "BCF",
-      status: true,
-    },
-    {
-      name: "KADIN Indonesia",
-      jenis: "Dunia Usaha",
-      region: "DKI Jakarta",
-      program: "CLP, LEAD",
-      status: false,
-    },
-    {
-      name: "Johnson & Johnson",
-      jenis: "Dunia Usaha",
-      region: "DKI Jakarta",
-      program: "CLP, LEAD",
-      status: true,
-    },
-    {
-      name: "KADIN Sumatera Utara",
-      jenis: "Dunia Usaha",
-      region: "Sumatera Utara",
-      program: "CLP, LEAD",
-      status: false,
-    },
-    {
-      name: "Media Tempo",
-      jenis: "Media Massa",
-      region: "Banten",
-      program: "CLP, LEAD",
-      status: false,
-    },
-    {
-      name: "Kompas",
-      jenis: "Media Massa",
-      region: "Banten",
-      program: "CLP",
-      status: true,
-    },
-    {
-      name: "The Jakarta Post",
-      jenis: "Media Massa",
-      region: "DKI Jakarta",
-      program: "CLP",
-      status: true,
-    },
-  ];
 
   const headers = [
     "No",
@@ -143,7 +71,11 @@ export const PartnerResearch = () => {
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"
       />
-      <Table headers={headers} data={data} renderRow={renderRow} />
+      <Table
+        headers={headers}
+        data={MediaPartnerResearch}
+        renderRow={renderRow}
+      />
       <Pagination />
     </div>
   );

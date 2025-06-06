@@ -1,105 +1,37 @@
-import { Label } from "../../elements/Label";
-import { Button } from "../../elements/Button";
-import { Pagination } from "../../fragments/Pagination";
-import { Table } from "../../fragments/Table";
-import { TableToolbar } from "../../fragments/TableToolbar";
+import { Label } from "../elements/Label";
+import { Button } from "../elements/Button";
+import { Table } from "../fragments/Table";
+import { TableToolbar } from "../fragments/TableToolbar";
+import { Pagination } from "../fragments/Pagination";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+
+import { UnivAudience } from "../../data/data_univ";
+import { MediaAudience } from "../../data/data_media";
+import { INGOAudience } from "../../data/data_ingo";
+
 import { ChevronLeft } from "lucide-react";
 
-export const AudienceINGO = () => {
+export const Audiences = () => {
+  const stekholder = useSelector(
+    (state) => state.activeStakeholder.activeStakeholder
+  );
+
+  let dataRaw;
+  if (stekholder === "universitas") {
+    dataRaw = UnivAudience;
+  } else if (stekholder === "media") {
+    dataRaw = MediaAudience;
+  } else {
+    dataRaw = INGOAudience;
+  }
+
   const [showDetail, setShowDetail] = useState(false);
   const [search, setSearch] = useState("");
 
   const handleClick = () => {
     setShowDetail(!showDetail);
   };
-
-  const data = [
-    {
-      name: "Universitas Indonesia",
-      jenis: "Universitas",
-      tanggal: "23/10/2024",
-      jam: "09:00",
-      audiensi: true,
-      status: "re-audiensi",
-      division: "Fakultas Ilmu Komputer",
-      place: "Wisma Bakrie, Lt. 2",
-      link: "https://bcf.or.id/campus-leaders-program-9-mandiri",
-      note: "Catatan",
-    },
-    {
-      name: "Universitas Jakarta",
-      jenis: "Universitas",
-      tanggal: "23/10/2024",
-      jam: "09:00",
-      audiensi: false,
-      status: "re-audiensi",
-    },
-    {
-      name: "Universitas Sriwijaya",
-      jenis: "Universitas",
-      tanggal: "23/10/2024",
-      jam: "09:00",
-      audiensi: true,
-      status: "selesai",
-    },
-    {
-      name: "Universitas Gunadarma",
-      jenis: "Universitas",
-      tanggal: "23/10/2024",
-      jam: "09:00",
-      audiensi: true,
-      status: "belum",
-    },
-    {
-      name: "Universitas Telkom",
-      jenis: "Universitas",
-      tanggal: "23/10/2024",
-      jam: "09:00",
-      audiensi: true,
-      status: "re-audiensi",
-    },
-    {
-      name: "STPI Penabulu",
-      jenis: "Lembaga Sosial",
-      tanggal: "23/10/2024",
-      jam: "09:00",
-      audiensi: false,
-      status: "selesai",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      tanggal: "23/10/2024",
-      jam: "09:00",
-      audiensi: false,
-      status: "belum",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      tanggal: "23/10/2024",
-      jam: "09:00",
-      audiensi: true,
-      status: "re-audiensi",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      tanggal: "23/10/2024",
-      jam: "09:00",
-      audiensi: false,
-      status: "selesai",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      tanggal: "23/10/2024",
-      jam: "09:00",
-      audiensi: true,
-      status: "selesai",
-    },
-  ];
 
   const [selected, setSelected] = useState({
     name: "",
@@ -129,7 +61,7 @@ export const AudienceINGO = () => {
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
       <td className="py-3">{index + 1}</td>
       <td>{value.name}</td>
-      <td>{value.jenis}</td>
+      <td>{value.type}</td>
       <td>{value.tanggal}</td>
       <td>{value.jam}</td>
       <td>
@@ -177,11 +109,9 @@ export const AudienceINGO = () => {
         <TableToolbar
           searchValue={search}
           onSearchChange={setSearch}
-          onAddClick={(type) => {
-            if (type === "Kategori A") openModalA();
-            if (type === "Kategori B") openModalB();
+          onAddClick={() => {
+            openModalA();
           }}
-          addOptions={["Kategori A", "Kategori B"]}
           filters={[
             {
               label: "Status",
@@ -195,7 +125,7 @@ export const AudienceINGO = () => {
           onFilterSet={() => console.log("Filter diset")}
           searchWidth="w-1/4"
         />
-        <Table headers={headers} data={data} renderRow={renderRow} />
+        <Table headers={headers} data={dataRaw} renderRow={renderRow} />
         <Pagination />
       </div>
     );

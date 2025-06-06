@@ -1,95 +1,27 @@
 import { Download } from "lucide-react";
-import { Button } from "../../elements/Button";
-import { FreezeTable } from "../../fragments/Table";
-import { TableToolbar } from "../../fragments/TableToolbar";
+import { Button } from "../elements/Button";
+import { FreezeTable } from "../fragments/Table";
+import { TableToolbar } from "../fragments/TableToolbar";
 import { useState } from "react";
-import { Pagination } from "../../fragments/Pagination";
+import { Pagination } from "../fragments/Pagination";
+import { useSelector } from "react-redux";
+import { UnivLetterNumbering } from "../../data/data_univ";
+import { MediaLetterNumbering } from "../../data/data_media";
+import { INGOLetterNumbering } from "../../data/data_ingo";
 
 export const LetterNumbering = () => {
   const [search, setSearch] = useState("");
-
-  const data = [
-    {
-      name: "Universitas Indonesia",
-      jenis: "Universitas",
-      division: "Universitas",
-      letterType: "Surat Permohonan Kerjasama",
-      letterNumber: "1515/ADM-BCF/1/VII/2024",
-      letterPurpose: "Undangan",
-    },
-    {
-      name: "Universitas Jakarta",
-      jenis: "Universitas",
-      division: "Prodi Ilmu Komputer",
-      letterType: "Surat Undangan",
-      letterNumber: "1515/ADM-BCF/1/VII/2024",
-      letterPurpose: "Undangan",
-    },
-    {
-      name: "Universitas Sriwijaya",
-      jenis: "Universitas",
-      division: "FISIP",
-      letterType: "IA (Implementation Agreement)",
-      letterNumber: "1515/ADM-BCF/1/VII/2024",
-      letterPurpose: "Undangan",
-    },
-    {
-      name: "Universitas Gunadarma",
-      jenis: "Universitas",
-      division: "Prodi Farmasi",
-      letterType: "PKS (Perjanjian Kerjasama)",
-      letterNumber: "1515/ADM-BCF/1/VII/2024",
-      letterPurpose: "Undangan",
-    },
-    {
-      name: "Universitas Telkom",
-      jenis: "Universitas",
-      division: "Fakultas Ilmu Komputer",
-      letterType: "MoU (Memorandum of Understanding)",
-      letterNumber: "1515/ADM-BCF/1/VII/2024",
-      letterPurpose: "Undangan",
-    },
-    {
-      name: "STPI Penabulu",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      letterType: "Surat Permohonan Kerjasama",
-      letterNumber: "1515/ADM-BCF/1/VII/2024",
-      letterPurpose: "Undangan",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      letterType: "MoU (Memorandum of Understanding)",
-      letterNumber: "1515/ADM-BCF/1/VII/2024",
-      letterPurpose: "Undangan",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      letterType: "MoU (Memorandum of Understanding)",
-      letterNumber: "1515/ADM-BCF/1/VII/2024",
-      letterPurpose: "Undangan",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      letterType: "Surat Permohonan Kerjasama",
-      letterNumber: "1515/ADM-BCF/1/VII/2024",
-      letterPurpose: "Undangan",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      letterType: "Surat Undangan",
-      letterNumber: "1515/ADM-BCF/1/VII/2024",
-      letterPurpose: "Undangan",
-    },
-  ];
+  const stakeholder = useSelector(
+    (state) => state.activeStakeholder.activeStakeholder
+  );
+  let dataRaw;
+  if (stakeholder === "universitas") {
+    dataRaw = UnivLetterNumbering;
+  } else if (stakeholder === "media") {
+    dataRaw = MediaLetterNumbering;
+  } else {
+    dataRaw = INGOLetterNumbering;
+  }
 
   const headers = [
     "No",
@@ -195,7 +127,7 @@ export const LetterNumbering = () => {
       <div>
         <FreezeTable
           headers={headers}
-          data={data}
+          data={dataRaw}
           renderRow={renderRow}
           renderRowFreeze={renderRowFreeze}
           freezeCol={4}

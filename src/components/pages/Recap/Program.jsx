@@ -1,72 +1,10 @@
 import { Pagination } from "../../fragments/Pagination";
-import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
+import { MediaProgramRecap } from "../../../data/data_media";
 
-export const ProgramRecap = () => {
+export const Program = () => {
   const [search, setSearch] = useState("");
-  const data = [
-    {
-      name: "Kementrian Kesehatan",
-      program: "Pemerintah Pusat",
-      year: "DKI Jakarta",
-      link: "BCF",
-    },
-    {
-      name: "DPRD Sulawesi Utara",
-      program: "Pemerintah Daerah",
-      year: "Sulawesi Utara",
-      link: "BCF",
-    },
-    {
-      name: "Kementrian Luar Negeri",
-      program: "Pemerintah Pusat",
-      year: "DKI Jakarta",
-      link: "CLP",
-    },
-    {
-      name: "DPRD Jawa Timur",
-      program: "Pemerintah Daerah",
-      year: "Jawa Timur",
-      link: "BCF",
-    },
-    {
-      name: "KADIN Indonesia",
-      program: "Dunia Usaha",
-      year: "DKI Jakarta",
-      link: "CLP, LEAD",
-    },
-    {
-      name: "Johnson & Johnson",
-      program: "Dunia Usaha",
-      year: "DKI Jakarta",
-      link: "CLP, LEAD",
-    },
-    {
-      name: "KADIN Sumatera Utara",
-      program: "Dunia Usaha",
-      year: "Sumatera Utara",
-      link: "CLP, LEAD",
-    },
-    {
-      name: "Media Tempo",
-      program: "Media Massa",
-      year: "Banten",
-      link: "CLP, LEAD",
-    },
-    {
-      name: "Kompas",
-      program: "Media Massa",
-      year: "Banten",
-      link: "CLP",
-    },
-    {
-      name: "The Jakarta Post",
-      program: "Media Massa",
-      year: "DKI Jakarta",
-      link: "CLP",
-    },
-  ];
 
   const headers = [
     "No",
@@ -166,7 +104,7 @@ export const ProgramRecap = () => {
             </tr>
           </thead>
           <tbody className="text-base font-normal">
-            {data.map((item, index) => renderRow(item, index))}
+            {MediaProgramRecap.map((item, index) => renderRow(item, index))}
           </tbody>
         </table>
       </div>

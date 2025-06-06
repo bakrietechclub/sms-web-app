@@ -3,102 +3,23 @@ import { Pagination } from "../../fragments/Pagination";
 import { FreezeTable } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
-export const ColabRecapMedia = () => {
-  const  [search, setSearch] = useState("");
+import { MediaColabRecap } from "../../../data/data_media";
+import { INGOColabRecap } from "../../../data/data_ingo";
 
-  const data = [
-    {
-      name: "Universitas Indonesia",
-      type: "Universitas",
-      colabStatus: "Sedang Berlangsung",
-      mouDue: "2024-01-01",
-      pksDue: "2024-01-01",
-      dueDate: "2024-01-01",
-      status: ["LEAD", "CLP"],
-    },
-    {
-      name: "Universitas Jakarta",
-      type: "Universitas",
-      colabStatus: "Sedang Berlangsung",
-      mouDue: "2024-01-01",
-      pksDue: "2024-01-01",
-      dueDate: "2024-01-01",
-      status: ["LEAD", "HOL"],
-    },
-    {
-      name: "Universitas Sriwijaya",
-      type: "Universitas",
-      colabStatus: "Sedang Berlangsung",
-      mouDue: "2024-01-01",
-      pksDue: "2024-01-01",
-      dueDate: "2024-01-01",
-      status: ["BCF"],
-    },
-    {
-      name: "Universitas Gunadarma",
-      type: "Universitas",
-      colabStatus: "Sedang Berlangsung",
-      mouDue: "2024-01-01",
-      pksDue: "2024-01-01",
-      dueDate: "2024-01-01",
-      status: ["CLP", "HOL"],
-    },
-    {
-      name: "Universitas Telkom",
-      type: "Universitas",
-      colabStatus: "Sedang Berlangsung",
-      mouDue: "2024-01-01",
-      pksDue: "2024-01-01",
-      dueDate: "2024-01-01",
-      status: ["CLP", "HOL"],
-    },
-    {
-      name: "STPI Penabulu",
-      type: "Lembaga Sosial",
-      colabStatus: "Sedang Berlangsung",
-      mouDue: "2024-01-01",
-      pksDue: "2024-01-01",
-      dueDate: "2024-01-01",
-      status: ["CLP"],
-    },
-    {
-      name: "Gerakan TBC",
-      type: "Lembaga Sosial",
-      colabStatus: "Sedang Berlangsung",
-      mouDue: "2024-01-01",
-      pksDue: "2024-01-01",
-      dueDate: "2024-01-01",
-      status: ["CLP", "LEAD"],
-    },
-    {
-      name: "Gerakan TBC",
-      type: "Lembaga Sosial",
-      colabStatus: "Sedang Berlangsung",
-      mouDue: "2024-01-01",
-      pksDue: "2024-01-01",
-      dueDate: "2024-01-01",
-      status: ["CLP"],
-    },
-    {
-      name: "Gerakan TBC",
-      type: "Lembaga Sosial",
-      colabStatus: "Sedang Berlangsung",
-      mouDue: "2024-01-01",
-      pksDue: "2024-01-01",
-      dueDate: "2024-01-01",
-      status: ["CLP"],
-    },
-    {
-      name: "Gerakan TBC",
-      type: "Lembaga Sosial",
-      colabStatus: "Sedang Berlangsung",
-      mouDue: "2024-01-01",
-      pksDue: "2024-01-01",
-      dueDate: "2024-01-01",
-      status: ["CLP", "LEAD"],
-    },
-  ];
+export const Colab = () => {
+  const [search, setSearch] = useState("");
+  const stakeholder = useSelector(
+    (state) => state.activeStakeholder.activeStakeholder
+  );
+
+  let dataRaw;
+  if (stakeholder === "media") {
+    dataRaw = MediaColabRecap;
+  } else {
+    dataRaw = INGOColabRecap;
+  }
 
   const headers = [
     "No.",
@@ -158,15 +79,20 @@ export const ColabRecapMedia = () => {
       </td>
     </tr>
   );
-  
 
   const customHeaderRight = (
     <>
       <tr>
-        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2" rowSpan={2}>
+        <th
+          className="p-3 text-base font-semibold border border-gray-400 px-4 py-2"
+          rowSpan={2}
+        >
           Jatuh Tempo MoU
         </th>
-        <th className="p-3 text-base font-semibold border border-gray-400 px-4 py-2" rowSpan={2}>
+        <th
+          className="p-3 text-base font-semibold border border-gray-400 px-4 py-2"
+          rowSpan={2}
+        >
           Jatuh Tempo PKS
         </th>
         <th
@@ -189,40 +115,39 @@ export const ColabRecapMedia = () => {
       </tr>
     </>
   );
-  
 
   return (
     <div>
       <h1 className="text-2xl font-semibold">Rekap Implementasi Kerjasama</h1>
-      <TableToolbar 
+      <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         filters={[
           {
             label: "Jenis Instansi",
             options: [
-              {label: "Pemerintah Pusat", value: "pemerintah pusat"},
-              {label: "Pemerintah Daerah", value: "pemerintah daerah"},
-              {label: "Dunia Usaha", value: "dunia usaha"},
-              {label: "Media Masa", value: "media masa"}
-            ]
+              { label: "Pemerintah Pusat", value: "pemerintah pusat" },
+              { label: "Pemerintah Daerah", value: "pemerintah daerah" },
+              { label: "Dunia Usaha", value: "dunia usaha" },
+              { label: "Media Masa", value: "media masa" },
+            ],
           },
           {
             label: "Tahun Kerjasama",
             options: [
-              {label: "2022", value: "2022"},
-              {label: "2023", value: "2023"},
-              {label: "2024", value: "2024"}
-            ]
-          }
+              { label: "2022", value: "2022" },
+              { label: "2023", value: "2023" },
+              { label: "2024", value: "2024" },
+            ],
+          },
         ]}
         onFilterSet={() => console.log("Filter diset")}
-        searchWidth="w-1/4"     
+        searchWidth="w-1/4"
       />
       <div>
         <FreezeTable
           headers={headers}
-          data={data}
+          data={dataRaw}
           renderRow={renderRow}
           renderRowFreeze={renderRowFreeze}
           freezeCol={4}
@@ -230,7 +155,7 @@ export const ColabRecapMedia = () => {
           withHeaderColumnBorders={true}
         />
       </div>
-      <Pagination/>
+      <Pagination />
     </div>
   );
 };

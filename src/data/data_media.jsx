@@ -397,7 +397,7 @@ export const MediaCoordinationGroup = [
     contact: "Sagun",
   },
 ];
-export const dataDetails = [
+export const MCG = [
   {
     name: "El Vanno",
     position: "Presiden",
@@ -427,7 +427,7 @@ export const dataDetails = [
 export const MediaLetterNumbering = [
   {
     name: "Universitas Indonesia",
-    jenis: "Universitas",
+    jenis: "Media",
     division: "Universitas",
     letterType: "Surat Permohonan Kerjasama",
     letterNumber: "1515/ADM-BCF/1/VII/2024",

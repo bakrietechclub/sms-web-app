@@ -2,102 +2,22 @@ import { FreezeTable } from "../../fragments/Table";
 import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { Pagination } from "../../fragments/Pagination";
+import { useSelector } from "react-redux";
+import { UnivSpkTor } from "../../../data/data_univ";
+import { INGOSpkTor } from "../../../data/data_ingo";
 
 export const SpkTor = () => {
   const [search, setSearch] = useState("");
+  const stakeholder = useSelector(
+    (state) => state.activeStakeholder.activeStakeholder
+  );
 
-  const data = [
-    {
-      name: "Universitas Indonesia",
-      jenis: "Universitas",
-      division: "Universitas",
-      colabType: "SPK",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signDate: "24/10/2024",
-    },
-    {
-      name: "Universitas Jakarta",
-      jenis: "Universitas",
-      division: "Prodi Ilmu Komputer",
-      colabType: "TOR",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signDate: "24/10/2024",
-    },
-    {
-      name: "Universitas Sriwijaya",
-      jenis: "Universitas",
-      division: "FISIP",
-      colabType: "SPK",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signDate: "24/10/2024",
-    },
-    {
-      name: "Universitas Gunadarma",
-      jenis: "Universitas",
-      division: "Prodi Farmasi",
-      colabType: "SPK",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signDate: "24/10/2024",
-    },
-    {
-      name: "Universitas Telkom",
-      jenis: "Universitas",
-      division: "Fakultas Ilmu Komputer",
-      colabType: "SPK",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signDate: "24/10/2024",
-    },
-    {
-      name: "STPI Penabulu",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabType: "TOR",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signDate: "24/10/2024",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabType: "SPK",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signDate: "24/10/2024",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabType: "TOR",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signDate: "24/10/2024",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabType: "SPK",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signDate: "24/10/2024",
-    },
-    {
-      name: "Gerakan TBC",
-      jenis: "Lembaga Sosial",
-      division: "Organisasi",
-      colabType: "TOR",
-      duration: "5 Tahun",
-      dueDate: "24/10/2029",
-      signDate: "24/10/2024",
-    },
-  ];
+  let dataRaw;
+  if (stakeholder === "universitas") {
+    dataRaw = UnivSpkTor;
+  } else {
+    dataRaw = INGOSpkTor;
+  }
 
   const headers = [
     "No.",
@@ -164,7 +84,7 @@ export const SpkTor = () => {
       <div>
         <FreezeTable
           headers={headers}
-          data={data}
+          data={dataRaw}
           renderRow={renderRow}
           renderRowFreeze={renderRowFreeze}
           freezeCol={4}
