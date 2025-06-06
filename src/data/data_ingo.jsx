@@ -1,7 +1,7 @@
 export const INGOAudience = [
   {
     name: "Universitas Indonesia",
-    jenis: "Universitas",
+    type: "INGO",
     tanggal: "23/10/2024",
     jam: "09:00",
     audiensi: true,
@@ -13,7 +13,7 @@ export const INGOAudience = [
   },
   {
     name: "Universitas Jakarta",
-    jenis: "Universitas",
+    type: "Universitas",
     tanggal: "23/10/2024",
     jam: "09:00",
     audiensi: false,
@@ -21,7 +21,7 @@ export const INGOAudience = [
   },
   {
     name: "Universitas Sriwijaya",
-    jenis: "Universitas",
+    type: "Universitas",
     tanggal: "23/10/2024",
     jam: "09:00",
     audiensi: true,
@@ -29,7 +29,7 @@ export const INGOAudience = [
   },
   {
     name: "Universitas Gunadarma",
-    jenis: "Universitas",
+    type: "Universitas",
     tanggal: "23/10/2024",
     jam: "09:00",
     audiensi: true,
@@ -37,7 +37,7 @@ export const INGOAudience = [
   },
   {
     name: "Universitas Telkom",
-    jenis: "Universitas",
+    type: "Universitas",
     tanggal: "23/10/2024",
     jam: "09:00",
     audiensi: true,
@@ -45,7 +45,7 @@ export const INGOAudience = [
   },
   {
     name: "STPI Penabulu",
-    jenis: "Lembaga Sosial",
+    type: "Lembaga Sosial",
     tanggal: "23/10/2024",
     jam: "09:00",
     audiensi: false,
@@ -53,7 +53,7 @@ export const INGOAudience = [
   },
   {
     name: "Gerakan TBC",
-    jenis: "Lembaga Sosial",
+    type: "Lembaga Sosial",
     tanggal: "23/10/2024",
     jam: "09:00",
     audiensi: false,
@@ -61,7 +61,7 @@ export const INGOAudience = [
   },
   {
     name: "Gerakan TBC",
-    jenis: "Lembaga Sosial",
+    type: "Lembaga Sosial",
     tanggal: "23/10/2024",
     jam: "09:00",
     audiensi: true,
@@ -69,7 +69,7 @@ export const INGOAudience = [
   },
   {
     name: "Gerakan TBC",
-    jenis: "Lembaga Sosial",
+    type: "Lembaga Sosial",
     tanggal: "23/10/2024",
     jam: "09:00",
     audiensi: false,
@@ -77,7 +77,7 @@ export const INGOAudience = [
   },
   {
     name: "Gerakan TBC",
-    jenis: "Lembaga Sosial",
+    type: "Lembaga Sosial",
     tanggal: "23/10/2024",
     jam: "09:00",
     audiensi: true,
@@ -327,61 +327,61 @@ export const INGOColabRecap = [
 export const INGOCooperationSign = [
   {
     name: "MacArthur Foundation",
-    jenis: "Lembaga Internasional",
+    type: "Lembaga Internasional",
     division: "Organisasi",
     program: "LEAD",
   },
   {
     name: "APEC",
-    jenis: "Lembaga Internasional",
+    type: "Lembaga Internasional",
     division: "Organisasi",
     program: "BCF",
   },
   {
     name: "IMF",
-    jenis: "Lembaga Internasional",
+    type: "Lembaga Internasional",
     division: "Organisasi",
     program: "LEAD",
   },
   {
     name: "FHI 360",
-    jenis: "Lembaga Internasional",
+    type: "Lembaga Internasional",
     division: "Organisasi",
     program: "LEAD",
   },
   {
     name: "Coca-Cola Foundation",
-    jenis: "Lembaga Internasional",
+    type: "Lembaga Internasional",
     division: "Organisasi",
     program: "LEAD",
   },
   {
     name: "Rockefeller Foundation",
-    jenis: "Lembaga Internasional",
+    type: "Lembaga Internasional",
     division: "Organisasi",
     program: "BCF",
   },
   {
     name: "Welcome Foundation",
-    jenis: "Lembaga Internasional",
+    type: "Lembaga Internasional",
     division: "Organisasi",
     program: "LEAD",
   },
   {
     name: "The Global Fund",
-    jenis: "Lembaga Internasional",
+    type: "Lembaga Internasional",
     division: "Organisasi",
     program: "LEAD",
   },
   {
     name: "IKEA Foundation",
-    jenis: "Lembaga Internasional",
+    type: "Lembaga Internasional",
     division: "Organisasi",
     program: "BCF",
   },
   {
     name: "JP Morgan Chase",
-    jenis: "Lembaga Internasional",
+    type: "Lembaga Internasional",
     division: "Organisasi",
     program: "BCF",
   },
@@ -460,7 +460,7 @@ export const INGOCoordinationGroup = [
     contact: "Sagun",
   },
 ];
-export const dataDetails = [
+export const ICG = [
   {
     name: "El Vanno",
     position: "Presiden",
@@ -491,7 +491,7 @@ export const INGOIA = [
   {
     name: "Universitas Indonesia",
     year: "2024",
-    jenis: "Universitas",
+    jenis: "INGO",
     program: "CLP",
     division: "Universitas",
     colabStatus: "Sedang Berlangsung",
@@ -583,7 +583,7 @@ export const INGOIA = [
 export const INGOLetterNumbering = [
   {
     name: "Universitas Indonesia",
-    jenis: "Universitas",
+    jenis: "INGO",
     division: "Universitas",
     letterType: "Surat Permohonan Kerjasama",
     letterNumber: "1515/ADM-BCF/1/VII/2024",
@@ -666,7 +666,7 @@ export const INGOLetterNumbering = [
 export const INGOMouPks = [
   {
     name: "Universitas Indonesia",
-    jenis: "Universitas",
+    jenis: "INGO",
     division: "Universitas",
     colabType: "MoU",
     duration: "5 Tahun",
@@ -1139,7 +1139,7 @@ export const INGOSatisfactionSurveyHOL = [
 export const INGOSpkTor = [
   {
     name: "Universitas Indonesia",
-    jenis: "Universitas",
+    jenis: "INGO",
     division: "Universitas",
     colabType: "SPK",
     duration: "5 Tahun",
@@ -1226,5 +1226,99 @@ export const INGOSpkTor = [
     duration: "5 Tahun",
     dueDate: "24/10/2029",
     signDate: "24/10/2024",
+  },
+];
+
+import applicants from "../assets/icons/applicants.png";
+import accepted from "../assets/icons/accepted.png";
+import engagement from "../assets/icons/engagement.png";
+import favorite from "../assets/icons/favorite.png";
+import implementator from "../assets/icons/implementator.png";
+import inovative from "../assets/icons/inovative.png";
+import pic from "../assets/icons/pic.png";
+import presentator from "../assets/icons/presentator.png";
+import proceedings from "../assets/icons/proceedings.png";
+import socialMedia from "../assets/icons/socialMedia.png";
+import supervisor from "../assets/icons/supervisor.png";
+import valuable from "../assets/icons/valuable.png";
+export const INGOPAUnivCards = [
+  {
+    title: "THE Most Applicants of University",
+    winner: "Universitas Negeri Semarang",
+    icon: applicants,
+  },
+  {
+    title: "The Most Accepted Students of University",
+    winner: "Universitas Lampung",
+    icon: accepted,
+  },
+  {
+    title: "The Most Accepted Students of University",
+    winner: "Universitas Bakrie",
+    icon: engagement,
+  },
+  {
+    title: "The Most Field Supervisors of University",
+    winner: "Universitas Padjajaran",
+    icon: supervisor,
+  },
+  {
+    title: "The Most Valuable Partner of University",
+    winner: "Universitas Sriwijaya",
+    icon: valuable,
+  },
+  {
+    title: "The Best PIC MBKM of University",
+    winner: `Lina Nugraha Rani, SE., M. SEI
+        Universitas Airlangga`,
+    icon: pic,
+  },
+];
+
+export const INGOPAInstitutionCards = [
+  {
+    title: "The Most Innovative Program of Internship Program",
+    winner: "Mentari Sehat Indonesia",
+    icon: inovative,
+  },
+  {
+    title: "The Favorite NGO of Internship Program",
+    winner: "Mentari Sehat Indonesia",
+    icon: favorite,
+  },
+  {
+    title: "The Best NGO'S Social Media of Internship Pogram",
+    winner: "Yayasan Masyarakat Peduli Tuberkulosis",
+    icon: socialMedia,
+  },
+  {
+    title: "The Best Implementator Program of Internship Program",
+    winner: "Mentari Sehat Indonesia",
+    icon: implementator,
+  },
+  {
+    title: "The Best Proceedings of Internship Program",
+    winner: "STPI Penabulu Banten",
+    icon: proceedings,
+  },
+  {
+    title: "The Best NGO's Presentator",
+    winner: "-",
+    icon: presentator,
+  },
+  {
+    title: "The Most Innovative Program of Pratical Program",
+    winner: "Rumah Literasi Tinggi",
+    icon: inovative,
+  },
+  {
+    title: "The Best Proceedings of Internship Pratical",
+    winner: "Yayasan Terus Berjuang",
+    icon: proceedings,
+  },
+  {
+    title: "The Best NGO's Social Media of Pratical Program",
+    winner: "Sekolah Janji Baik",
+    icon: socialMedia,
   },
 ];

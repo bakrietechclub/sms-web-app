@@ -13,17 +13,13 @@ export const Card = ({ name, image, manageAccess, stakeholderKey }) => {
   const buttonLabel = manageAccess ? "Kelola" : "Lihat";
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const navigateRole =
-    stakeholderKey === "universitas"
-      ? "univ"
-      : stakeholderKey === "media"
-      ? "media"
-      : "ingo";
 
   const handleClick = () => {
     dispatch(setActiveStakeholder(stakeholderKey));
     localStorage.setItem("activeStakeholder", stakeholderKey);
-    navigate("/dashboard/" + navigateRole);
+    if (stakeholderKey !== "media") {
+      navigate("/dashboard/research/potential-partner");
+    } else navigate("/dashboard/research/partner");
   };
 
   return (

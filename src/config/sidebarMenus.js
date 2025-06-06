@@ -17,94 +17,107 @@ export const sidebarMenus = {
       title: "Riset Mitra",
       icon: Search,
       submenu: [
-        { title: "Riset Potensial", path: "/dashboard/univ" },
-        { title: "Riset Kolaborasi", path: "/dashboard/univ/colab" },
+        {
+          title: "Riset Potensial",
+          path: "/dashboard/research/potential-partner",
+        },
+        {
+          title: "Riset Kolaborasi",
+          path: "/dashboard/research/colab-partner",
+        },
       ],
     },
     {
       title: "Audiensi",
       icon: CalendarPlus2,
-      path: "/dashboard/univ/audience",
+      path: "/dashboard/audiences",
     },
     {
       title: "Grup Koordinasi",
       icon: Users,
-      path: "/dashboard/univ/coor-group",
+      path: "/dashboard/group",
     },
     {
       title: "Legalitas Kerjasama",
       icon: MailOpen,
       submenu: [
-        { title: "MoU/PKS", path: "/dashboard/univ/mou-pks" },
-        { title: "SPK/TOR", path: "/dashboard/univ/spk-tor" },
-        { title: "IA", path: "/dashboard/univ/ia" },
+        { title: "MoU/PKS", path: "/dashboard/partnerships/mou-pks" },
+        { title: "SPK/TOR", path: "/dashboard/partnerships/spk-tor" },
+        {
+          title: "IA",
+          path: "/dashboard/partnerships/implementation-agreements",
+        },
       ],
     },
     {
       title: "Penomoran Surat",
       icon: MailPlus,
-      path: "/dashboard/univ/letter-numbering",
+      path: "/dashboard/letter-numbers",
     },
-    { title: "Rekap PTA", icon: Clipboard, path: "/dashboard/univ/pta-recap" },
+    { title: "Rekap PTA", icon: Clipboard, path: "/dashboard/recap/pta" },
     {
       title: "Satisfaction Survey",
       icon: FileCheck,
-      path: "/dashboard/univ/satis-survey",
+      path: "/dashboard/satisfaction-survey",
     },
     {
       title: "Partnership BCF",
       icon: Sheet,
-      path: "/dashboard/univ/bcf-partner",
+      path: "/dashboard/bcf-partner",
     },
     {
       title: "Partnership Awards",
       icon: Trophy,
-      path: "/dashboard/univ/partner-awards",
+      path: "/dashboard/partner-awards",
     },
   ],
 
   media: [
-    { title: "Riset Mitra", icon: Search, path: "/dashboard/media" },
+    {
+      title: "Riset Mitra",
+      icon: Search,
+      path: "/dashboard/research/partner",
+    },
     {
       title: "Audiensi",
       icon: CalendarPlus2,
-      path: "/dashboard/media/audience",
+      path: "/dashboard/audiences",
     },
     {
       title: "Grup Koordinasi",
       icon: Users,
-      path: "/dashboard/media/coor-group",
+      path: "/dashboard/group",
     },
     {
       title: "Legalitas Kerjasama",
       icon: MailOpen,
       submenu: [
-        { title: "MoU/PKS", path: "/dashboard/media/mou-pks" },
-        { title: "Tanda Kerjasama", path: "/dashboard/media/coop-sign" },
+        { title: "MoU/PKS", path: "/dashboard/partnerships/mou-pks" },
+        { title: "Tanda Kerjasama", path: "/dashboard/partnerships/coop-sign" },
       ],
     },
     {
       title: "Penomoran Surat",
       icon: MailPlus,
-      path: "/dashboard/media/letter-numbering",
+      path: "/dashboard/letter-numbers",
     },
     {
       title: "Pemberitaan BCF",
       icon: FileText,
       submenu: [
-        { title: "Rekap Media", path: "/dashboard/media/media-recap" },
-        { title: "Rekap Program", path: "/dashboard/media/program-recap" },
+        { title: "Rekap Media", path: "/dashboard/recap/media" },
+        { title: "Rekap Program", path: "/dashboard/recap/program" },
       ],
     },
     {
       title: "Rekap Kerjasama",
       icon: Clipboard,
-      path: "/dashboard/media/colab-recap",
+      path: "/dashboard/recap/colab",
     },
     {
       title: "Partnership BCF",
       icon: Sheet,
-      path: "/dashboard/media/bcf-partner",
+      path: "/dashboard/bcf-partner",
     },
   ],
 
@@ -113,54 +126,63 @@ export const sidebarMenus = {
       title: "Riset Mitra",
       icon: Search,
       submenu: [
-        { title: "Riset Potensial", path: "/dashboard/ingo" },
-        { title: "Riset Kolaborasi", path: "/dashboard/ingo/colab" },
+        {
+          title: "Riset Potensial",
+          path: "/dashboard/research/potential-partner",
+        },
+        {
+          title: "Riset Kolaborasi",
+          path: "/dashboard/research/colab-partner",
+        },
       ],
     },
     {
       title: "Audiensi",
       icon: CalendarPlus2,
-      path: "/dashboard/ingo/audience",
+      path: "/dashboard/audiences",
     },
     {
       title: "Grup Koordinasi",
       icon: Users,
-      path: "/dashboard/ingo/coor-group",
+      path: "/dashboard/group",
     },
     {
       title: "Legalitas Kerjasama",
       icon: MailOpen,
       submenu: [
-        { title: "MoU/PKS", path: "/dashboard/ingo/mou-pks" },
-        { title: "SPK/TOR", path: "/dashboard/ingo/spk-tor" },
-        { title: "IA", path: "/dashboard/ingo/ia" },
-        { title: "Tanda Kerjasama", path: "/dashboard/ingo/coop-sign" },
+        { title: "MoU/PKS", path: "/dashboard/partnerships/mou-pks" },
+        { title: "SPK/TOR", path: "/dashboard/partnerships/spk-tor" },
+        {
+          title: "IA",
+          path: "/dashboard/partnerships/implementation-agreements",
+        },
+        { title: "Tanda Kerjasama", path: "/dashboard/partnerships/coop-sign" },
       ],
     },
     {
       title: "Penomoran Surat",
       icon: MailPlus,
-      path: "/dashboard/ingo/letter-numbering",
+      path: "/dashboard/letter-numbers",
     },
     {
       title: "Rekap Kerjasama",
       icon: Clipboard,
-      path: "/dashboard/ingo/colab-recap",
+      path: "/dashboard/recap/colab",
     },
     {
       title: "Satisfaction Survey",
       icon: FileCheck,
-      path: "/dashboard/ingo/satis-survey",
+      path: "/dashboard/satisfaction-survey",
     },
     {
       title: "Partnership BCF",
       icon: Sheet,
-      path: "/dashboard/ingo/bcf-partner",
+      path: "/dashboard/bcf-partner",
     },
     {
       title: "Partnership Awards",
       icon: Trophy,
-      path: "/dashboard/ingo/partner-awards",
+      path: "/dashboard/partner-awards",
     },
   ],
 };
