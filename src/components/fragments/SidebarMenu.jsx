@@ -4,12 +4,11 @@ import { setActiveStakeholder } from "../../features/stakeholder/activeStakehold
 import { sidebarMenus } from "../../config/sidebarMenus";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import LogoBCF from "../../assets/img/logoBCF.png";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import clsx from "clsx";
 
 export const SidebarMenu = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
   const activeStakeholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
@@ -25,7 +24,8 @@ export const SidebarMenu = () => {
 
   const menus = sidebarMenus[activeStakeholder || "universitas"];
 
-  // Efek samping untuk membuka sub-menu jika ada sub-menu aktif saat memuat ulang
+  // UNTUK MEMBUKA SUB-MENU YANG AKTIF SAAT RELOAD
+  // UNTUK MEMASTIKAN HANYA SATU SUB-MENU YANG TERBUKA SAAT LOAD
   useEffect(() => {
     const findParentMenu = (pathname) => {
       for (const menu of menus) {
@@ -42,11 +42,10 @@ export const SidebarMenu = () => {
 
     const parentMenuTitle = findParentMenu(location.pathname);
     if (parentMenuTitle && !openMenus.includes(parentMenuTitle)) {
-      setOpenMenus([parentMenuTitle]); // Ubah ini untuk memastikan hanya satu yang terbuka saat load
+      setOpenMenus([parentMenuTitle]); // BUAT MEMASTIKAN HANYA SATU YANG TERBUKA SAAT LOAD
     }
-  }, [location.pathname, menus]); // Hapus openMenus dari dependency untuk menghindari loop
+  }, [location.pathname, menus]); // HAPUS openMenus DARI DEPENDENCY UNTUK MENGATASI LOOP
 
-  // Fungsi pembantu untuk menentukan apakah menu utama aktif
   const isMainMenuActive = (menu) => {
     if (menu.path && location.pathname === menu.path) {
       return true;
@@ -65,11 +64,11 @@ export const SidebarMenu = () => {
       <div className="flex items-center justify-center h-auto my-4">
         <img src={LogoBCF} alt="Logo BCF" className="h-12 w-28" />
       </div>
-
+      {/* SIDEBAR MENU */}
       <nav>
         {menus.map((menu, idx) => (
           <div key={idx} className="text-[#999999]">
-            {!menu.submenu ? (
+            {!menu.submenu ? ( // MENU TANPA SUBMENU
               <NavLink
                 to={menu.path}
                 className={({ isActive }) =>
@@ -78,7 +77,7 @@ export const SidebarMenu = () => {
                     isActive && "text-[#0D4690] font-semibold bg-[#E7EDF4]"
                   )
                 }
-                // Saat NavLink diklik, pastikan semua menu lain ditutup
+                // NavLink DIKLIK SEMUA MENU AKAN TERTUTUP
                 onClick={() => setOpenMenus([])}
               >
                 <div className="flex items-center gap-3">
@@ -87,14 +86,15 @@ export const SidebarMenu = () => {
                 </div>
               </NavLink>
             ) : (
+              // MENU DENGAN SUBMENU
               <div
                 onClick={() => {
-                  // Logika untuk menutup otomatis menu lain
+                  // MENUTUP OTOMATIS MENU LAIN
                   setOpenMenus(
                     (prev) =>
                       prev.includes(menu.title)
-                        ? prev.filter((title) => title !== menu.title) // Jika sudah terbuka, tutup
-                        : [menu.title] // Jika belum terbuka, buka hanya menu ini dan tutup yang lain
+                        ? prev.filter((title) => title !== menu.title) // TUTUP MENU JIKA SUDAH TERBUKA
+                        : [menu.title] // KALAU BELUM, HANYA BUKA MENU INI
                   );
                 }}
                 className={clsx(
