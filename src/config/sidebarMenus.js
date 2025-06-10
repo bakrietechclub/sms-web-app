@@ -35,7 +35,7 @@ export const sidebarMenus = {
     {
       title: "Grup Koordinasi",
       icon: Users,
-      path: "/dashboard/group",
+      path: "/dashboard/groups",
     },
     {
       title: "Legalitas Kerjasama",
@@ -86,7 +86,7 @@ export const sidebarMenus = {
     {
       title: "Grup Koordinasi",
       icon: Users,
-      path: "/dashboard/group",
+      path: "/dashboard/groups",
     },
     {
       title: "Legalitas Kerjasama",
@@ -144,7 +144,7 @@ export const sidebarMenus = {
     {
       title: "Grup Koordinasi",
       icon: Users,
-      path: "/dashboard/group",
+      path: "/dashboard/groups",
     },
     {
       title: "Legalitas Kerjasama",
