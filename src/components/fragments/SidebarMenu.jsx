@@ -5,7 +5,6 @@ import { sidebarMenus } from "../../config/sidebarMenus";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import LogoBCF from "../../assets/img/logoBCF.png";
 import { NavLink, useLocation } from "react-router-dom";
-import clsx from "clsx";
 
 export const SidebarMenu = () => {
   const dispatch = useDispatch();
@@ -72,10 +71,9 @@ export const SidebarMenu = () => {
               <NavLink
                 to={menu.path}
                 className={({ isActive }) =>
-                  clsx(
-                    "flex items-center justify-between p-3 cursor-pointer hover:bg-[#E7EDF4] hover:text-[#0D4690] rounded-md transition-all duration-200",
-                    isActive && "text-[#0D4690] font-semibold bg-[#E7EDF4]"
-                  )
+                  `flex items-center justify-between p-3 cursor-pointer hover:bg-[#E7EDF4] hover:text-[#0D4690] rounded-md transition-all duration-200 ${
+                    isActive ? "text-[#0D4690] font-semibold bg-[#E7EDF4]" : ""
+                  }`
                 }
                 // NavLink DIKLIK SEMUA MENU AKAN TERTUTUP
                 onClick={() => setOpenMenus([])}
@@ -97,11 +95,11 @@ export const SidebarMenu = () => {
                         : [menu.title] // KALAU BELUM, HANYA BUKA MENU INI
                   );
                 }}
-                className={clsx(
-                  "flex items-center justify-between p-3 cursor-pointer hover:bg-[#E7EDF4] hover:text-[#0D4690] rounded-md transition-all duration-200",
-                  (openMenus.includes(menu.title) || isMainMenuActive(menu)) &&
-                    "text-[#0D4690] font-semibold bg-[#E7EDF4]"
-                )}
+                className={`flex items-center justify-between p-3 cursor-pointer hover:bg-[#E7EDF4] hover:text-[#0D4690] rounded-md transition-all duration-200 ${
+                  openMenus.includes(menu.title) || isMainMenuActive(menu)
+                    ? "text-[#0D4690] font-semibold bg-[#E7EDF4]"
+                    : ""
+                }`}
               >
                 <div className="flex items-center gap-3">
                   {menu.icon && <menu.icon size={20} />}
@@ -123,12 +121,11 @@ export const SidebarMenu = () => {
                     key={subIdx}
                     to={sub.path}
                     className={({ isActive }) =>
-                      clsx(
-                        "text-sm font-medium transition-all duration-200",
+                      `text-sm font-medium transition-all duration-200 ${
                         isActive
                           ? "text-[#0D4690] font-semibold"
                           : "text-[#999999] hover:text-[#0D4690]"
-                      )
+                      }`
                     }
                   >
                     {sub.title}
