@@ -13,9 +13,15 @@ import { UnivCoordinationGroup, UCG } from "../../data/data_univ";
 import { MediaCoordinationGroup, MCG } from "../../data/data_media";
 import { INGOCoordinationGroup, ICG } from "../../data/data_ingo";
 
+import { AddModalCoorGroupUniv } from "../fragments/modalforms/univ/AddModalCoorGroupUniv";
+import { AddModalCoorGroupMedia } from "../fragments/modalforms/media/AddModalCoorGroupMedia";
+import { AddModalCoorGroupINGO } from "../fragments/modalforms/ingo/AddModalCoorGroupINGO";
+
 export const CoordinationGroups = () => {
   const [showDetail, setShowDetail] = useState(false);
   const [search, setSearch] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
   const stekholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
@@ -95,11 +101,9 @@ export const CoordinationGroups = () => {
         <TableToolbar
           searchValue={search}
           onSearchChange={setSearch}
-          onAddClick={(type) => {
-            if (type === "Kategori A") openModalA();
-            if (type === "Kategori B") openModalB();
+          onAddClick={() => {
+            setOpenModal(true);
           }}
-          addOptions={["Kategori A", "Kategori B"]}
           filters={[
             {
               label: "Jenis Instansi",
@@ -112,6 +116,24 @@ export const CoordinationGroups = () => {
           onFilterSet={() => console.log("Filter diset")}
           searchWidth="w-1/4"
         />
+        {stekholder === "universitas" && (
+          <AddModalCoorGroupUniv
+            isOpen={openModal}
+            onClose={() => setOpenModal(false)}
+          />
+        )}
+        {stekholder === "media" && (
+          <AddModalCoorGroupMedia
+            isOpen={openModal}
+            onClose={() => setOpenModal(false)}
+          />
+        )}
+        {stekholder === "lembagaInternasional" && (
+          <AddModalCoorGroupINGO
+            isOpen={openModal}
+            onClose={() => setOpenModal(false)}
+          />
+        )}
         <Table headers={headers} data={dataRaw} renderRow={renderRow} />
         <Pagination />
       </div>

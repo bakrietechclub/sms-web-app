@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-const SingleSelectDropdown = ({ label, name, options, register, setValue, isRequired = false }) => {
+const SingleSelectDropdown = ({
+  label,
+  name,
+  options,
+  register,
+  setValue,
+  isRequired = false,
+}) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("");
 
@@ -22,7 +29,9 @@ const SingleSelectDropdown = ({ label, name, options, register, setValue, isRequ
         <input
           readOnly
           value={selected}
-          placeholder={`Pilih ${typeof label === "string" ? label.toLowerCase() : ""}`}
+          placeholder={`Pilih ${
+            typeof label === "string" ? label.toLowerCase() : ""
+          }`}
           {...register(name)}
           onClick={toggleDropdown}
           className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer"
@@ -37,7 +46,7 @@ const SingleSelectDropdown = ({ label, name, options, register, setValue, isRequ
             <div
               key={option}
               onClick={() => handleSelect(option)}
-              className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+              className="px-3 py-2 hover:bg-[#e7edf4] cursor-pointer hover:text-[#0c3f82]"
             >
               {option}
             </div>
