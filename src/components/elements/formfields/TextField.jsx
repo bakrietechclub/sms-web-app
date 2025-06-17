@@ -1,6 +1,8 @@
-const TextField = ({ label, name, register, placeholder }) => (
+const TextField = ({ label, name, register, placeholder, isRequired }) => (
   <div>
-    <label className="block mb-1 font-medium">{label}</label>
+    <label className="block mb-1 font-medium">
+        {label} {isRequired && <span className="text-red-500">*</span>}
+    </label>
     <input
       {...register(name)}
       placeholder={placeholder}

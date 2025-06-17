@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-const SingleSelectDropdown = ({ label, name, options, register, setValue }) => {
+const SingleSelectDropdown = ({ label, name, options, register, setValue, isRequired = false }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("");
 
@@ -15,12 +15,14 @@ const SingleSelectDropdown = ({ label, name, options, register, setValue }) => {
 
   return (
     <div>
-      <label className="block mb-1 font-medium">{label}</label>
+      <label className="block mb-1 font-medium">
+        {label} {isRequired && <span className="text-red-500">*</span>}
+      </label>
       <div className="relative">
         <input
           readOnly
           value={selected}
-          placeholder={`Pilih ${label.toLowerCase()}`}
+          placeholder={`Pilih ${typeof label === "string" ? label.toLowerCase() : ""}`}
           {...register(name)}
           onClick={toggleDropdown}
           className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer"

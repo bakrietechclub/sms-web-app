@@ -1,6 +1,6 @@
-const SwotFields = ({ register }) => (
+const SwotFields = ({ register, label }) => (
   <div>
-    <label className="block mb-2 font-semibold">Program Analisis</label>
+      <label className="block mb-1 font-medium">{label}</label>
 
     {[
       { label: "Strengths", name: "analisis.strengths" },

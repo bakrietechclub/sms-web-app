@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-const MultiSelectDropdown = ({ label, name, options, register, setValue }) => {
+const MultiSelectDropdown = ({ label, name, options, register, setValue, isRequired = false }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState([]);
   const [tempSelected, setTempSelected] = useState([]);
@@ -24,7 +24,9 @@ const MultiSelectDropdown = ({ label, name, options, register, setValue }) => {
 
   return (
     <div>
-      <label className="block mb-1 font-medium">{label}</label>
+      <label className="block mb-1 font-medium">
+        {label} {isRequired && <span className="text-red-500">*</span>}
+      </label>
       <div className="relative">
         <input
           readOnly

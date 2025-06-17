@@ -5,7 +5,7 @@ import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { Pagination } from "../../fragments/Pagination";
 import { AddModalUniv } from "../../fragments/modalforms/univ/AddModalUniv";
-import { AddModalSocialInstitution } from "../../fragments/modalforms/univ/addModalSocialInstitution";
+import { AddModalSocialInstitution } from "../../fragments/modalforms/univ/AddModalSocialInstitution";
 
 import { UnivPotentialPartnerResearch } from "../../../data/data_univ";
 import { INGOPotentialPartnerResearch } from "../../../data/data_ingo";

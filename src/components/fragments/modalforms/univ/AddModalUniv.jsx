@@ -16,6 +16,7 @@ const allProvinces = ["Nasional", "Aceh", "Bali", "Banten", "Bengkulu", "Daerah 
   "Papua Barat", "Papua Barat Daya", "Papua Pegunungan", "Papua Selatan", "Papua Tengah",
   "Riau", "Sulawesi Barat", "Sulawesi Selatan", "Sulawesi Tengah", "Sulawesi Tenggara",
   "Sulawesi Utara", "Sumatera Barat", "Sumatera Selatan", "Sumatera Utara"];
+
 const lsdOptions = ["LEAD", "CLP", "HOL"];
 const kebutuhanOptions = ["Tidak", "Surat Undangan Audiensi", "Surat Permohonan Kerjasama"];
 const statusOptions = ["Sudah dikontak", "Belum dikontak"];
@@ -57,12 +58,12 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
           <form onSubmit={handleSubmit(onSubmit)} className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto" style={{ height: "calc(900px - 92px)" }} ref={dropdownRef}>
             <TextField name="namaInstansi" label="Nama Instansi" placeholder="Masukkan nama instansi" register={register} />
             <SingleSelectDropdown name="provinsi" label="Provinsi" options={allProvinces} register={register} setValue={setValue} />
-            <TextField name="profil" label="Profil" register={register} />
+            <TextField name="profil" label="Profil" placeholder="Masukkan profil" register={register} />
             <ContactFields register={register} />
             <MultiSelectDropdown name="programLSD" label="Program LSD" options={lsdOptions} register={register} setValue={setValue} />
             <SingleSelectDropdownBadge name="status" label="Status" options={statusOptions} register={register} setValue={setValue} />
             <MultiSelectDropdown name="kebutuhan" label="Kebutuhan" options={kebutuhanOptions} register={register} setValue={setValue} />
-            <SwotFields register={register} />
+            <SwotFields label="Program Analisis" register={register} />
             <TextField name="linkDokumen" label="Link Dokumen" placeholder="https://.." register={register} />
             <div className="text-right pt-4">
               <button type="submit" className="bg-[#0d4690] text-white px-15 py-2 rounded-lg hover:bg-[#0c3f82]">
