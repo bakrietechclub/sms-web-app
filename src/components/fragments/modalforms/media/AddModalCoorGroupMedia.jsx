@@ -1,28 +1,33 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useRef } from "react";
-
+import { useEffect, useRef, useState } from "react";
 import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropdown";
 import TextField from "../../../elements/formfields/TextField";
 
 export const AddModalCoorGroupMedia = ({ isOpen, onClose }) => {
   const { register, handleSubmit, setValue } = useForm();
-  const dropdownRef = useRef(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Untuk mengetahui apakah dropdown terbuka
+  const [wrapperHeight, setWrapperHeight] = useState("65vh"); // Menyimpan tinggi wrapper modal
+
   const onSubmit = (data) => {
     console.log("Form data:", data);
     onClose();
   };
 
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen((prev) => !prev); // Toggle dropdown
+  };
+
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        document.activeElement.blur(); //
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    // Ketika dropdown terbuka, wrapper modal akan memanjang
+    if (isDropdownOpen) {
+      setWrapperHeight("calc(100vh - 92px)"); // Full height modal minus header
+    } else {
+      setWrapperHeight("65vh"); // Kembali ke default height
+    }
+  }, [isDropdownOpen]);
 
   if (!isOpen) return null;
+
   return (
     <>
       <div
@@ -31,8 +36,9 @@ export const AddModalCoorGroupMedia = ({ isOpen, onClose }) => {
       />
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div
-          className="bg-white w-[1116px] max-h-[65vh] rounded-2xl shadow-xl overflow-hidden flex flex-col px-5 py-7"
+          className="bg-white w-[1116px] rounded-2xl shadow-xl overflow-hidden flex flex-col px-5 py-7"
           onClick={(e) => e.stopPropagation()}
+          style={{ height: wrapperHeight }} // Wrapper modal yang menyesuaikan
         >
           <div className="w-full h-[92px] px-6 flex items-center justify-between">
             <h2 className="text-2xl font-semibold">Tambah Grup Koordinasi</h2>
@@ -43,9 +49,8 @@ export const AddModalCoorGroupMedia = ({ isOpen, onClose }) => {
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto"
-            style={{ height: "calc(900px - 92px)" }}
-            ref={dropdownRef}
+            className="px-6 pt-2 pb-4 space-y-4"
+            style={{ height: `calc(${wrapperHeight} - 92px)` }} // Menyesuaikan tinggi form
           >
             <SingleSelectDropdown
               name="jenisInstansi"
@@ -58,6 +63,7 @@ export const AddModalCoorGroupMedia = ({ isOpen, onClose }) => {
               ]}
               register={register}
               setValue={setValue}
+              onClick={handleDropdownToggle} // Toggle dropdown
             />
             <TextField
               name="namaInstansi"

@@ -8,11 +8,15 @@ const SingleSelectDropdown = ({
   register,
   setValue,
   isRequired = false,
+  onClick,
 }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("");
 
-  const toggleDropdown = () => setOpen((prev) => !prev);
+  const toggleDropdown = () => {
+    setOpen((prev) => !prev);
+    if (onClick) onClick(); // Panggil handleDropdownToggle dari parent modal
+  };
 
   const handleSelect = (value) => {
     setSelected(value);
@@ -29,9 +33,7 @@ const SingleSelectDropdown = ({
         <input
           readOnly
           value={selected}
-          placeholder={`Pilih ${
-            typeof label === "string" ? label.toLowerCase() : ""
-          }`}
+          placeholder={`Pilih ${label.toLowerCase()}`}
           {...register(name)}
           onClick={toggleDropdown}
           className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer"

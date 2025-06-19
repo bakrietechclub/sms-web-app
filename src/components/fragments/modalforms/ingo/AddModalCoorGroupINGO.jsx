@@ -14,7 +14,7 @@ export const AddModalCoorGroupINGO = ({ isOpen, onClose }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        document.activeElement.blur(); //
+        document.activeElement.blur(); 
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
