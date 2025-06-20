@@ -1,4 +1,3 @@
-// src/components/fragments/modalforms/univ/AddModalUniv.jsx
 import { useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import TextField from "../../../elements/formfields/TextField";
@@ -49,17 +48,24 @@ const allProvinces = [
   "Sumatera Selatan",
   "Sumatera Utara",
 ];
-
-const lsdOptions = ["LEAD", "CLP", "HOL"];
+const jenisInstansi = [
+  "Pemerintah Pusat",
+  "Pemerintah Daerah",
+  "Dunia Usaha",
+  "Media Massa",
+];
+const programs = ["LEAD", "CLP", "HOL", "SDI", "BCF"];
 const kebutuhanOptions = [
   "Tidak",
   "Surat Undangan Audiensi",
   "Surat Permohonan Kerjasama",
+  "Media Partner",
+  "Bisnis Partner",
 ];
 const statusOptions = ["Sudah dikontak", "Belum dikontak"];
 
-export const AddModalUniv = ({ isOpen, onClose }) => {
-  const { register, handleSubmit, setValue, watch } = useForm();
+export const AddModalPartnerResearch = ({ isOpen, onClose }) => {
+  const { register, handleSubmit, setValue } = useForm();
   const dropdownRef = useRef(null);
 
   const onSubmit = (data) => {
@@ -91,9 +97,7 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="w-full h-[92px] px-6 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">
-              Form Tambah Mitra Universitas
-            </h2>
+            <h2 className="text-2xl font-semibold">Form Tambah Mitra</h2>
             <button onClick={onClose} className="text-2xl">
               ×
             </button>
@@ -105,6 +109,13 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
             style={{ height: "calc(900px - 92px)" }}
             ref={dropdownRef}
           >
+            <SingleSelectDropdown
+              name="jenisInstansi"
+              label="Jenis Instansi"
+              options={jenisInstansi}
+              register={register}
+              setValue={setValue}
+            />
             <TextField
               name="namaInstansi"
               label="Nama Instansi"
@@ -126,9 +137,9 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
             />
             <ContactFields register={register} />
             <MultiSelectDropdown
-              name="programLSD"
-              label="Program LSD"
-              options={lsdOptions}
+              name="programKerjasama"
+              label="Program Kerjasama"
+              options={programs}
               register={register}
               setValue={setValue}
             />

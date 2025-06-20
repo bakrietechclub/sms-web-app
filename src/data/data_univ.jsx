@@ -602,6 +602,7 @@ export const UnivMouPks = [
 
 export const UnivPotentialPartnerResearch = [
   {
+    id: 0,
     name: "Universitas Indonesia",
     jenis: "Universitas",
     region: "DKI Jakarta",
@@ -609,6 +610,7 @@ export const UnivPotentialPartnerResearch = [
     status: true,
   },
   {
+    id: 1,
     name: "Universitas Jakarta",
     jenis: "Universitas",
     region: "DKI Jakarta",
@@ -616,6 +618,7 @@ export const UnivPotentialPartnerResearch = [
     status: true,
   },
   {
+    id: 2,
     name: "Universitas Sriwijaya",
     jenis: "Universitas",
     region: "Sumatera Selatan",
@@ -623,6 +626,7 @@ export const UnivPotentialPartnerResearch = [
     status: false,
   },
   {
+    id: 3,
     name: "Universitas Gunadarma",
     jenis: "Universitas",
     region: "Jawa Barat",
@@ -630,6 +634,7 @@ export const UnivPotentialPartnerResearch = [
     status: true,
   },
   {
+    id: 4,
     name: "Universitas Telkom",
     jenis: "Universitas",
     region: "Jawa Barat",
@@ -637,6 +642,7 @@ export const UnivPotentialPartnerResearch = [
     status: false,
   },
   {
+    id: 5,
     name: "STPI Penabulu",
     jenis: "Lembaga Sosial",
     region: "DKI Jakarta",
@@ -644,6 +650,7 @@ export const UnivPotentialPartnerResearch = [
     status: true,
   },
   {
+    id: 6,
     name: "Gerakan TBC",
     jenis: "Lembaga Sosial",
     region: "Banten",
@@ -651,6 +658,7 @@ export const UnivPotentialPartnerResearch = [
     status: false,
   },
   {
+    id: 7,
     name: "Gerakan TBC",
     jenis: "Lembaga Sosial",
     region: "Banten",
@@ -658,6 +666,7 @@ export const UnivPotentialPartnerResearch = [
     status: false,
   },
   {
+    id: 8,
     name: "Gerakan TBC",
     jenis: "Lembaga Sosial",
     region: "Banten",
@@ -665,6 +674,7 @@ export const UnivPotentialPartnerResearch = [
     status: true,
   },
   {
+    id: 9,
     name: "Gerakan TBC",
     jenis: "Lembaga Sosial",
     region: "Banten",
