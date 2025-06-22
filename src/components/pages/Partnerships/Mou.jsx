@@ -11,7 +11,7 @@ import { UnivMouPks } from "../../../data/data_univ";
 import { MediaMouPks } from "../../../data/data_media";
 import { INGOMouPks } from "../../../data/data_ingo";
 
-export const MouPks = () => {
+export const Mou = () => {
   const [showDetail, setShowDetail] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -65,7 +65,6 @@ export const MouPks = () => {
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3 border-b border-gray-200">{value.colabType}</td>
       <td className="border-b border-gray-200">{value.duration}</td>
       <td className="border-b border-gray-200">{value.dueDate}</td>
       <td className="border-b border-gray-200">{value.signYear}</td>
@@ -86,21 +85,13 @@ export const MouPks = () => {
   if (!showDetail) {
     return (
       <div>
-        <h1 className="text-2xl font-semibold">Tabel MoU / PKS</h1>
+        <h1 className="text-2xl font-semibold">Tabel MoU</h1>
         <div className="w-full">
           <TableToolbar
             searchValue={search}
             onSearchChange={setSearch}
             onAddClick={(opt) => handleAdd(opt)}
-            addOptions={["MoU", "PKS"]}
             filters={[
-              {
-                label: "Jenis Surat",
-                options: [
-                  { label: "MoU", value: "MoU" },
-                  { label: "PKS", value: "PKS" },
-                ],
-              },
               {
                 label: "Jenis Instansi",
                 options: [
@@ -206,7 +197,7 @@ export const MouPks = () => {
           <div className="">
             <p className="font-semibold">Link Dokumen:</p>
             <a href="#" className="text-[#0D4690] italic underline">
-              Link Dokumen MoU / PKS
+              Link Dokumen MoU
             </a>
           </div>
           <div className="">

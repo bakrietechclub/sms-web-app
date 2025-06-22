@@ -7,8 +7,10 @@ import { ColabPartner } from "./components/pages/Researches/ColabPartner";
 import { Partner } from "./components/pages/Researches/Partner";
 import { Audiences } from "./components/pages/Audiences";
 import { CoordinationGroups } from "./components/pages/CoordinationGroups";
-import { MouPks } from "./components/pages/Partnerships/MouPks";
-import { SpkTor } from "./components/pages/Partnerships/SpkTor";
+import { Mou } from "./components/pages/Partnerships/Mou";
+import { Pks } from "./components/pages/Partnerships/Pks";
+import { Spk } from "./components/pages/Partnerships/Spk";
+import { Tor } from "./components/pages/Partnerships/Tor";
 import { Ia } from "./components/pages/Partnerships/Ia";
 import { CooperationSign } from "./components/pages/Partnerships/CooperationSign";
 import { LetterNumbering } from "./components/pages/LetterNumbering";
@@ -36,10 +38,12 @@ const App = () => {
           <Route path="contact" element={<h1>Kontak Grup</h1>} />
         </Route>
         <Route path="partnerships">
-          <Route path="mou-pks" element={<MouPks />} />
+          <Route path="mou" element={<Mou />} />
+          <Route path="pks" element={<Pks />} />
           <Route path="implementation-agreements" element={<Ia />} />
           <Route path="coop-sign" element={<CooperationSign />} />
-          <Route path="spk-tor" element={<SpkTor />} />
+          <Route path="spk" element={<Spk />} />
+          <Route path="tor" element={<Tor />} />
         </Route>
         <Route path="letter-numbers" element={<LetterNumbering />} />
         <Route path="recap">

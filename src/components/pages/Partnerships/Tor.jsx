@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { UnivSpkTor } from "../../../data/data_univ";
 import { INGOSpkTor } from "../../../data/data_ingo";
 
-export const SpkTor = () => {
+export const Tor = () => {
   const [search, setSearch] = useState("");
   const stakeholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
@@ -42,7 +42,6 @@ export const SpkTor = () => {
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3 border-b border-gray-200">{value.colabType}</td>
       <td className="border-b border-gray-200">{value.signDate}</td>
       <td className="border-b border-gray-200">{value.duration}</td>
       <td className="border-b border-gray-200">{value.dueDate}</td>
@@ -56,20 +55,13 @@ export const SpkTor = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold">Tabel Surat SPK/TOR</h1>
+      <h1 className="text-2xl font-semibold">Tabel Surat TOR</h1>
       <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={(opt) => handleAdd(opt)}
         addOptions={["Atas Nama Pribadi", "Atas Nama Instansi"]}
         filters={[
-          {
-            label: "Jenis Surat",
-            options: [
-              { label: "MoU", value: "MoU" },
-              { label: "PKS", value: "PKS" },
-            ],
-          },
           {
             label: "Jenis Instansi",
             options: [
