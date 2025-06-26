@@ -1,50 +1,91 @@
-import { Label } from "../elements/Label";
-import { Button } from "../elements/Button";
+import { useState, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { ChevronLeft } from "lucide-react";
+
 import { Table } from "../fragments/Table";
 import { TableToolbar } from "../fragments/TableToolbar";
 import { Pagination } from "../fragments/Pagination";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { Button } from "../elements/Button";
+import { Label } from "../elements/Label";
 
 import { UnivAudience } from "../../data/data_univ";
 import { MediaAudience } from "../../data/data_media";
 import { INGOAudience } from "../../data/data_ingo";
 
-import { ChevronLeft } from "lucide-react";
+import { AddModalAudienceUniv } from "../fragments/modalforms/univ/AddModalAudienceUniv";
+import { AddModalAudienceMedia } from "../fragments/modalforms/media/AddModalAudienceMedia";
+import { AddModalAudienceINGO } from "../fragments/modalforms/ingo/AddModalAudienceINGO";
 
 export const Audiences = () => {
   const stekholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
   );
 
-  let dataRaw;
-  if (stekholder === "universitas") {
-    dataRaw = UnivAudience;
-  } else if (stekholder === "media") {
-    dataRaw = MediaAudience;
-  } else {
-    dataRaw = INGOAudience;
-  }
-
   const [showDetail, setShowDetail] = useState(false);
   const [search, setSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filters, setFilters] = useState({});
+  const [selected, setSelected] = useState({});
 
-  const handleClick = () => {
-    setShowDetail(!showDetail);
-  };
+  let dataRaw;
+  let filterOptions = [];
 
-  const [selected, setSelected] = useState({
-    name: "",
-    type: "",
-    tanggal: "",
-    jam: "",
-    audiensi: false,
-    status: "belum",
-    division: "",
-    place: "",
-    link: "",
-    note: "",
-  });
+  if (stekholder === "universitas") {
+    dataRaw = UnivAudience;
+    filterOptions = [
+      {
+        label: "Status",
+        options: [
+          { label: "Belum Audiensi", value: "belum" },
+          { label: "Re-Audiensi", value: "re-audiensi" },
+          { label: "Selesai", value: "selesai" },
+        ],
+      },
+    ];
+  } else if (stekholder === "media") {
+    dataRaw = MediaAudience;
+    filterOptions = [
+      {
+        label: "Jenis Instansi",
+        options: [
+          { label: "Pemerintah Pusat", value: "pemerintah pusat" },
+          { label: "Pemerintah Daerah", value: "pemerintah daerah" },
+          { label: "Dunia Usaha", value: "dunia usaha" },
+          { label: "Media Massa", value: "media massa" },
+        ],
+      },
+      {
+        label: "Status",
+        options: [
+          { label: "Belum Audiensi", value: "belum" },
+          { label: "Re-Audiensi", value: "re-audiensi" },
+          { label: "Selesai", value: "selesai" },
+        ],
+      },
+    ];
+  } else {
+    dataRaw = INGOAudience;
+    filterOptions = [
+      {
+        label: "Status",
+        options: [
+          { label: "Belum Audiensi", value: "belum" },
+          { label: "Re-Audiensi", value: "re-audiensi" },
+          { label: "Selesai", value: "selesai" },
+        ],
+      },
+    ];
+  }
+
+  const filteredData = useMemo(() => {
+    return dataRaw.filter((item) => {
+      const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
+      const matchStatus = !filters.Status || item.status === filters.Status;
+      const matchJenis =
+        !filters["Jenis Instansi"] || item.type === filters["Jenis Instansi"];
+      return matchSearch && matchStatus && matchJenis;
+    });
+  }, [dataRaw, search, filters]);
 
   const headers = [
     "No",
@@ -91,8 +132,8 @@ export const Audiences = () => {
       <td>
         <Button
           onClick={() => {
-            handleClick();
             setSelected(value);
+            setShowDetail(true);
           }}
           className="text-[#0D4690] underline cursor-pointer"
         >
@@ -102,87 +143,47 @@ export const Audiences = () => {
     </tr>
   );
 
-  if (!showDetail) {
-    return (
-      <div>
-        <h1 className="text-2xl font-semibold">Tabel Data Audiensi</h1>
-        <TableToolbar
-          searchValue={search}
-          onSearchChange={setSearch}
-          onAddClick={() => {
-            openModalA();
-          }}
-          filters={[
-            {
-              label: "Status",
-              options: [
-                { label: "Belum Audiensi", value: "belum audiensi" },
-                { label: "Re-audiensi", value: "re-audiensi" },
-                { label: "Selesai", value: "selesai" },
-              ],
-            },
-          ]}
-          onFilterSet={() => console.log("Filter diset")}
-          searchWidth="w-1/4"
-        />
-        <Table headers={headers} data={dataRaw} renderRow={renderRow} />
-        <Pagination />
-      </div>
-    );
-  } else {
+  if (showDetail) {
     return (
       <div>
         <Button
-          className={"text-[#0D4690] cursor-pointer flex"}
-          onClick={() => {
-            handleClick();
-          }}
+          className="text-[#0D4690] cursor-pointer flex"
+          onClick={() => setShowDetail(false)}
         >
           <ChevronLeft /> Kembali
         </Button>
         <h1 className="text-2xl font-semibold mt-4">Data Lengkap Audiensi</h1>
-        <div className="flex justify-end">
-          <Button
-            className={
-              "bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2"
-            }
-          >
-            Perbarui
-          </Button>
-        </div>
         <div className="grid grid-cols-2 gap-y-7 mb-7">
-          <div className="">
+          <div>
             <p className="font-semibold">Nama Instansi:</p>
             <p className="ml-2">{selected.name}</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Tanggal:</p>
             <p className="ml-2">{selected.tanggal}</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Jenis Instansi:</p>
             <p className="ml-2">{selected.type}</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Jam:</p>
             <p className="ml-2">{selected.jam}</p>
           </div>
         </div>
-        <div className="grid grid-cols-1 mb-7">
-          <div className="">
-            <p className="font-semibold">Divisi Instansi:</p>
-            <p className="ml-2">{selected.division}</p>
-          </div>
+        <div className="mb-7">
+          <p className="font-semibold">Divisi Instansi:</p>
+          <p className="ml-2">{selected.division}</p>
         </div>
         <div className="grid grid-cols-2 gap-y-7 mb-7">
-          <div className="">
+          <div>
             <p className="font-semibold">Jenis Audiensi:</p>
             <Label
               label={selected.audiensi ? "Online" : "Offline"}
               status={selected.audiensi ? "info" : "white"}
             />
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Status Audiensi:</p>
             <Label
               label={
@@ -202,26 +203,47 @@ export const Audiences = () => {
             />
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-y-7 mb-7">
-          <div className="">
-            <p className="font-semibold">Tempat Audiensi:</p>
-            <p className="ml-2">{selected.place}</p>
-          </div>
-          <div className="">
-            <p className="font-semibold">Link Dokumentasi:</p>
-            <a
-              className="ml-2 text-[#0D4690] italic underline"
-              href={selected.link}
-            >
-              {selected.link}
-            </a>
-          </div>
-          <div className="">
-            <p className="font-semibold">Catatan Tambahan:</p>
-            <p className="ml-2">{selected.note}</p>
-          </div>
+        <div className="mb-7">
+          <p className="font-semibold">Tempat Audiensi:</p>
+          <p className="ml-2">{selected.place}</p>
+        </div>
+        <div className="mb-7">
+          <p className="font-semibold">Link Dokumentasi:</p>
+          <a href={selected.link} className="ml-2 text-[#0D4690] italic underline">
+            {selected.link}
+          </a>
+        </div>
+        <div className="mb-7">
+          <p className="font-semibold">Catatan Tambahan:</p>
+          <p className="ml-2">{selected.note}</p>
         </div>
       </div>
     );
   }
+
+  return (
+    <div>
+      <h1 className="text-2xl font-semibold">Tabel Data Audiensi</h1>
+      <TableToolbar
+        searchValue={search}
+        onSearchChange={setSearch}
+        onAddClick={() => setIsModalOpen(true)}
+        filters={filterOptions}
+        onFilterSet={(f) => setFilters(f)}
+        searchWidth="w-1/4"
+      />
+      <Table headers={headers} data={filteredData} renderRow={renderRow} />
+      <Pagination />
+
+      {isModalOpen && stekholder === "universitas" && (
+        <AddModalAudienceUniv isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      )}
+      {isModalOpen && stekholder === "media" && (
+        <AddModalAudienceMedia isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      )}
+      {isModalOpen && stekholder === "lembagaInternasional" && (
+        <AddModalAudienceINGO isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      )}
+    </div>
+  );
 };

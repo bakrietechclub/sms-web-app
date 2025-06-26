@@ -57,19 +57,79 @@ export const AddModalColabPartnerResearch = ({ isOpen, onClose }) => {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto" style={{ height: "calc(900px - 92px)" }} ref={dropdownRef}>
-            <SingleSelectDropdown name="jenis instansi" label="Jenis Instansi" isRequired={true} options={typeOfInstitution} register={register} setValue={setValue} />
-            <TextField name="namaInstansi" label="Nama Instansi" placeholder="Masukkan nama instansi" register={register} isRequired={true} />
-            <TextField name="divisiInstansi" label="Divisi Instansi" placeholder="Masukkan divisi instansi" register={register}/>
-            <SingleSelectDropdown name="provinsi" label="Provinsi" options={allProvinces} register={register} setValue={setValue} />
-            <MultiSelectDropdown name="programLSD" label="Program LSD" options={lsdOptions} register={register} setValue={setValue} />
-            <TextField name="statusKerjasama" label="Status Kerjasama" placeholder="Status Kerjasama" register={register} setValue={setValue}/>
-            <AgreementStatus register={register} />
-            <TextField name="kontak" label="Kontak" placeholder="kontak" register={register} setValue={setValue}/>
-            <MultiSelectDropdown name="kebutuhan" label="Kebutuhan" options={kebutuhanOptions} register={register} setValue={setValue} isRequired={true} />
-            <MultiSelectDropdown name="programLSDRencanaKolaborasi" label="Program LSD Rencana Kolaborasi" options={lsdOptions} 
-            register={register} setValue={setValue} />
-            <TextField name="detailRencanaKolaborasi" label="Detail Rencana Kolaborasi" placeholder="Detail Rencana Kolaborasi" register={register}/>
-            <SwotFields label="Analisis Kolaborasi Program" register={register} />
+            <SingleSelectDropdown 
+             name="jenis instansi" 
+             label="Jenis Instansi" 
+             isRequired={true} 
+             options={typeOfInstitution} 
+             register={register} 
+             setValue={setValue} 
+            />
+            <TextField 
+             name="namaInstansi" 
+             label="Nama Instansi" 
+             placeholder="Masukkan nama instansi" 
+             register={register} 
+             isRequired={true} 
+            />
+            <TextField name="divisiInstansi"
+             label="Divisi Instansi"
+             placeholder="Masukkan divisi instansi" 
+             register={register}
+            />
+            <SingleSelectDropdown 
+             name="provinsi" 
+             label="Provinsi" 
+             options={allProvinces} 
+             register={register} 
+             setValue={setValue} 
+            />
+            <MultiSelectDropdown 
+             name="programLSD" 
+             label="Program LSD"
+             options={lsdOptions} 
+             register={register} 
+             setValue={setValue}
+            />
+            <TextField 
+             name="statusKerjasama" 
+             label="Status Kerjasama" 
+             placeholder="Status Kerjasama" 
+             register={register} 
+             setValue={setValue}
+            />
+            <AgreementStatus 
+             register={register} 
+            />
+            <TextField 
+             name="kontak" 
+             label="Kontak" 
+             placeholder="kontak" 
+             register={register} 
+             setValue={setValue}
+            />
+            <MultiSelectDropdown 
+             name="kebutuhan" 
+             label="Kebutuhan" 
+             options={kebutuhanOptions} 
+             register={register} 
+             setValue={setValue} 
+             isRequired={true} 
+            />
+            <MultiSelectDropdown 
+             name="programLSDRencanaKolaborasi" 
+             label="Program LSD Rencana Kolaborasi" 
+             options={lsdOptions} 
+             register={register} 
+             setValue={setValue} />
+            <TextField 
+             name="detailRencanaKolaborasi" 
+             label="Detail Rencana Kolaborasi" 
+             placeholder="Detail Rencana Kolaborasi" 
+             register={register}/>
+            <SwotFields 
+             label="Analisis Kolaborasi Program" 
+             register={register} />
             <div className="text-right pt-4">
               <button type="submit" className="bg-[#0d4690] text-white px-15 py-2 rounded-lg hover:bg-[#0c3f82]">
                 Simpan
