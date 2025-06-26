@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveStakeholder } from "../../features/stakeholder/activeStakeholderSlice";
 import { sidebarMenus } from "../../config/sidebarMenus";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronRight, ChevronDown } from "lucide-react";
 import LogoBCF from "../../assets/img/logoBCF.png";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -107,9 +107,9 @@ export const SidebarMenu = () => {
                 </div>
                 {menu.submenu &&
                   (openMenus.includes(menu.title) ? (
-                    <ChevronUp size={18} />
-                  ) : (
                     <ChevronDown size={18} />
+                  ) : (
+                    <ChevronRight size={18} />
                   ))}
               </div>
             )}
