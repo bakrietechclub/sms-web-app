@@ -6,8 +6,16 @@ import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropd
 
 const typeOfInstitution = ["Universitas", "Lembaga/Komunitas"];
 
-const typeOfLetter = ["Surat Permohonan Kerjasama", "Surat Undangan Audiensi", "MoU (Nota Kesepahaman)", "PKS (Perjanjian Kerjasama)", 
-                      "IA (Implementation Agreement)", "SPK (Surat Pernyataan Komitmen)"]
+const typeOfLetter = [
+  "Surat Permohonan Kerjasama",
+  "Surat Undangan Audiensi",
+  "MoU (Nota Kesepahaman)",
+  "PKS (Perjanjian Kerjasama)",
+  "IA (Implementation Agreement)",
+  "SPK (Surat Pernyataan Komitmen)",
+];
+
+const classLetterNumber = ["Administrasi", "Finance"];
 
 export const AddModalLetterNumberingUniv = ({ isOpen, onClose }) => {
   const { register, handleSubmit, setValue } = useForm();
@@ -56,13 +64,13 @@ export const AddModalLetterNumberingUniv = ({ isOpen, onClose }) => {
             style={{ height: "calc(900px - 92px)" }}
             ref={dropdownRef}
           >
-            <SingleSelectDropdown 
-             name="jenis instansi" 
-             label="Jenis Instansi" 
-             isRequired={true} 
-             options={typeOfInstitution} 
-             register={register} 
-             setValue={setValue} 
+            <SingleSelectDropdown
+              name="jenis instansi"
+              label="Jenis Instansi"
+              isRequired={true}
+              options={typeOfInstitution}
+              register={register}
+              setValue={setValue}
             />
             <TextField
               name="namaInstansi"
@@ -78,13 +86,13 @@ export const AddModalLetterNumberingUniv = ({ isOpen, onClose }) => {
               register={register}
               isRequired={true}
             />
-            <SingleSelectDropdown 
-             name="jenisSurat" 
-             label="Jenis Surat" 
-             isRequired={true} 
-             options={typeOfLetter} 
-             register={register} 
-             setValue={setValue} 
+            <SingleSelectDropdown
+              name="jenisSurat"
+              label="Jenis Surat"
+              isRequired={true}
+              options={typeOfLetter}
+              register={register}
+              setValue={setValue}
             />
             <TextField
               name="tujuanPerihalSurat"
