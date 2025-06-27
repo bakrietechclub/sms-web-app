@@ -2,9 +2,7 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import TextField from "../../../elements/formfields/TextField";
-import SwotFields from "../../../elements/formfields/SwotFields";
 import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropdown";
-import AgreementStatus from "../../../elements/formfields/AgreementStatus";
 
 const typeOfInstitution = ["Universitas", "Lembaga/Komunitas"];
 
