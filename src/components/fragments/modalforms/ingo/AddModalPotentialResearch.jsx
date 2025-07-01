@@ -7,6 +7,7 @@ import SwotFields from "../../../elements/formfields/SwotFields";
 import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropdown";
 import MultiSelectDropdown from "../../../elements/formfields/MultiSelectDropdown";
 import SingleSelectDropdownBadge from "../../../elements/formfields/SingleSelectDropdownBadge";
+import ClusterSubClusterField from "../../../elements/formfields/ClusterSubClusterField";
 
 const allProvinces = [
   "Nasional",
@@ -50,16 +51,22 @@ const allProvinces = [
   "Sumatera Utara",
 ];
 
-const lsdOptions = ["LEAD", "CLP", "HOL"];
+const lsdOptions = ["LEAD", "CLP", "HOL", "BCF"];
 const kebutuhanOptions = [
   "Tidak",
   "Surat Undangan Audiensi",
   "Surat Permohonan Kerjasama",
 ];
 const statusOptions = ["Sudah dikontak", "Belum dikontak"];
+const clusterOptions = ["Kesehatan", "Pendidikan", "Lingkungan"];
+const subClusterOptions = [
+  "Anak Prasejahtera",
+  "Gerakan Lanjut Kuliah",
+  "Lainnya:",
+];
 
-export const AddModalUniv = ({ isOpen, onClose }) => {
-  const { register, handleSubmit, setValue, watch } = useForm();
+export const AddModalPotentialResearch = ({ isOpen, onClose }) => {
+  const { register, handleSubmit, setValue } = useForm();
   const dropdownRef = useRef(null);
 
   const onSubmit = (data) => {
@@ -70,7 +77,7 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        document.activeElement.blur(); // close any open dropdown
+        document.activeElement.blur();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -92,7 +99,7 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
         >
           <div className="w-full h-[92px] px-6 flex items-center justify-between">
             <h2 className="text-2xl font-semibold">
-              Form Tambah Mitra Universitas
+              Form Tambah Mitra Lembaga Internasional
             </h2>
             <button onClick={onClose} className="text-2xl">
               ×
@@ -106,17 +113,38 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
             ref={dropdownRef}
           >
             <TextField
+              name="jenisInstansi"
+              label="Jenis Instansi"
+              placeholder="Lembaga Internasional"
+              defaultValue="Lembaga Internasional"
+              disable={true}
+              className="bg-gray-200 text-gray-500"
+              register={register}
+            />
+            <TextField
               name="namaInstansi"
               label="Nama Instansi"
               placeholder="Masukkan nama instansi"
               register={register}
             />
             <SingleSelectDropdown
-              name="provinsi"
-              label="Provinsi"
+              name="region"
+              label="Region"
               options={allProvinces}
               register={register}
               setValue={setValue}
+            />
+            <ClusterSubClusterField
+              register={register}
+              setValue={setValue}
+              clusterOptions={clusterOptions}
+              subClusterOptions={subClusterOptions}
+            />
+            <TextField
+              name="peran"
+              label="Peran"
+              placeholder="Masukkan peran"
+              register={register}
             />
             <TextField
               name="profil"
@@ -124,7 +152,20 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
               placeholder="Masukkan profil"
               register={register}
             />
+            <TextField
+              name="wilayahJangkauan"
+              label="Wilayah Jangkauan"
+              placeholder="Masukkan wilayah jangkauan"
+              register={register}
+            />
             <ContactFields register={register} />
+            <MultiSelectDropdown
+              name="kebutuhan"
+              label="Kebutuhan"
+              options={kebutuhanOptions}
+              register={register}
+              setValue={setValue}
+            />
             <MultiSelectDropdown
               name="programLSD"
               label="Program LSD"
@@ -136,13 +177,6 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
               name="status"
               label="Status"
               options={statusOptions}
-              register={register}
-              setValue={setValue}
-            />
-            <MultiSelectDropdown
-              name="kebutuhan"
-              label="Kebutuhan"
-              options={kebutuhanOptions}
               register={register}
               setValue={setValue}
             />

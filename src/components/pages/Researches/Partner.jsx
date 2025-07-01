@@ -5,8 +5,11 @@ import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 import { MediaPartnerResearch } from "../../../data/data_media";
 
+import { AddModalPartnerResearch } from "../../fragments/modalforms/media/AddModalPartnerResearch";
+
 export const Partner = () => {
   const [search, setSearch] = useState("");
+  const [openModal, setOpenModal] = useState("");
 
   const headers = [
     "No",
@@ -45,11 +48,7 @@ export const Partner = () => {
       <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
-        onAddClick={(type) => {
-          if (type === "Kategori A") openModalA();
-          if (type === "Kategori B") openModalB();
-        }}
-        addOptions={["Kategori A", "Kategori B"]}
+        onAddClick={() => setOpenModal(true)}
         filters={[
           {
             label: "Jenis Instansi",
@@ -71,6 +70,14 @@ export const Partner = () => {
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"
       />
+
+      <AddModalPartnerResearch
+        isOpen={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+      />
+
       <Table
         headers={headers}
         data={MediaPartnerResearch}

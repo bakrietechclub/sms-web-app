@@ -29,7 +29,8 @@ export const TableToolbar = ({
     );
   };
 
-  const isNestedAdd = typeof addOptions === "object" && !Array.isArray(addOptions);
+  const isNestedAdd =
+    typeof addOptions === "object" && !Array.isArray(addOptions);
 
   return (
     <div className="flex items-center justify-end gap-4 mb-3 pt-4 relative">
@@ -88,16 +89,20 @@ export const TableToolbar = ({
                       ))}
                   </button>
 
-                  {expandedFields.includes(filter.label) && filter.options?.length > 0 && (
-                    <div className="mt-2 ml-2 flex flex-col gap-2">
-                      {filter.options.map((option, i) => (
-                        <label key={i} className="flex items-center gap-2 text-gray-700">
-                          <input type="checkbox" value={option.value} />
-                          {option.label}
-                        </label>
-                      ))}
-                    </div>
-                  )}
+                  {expandedFields.includes(filter.label) &&
+                    filter.options?.length > 0 && (
+                      <div className="mt-2 ml-2 flex flex-col gap-2">
+                        {filter.options.map((option, i) => (
+                          <label
+                            key={i}
+                            className="flex items-center gap-2 text-gray-700"
+                          >
+                            <input type="checkbox" value={option.value} />
+                            {option.label}
+                          </label>
+                        ))}
+                      </div>
+                    )}
                 </div>
               ))}
             </div>
@@ -112,7 +117,7 @@ export const TableToolbar = ({
             onClick={
               addOptions ? () => setShowAddOptions(!showAddOptions) : onAddClick
             }
-            className="flex gap-3 items-center bg-[#0D4690] text-white px-4 py-2 rounded-md mb-4 ml-2 hover:bg-[#0C3F82] duration-300"
+            className="flex gap-3 items-center bg-[#0D4690] text-white px-4 py-2 rounded-md mb-4 ml-2 hover:bg-[#0C3F82] duration-300 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Tambah
@@ -123,56 +128,56 @@ export const TableToolbar = ({
             <div className="absolute right-0 mt-2 bg-white shadow-2xl rounded-md z-10 text-sm py-4 px-4 w-[250px]">
               <p className="font-base text-black mb-2">Tambah Data</p>
 
-              {isNestedAdd ? (
-                Object.keys(addOptions).map((key, idx) => (
-                  <div key={idx} className="mb-2">
-                    <button
-                      onClick={() =>
-                        setOpenAddSubmenu((prev) => (prev === key ? null : key))
-                      }
-                      className="flex justify-between items-center w-full text-left font-medium text-[#0D4690] py-1"
-                    >
-                      <span>{key}</span>
-                      {openAddSubmenu === key ? (
-                        <ChevronDown size={16} />
-                      ) : (
-                        <ChevronRight size={16} />
-                      )}
-                    </button>
+              {isNestedAdd
+                ? Object.keys(addOptions).map((key, idx) => (
+                    <div key={idx} className="mb-2">
+                      <button
+                        onClick={() =>
+                          setOpenAddSubmenu((prev) =>
+                            prev === key ? null : key
+                          )
+                        }
+                        className="flex justify-between items-center w-full text-left font-medium text-[#0D4690] py-1"
+                      >
+                        <span>{key}</span>
+                        {openAddSubmenu === key ? (
+                          <ChevronDown size={16} />
+                        ) : (
+                          <ChevronRight size={16} />
+                        )}
+                      </button>
 
-                    {openAddSubmenu === key && (
-                      <div className="mt-2 ml-2 flex flex-col gap-2">
-                        {addOptions[key].map((btn, i) => (
-                          <button
-                            key={i}
-                            onClick={() => {
-                              btn.onClick();
-                              setShowAddOptions(false);
-                              setOpenAddSubmenu(null);
-                            }}
-                            className="w-full text-left px-3 py-2 bg-[#F5F9FF] text-[#0D4690] rounded-md hover:bg-[#EAF1FC]"
-                          >
-                            {btn.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))
-              ) : (
-                addOptions.map((option, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      onAddClick(option);
-                      setShowAddOptions(false);
-                    }}
-                    className="w-full text-left px-3 py-2 bg-[#F5F9FF] text-[#0D4690] rounded-md hover:bg-[#EAF1FC]"
-                  >
-                    {option}
-                  </button>
-                ))
-              )}
+                      {openAddSubmenu === key && (
+                        <div className="mt-2 ml-2 flex flex-col gap-2">
+                          {addOptions[key].map((btn, i) => (
+                            <button
+                              key={i}
+                              onClick={() => {
+                                btn.onClick();
+                                setShowAddOptions(false);
+                                setOpenAddSubmenu(null);
+                              }}
+                              className="w-full text-left px-3 py-2 bg-[#F5F9FF] text-[#0D4690] rounded-md hover:bg-[#EAF1FC]"
+                            >
+                              {btn.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                : addOptions.map((option, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        onAddClick(option);
+                        setShowAddOptions(false);
+                      }}
+                      className="w-full text-left px-3 py-2 bg-[#F5F9FF] text-[#0D4690] rounded-md hover:bg-[#EAF1FC]"
+                    >
+                      {option}
+                    </button>
+                  ))}
             </div>
           )}
         </div>

@@ -41,8 +41,10 @@ export const sidebarMenus = {
       title: "Legalitas Kerjasama",
       icon: MailOpen,
       submenu: [
-        { title: "MoU/PKS", path: "/dashboard/partnerships/mou-pks" },
-        { title: "SPK/TOR", path: "/dashboard/partnerships/spk-tor" },
+        { title: "MoU", path: "/dashboard/partnerships/mou" },
+        { title: "PKS", path: "/dashboard/partnerships/pks" },
+        { title: "SPK", path: "/dashboard/partnerships/spk" },
+        { title: "TOR", path: "/dashboard/partnerships/tor" },
         {
           title: "IA",
           path: "/dashboard/partnerships/implementation-agreements",
@@ -92,7 +94,8 @@ export const sidebarMenus = {
       title: "Legalitas Kerjasama",
       icon: MailOpen,
       submenu: [
-        { title: "MoU/PKS", path: "/dashboard/partnerships/mou-pks" },
+        { title: "MoU", path: "/dashboard/partnerships/mou" },
+        { title: "PKS", path: "/dashboard/partnerships/pks" },
         { title: "Tanda Kerjasama", path: "/dashboard/partnerships/coop-sign" },
       ],
     },
@@ -150,8 +153,10 @@ export const sidebarMenus = {
       title: "Legalitas Kerjasama",
       icon: MailOpen,
       submenu: [
-        { title: "MoU/PKS", path: "/dashboard/partnerships/mou-pks" },
-        { title: "SPK/TOR", path: "/dashboard/partnerships/spk-tor" },
+        { title: "MoU", path: "/dashboard/partnerships/mou" },
+        { title: "PKS", path: "/dashboard/partnerships/pks" },
+        { title: "SPK", path: "/dashboard/partnerships/spk" },
+        { title: "TOR", path: "/dashboard/partnerships/tor" },
         {
           title: "IA",
           path: "/dashboard/partnerships/implementation-agreements",

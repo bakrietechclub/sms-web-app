@@ -2,11 +2,10 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import TextField from "../../../elements/formfields/TextField";
-import ContactFields from "../../../elements/formfields/ContactFields";
 import SwotFields from "../../../elements/formfields/SwotFields";
 import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropdown";
 import MultiSelectDropdown from "../../../elements/formfields/MultiSelectDropdown";
-import SingleSelectDropdownBadge from "../../../elements/formfields/SingleSelectDropdownBadge";
+import AgreementStatus from "../../../elements/formfields/AgreementStatus";
 
 const allProvinces = [
   "Nasional",
@@ -51,15 +50,17 @@ const allProvinces = [
 ];
 
 const lsdOptions = ["LEAD", "CLP", "HOL"];
+const lsdOptionsPlan = [...lsdOptions, "BCF"];
 const kebutuhanOptions = [
   "Tidak",
   "Surat Undangan Audiensi",
   "Surat Permohonan Kerjasama",
+  "Media Partner",
+  "Bisnis Partner",
 ];
-const statusOptions = ["Sudah dikontak", "Belum dikontak"];
 
-export const AddModalUniv = ({ isOpen, onClose }) => {
-  const { register, handleSubmit, setValue, watch } = useForm();
+export const AddModalLetterNumberingINGO = ({ isOpen, onClose }) => {
+  const { register, handleSubmit, setValue } = useForm();
   const dropdownRef = useRef(null);
 
   const onSubmit = (data) => {
@@ -70,7 +71,7 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        document.activeElement.blur(); // close any open dropdown
+        document.activeElement.blur();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -92,7 +93,7 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
         >
           <div className="w-full h-[92px] px-6 flex items-center justify-between">
             <h2 className="text-2xl font-semibold">
-              Form Tambah Mitra Universitas
+              Tambah Data Riset Kolaborasi Mitra
             </h2>
             <button onClick={onClose} className="text-2xl">
               ×
@@ -106,25 +107,34 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
             ref={dropdownRef}
           >
             <TextField
+              name="jenisInstansi"
+              label="Jenis Instansi"
+              placeholder="Lembaga Internasional"
+              defaultValue="Lembaga Internasional"
+              disable={true}
+              className="bg-gray-200 text-gray-500"
+              register={register}
+            />
+            <TextField
               name="namaInstansi"
               label="Nama Instansi"
               placeholder="Masukkan nama instansi"
               register={register}
+              isRequired={true}
+            />
+            <TextField
+              name="divisiInstansi"
+              label="Divisi Instansi"
+              placeholder="Masukkan divisi instansi"
+              register={register}
             />
             <SingleSelectDropdown
-              name="provinsi"
-              label="Provinsi"
+              name="region"
+              label="Region"
               options={allProvinces}
               register={register}
               setValue={setValue}
             />
-            <TextField
-              name="profil"
-              label="Profil"
-              placeholder="Masukkan profil"
-              register={register}
-            />
-            <ContactFields register={register} />
             <MultiSelectDropdown
               name="programLSD"
               label="Program LSD"
@@ -132,10 +142,18 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
               register={register}
               setValue={setValue}
             />
-            <SingleSelectDropdownBadge
-              name="status"
-              label="Status"
-              options={statusOptions}
+            <TextField
+              name="statusKerjasama"
+              label="Status Kerjasama"
+              placeholder="Status Kerjasama"
+              register={register}
+              setValue={setValue}
+            />
+            <AgreementStatus register={register} />
+            <TextField
+              name="kontak"
+              label="Kontak"
+              placeholder="kontak"
               register={register}
               setValue={setValue}
             />
@@ -145,12 +163,23 @@ export const AddModalUniv = ({ isOpen, onClose }) => {
               options={kebutuhanOptions}
               register={register}
               setValue={setValue}
+              isRequired={true}
             />
-            <SwotFields label="Program Analisis" register={register} />
+            <MultiSelectDropdown
+              name="programLSDRencanaKolaborasi"
+              label="Program LSD Rencana Kolaborasi"
+              options={lsdOptionsPlan}
+              register={register}
+              setValue={setValue}
+            />
             <TextField
-              name="linkDokumen"
-              label="Link Dokumen"
-              placeholder="https://.."
+              name="detailRencanaKolaborasi"
+              label="Detail Rencana Kolaborasi"
+              placeholder="Detail Rencana Kolaborasi"
+              register={register}
+            />
+            <SwotFields
+              label="Analisis Kolaborasi Program"
               register={register}
             />
             <div className="text-right pt-4">

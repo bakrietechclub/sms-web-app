@@ -2,6 +2,7 @@ import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { Pagination } from "../../fragments/Pagination";
 import { AddModalColabPartnerResearch } from "../../fragments/modalforms/univ/AddModalColabPartnerResearch";
+import { AddModalColabPartnerResearchINGO } from "../../fragments/modalforms/ingo/AddModalColabPartnerResearchINGO";
 
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -12,6 +13,7 @@ import { INGOColabPartnerResearch } from "../../../data/data_ingo";
 export const ColabPartner = () => {
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
   const stekholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
@@ -49,11 +51,17 @@ export const ColabPartner = () => {
   );
 
   const openModal = () => {
+    if (stekholder === "universitas") {
+      setModalType("universitas");
+    } else {
+      setModalType("ingo");
+    }
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setModalType(null);
   };
 
   return (
@@ -62,15 +70,23 @@ export const ColabPartner = () => {
       <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
-        onAddClick={openModal}
+        onAddClick={openModal} // onAddClick akan memanggil fungsi openModal yang baru
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"
       />
       <Table headers={headers} data={dataRaw} renderRow={renderRow} />
       <Pagination />
 
-      {isModalOpen && (
+      {/* Render modal secara kondisional berdasarkan modalType */}
+      {isModalOpen && modalType === "universitas" && (
         <AddModalColabPartnerResearch
+          isOpen={isModalOpen}
+          onClose={closeModal}
+        />
+      )}
+
+      {isModalOpen && modalType === "ingo" && (
+        <AddModalColabPartnerResearchINGO
           isOpen={isModalOpen}
           onClose={closeModal}
         />
