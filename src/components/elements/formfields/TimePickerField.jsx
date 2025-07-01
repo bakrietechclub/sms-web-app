@@ -17,50 +17,51 @@ const TimePickerField = ({ name = "waktu", label = "Waktu" }) => {
   const minutes = [...Array(12)].map((_, i) => String(i * 5).padStart(2, "0"));
   const numbers = step === "hour" ? hours : minutes;
 
-  // Mengubah koordinat polar supaya 12 berada di atas
-  const polarToCartesian = (r, angle) => {
-    // Geser sudut dengan -90 derajat supaya 0 derajat berada di atas (12 o'clock)
-    const a = ((angle - 90) * Math.PI) / 180;
+  const polarToCartesian = (r, angleInDegrees) => {
+    const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180;
     return {
-      x: center + r * Math.cos(a),
-      y: center + r * Math.sin(a),
+      x: center + r * Math.cos(angleInRadians),
+      y: center + r * Math.sin(angleInRadians),
     };
   };
 
-  // Hitung sudut pointer untuk jam dan menit
   const pointerAngle =
     step === "hour"
-      ? ((hour - 1) % 12) * 30 // Perhitungkan posisi jam, pastikan 12 ada di atas
-      : !isNaN(parseInt(minute)) ? parseInt(minute) * 6 : null;
+      ? (hour % 12 === 0 ? 360 : hour * 30)
+      : parseInt(minute) * 6;
 
-  const targetCoord =
-    pointerAngle !== null ? polarToCartesian(radius - 30, pointerAngle) : null;
+  const targetCoord = polarToCartesian(radius, pointerAngle);
+  const lineEndCoord = polarToCartesian(radius - 20, pointerAngle);
 
-  // Motion values untuk animasi halus
   const x2 = useMotionValue(center);
   const y2 = useMotionValue(center);
+  const circleX = useMotionValue(center);
+  const circleY = useMotionValue(center);
 
-  // Animasi ke posisi target
   useEffect(() => {
-    if (targetCoord) {
-      animate(x2, targetCoord.x, { type: "spring", stiffness: 300, damping: 20 });
-      animate(y2, targetCoord.y, { type: "spring", stiffness: 300, damping: 20 });
+    if (targetCoord && lineEndCoord) {
+      animate(x2, lineEndCoord.x, { type: "spring", stiffness: 300, damping: 25 });
+      animate(y2, lineEndCoord.y, { type: "spring", stiffness: 300, damping: 25 });
+      animate(circleX, targetCoord.x, { type: "spring", stiffness: 300, damping: 25 });
+      animate(circleY, targetCoord.y, { type: "spring", stiffness: 300, damping: 25 });
     }
-  }, [pointerAngle]);
+  }, [pointerAngle, targetCoord, lineEndCoord]);
 
   const handleHover = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left - center;
     const y = e.clientY - rect.top - center;
-    const angle = (Math.atan2(y, x) * 180) / Math.PI + 90; // Mulai dari posisi 12 o'clock (0 derajat)
-    const normalized = (angle + 360) % 360;
+    let angle = (Math.atan2(y, x) * 180) / Math.PI + 90;
+    angle = (angle + 360) % 360;
 
     if (step === "hour") {
-      const h = Math.round(normalized / 30) || 12;
+      let h = Math.round(angle / 30);
+      if (h === 0) h = 12;
       setHour(h);
     } else {
-      const approx = Math.round(normalized / 30) * 5;
-      setMinute(approx === 60 ? "00" : String(approx).padStart(2, "0"));
+      const m = Math.round(angle / 6);
+      const approx = (Math.round(m / 5) * 5) % 60;
+      setMinute(String(approx).padStart(2, "0"));
     }
   };
 
@@ -89,7 +90,6 @@ const TimePickerField = ({ name = "waktu", label = "Waktu" }) => {
 
       {isOpen && (
         <div className="mt-2 p-4 relative z-30 flex flex-col items-center gap-3">
-          {/* AM/PM buttons */}
           <div className="flex gap-2 mb-2">
             {["AM", "PM"].map((period) => (
               <button
@@ -97,9 +97,7 @@ const TimePickerField = ({ name = "waktu", label = "Waktu" }) => {
                 type="button"
                 onClick={() => setAmPm(period)}
                 className={`px-3 py-1 rounded text-sm ${
-                  amPm === period
-                    ? "text-black"  // Untuk yang terpilih
-                    : "text-gray-400"  // Untuk yang tidak terpilih
+                  amPm === period ? "text-black" : "text-gray-400"
                 }`}
               >
                 {period}
@@ -107,14 +105,22 @@ const TimePickerField = ({ name = "waktu", label = "Waktu" }) => {
             ))}
           </div>
 
-          {/* Tampilkan jam dan menit */}
           <div className="flex items-center justify-center gap-2 text-5xl font-normal mb-4">
-            <span className="text-black">{String(hour).padStart(2, "0")}</span>
+            <span
+              className={step === "hour" ? "text-black cursor-pointer" : "text-gray-400 cursor-pointer"}
+              onClick={() => setStep("hour")}
+            >
+              {String(hour).padStart(2, "0")}
+            </span>
             <span className="text-gray-400">:</span>
-            <span className="text-gray-400">{minute}</span>
+            <span
+              className={step === "minute" ? "text-black cursor-pointer" : "text-gray-400 cursor-pointer"}
+              onClick={() => setStep("minute")}
+            >
+              {minute}
+            </span>
           </div>
 
-          {/* Jam dalam bentuk SVG */}
           <svg
             width="240"
             height="240"
@@ -123,14 +129,31 @@ const TimePickerField = ({ name = "waktu", label = "Waktu" }) => {
             onClick={handleClick}
             className="cursor-pointer rounded-full bg-blue-50"
           >
-            {numbers.map((num, i) => {
-              const angle = i * 30; // 30 derajat per jam
-              const pos = polarToCartesian(radius, angle);
+            <circle cx={center} cy={center} r="5" fill="#0d4690" />
+            <motion.line
+              x1={center}
+              y1={center}
+              style={{ x2, y2 }}
+              stroke="#0d4690"
+              strokeWidth="2"
+            />
+            {numbers.map((num) => {
+              const isSelected = step === "hour" ? parseInt(num) === hour : parseInt(num) === parseInt(minute);
+              if (isSelected) return null;
+
+              let angleValue;
+              if (step === "hour") {
+                angleValue = (parseInt(num) % 12 === 0 ? 0 : parseInt(num)) * 30;
+              } else {
+                angleValue = parseInt(num) * 6;
+              }
+              const pos = polarToCartesian(radius, angleValue);
+
               return (
                 <text
                   key={num}
                   x={pos.x}
-                  y={pos.y + 5} // Posisikan angka sesuai dengan radius
+                  y={pos.y + 5}
                   textAnchor="middle"
                   fontSize="14"
                   className="select-none pointer-events-none fill-gray-700"
@@ -139,17 +162,22 @@ const TimePickerField = ({ name = "waktu", label = "Waktu" }) => {
                 </text>
               );
             })}
-            <circle cx={center} cy={center} r="5" fill="#0d4690" />
-            {targetCoord && (
-              <motion.line
-                x1={center}
-                y1={center}
-                style={{ x2, y2 }}
-                stroke="#0d4690"
-                strokeWidth="3"
-                strokeLinecap="round"
-              />
-            )}
+            <motion.circle
+              style={{ cx: circleX, cy: circleY }}
+              r="18"
+              fill="#0d4690"
+              className="pointer-events-none"
+            />
+            <motion.text
+              style={{ x: circleX, y: circleY }}
+              dy="5"
+              textAnchor="middle"
+              fill="white"
+              fontSize="14"
+              className="select-none pointer-events-none font-bold"
+            >
+              {step === "hour" ? hour : minute}
+            </motion.text>
           </svg>
         </div>
       )}
