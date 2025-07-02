@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { motion, useMotionValue, animate } from "framer-motion";
+import clock from "../../../assets/icons/clock.png";
 
 const TimePickerField = ({ name = "waktu", label = "Waktu" }) => {
   const { register, setValue, watch } = useFormContext();
@@ -77,16 +78,21 @@ const TimePickerField = ({ name = "waktu", label = "Waktu" }) => {
   };
 
   return (
-    <div className="relative w-120">
+    <div className="relative w-132">
       <label className="block mb-1 font-medium">{label}</label>
-      <input
-        {...register(name)}
-        readOnly
-        value={value || ""}
-        placeholder="HH:MM AM/PM"
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full border border-gray-300 px-3 py-2 rounded cursor-pointer"
-      />
+      <div className="relative">
+        <input
+          {...register(name)}
+          readOnly
+          value={value || ""}
+          placeholder="HH:MM AM/PM"
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full border border-gray-300 px-3 py-2 rounded cursor-pointer pr-10"
+        />
+        <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
+          <img src={clock} alt="clock icon" className="w-5 h-5 opacity-60" />
+        </div>
+      </div>
 
       {isOpen && (
         <div className="mt-2 p-4 relative z-30 flex flex-col items-center gap-3">

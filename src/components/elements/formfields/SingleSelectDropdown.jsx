@@ -15,7 +15,7 @@ const SingleSelectDropdown = ({
 
   const toggleDropdown = () => {
     setOpen((prev) => !prev);
-    if (onClick) onClick(); // Panggil handleDropdownToggle dari parent modal
+    if (onClick) onClick();
   };
 
   const handleSelect = (value) => {
@@ -36,7 +36,7 @@ const SingleSelectDropdown = ({
           placeholder={`Pilih ${label.toLowerCase()}`}
           {...register(name)}
           onClick={toggleDropdown}
-          className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer"
+          className="w-full border border-gray-300 font-normal px-3 py-2 rounded pr-8 cursor-pointer"
         />
         <div className="absolute top-1/2 right-2 -translate-y-1/2 pointer-events-none">
           {open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-// Warna badge berdasarkan opsi
 const badgeColorMap = {
   "Sudah dikontak": "bg-green-100 text-green-800",
   Selesai: "bg-green-100 text-green-800",
@@ -12,7 +11,6 @@ const badgeColorMap = {
   "Dalam Proses": "bg-blue-100 text-blue-800",
   Online: "bg-[#e7fafe] text-[#0dcaf0]",
   Offline: "bg-gray-100 text-gray-800",
-  // Tambahkan sesuai opsi lain
 };
 
 const SingleSelectDropdownBadge = ({
@@ -43,7 +41,7 @@ const SingleSelectDropdownBadge = ({
           placeholder={`Pilih ${label.toLowerCase()}`}
           {...register(name)}
           onClick={toggleDropdown}
-          className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer text-sm"
+          className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer text-base"
         />
         <div className="absolute top-1/2 right-2 -translate-y-1/2 pointer-events-none">
           {open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
