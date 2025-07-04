@@ -1,23 +1,53 @@
+import { useState, useMemo } from "react";
+import { useSelector } from "react-redux";
+
 import { Table } from "../../fragments/Table";
 import { TableToolbar } from "../../fragments/TableToolbar";
-import { useState } from "react";
 import { Pagination } from "../../fragments/Pagination";
-import { useSelector } from "react-redux";
+import { Button } from "../../elements/Button";
+
 import { MediaCooperationSign } from "../../../data/data_media";
 import { INGOCooperationSign } from "../../../data/data_ingo";
 
+import { AddModalCooperationSignMedia } from "../../fragments/modalforms/media/AddModalCooperationSignMedia";
+import { AddModalCooperationSignINGO } from "../../fragments/modalforms/ingo/AddModalCooperationSignINGO";
+
 export const CooperationSign = () => {
   const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const stakeholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
   );
+
   let dataRaw;
+  let filterOptions = [];
+
   if (stakeholder === "media") {
     dataRaw = MediaCooperationSign;
+    filterOptions = [
+      {
+        label: "Jenis Instansi",
+        options: [
+          { label: "Pemerintah Pusat", value: "Pemerintah Pusat" },
+          { label: "Pemerintah Daerah", value: "Pemerintah Daerah" },
+          { label: "Dunia Usaha", value: "Dunia Usaha" },
+          { label: "Media Massa", value: "Media Massa" },
+        ],
+      },
+    ];
   } else {
     dataRaw = INGOCooperationSign;
   }
+
+  const filteredData = useMemo(() => {
+    return dataRaw.filter((item) => {
+      const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
+      const matchJenis = !filters["Jenis Instansi"] || item.type === filters["Jenis Instansi"];
+      return matchSearch && matchJenis;
+    });
+  }, [dataRaw, search, filters]);
 
   const headers = [
     "No",
@@ -36,9 +66,9 @@ export const CooperationSign = () => {
       <td>{value.division}</td>
       <td>{value.program}</td>
       <td>
-        <a href="#" className="text-[#0D4690] underline">
+        <Button className="text-[#0D4690] underline cursor-pointer">
           Lihat Detail
-        </a>
+        </Button>
       </td>
     </tr>
   );
@@ -49,10 +79,26 @@ export const CooperationSign = () => {
       <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
-        onAddClick={() => setShowForm(true)}
+        onAddClick={() => setIsModalOpen(true)}
+        filters={filterOptions}
+        onFilterSet={(f) => setFilters(f)}
+        searchWidth="w-1/4"
       />
-      <Table headers={headers} data={dataRaw} renderRow={renderRow} />
+      <Table headers={headers} data={filteredData} renderRow={renderRow} />
       <Pagination />
+
+      {isModalOpen && stakeholder === "media" && (
+        <AddModalCooperationSignMedia
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
+      {isModalOpen && stakeholder === "lembagaInternasional" && (
+        <AddModalCooperationSignINGO
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 };

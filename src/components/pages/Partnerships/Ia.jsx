@@ -1,25 +1,27 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { FreezeTable } from "../../fragments/Table";
 import { Label } from "../../elements/Label";
-import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { Pagination } from "../../fragments/Pagination";
-import { useSelector } from "react-redux";
 
+// Data
 import { UnivIA } from "../../../data/data_univ";
 import { INGOIA } from "../../../data/data_ingo";
 
+// Modal
+import { AddModalIaUniv } from "../../fragments/modalforms/univ/AddModalIaUniv";
+import { AddModalIaINGO } from "../../fragments/modalforms/ingo/AddModalIaINGO";
+
 export const Ia = () => {
   const [search, setSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const stakeholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
   );
-  let dataRaw;
-  if (stakeholder === "universitas") {
-    dataRaw = UnivIA;
-  } else {
-    dataRaw = INGOIA;
-  }
+
+  const dataRaw = stakeholder === "universitas" ? UnivIA : INGOIA;
 
   const headers = [
     "No",
@@ -63,36 +65,46 @@ export const Ia = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Tabel IA</h1>
+
       <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
-        onAddClick={(type) => {
-          if (type === "Kategori A") openModalA();
-          if (type === "Kategori B") openModalB();
-        }}
-        addOptions={["Kategori A", "Kategori B"]}
-        filters={[
-          {
-            label: "Jenis Instansi",
-            options: [
-              { label: "Universitas", value: "universitas" },
-              { label: "Lembaga Sosial", value: "lembaga sosial" },
-            ],
-          },
-        ]}
+        onAddClick={() => setIsModalOpen(true)}
+        filters={
+          stakeholder === "universitas"
+            ? [
+                {
+                  label: "Jenis Instansi",
+                  options: [
+                    { label: "Universitas", value: "universitas" },
+                    { label: "Lembaga Sosial", value: "lembaga sosial" },
+                  ],
+                },
+              ]
+            : []
+        }
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"
       />
-      <div>
-        <FreezeTable
-          headers={headers}
-          data={dataRaw}
-          renderRow={renderRow}
-          renderRowFreeze={renderRowFreeze}
-          freezeCol={4}
-        />
-      </div>
+
+      <FreezeTable
+        headers={headers}
+        data={dataRaw}
+        renderRow={renderRow}
+        renderRowFreeze={renderRowFreeze}
+        freezeCol={4}
+      />
+
       <Pagination />
+
+      {/* Modal */}
+      {isModalOpen && stakeholder === "universitas" && (
+        <AddModalIaUniv isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      )}
+
+      {isModalOpen && stakeholder === "lembagaInternasional" && (
+        <AddModalIaINGO isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      )}
     </div>
   );
 };

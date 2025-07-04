@@ -1,23 +1,75 @@
+import { useState, useMemo } from "react";
+import { useSelector } from "react-redux";
 import { FreezeTable } from "../../fragments/Table";
-import { useState } from "react";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { Pagination } from "../../fragments/Pagination";
-import { useSelector } from "react-redux";
+import { Button } from "../../elements/Button";
+
 import { UnivSpkTor } from "../../../data/data_univ";
 import { INGOSpkTor } from "../../../data/data_ingo";
 
+import { AddModalTorUniv } from "../../fragments/modalforms/univ/AddModalTorUniv";
+import { AddModalTorINGO } from "../../fragments/modalforms/ingo/AddModalTorINGO";
+
 export const Tor = () => {
-  const [search, setSearch] = useState("");
   const stakeholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
   );
 
-  let dataRaw;
+  const [search, setSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filters, setFilters] = useState({});
+
+  let dataRaw = [];
+  let filterOptions = [];
+
   if (stakeholder === "universitas") {
     dataRaw = UnivSpkTor;
-  } else {
+    filterOptions = [
+      {
+        label: "Jenis Surat",
+        options: [
+          { label: "MoU", value: "mou" },
+          { label: "PKS", value: "pks" },
+        ],
+      },
+      {
+        label: "Jenis Instansi",
+        options: [
+          { label: "Universitas", value: "universitas" },
+          { label: "Lembaga", value: "lembaga" },
+        ],
+      },
+    ];
+  } else if (stakeholder === "lembagaInternasional") {
     dataRaw = INGOSpkTor;
+    filterOptions = [
+      {
+        label: "Jenis Surat",
+        options: [
+          { label: "MoU", value: "mou" },
+          { label: "PKS", value: "pks" },
+        ],
+      },
+    ];
   }
+
+  const filteredData = useMemo(() => {
+    return dataRaw.filter((item) => {
+      const matchSearch = item.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const matchJenisSurat =
+        !filters["Jenis Surat"] || item.jenisSurat === filters["Jenis Surat"];
+
+      const matchJenisInstansi =
+        !filters["Jenis Instansi"] ||
+        item.jenis === filters["Jenis Instansi"];
+
+      return matchSearch && matchJenisSurat && matchJenisInstansi;
+    });
+  }, [dataRaw, search, filters]);
 
   const headers = [
     "No.",
@@ -46,9 +98,9 @@ export const Tor = () => {
       <td className="border-b border-gray-200">{value.duration}</td>
       <td className="border-b border-gray-200">{value.dueDate}</td>
       <td className="px-5 border-b border-gray-200">
-        <a href="#" className="text-[#0D4690] underline">
+        <Button className="text-[#0D4690] underline cursor-pointer">
           Lihat Detail
-        </a>
+        </Button>
       </td>
     </tr>
   );
@@ -59,30 +111,34 @@ export const Tor = () => {
       <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
-        onAddClick={(opt) => handleAdd(opt)}
-        addOptions={["Atas Nama Pribadi", "Atas Nama Instansi"]}
-        filters={[
-          {
-            label: "Jenis Instansi",
-            options: [
-              { label: "Universitas", value: "universitas" },
-              { label: "Lembaga", value: "lembaga" },
-            ],
-          },
-        ]}
-        onFilterSet={() => console.log("Filter diset")}
+        onAddClick={() => setIsModalOpen(true)}
+        filters={filterOptions}
+        onFilterSet={(f) => setFilters(f)}
         searchWidth="w-1/4"
       />
-      <div>
-        <FreezeTable
-          headers={headers}
-          data={dataRaw}
-          renderRow={renderRow}
-          renderRowFreeze={renderRowFreeze}
-          freezeCol={4}
-        />
-      </div>
+
+      <FreezeTable
+        headers={headers}
+        data={filteredData}
+        renderRow={renderRow}
+        renderRowFreeze={renderRowFreeze}
+        freezeCol={4}
+      />
       <Pagination />
+
+      {/* Modal Tambah */}
+      {isModalOpen && stakeholder === "universitas" && (
+        <AddModalTorUniv
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
+      {isModalOpen && stakeholder === "lembagaInternasional" && (
+        <AddModalTorINGO
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 };
