@@ -8,7 +8,7 @@ import { Button } from "../../elements/Button";
 import { UnivSpkTor } from "../../../data/data_univ";
 import { INGOSpkTor } from "../../../data/data_ingo";
 
-import { AddModalTorUniv } from "../../fragments/modalforms/univ/AddModalTorUniv";
+import { AddModalTorUniv }  from "../../fragments/modalforms/univ/AddModalTorUniv";
 import { AddModalTorINGO } from "../../fragments/modalforms/ingo/AddModalTorINGO";
 
 export const Tor = () => {

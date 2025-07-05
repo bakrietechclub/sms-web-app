@@ -1,75 +1,71 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import TextField from "../../../elements/formfields/TextField";
-import ContactFields from "../../../elements/formfields/ContactFields";
-import SwotFields from "../../../elements/formfields/SwotFields";
 import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropdown";
-import MultiSelectDropdown from "../../../elements/formfields/MultiSelectDropdown";
 import SingleSelectDropdownBadge from "../../../elements/formfields/SingleSelectDropdownBadge";
+import DatePickerField from "../../../elements/formfields/DatePickerField";
+import RedirectTextField from "../../../elements/formfields/RedirectTextField";
+import {AddModalLetterNumberingINGO} from "../../../fragments/modalforms/INGO/AddModalLetterNumberingINGO";
 
-const allProvinces = [
-  "Nasional",
-  "Aceh",
-  "Bali",
-  "Banten",
-  "Bengkulu",
-  "Daerah Istimewa Yogyakarta (DIY)",
-  "DKI Jakarta",
-  "Gorontalo",
-  "Jambi",
-  "Jawa Barat",
-  "Jawa Tengah",
-  "Jawa Timur",
-  "Kalimantan Barat",
-  "Kalimantan Selatan",
-  "Kalimantan Tengah",
-  "Kalimantan Timur",
-  "Kalimantan Utara",
-  "Kepulauan Bangka Belitung",
-  "Kepulauan Riau",
-  "Lampung",
-  "Maluku",
-  "Maluku Utara",
-  "Nusa Tenggara Barat (NTB)",
-  "Nusa Tenggara Timur (NTT)",
-  "Papua",
-  "Papua Barat",
-  "Papua Barat Daya",
-  "Papua Pegunungan",
-  "Papua Selatan",
-  "Papua Tengah",
-  "Riau",
-  "Sulawesi Barat",
-  "Sulawesi Selatan",
-  "Sulawesi Tengah",
-  "Sulawesi Tenggara",
-  "Sulawesi Utara",
-  "Sumatera Barat",
-  "Sumatera Selatan",
-  "Sumatera Utara",
+const potentialResearchData = [
+  "Universitas Indonesia",
+  "Universitas Sriwijaya",
+  "Universitas Gunadarma",
+  "Universitas Telkom",
+  "STPI Penabulu",
+  "Gerakan TBC",
 ];
 
-const lsdOptions = ["LEAD", "CLP", "HOL"];
-const kebutuhanOptions = [
-  "Tidak",
-  "Surat Undangan Audiensi",
-  "Surat Permohonan Kerjasama",
+const cooperationProgram = [
+  "LEAD", "HOL", "CLP", "BCF", "SDI"
+]
+
+const mouStatus = [
+  "Dikontak",
+  "Draft Sudah Dikirim Oleh Mitra",
+  "Sudah Diperiksa Oleh Mitra",
+  "Finalisasi Oleh Mitra",
+  "Sudah Diperiksa Oleh BCF",
+  "Finalisasi Oleh BCF",
+  "Ditanda Tangani Oleh Mitra",
+  "Ditanda Tangani Oleh BCF",
+  "Sudah Dikirim Dokumen ke Mitra",
+  "Selesai",
+  "Perlu Follow Up",
+  "Perlu Diperbarui",
+  "Terminasi",
 ];
-const statusOptions = ["Sudah dikontak", "Belum dikontak"];
 
 export const AddModalMouINGO = ({ isOpen, onClose }) => {
-  const { register, handleSubmit, setValue, watch } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const dropdownRef = useRef(null);
 
+  const [nomorSuratBcf, setNomorSuratBcf] = useState("");
+  const [openLetterModal, setOpenLetterModal] = useState(false);
+
   const onSubmit = (data) => {
-    console.log("Form data:", data);
+    const finalData = {
+      ...data,
+      nomorSuratBcf,
+    };
+    console.log("Form data:", finalData);
     onClose();
+  };
+
+  const handleRedirectToNomorSurat = () => {
+    setOpenLetterModal(true);
+  };
+
+  const handleNomorSuratSuccess = (nomor) => {
+    setNomorSuratBcf(nomor);
+    setValue("nomorSuratBcf", nomor);
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        document.activeElement.blur(); // close any open dropdown
+        document.activeElement.blur();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -80,19 +76,14 @@ export const AddModalMouINGO = ({ isOpen, onClose }) => {
 
   return (
     <>
-      <div
-        className="fixed inset-0 z-40 bg-black opacity-40"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 z-40 bg-black opacity-40" onClick={onClose} />
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div
           className="bg-white w-[1116px] h-[900px] max-h-[90vh] rounded-2xl shadow-xl overflow-hidden flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="w-full h-[92px] px-6 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">
-              Form Tambah Mitra Universitas
-            </h2>
+            <h2 className="text-2xl font-semibold">Tambah Data MoU</h2>
             <button onClick={onClose} className="text-2xl">
               ×
             </button>
@@ -105,57 +96,109 @@ export const AddModalMouINGO = ({ isOpen, onClose }) => {
             ref={dropdownRef}
           >
             <TextField
+              name="jenisInstansi"
+              label="Jenis Instansi"
+              placeholder="Lembaga Internasional"
+              defaultValue="Lembaga Internasional"
+              disable={true}
+              className="bg-gray-200 text-gray-500"
+              register={register}
+            />
+            <TextField
               name="namaInstansi"
               label="Nama Instansi"
               placeholder="Masukkan nama instansi"
               register={register}
+              isRequired
+            />
+            <TextField
+              name="divisiInstansi"
+              label="Divisi Instansi"
+              placeholder="Masukkan nama divisi instansi"
+              register={register}
             />
             <SingleSelectDropdown
-              name="provinsi"
-              label="Provinsi"
-              options={allProvinces}
+              name="programKerjasama"
+              label="Program Kerjasama"
+              options={cooperationProgram}
               register={register}
               setValue={setValue}
+              isRequired
             />
             <TextField
-              name="profil"
-              label="Profil"
-              placeholder="Masukkan profil"
+              name="detailKerjasama"
+              label="Detail Kerjasama"
+              placeholder="Masukkan detail kerjasama"
               register={register}
-            />
-            <ContactFields register={register} />
-            <MultiSelectDropdown
-              name="programLSD"
-              label="Program LSD"
-              options={lsdOptions}
-              register={register}
-              setValue={setValue}
             />
             <SingleSelectDropdownBadge
-              name="status"
-              label="Status"
-              options={statusOptions}
+              name="statusMou"
+              label="Status MoU"
+              options={mouStatus}
               register={register}
               setValue={setValue}
+              isRequired
             />
-            <MultiSelectDropdown
-              name="kebutuhan"
-              label="Kebutuhan"
-              options={kebutuhanOptions}
-              register={register}
-              setValue={setValue}
+            <RedirectTextField
+              label="Nomor Surat BCF"
+              value={nomorSuratBcf}
+              onRedirect={handleRedirectToNomorSurat}
+              isRequired
             />
-            <SwotFields label="Program Analisis" register={register} />
             <TextField
-              name="linkDokumen"
-              label="Link Dokumen"
+              name="nomorSuratMitra"
+              label="Nomor Surat Mitra"
+              placeholder="Masukkan nomor surat mitra"
+              register={register}
+            />
+            <TextField
+              name="namaPihakBcf"
+              label="Nama Pihak BCF"
+              placeholder="Masukkan nama pihak BCF"
+              register={register}
+            />
+            <TextField
+              name="namaPihakMitra"
+              label="Nama Pihak Mitra"
+              placeholder="Masukkan nama pihak mitra"
+              register={register}
+            />
+            <DatePickerField
+              name="tanggalTandaTangan"
+              label="Tanggal Tanda Tangan"
+              className="w-full"
+              placeholder="Masukkan tanggal tanda tangan"
+              register={register}
+              setValue={setValue}
+            />
+            <TextField
+              name="jangkaWaktu"
+              label="Jangka Waktu"
+              placeholder="Masukkan jangka waktu"
+              register={register}
+            />
+            <TextField
+              name="jatuhTempo"
+              label="Jatuh Tempo"
+              placeholder="Masukkan jatuh tempo"
+              register={register}
+            />
+            <TextField
+              name="linkFileMou"
+              label="Link File MoU"
               placeholder="https://.."
+              register={register}
+            />
+            <TextField
+              name="catatanTambahan"
+              label="Catatan Tambahan"
+              placeholder="Masukkan catatan tambahan"
               register={register}
             />
             <div className="text-right pt-4">
               <button
                 type="submit"
-                className="bg-[#0d4690] text-white px-15 py-2 rounded-lg hover:bg-[#0c3f82]"
+                className="bg-[#0d4690] text-white px-6 py-2 rounded-lg hover:bg-[#0c3f82]"
               >
                 Simpan
               </button>
@@ -163,6 +206,12 @@ export const AddModalMouINGO = ({ isOpen, onClose }) => {
           </form>
         </div>
       </div>
+
+      <AddModalLetterNumberingINGO
+        isOpen={openLetterModal}
+        onClose={() => setOpenLetterModal(false)}
+        onSuccess={handleNomorSuratSuccess}
+      />
     </>
   );
 };

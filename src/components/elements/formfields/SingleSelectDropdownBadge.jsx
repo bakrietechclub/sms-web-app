@@ -19,6 +19,7 @@ const SingleSelectDropdownBadge = ({
   options,
   register,
   setValue,
+  isRequired
 }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("");
@@ -30,10 +31,12 @@ const SingleSelectDropdownBadge = ({
     setValue(name, value);
     setOpen(false);
   };
-
+ 
   return (
     <div>
-      <label className="block mb-1 font-medium">{label}</label>
+      <label className="block mb-1 font-medium">
+        {label} {isRequired && <span className="text-red-500">*</span>}
+      </label>
       <div className="relative">
         <input
           readOnly

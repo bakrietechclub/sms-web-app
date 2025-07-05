@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
-import { useFormContext } from "react-hook-form";
 import { motion, useMotionValue, animate } from "framer-motion";
 import clock from "../../../assets/icons/clock.png";
 
-const TimePickerField = ({ name = "waktu", label = "Waktu" }) => {
-  const { register, setValue, watch } = useFormContext();
-  const value = watch(name);
+const TimePickerField = ({ 
+  name = "waktu", 
+  label = "Waktu", 
+  value, 
+  onChange, 
+  placeholder = "HH:MM AM/PM",
+  className = "",
+  required = false,
+  disabled = false
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState("hour");
   const [hour, setHour] = useState(12);
@@ -71,31 +77,45 @@ const TimePickerField = ({ name = "waktu", label = "Waktu" }) => {
       setStep("minute");
     } else {
       const formatted = `${String(hour).padStart(2, "0")}:${minute} ${amPm}`;
-      setValue(name, formatted);
+      if (onChange) {
+        onChange(formatted);
+      }
       setIsOpen(false);
       setStep("hour");
     }
   };
 
+  const handleInputClick = () => {
+    if (!disabled) {
+      setIsOpen(!isOpen);
+    }
+  };
+
   return (
-    <div className="relative w-132">
-      <label className="block mb-1 font-medium">{label}</label>
+    <div className={`relative w-132 ${className}`}>
+      <label className="block mb-1 font-medium">
+        {label}
+        {required && <span className="text-red-500 ml-1">*</span>}
+      </label>
       <div className="relative">
         <input
-          {...register(name)}
+          name={name}
           readOnly
           value={value || ""}
-          placeholder="HH:MM AM/PM"
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-full border border-gray-300 px-3 py-2 rounded cursor-pointer pr-10"
+          placeholder={placeholder}
+          onClick={handleInputClick}
+          disabled={disabled}
+          className={`w-full border border-gray-300 px-3 py-2 rounded cursor-pointer pr-10 ${
+            disabled ? 'bg-gray-100 cursor-not-allowed' : ''
+          }`}
         />
         <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
           <img src={clock} alt="clock icon" className="w-5 h-5 opacity-60" />
         </div>
       </div>
 
-      {isOpen && (
-        <div className="mt-2 p-4 relative z-30 flex flex-col items-center gap-3">
+      {isOpen && !disabled && (
+        <div className="mt-2 p-4 bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center gap-3">
           <div className="flex gap-2 mb-2">
             {["AM", "PM"].map((period) => (
               <button

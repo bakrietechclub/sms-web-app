@@ -1,75 +1,64 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import TextField from "../../../elements/formfields/TextField";
-import ContactFields from "../../../elements/formfields/ContactFields";
-import SwotFields from "../../../elements/formfields/SwotFields";
 import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropdown";
-import MultiSelectDropdown from "../../../elements/formfields/MultiSelectDropdown";
-import SingleSelectDropdownBadge from "../../../elements/formfields/SingleSelectDropdownBadge";
+import RedirectTextField from "../../../elements/formfields/RedirectTextField";
+import { AddModalLetterNumberingUniv } from "../../../fragments/modalforms/univ/AddModalLetterNumberingUniv";
 
-const allProvinces = [
-  "Nasional",
-  "Aceh",
-  "Bali",
-  "Banten",
-  "Bengkulu",
-  "Daerah Istimewa Yogyakarta (DIY)",
-  "DKI Jakarta",
-  "Gorontalo",
-  "Jambi",
-  "Jawa Barat",
-  "Jawa Tengah",
-  "Jawa Timur",
-  "Kalimantan Barat",
-  "Kalimantan Selatan",
-  "Kalimantan Tengah",
-  "Kalimantan Timur",
-  "Kalimantan Utara",
-  "Kepulauan Bangka Belitung",
-  "Kepulauan Riau",
-  "Lampung",
-  "Maluku",
-  "Maluku Utara",
-  "Nusa Tenggara Barat (NTB)",
-  "Nusa Tenggara Timur (NTT)",
-  "Papua",
-  "Papua Barat",
-  "Papua Barat Daya",
-  "Papua Pegunungan",
-  "Papua Selatan",
-  "Papua Tengah",
-  "Riau",
-  "Sulawesi Barat",
-  "Sulawesi Selatan",
-  "Sulawesi Tengah",
-  "Sulawesi Tenggara",
-  "Sulawesi Utara",
-  "Sumatera Barat",
-  "Sumatera Selatan",
-  "Sumatera Utara",
+const pksData = [
+  "Universitas Indonesia - Fakultas Kedokteran",
+  "Universitas Indonesia - Fakultas Ilmu Komputer",
+  "Universitas Gunadarma - Fakultas Ilmu Komputer dan Teknologi Informasi",
+  "Universitas Gunadarma - Fakultas Kedokteran",
+  "Universitas Sriwijaya - Fakultas Matematika dan Ilmu Pengetahuan Alam",
+  "Universitas Sriwijaya - Fakultas Kesehatan Masyarakat",
 ];
 
-const lsdOptions = ["LEAD", "CLP", "HOL"];
-const kebutuhanOptions = [
-  "Tidak",
-  "Surat Undangan Audiensi",
-  "Surat Permohonan Kerjasama",
+const cooperationProgram = ["LEAD", "HOL", "CLP", "BCF", "SDI"];
+
+const batchProgram = [
+  "Batch 1: Jul-Des 2020",
+  "Batch 2: Jan-Jun 2021",
+  "Batch 3: Jul-Des 2021",
+  "Batch 4: Jan-Jun 2022",
+  "Batch 5: Jul-Des 2022",
+  "Batch 6: Jan-Jun 2023",
+  "Batch 7: Jul-Des 2023",
+  "Batch 8: Jan-Jun 2024",
+  "Batch 9: Jul-Des 2024",
+  "Batch 10: Jan-Jun 2025",
 ];
-const statusOptions = ["Sudah dikontak", "Belum dikontak"];
 
 export const AddModalIaUniv = ({ isOpen, onClose }) => {
-  const { register, handleSubmit, setValue, watch } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const dropdownRef = useRef(null);
 
+  const [nomorSuratBcf, setNomorSuratBcf] = useState("");
+  const [openLetterModal, setOpenLetterModal] = useState(false);
+
   const onSubmit = (data) => {
-    console.log("Form data:", data);
+    const finalData = {
+      ...data,
+      nomorSuratBcf,
+    };
+    console.log("Form data:", finalData);
     onClose();
+  };
+
+  const handleRedirectToNomorSurat = () => {
+    setOpenLetterModal(true);
+  };
+
+  const handleNomorSuratSuccess = (nomor) => {
+    setNomorSuratBcf(nomor);
+    setValue("nomorSuratBcf", nomor);
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        document.activeElement.blur(); // close any open dropdown
+        document.activeElement.blur();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -80,19 +69,14 @@ export const AddModalIaUniv = ({ isOpen, onClose }) => {
 
   return (
     <>
-      <div
-        className="fixed inset-0 z-40 bg-black opacity-40"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 z-40 bg-black opacity-40" onClick={onClose} />
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div
           className="bg-white w-[1116px] h-[900px] max-h-[90vh] rounded-2xl shadow-xl overflow-hidden flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="w-full h-[92px] px-6 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">
-              Form Tambah Mitra Universitas
-            </h2>
+            <h2 className="text-2xl font-semibold">Tambah Data IA</h2>
             <button onClick={onClose} className="text-2xl">
               ×
             </button>
@@ -104,58 +88,84 @@ export const AddModalIaUniv = ({ isOpen, onClose }) => {
             style={{ height: "calc(900px - 92px)" }}
             ref={dropdownRef}
           >
-            <TextField
-              name="namaInstansi"
-              label="Nama Instansi"
-              placeholder="Masukkan nama instansi"
-              register={register}
-            />
             <SingleSelectDropdown
-              name="provinsi"
-              label="Provinsi"
-              options={allProvinces}
+              name="dataPks"
+              label="Data PKS"
+              options={pksData}
               register={register}
               setValue={setValue}
+              isRequired
             />
             <TextField
-              name="profil"
-              label="Profil"
-              placeholder="Masukkan profil"
+              name="statusKerjasama"
+              label="Status Kerjasama"
+              placeholder="Status Kerjasama"
               register={register}
             />
-            <ContactFields register={register} />
-            <MultiSelectDropdown
-              name="programLSD"
-              label="Program LSD"
-              options={lsdOptions}
-              register={register}
-              setValue={setValue}
-            />
-            <SingleSelectDropdownBadge
-              name="status"
-              label="Status"
-              options={statusOptions}
-              register={register}
-              setValue={setValue}
-            />
-            <MultiSelectDropdown
-              name="kebutuhan"
-              label="Kebutuhan"
-              options={kebutuhanOptions}
-              register={register}
-              setValue={setValue}
-            />
-            <SwotFields label="Program Analisis" register={register} />
             <TextField
-              name="linkDokumen"
-              label="Link Dokumen"
+              name="tahunImplementasiKerjasama"
+              label="Tahun Implementasi Kerjasama"
+              placeholder="Masukkan tahun implementasi"
+              register={register}
+              isRequired
+            />
+            <div className="flex gap-4">
+              <div className="w-1/2">
+                <SingleSelectDropdown
+                  name="programKerjasama"
+                  label="Program Kerjasama"
+                  options={cooperationProgram}
+                  register={register}
+                  setValue={setValue}
+                  isRequired
+                />
+              </div>
+              <div className="w-1/2">
+                <SingleSelectDropdown
+                  name="batchProgram"
+                  label="Batch Program"
+                  options={batchProgram}
+                  register={register}
+                  setValue={setValue}
+                  isRequired
+                />
+              </div>
+            </div>
+
+            <RedirectTextField
+              label="Nomor Surat BCF"
+              value={nomorSuratBcf}
+              onRedirect={handleRedirectToNomorSurat}
+              isRequired
+            />
+            <TextField
+              name="nomorSuratMitra"
+              label="Nomor Surat Mitra"
+              placeholder="Masukkan nomor surat mitra"
+              register={register}
+            />
+            <TextField
+              name="namaPihakBcf"
+              label="Nama Pihak BCF"
+              placeholder="Masukkan nama pihak BCF"
+              register={register}
+            />
+            <TextField
+              name="namaPihakMitra"
+              label="Nama Pihak Mitra"
+              placeholder="Masukkan nama pihak mitra"
+              register={register}
+            />
+            <TextField
+              name="linkFileIa"
+              label="Link File IA"
               placeholder="https://.."
               register={register}
             />
             <div className="text-right pt-4">
               <button
                 type="submit"
-                className="bg-[#0d4690] text-white px-15 py-2 rounded-lg hover:bg-[#0c3f82]"
+                className="bg-[#0d4690] text-white px-6 py-2 rounded-lg hover:bg-[#0c3f82]"
               >
                 Simpan
               </button>
@@ -163,6 +173,12 @@ export const AddModalIaUniv = ({ isOpen, onClose }) => {
           </form>
         </div>
       </div>
+
+      <AddModalLetterNumberingUniv
+        isOpen={openLetterModal}
+        onClose={() => setOpenLetterModal(false)}
+        onSuccess={handleNomorSuratSuccess}
+      />
     </>
   );
 };
