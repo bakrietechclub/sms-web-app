@@ -93,6 +93,10 @@ export const UnivBcfPartnership = [
     region: "DKI Jakarta",
     category: "CLP",
     colabProgress: "Belum Dikontak",
+    mouStatus: "Dikontak",
+    mouDue: "24/10/2029",
+    pksStatus: "Dikontak",
+    pksDue: "24/10/2029",
   },
   {
     name: "Universitas Jakarta",
@@ -101,6 +105,10 @@ export const UnivBcfPartnership = [
     region: "DKI Jakarta",
     category: "CLP",
     colabProgress: "Dikontak",
+    mouStatus: "Dikontak",
+    mouDue: "24/10/2029",
+    pksStatus: "Dikontak",
+    pksDue: "24/10/2029",
   },
   {
     name: "Universitas Sriwijaya",
@@ -109,6 +117,10 @@ export const UnivBcfPartnership = [
     region: "Sumatera Selatan",
     category: "CLP",
     colabProgress: "Sedang Proses",
+    mouStatus: "Finalisasi oleh BCF",
+    mouDue: "24/10/2029",
+    pksStatus: "Finalisasi oleh BCF",
+    pksDue: "24/10/2029",
   },
   {
     name: "Universitas Gunadarma",
@@ -117,6 +129,10 @@ export const UnivBcfPartnership = [
     region: "Jawa Barat",
     category: "CLP",
     colabProgress: "Sedang Berlangsung",
+    mouStatus: "Selesai",
+    mouDue: "24/10/2029",
+    pksStatus: "Selesai",
+    pksDue: "24/10/2029",
   },
   {
     name: "Universitas Telkom",
@@ -125,6 +141,10 @@ export const UnivBcfPartnership = [
     region: "Jawa Barat",
     category: "CLP",
     colabProgress: "Terminasi",
+    mouStatus: "Terminasi",
+    mouDue: "24/10/2029",
+    pksStatus: "Terminasi",
+    pksDue: "24/10/2029",
   },
   {
     name: "STPI Penabulu",
@@ -133,6 +153,10 @@ export const UnivBcfPartnership = [
     region: "TOR",
     category: "CLP",
     colabProgress: "Perlu Follow Up",
+    mouStatus: "Sudah diperiksa oleh BCF",
+    mouDue: "24/10/2029",
+    pksStatus: "Sudah diperiksa oleh BCF",
+    pksDue: "24/10/2029",
   },
   {
     name: "Gerakan TBC",
@@ -141,6 +165,10 @@ export const UnivBcfPartnership = [
     region: "SPK",
     category: "CLP",
     colabProgress: "Belum Dikontak",
+    mouStatus: "Perlu diperbarui",
+    mouDue: "24/10/2029",
+    pksStatus: "Perlu diperbarui",
+    pksDue: "24/10/2029",
   },
   {
     name: "Gerakan TBC",
@@ -149,6 +177,10 @@ export const UnivBcfPartnership = [
     region: "TOR",
     category: "CLP",
     colabProgress: "Dikontak",
+    mouStatus: "Finalisasi oleh BCF",
+    mouDue: "24/10/2029",
+    pksStatus: "Finalisasi oleh BCF",
+    pksDue: "24/10/2029",
   },
   {
     name: "Gerakan TBC",
@@ -157,6 +189,10 @@ export const UnivBcfPartnership = [
     region: "SPK",
     category: "CLP",
     colabProgress: "Sedang Proses",
+    mouStatus: "Dikontak",
+    mouDue: "24/10/2029",
+    pksStatus: "Dikontak",
+    pksDue: "24/10/2029",
   },
   {
     name: "Gerakan TBC",
@@ -165,6 +201,10 @@ export const UnivBcfPartnership = [
     region: "TOR",
     category: "CLP",
     colabProgress: "Sedang Berlangsung",
+    mouStatus: "Ditandatangani oleh BCF",
+    mouDue: "24/10/2029",
+    pksStatus: "Ditandatangani oleh BCF",
+    pksDue: "24/10/2029",
   },
 ];
 
@@ -775,6 +815,101 @@ export const UnivPtaRecap = [
     status: ["CLP", "LEAD"],
   },
 ];
+export const UnivPtaRecapLEAD = [
+  {
+    year: "2024",
+    program: "LEAD",
+    colabDetail: "Menjadi mentor LEAD batch 7.",
+  },
+  {
+    year: "2024",
+    program: "LEAD",
+    colabDetail: "Menjadi training mini LEAD.",
+  },
+  {
+    year: "2023",
+    program: "LEAD",
+    colabDetail: "Kerjasama Pengembangan IT BCF.",
+  },
+  {
+    year: "2023",
+    program: "LEAD",
+    colabDetail: "Screening TB Mahasiswa.",
+  },
+  {
+    year: "2022",
+    program: "LEAD",
+    colabDetail: "Menjadi mentor LEAD batch 5 dan Training mini LEAD.",
+  },
+];
+export const UnivPtaRecapCLP = [
+  {
+    year: "2024",
+    batch: "9",
+    colabDetail: "-",
+    students: [
+      {
+        province: "DKI Jakarta",
+        institute: "Bakrie Center Foundation",
+        studentName: "Aiko Nur Fajrin Diapati",
+        studentDivision: "Fundraising & Keuangan",
+        studentMajor: "Manajemen",
+      },
+      {
+        province: "DKI Jakarta",
+        institute: "Perhimpunan Organisasi Pemberantas TB",
+        studentName: "Alyssa Mutiara Zalika",
+        studentDivision: "Product Designer",
+        studentMajor: "Sistem Informasi",
+      },
+      {
+        province: "DKI Jakarta",
+        institute: "STOP TB Partnership Indonesia",
+        studentName: "Nur Wahyu Rahmadiani",
+        studentDivision: "Product Designer",
+        studentMajor: "Teknik Informatika",
+      },
+      {
+        province: "Banten",
+        institute: "STPI Penabulu",
+        studentName: "Muhammad Daffa Zahran Widodo",
+        studentDivision: "Advokasi & Riset",
+        studentMajor: "Psikologi",
+      },
+      {
+        province: "Banten",
+        institute: "Perkumpulan Pemberantasan Tuberkulosis Indonesia",
+        studentName: "Alyssa Mutiara Zalika",
+        studentDivision: "Product Designer",
+        studentMajor: "Sistem Informasi",
+      },
+    ],
+  },
+  {
+    year: "2024",
+    batch: "8",
+    colabDetail: "-",
+    students: [],
+  },
+  {
+    year: "2023",
+    batch: "7",
+    colabDetail: "1 Dosen Pembimbing Magang",
+    students: [],
+  },
+  {
+    year: "2023",
+    batch: "6",
+    colabDetail: "2 Dosen Pembimbing Magang",
+    students: [],
+  },
+  {
+    year: "2022",
+    batch: "5",
+    colabDetail: "-",
+    students: [],
+  },
+];
 
 export const UnivSatisfactionSurveyLEAD = [
   {
@@ -786,6 +921,192 @@ export const UnivSatisfactionSurveyLEAD = [
     partnerName: "Universitas Indonesia",
     partnerOrigin: "DKI Jakarta",
     colabYear: "Batch 8: Jan-Jun 2023",
+    surveys: [
+      {
+        question:
+          "Bakrie Center Foundation dan Mitra memiliki tanggung jawab yang jelas dan terdefinisi dengan baik dalam proyek.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation dan Mitra menjalankan tanggung jawab masing-masing dengan baik.",
+        answer: "Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation melakukan pertemuan rutin dengan melibatkan mitra untuk membahas kemajuan proyek.",
+        answer: "Sangat Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation mendorong partisipasi aktif dari semua mitra dalam setiap tahap proyek.",
+        answer: "Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation melibatkan mitra dalam mengembangkan ide-ide baru.",
+        answer: "Sangat Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation mendampingi atau memonitoring mitra dalam setiap pelaksanaan tanggung jawab.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation melakukan evaluasi yang berkala terhadap kerja sama yang dijalin.",
+        answer: "Sangat Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation terlibat dalam diskusi permasalahan yang dihadapi oleh mitra.",
+        answer: "Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation menangani dengan baik permasalahan yang muncul dalam pelaksanaan tanggung jawab kerja sama.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan ruang untuk mitra terlibat dengan baik.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mengapa mitra masih merasa tidak puas dengan aspek tanggung jawab dan keterlibatan? Apakah ada aspek tertentu yang perlu ditingkatkan dalam hal ini? Jika ya, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Bakrie Center Foundation membangun hubungan yang komunikatif dengan lembaga penempatan anda.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation responsif dalam melakukan komunikasi.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Komunikasi dari Bakrie Center Foundation sopan dan profesional.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation menggunakan saluran komunikasi yang efektif seperti Zoom, WhatsApp, dan Google Meet untuk berkomunikasi dengan mitra.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan umpan balik yang jelas dan bermanfaat.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation terbuka terhadap saran dan kritik yang mitra berikan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bagaimana Anda menilai komunikasi yang dilakukan selama bermitra dengan Bakrie Center Foundation? Jika ada yang perlu ditingkatkan, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan informasi yang jelas dan mudah dipahami.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan akses informasi yang mudah selama Campus Leader Program berjalan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Ketersediaan informasi membantu mitra dalam merencanakan langkah-langkah selanjutnya.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan informasi yang transparan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Transparansi informasi meningkatkan kepercayaan antara mitra dengan Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bagaimana Anda menilai ketersediaan informasi dan transparansi yang disediakan oleh Bakrie Center Foundation? Jika ada yang perlu ditingkatkan, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Kemitraan bersama Bakrie Center Foundation memberikan manfaat dalam pengembangan instansi saya.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Kemitraan bersama Bakrie Center Foundation memberikan manfaat dalam aksesibilitas fasilitas maupun sarana prasarana yang dibutuhkan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation menyediakan dukungan teknis yang cukup selama program CLP berjalan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Kemitraan bersama Bakrie Center Foundation memberikan manfaat dalam akses kolaborasi dengan stakeholder lainnya.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bagaimana Anda menilai kemanfaatan dan keberlanjutan program selama bermitra dengan Bakrie Center Foundation? Jika ada yang perlu ditingkatkan, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan keseluruhan pengalaman kerja sama dengan Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan pelayanan yang diberikan oleh Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan komunikasi yang terjalin dengan Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan ketersediaan dan kualitas informasi dalam mendukung keberhasilan proyek.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan transparansi yang berkontribusi pada hubungan kerja yang positif.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan kejelasan tujuan yang ditetapkan dalam proyek yang dijalankan di Campus Leader Program.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan dukungan yang diberikan oleh Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question: "Saran & Masukan untuk Program LEAD Indonesia.",
+        answer: "Tidak ada, sudah baik",
+      },
+    ],
   },
   {
     name: "Faiz LEAD",
@@ -796,6 +1117,7 @@ export const UnivSatisfactionSurveyLEAD = [
     partnerName: "Politeknik Negeri Jakarta",
     partnerOrigin: "DKI Jakarta",
     colabYear: "Batch 7: Jul-Dec 2023",
+    surveys: [],
   },
   {
     name: "Ricky LEAD",
@@ -888,6 +1210,192 @@ export const UnivSatisfactionSurveyCLP = [
     partnerName: "Universitas Indonesia",
     partnerOrigin: "DKI Jakarta",
     colabYear: "Batch 8: Jan-Jun 2023",
+    surveys: [
+      {
+        question:
+          "Bakrie Center Foundation dan Mitra memiliki tanggung jawab yang jelas dan terdefinisi dengan baik dalam proyek.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation dan Mitra menjalankan tanggung jawab masing-masing dengan baik.",
+        answer: "Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation melakukan pertemuan rutin dengan melibatkan mitra untuk membahas kemajuan proyek.",
+        answer: "Sangat Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation mendorong partisipasi aktif dari semua mitra dalam setiap tahap proyek.",
+        answer: "Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation melibatkan mitra dalam mengembangkan ide-ide baru.",
+        answer: "Sangat Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation mendampingi atau memonitoring mitra dalam setiap pelaksanaan tanggung jawab.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation melakukan evaluasi yang berkala terhadap kerja sama yang dijalin.",
+        answer: "Sangat Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation terlibat dalam diskusi permasalahan yang dihadapi oleh mitra.",
+        answer: "Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation menangani dengan baik permasalahan yang muncul dalam pelaksanaan tanggung jawab kerja sama.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan ruang untuk mitra terlibat dengan baik.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mengapa mitra masih merasa tidak puas dengan aspek tanggung jawab dan keterlibatan? Apakah ada aspek tertentu yang perlu ditingkatkan dalam hal ini? Jika ya, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Bakrie Center Foundation membangun hubungan yang komunikatif dengan lembaga penempatan anda.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation responsif dalam melakukan komunikasi.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Komunikasi dari Bakrie Center Foundation sopan dan profesional.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation menggunakan saluran komunikasi yang efektif seperti Zoom, WhatsApp, dan Google Meet untuk berkomunikasi dengan mitra.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan umpan balik yang jelas dan bermanfaat.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation terbuka terhadap saran dan kritik yang mitra berikan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bagaimana Anda menilai komunikasi yang dilakukan selama bermitra dengan Bakrie Center Foundation? Jika ada yang perlu ditingkatkan, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan informasi yang jelas dan mudah dipahami.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan akses informasi yang mudah selama Campus Leader Program berjalan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Ketersediaan informasi membantu mitra dalam merencanakan langkah-langkah selanjutnya.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan informasi yang transparan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Transparansi informasi meningkatkan kepercayaan antara mitra dengan Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bagaimana Anda menilai ketersediaan informasi dan transparansi yang disediakan oleh Bakrie Center Foundation? Jika ada yang perlu ditingkatkan, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Kemitraan bersama Bakrie Center Foundation memberikan manfaat dalam pengembangan instansi saya.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Kemitraan bersama Bakrie Center Foundation memberikan manfaat dalam aksesibilitas fasilitas maupun sarana prasarana yang dibutuhkan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation menyediakan dukungan teknis yang cukup selama program CLP berjalan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Kemitraan bersama Bakrie Center Foundation memberikan manfaat dalam akses kolaborasi dengan stakeholder lainnya.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bagaimana Anda menilai kemanfaatan dan keberlanjutan program selama bermitra dengan Bakrie Center Foundation? Jika ada yang perlu ditingkatkan, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan keseluruhan pengalaman kerja sama dengan Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan pelayanan yang diberikan oleh Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan komunikasi yang terjalin dengan Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan ketersediaan dan kualitas informasi dalam mendukung keberhasilan proyek.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan transparansi yang berkontribusi pada hubungan kerja yang positif.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan kejelasan tujuan yang ditetapkan dalam proyek yang dijalankan di Campus Leader Program.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan dukungan yang diberikan oleh Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question: "Saran & Masukan untuk Program LEAD Indonesia.",
+        answer: "Tidak ada, sudah baik",
+      },
+    ],
   },
   {
     name: "Faiz CLP",
@@ -990,6 +1498,192 @@ export const UnivSatisfactionSurveyHOL = [
     partnerName: "Universitas Indonesia",
     partnerOrigin: "DKI Jakarta",
     colabYear: "Batch 8: Jan-Jun 2023",
+    surveys: [
+      {
+        question:
+          "Bakrie Center Foundation dan Mitra memiliki tanggung jawab yang jelas dan terdefinisi dengan baik dalam proyek.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation dan Mitra menjalankan tanggung jawab masing-masing dengan baik.",
+        answer: "Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation melakukan pertemuan rutin dengan melibatkan mitra untuk membahas kemajuan proyek.",
+        answer: "Sangat Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation mendorong partisipasi aktif dari semua mitra dalam setiap tahap proyek.",
+        answer: "Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation melibatkan mitra dalam mengembangkan ide-ide baru.",
+        answer: "Sangat Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation mendampingi atau memonitoring mitra dalam setiap pelaksanaan tanggung jawab.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation melakukan evaluasi yang berkala terhadap kerja sama yang dijalin.",
+        answer: "Sangat Tidak Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation terlibat dalam diskusi permasalahan yang dihadapi oleh mitra.",
+        answer: "Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation menangani dengan baik permasalahan yang muncul dalam pelaksanaan tanggung jawab kerja sama.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan ruang untuk mitra terlibat dengan baik.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mengapa mitra masih merasa tidak puas dengan aspek tanggung jawab dan keterlibatan? Apakah ada aspek tertentu yang perlu ditingkatkan dalam hal ini? Jika ya, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Bakrie Center Foundation membangun hubungan yang komunikatif dengan lembaga penempatan anda.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation responsif dalam melakukan komunikasi.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Komunikasi dari Bakrie Center Foundation sopan dan profesional.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation menggunakan saluran komunikasi yang efektif seperti Zoom, WhatsApp, dan Google Meet untuk berkomunikasi dengan mitra.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan umpan balik yang jelas dan bermanfaat.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation terbuka terhadap saran dan kritik yang mitra berikan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bagaimana Anda menilai komunikasi yang dilakukan selama bermitra dengan Bakrie Center Foundation? Jika ada yang perlu ditingkatkan, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan informasi yang jelas dan mudah dipahami.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan akses informasi yang mudah selama Campus Leader Program berjalan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Ketersediaan informasi membantu mitra dalam merencanakan langkah-langkah selanjutnya.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation memberikan informasi yang transparan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Transparansi informasi meningkatkan kepercayaan antara mitra dengan Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bagaimana Anda menilai ketersediaan informasi dan transparansi yang disediakan oleh Bakrie Center Foundation? Jika ada yang perlu ditingkatkan, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Kemitraan bersama Bakrie Center Foundation memberikan manfaat dalam pengembangan instansi saya.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Kemitraan bersama Bakrie Center Foundation memberikan manfaat dalam aksesibilitas fasilitas maupun sarana prasarana yang dibutuhkan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bakrie Center Foundation menyediakan dukungan teknis yang cukup selama program CLP berjalan.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Kemitraan bersama Bakrie Center Foundation memberikan manfaat dalam akses kolaborasi dengan stakeholder lainnya.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Bagaimana Anda menilai kemanfaatan dan keberlanjutan program selama bermitra dengan Bakrie Center Foundation? Jika ada yang perlu ditingkatkan, mohon berikan detail perbaikan yang Anda sarankan.",
+        answer: "Tidak ada, sudah baik",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan keseluruhan pengalaman kerja sama dengan Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan pelayanan yang diberikan oleh Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan komunikasi yang terjalin dengan Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan ketersediaan dan kualitas informasi dalam mendukung keberhasilan proyek.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan transparansi yang berkontribusi pada hubungan kerja yang positif.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan kejelasan tujuan yang ditetapkan dalam proyek yang dijalankan di Campus Leader Program.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question:
+          "Mitra merasa puas dengan dukungan yang diberikan oleh Bakrie Center Foundation.",
+        answer: "Sangat Setuju",
+      },
+      {
+        question: "Saran & Masukan untuk Program LEAD Indonesia.",
+        answer: "Tidak ada, sudah baik",
+      },
+    ],
   },
   {
     name: "Faiz HOL",
