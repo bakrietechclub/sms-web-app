@@ -16,8 +16,16 @@ import { ChevronLeft } from "lucide-react";
 
 export const PotentialPartner = () => {
   const [search, setSearch] = useState("");
-  const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  const [selected, setSelected] = useState({
+    name: "",
+    jenis: "",
+    region: "",
+    program: "",
+    status: "belum",
+  });
 
   const stakeholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
@@ -29,21 +37,10 @@ export const PotentialPartner = () => {
   } else {
     dataRaw = INGOPotentialPartnerResearch;
   }
-  //no logical expression, fetched from backend
 
-  const [showDetail, setShowDetail] = useState(false);
-
-  const handleClick = () => {
+  const handleClickDetail = () => {
     setShowDetail(!showDetail);
   };
-
-  const [selected, setSelected] = useState({
-    name: "",
-    jenis: "",
-    region: "",
-    program: "",
-    status: "belum",
-  });
 
   const headers = [
     "No",
@@ -126,7 +123,7 @@ export const PotentialPartner = () => {
       <td>
         <Button
           onClick={() => {
-            handleClick();
+            handleClickDetail();
             setSelected(value);
           }}
           className="text-[#0D4690] underline cursor-pointer"
@@ -201,13 +198,16 @@ export const PotentialPartner = () => {
         <Button
           className={"text-[#0D4690] cursor-pointer flex"}
           onClick={() => {
-            handleClick();
+            handleClickDetail();
           }}
         >
           <ChevronLeft /> Kembali
         </Button>
         <h1 className="text-2xl font-semibold mt-4">
-          Data Lengkap Lembaga/Komunitas
+          Data Lengkap{" "}
+          {selected.name.toLowerCase().includes("universitas")
+            ? "Universitas"
+            : "Lembaga Sosial/Komunitas"}
         </h1>
         <div className="flex justify-end">
           <Button
@@ -239,18 +239,23 @@ export const PotentialPartner = () => {
               status={selected.status ? "success" : "danger"}
             />
           </div>
-          <div className="">
-            <p className="font-semibold">Cluster:</p>
-            {/* <p className="ml-2">{selected.cluster}</p> */}
-          </div>
-          <div className="">
-            <p className="font-semibold">Sub-cluster:</p>
-            {/* <p className="ml-2">{selected.subCluster}</p> */}
-          </div>
-          <div className="">
-            <p className="font-semibold">Peran:</p>
-            {/* <p className="ml-2">{selected.role}</p> */}
-          </div>
+          {selected.name &&
+            !selected.name.toLowerCase().includes("universitas") && (
+              <>
+                <div className="">
+                  <p className="font-semibold">Cluster:</p>
+                  {/* <p className="ml-2">{selected.cluster}</p> */}
+                </div>
+                <div className="">
+                  <p className="font-semibold">Sub-cluster:</p>
+                  {/* <p className="ml-2">{selected.subCluster}</p> */}
+                </div>
+                <div className="">
+                  <p className="font-semibold">Peran:</p>
+                  {/* <p className="ml-2">{selected.role}</p> */}
+                </div>
+              </>
+            )}
         </div>
 
         <p className="font-semibold mb-3">Kontak</p>

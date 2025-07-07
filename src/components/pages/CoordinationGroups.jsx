@@ -24,17 +24,16 @@ export const CoordinationGroups = () => {
   const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState(null);
 
-  const stekholder = useSelector(
+  const stakeholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
   );
 
-  // Dataset berdasarkan stakeholder
   let dataRaw;
   let dataDetails;
-  if (stekholder === "universitas") {
+  if (stakeholder === "universitas") {
     dataRaw = UnivCoordinationGroup;
     dataDetails = UCG;
-  } else if (stekholder === "media") {
+  } else if (stakeholder === "media") {
     dataRaw = MediaCoordinationGroup;
     dataDetails = MCG;
   } else {
@@ -42,9 +41,8 @@ export const CoordinationGroups = () => {
     dataDetails = ICG;
   }
 
-  // Filter options dinamis
   let filterOptions = null;
-  if (stekholder === "universitas") {
+  if (stakeholder === "universitas") {
     filterOptions = [
       {
         label: "Jenis Instansi",
@@ -54,7 +52,7 @@ export const CoordinationGroups = () => {
         ],
       },
     ];
-  } else if (stekholder === "media") {
+  } else if (stakeholder === "media") {
     filterOptions = [
       {
         label: "Jenis Instansi",
@@ -88,7 +86,6 @@ export const CoordinationGroups = () => {
     "Aksi",
   ];
 
-  // Logika filter + search
   const filteredData = useMemo(() => {
     return dataRaw.filter((item) => {
       const matchesSearch = item.name
@@ -159,19 +156,19 @@ export const CoordinationGroups = () => {
         />
 
         {/* Modal Add berdasarkan stakeholder */}
-        {stekholder === "universitas" && (
+        {stakeholder === "universitas" && (
           <AddModalCoorGroupUniv
             isOpen={openModal}
             onClose={() => setOpenModal(false)}
           />
         )}
-        {stekholder === "media" && (
+        {stakeholder === "media" && (
           <AddModalCoorGroupMedia
             isOpen={openModal}
             onClose={() => setOpenModal(false)}
           />
         )}
-        {stekholder === "lembagaInternasional" && (
+        {stakeholder === "lembagaInternasional" && (
           <AddModalCoorGroupINGO
             isOpen={openModal}
             onClose={() => setOpenModal(false)}
@@ -187,7 +184,10 @@ export const CoordinationGroups = () => {
   // Tampilan detail kontak
   return (
     <div>
-      <Button className={"text-[#0D4690] cursor-pointer flex"} onClick={handleClick}>
+      <Button
+        className={"text-[#0D4690] cursor-pointer flex"}
+        onClick={handleClick}
+      >
         <ChevronLeft /> Kembali
       </Button>
       <h1 className="text-2xl font-semibold mt-4">
@@ -205,7 +205,7 @@ export const CoordinationGroups = () => {
           <p className="ml-2">{selected.name}</p>
         </div>
         <div>
-          <p className="font-semibold">Jenis Instansi</p>
+          <p className="font-semibold">Jenis Instansi:</p>
           <p className="ml-2">{selected.jenis}</p>
         </div>
         <div>
@@ -217,7 +217,10 @@ export const CoordinationGroups = () => {
       <div className="grid grid-cols-1 gap-y-7 mb-7">
         <div>
           <p className="font-semibold">Link Grup:</p>
-          <a href={selected.link} className="ml-2 text-[#0D4690] italic underline">
+          <a
+            href={selected.link}
+            className="ml-2 text-[#0D4690] italic underline"
+          >
             {selected.link}
           </a>
         </div>
@@ -258,13 +261,17 @@ export const CoordinationGroups = () => {
               <td>
                 <Label
                   label={item.status}
-                  status={item.status === "Belum Join Grup" ? "danger" : "success"}
+                  status={
+                    item.status === "Belum Join Grup" ? "danger" : "success"
+                  }
                 />
               </td>
               <td>
                 <Label
                   label={item.activeStatus}
-                  status={item.activeStatus === "Tidak Aktif" ? "danger" : "success"}
+                  status={
+                    item.activeStatus === "Tidak Aktif" ? "danger" : "success"
+                  }
                 />
               </td>
               <td className="text-[#0D4690] underline">

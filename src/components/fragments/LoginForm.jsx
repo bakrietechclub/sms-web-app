@@ -8,7 +8,6 @@ import { InputField } from "../elements/InputField";
 import { AlertBox } from "../elements/AlertBox";
 import { Button } from "../elements/Button";
 
-// Data user
 const users = [
   {
     email: "vanno@gmail.com",
@@ -60,7 +59,7 @@ export const LoginForm = () => {
         division: foundUser.division,
       };
       dispatch(login(userData));
-      localStorage.setItem("user", JSON.stringify(userData)); // <-- Save ke localStorage
+      localStorage.setItem("user", JSON.stringify(userData));
       navigate("/home");
     }
   };
@@ -80,7 +79,7 @@ export const LoginForm = () => {
     >
       {showAlert && (
         <AlertBox
-          message={error}
+          alertType=""
           onClose={() => {
             setError("");
             setShowAlert(false);

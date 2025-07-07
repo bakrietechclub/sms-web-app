@@ -1,3 +1,4 @@
+// New folder/Card.jsx
 import { useNavigate } from "react-router-dom";
 import { Button } from "../elements/Button";
 import { useDispatch } from "react-redux";
@@ -45,23 +46,26 @@ export const Card = ({ name, image, manageAccess, stakeholderKey }) => {
   );
 };
 
-export const CardItem = ({ title, winner, icon }) => (
+export const CardItem = ({ item, onViewDetails }) => (
   <div className="flex-shrink-0 bg-white rounded-lg p-6 shadow flex flex-col items-start w-86 min-h-[260px] mr-6">
     <div className="flex items-start mb-4 relative w-full">
-      <h5 className="text-xl font-semibold text-blue-900 w-64">{title}</h5>
-      <img src={icon} alt="icon" className="ml-3 w-9 h-9 mt-1" />
+      <h5 className="text-xl font-semibold text-blue-900 w-64">{item.title}</h5>
+      <img src={item.icon} alt="icon" className="ml-3 w-9 h-9 mt-1" />
     </div>
     <div className="w-full bg-white rounded-lg border-1 border-gray-200 p-4 flex flex-col justify-between min-h-[110px] mt-auto">
       <div className="flex items-center mb-2">
         <img src={trophy} alt="trophy" className="w-6 h-6 mr-2" />
         <div>
           <p className="text-xs text-black font-normal">Pemenang:</p>
-          <p className="text-sm font-semibold text-black">{winner}</p>
+          <p className="text-sm font-semibold text-black">{item.winner}</p>
         </div>
       </div>
-      <a href="#" className="text-blue-900 text-xs underline self-end">
+      <Button
+        onClick={() => onViewDetails(item)}
+        className="text-blue-900 text-xs underline self-end cursor-pointer"
+      >
         Lihat Detail
-      </a>
+      </Button>
     </div>
   </div>
 );

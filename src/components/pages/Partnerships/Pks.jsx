@@ -1,36 +1,66 @@
-import { Pagination } from "../../fragments/Pagination";
-import { FreezeTable } from "../../fragments/Table";
-import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
-import { ChevronLeft } from "lucide-react";
-import { Button } from "../../elements/Button";
-import { Label } from "../../elements/Label";
-
 import { useSelector } from "react-redux";
+import { ChevronLeft } from "lucide-react";
+
+import { Label } from "../../elements/Label";
+import { Button } from "../../elements/Button";
+import { FreezeTable } from "../../fragments/Table";
+import { Pagination } from "../../fragments/Pagination";
+import { TableToolbar } from "../../fragments/TableToolbar";
+
 import { UnivMouPks } from "../../../data/data_univ";
 import { MediaMouPks } from "../../../data/data_media";
 import { INGOMouPks } from "../../../data/data_ingo";
 
+import { AddModalPksUniv } from "../../fragments/modalforms/univ/AddModalPksUniv";
+import { AddModalPksMedia } from "../../fragments/modalforms/media/AddModalPksMedia";
+import { AddModalPksINGO } from "../../fragments/modalforms/ingo/AddModalPksINGO";
+
 export const Pks = () => {
-  const [showDetail, setShowDetail] = useState(false);
   const [search, setSearch] = useState("");
+  const [showDetail, setShowDetail] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selected, setSelected] = useState({});
 
   const stakeholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
   );
 
-  let dataRaw;
-  if (stakeholder === "universitas") {
-    dataRaw = UnivMouPks;
-  } else if (stakeholder === "media") {
-    dataRaw = MediaMouPks;
-  } else {
-    dataRaw = INGOMouPks;
-  }
-
   const handleClick = () => {
     setShowDetail(!showDetail);
   };
+
+  let dataRaw = [];
+  let filters = [];
+
+  if (stakeholder === "universitas") {
+    dataRaw = UnivMouPks;
+    filters = [
+      {
+        label: "Jenis Instansi",
+        options: [
+          { label: "Universitas", value: "universitas" },
+          { label: "Lembaga Sosial", value: "lembaga sosial" },
+        ],
+      },
+    ];
+  } else if (stakeholder === "media") {
+    dataRaw = MediaMouPks;
+    filters = [
+      {
+        label: "Jenis Instansi",
+        options: [
+          { label: "Pemerintah Pusat", value: "Pemerintah Pusat" },
+          { label: "Pemerintah Daerah", value: "Pemerintah Daerah" },
+          { label: "Dunia Usaha", value: "Dunia Usaha" },
+          { label: "Media Massa", value: "Media Massa" },
+        ],
+      },
+    ];
+  } else {
+    dataRaw = INGOMouPks;
+    filters = [];
+  }
 
   const headers = [
     "No.",
@@ -44,16 +74,6 @@ export const Pks = () => {
     "Aksi",
   ];
 
-  const [selected, setSelected] = useState({
-    name: "",
-    jenis: "",
-    division: "",
-    colabType: "",
-    duration: "",
-    dueDate: "",
-    signYear: "",
-  });
-
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
       <td className="py-3 border-b border-gray-200">{index + 1}</td>
@@ -65,6 +85,7 @@ export const Pks = () => {
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
+      <td className="border-b border-gray-200">Jenis Kerjasama</td>
       <td className="border-b border-gray-200">{value.duration}</td>
       <td className="border-b border-gray-200">{value.dueDate}</td>
       <td className="border-b border-gray-200">{value.signYear}</td>
@@ -72,8 +93,8 @@ export const Pks = () => {
         <Button
           className="text-[#0D4690] underline cursor-pointer"
           onClick={() => {
-            handleClick();
             setSelected(value);
+            handleClick();
           }}
         >
           Lihat Detail
@@ -86,24 +107,14 @@ export const Pks = () => {
     return (
       <div>
         <h1 className="text-2xl font-semibold">Tabel PKS</h1>
-        <div className="w-full">
-          <TableToolbar
-            searchValue={search}
-            onSearchChange={setSearch}
-            onAddClick={(opt) => handleAdd(opt)}
-            filters={[
-              {
-                label: "Jenis Instansi",
-                options: [
-                  { label: "Universitas", value: "universitas" },
-                  { label: "Lembaga Sosial", value: "lembaga sosial" },
-                ],
-              },
-            ]}
-            onFilterSet={() => console.log("Filter diset")}
-            searchWidth="w-1/4"
-          />
-        </div>
+        <TableToolbar
+          searchValue={search}
+          onSearchChange={setSearch}
+          onAddClick={() => setIsModalOpen(true)}
+          filters={filters}
+          onFilterSet={() => console.log("Filter diset")}
+          searchWidth="w-1/4"
+        />
         <div className="w-full overflow-hidden h-fit">
           <FreezeTable
             headers={headers}
@@ -114,95 +125,106 @@ export const Pks = () => {
           />
         </div>
         <Pagination />
+
+        {isModalOpen && stakeholder === "universitas" && (
+          <AddModalPksUniv
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
+        {isModalOpen && stakeholder === "media" && (
+          <AddModalPksMedia
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
+        {isModalOpen && stakeholder === "lembagaInternasional" && (
+          <AddModalPksINGO
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
       </div>
     );
   } else {
     return (
       <div>
         <Button
-          className={"text-[#0D4690] cursor-pointer flex"}
-          onClick={() => {
-            handleClick();
-          }}
+          className="text-[#0D4690] cursor-pointer flex"
+          onClick={() => setShowDetail(false)}
         >
           <ChevronLeft /> Kembali
         </Button>
-        <h1 className="text-2xl font-semibold mt-4">Data Lengkap MoU / PKS</h1>
+        <h1 className="text-2xl font-semibold mt-4">Data Lengkap PKS</h1>
         <div className="flex justify-end">
-          <Button
-            className={
-              "bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2"
-            }
-          >
+          <Button className="bg-[#0D4690] text-white rounded-md px-4 py-2">
             Perbarui
           </Button>
         </div>
         <div className="grid grid-cols-2 gap-y-5 mb-5">
-          <div className="">
+          <div>
             <p className="font-semibold">Nama Instansi:</p>
-            <p className="">{selected.name}</p>
+            <p>{selected.name}</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Jenis Instansi</p>
-            <p className="">{selected.jenis}</p>
+            <p>{selected.jenis}</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Divisi Instansi:</p>
-            <p className="">{selected.division}</p>
+            <p>{selected.division}</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Program Kerjasama:</p>
-            <p className="">-</p>
+            <p>-</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Detail Kerjasama:</p>
-            <p className="">-</p>
+            <p>-</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Status:</p>
-            <p className="">
-              <Label label={"Sudah Diperiksa oleh Mitra"} status={""} />
-            </p>
+            <Label label={"Sudah Diperiksa oleh Mitra"} status={""} />
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Nomor Surat BCF:</p>
-            <p className="">-</p>
+            <p>-</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Nomor Surat Mitra:</p>
-            <p className="">-</p>
+            <p>-</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Nama Pihak BCF:</p>
-            <p className="">-</p>
+            <p>-</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Nama Pihak Mitra:</p>
-            <p className="">-</p>
+            <p>-</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Tanggal Tanda Tangan:</p>
-            <p className="">{selected.signYear}</p>
+            <p>{selected.signYear}</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Jangka Waktu:</p>
-            <p className="">{selected.duration}</p>
+            <p>{selected.duration}</p>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Tanggal Jatuh Tempo:</p>
-            <p className="">{selected.dueDate}</p>
+            <p>{selected.dueDate}</p>
           </div>
         </div>
         <div className="grid grid-cols-1 gap-y-5 mb-5">
-          <div className="">
+          <div>
             <p className="font-semibold">Link Dokumen:</p>
             <a href="#" className="text-[#0D4690] italic underline">
               Link Dokumen PKS
             </a>
           </div>
-          <div className="">
+          <div>
             <p className="font-semibold">Catatan Tambahan:</p>
-            <p className="">-</p>
+            <p>-</p>
           </div>
         </div>
       </div>

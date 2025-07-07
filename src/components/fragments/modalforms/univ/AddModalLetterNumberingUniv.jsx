@@ -1,8 +1,8 @@
-// src/components/fragments/modalforms/univ/AddModalUniv.jsx
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import TextField from "../../../elements/formfields/TextField";
 import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropdown";
+import LetterNumberingField from "../../../elements/formfields/LetterNumberingField";
 
 const typeOfInstitution = ["Universitas", "Lembaga/Komunitas"];
 
@@ -15,10 +15,9 @@ const typeOfLetter = [
   "SPK (Surat Pernyataan Komitmen)",
 ];
 
-const classLetterNumber = ["Administrasi", "Finance"];
-
 export const AddModalLetterNumberingUniv = ({ isOpen, onClose }) => {
-  const { register, handleSubmit, setValue } = useForm();
+  const methods = useForm();
+  const { register, handleSubmit, setValue } = methods;
   const dropdownRef = useRef(null);
 
   const onSubmit = (data) => {
@@ -58,57 +57,61 @@ export const AddModalLetterNumberingUniv = ({ isOpen, onClose }) => {
             </button>
           </div>
 
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto"
-            style={{ height: "calc(900px - 92px)" }}
-            ref={dropdownRef}
-          >
-            <SingleSelectDropdown
-              name="jenis instansi"
-              label="Jenis Instansi"
-              isRequired={true}
-              options={typeOfInstitution}
-              register={register}
-              setValue={setValue}
-            />
-            <TextField
-              name="namaInstansi"
-              label="Nama Instansi"
-              placeholder="Masukkan nama instansi"
-              register={register}
-              isRequired={true}
-            />
-            <TextField
-              name="divisiInstansi"
-              label="Divisi Instansi"
-              placeholder="Masukkan nama divisi instansi"
-              register={register}
-              isRequired={true}
-            />
-            <SingleSelectDropdown
-              name="jenisSurat"
-              label="Jenis Surat"
-              isRequired={true}
-              options={typeOfLetter}
-              register={register}
-              setValue={setValue}
-            />
-            <TextField
-              name="tujuanPerihalSurat"
-              label="Tujuan dan Perihal Surat"
-              placeholder="Masukkan Nama Pihak BCF"
-              register={register}
-            />
-            <div className="text-right pt-4">
-              <button
-                type="submit"
-                className="bg-[#0d4690] text-white px-15 py-2 rounded-lg hover:bg-[#0c3f82]"
-              >
-                Simpan
-              </button>
-            </div>
-          </form>
+          <FormProvider {...methods}>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto"
+              style={{ height: "calc(900px - 92px)" }}
+              ref={dropdownRef}
+            >
+              <SingleSelectDropdown
+                name="jenis instansi"
+                label="Jenis Instansi"
+                isRequired={true}
+                options={typeOfInstitution}
+                register={register}
+                setValue={setValue}
+              />
+              <TextField
+                name="namaInstansi"
+                label="Nama Instansi"
+                placeholder="Masukkan nama instansi"
+                register={register}
+                isRequired={true}
+              />
+              <TextField
+                name="divisiInstansi"
+                label="Divisi Instansi"
+                placeholder="Masukkan nama divisi instansi"
+                register={register}
+                isRequired={true}
+              />
+              <SingleSelectDropdown
+                name="jenisSurat"
+                label="Jenis Surat"
+                isRequired={true}
+                options={typeOfLetter}
+                register={register}
+                setValue={setValue}
+              />
+              <LetterNumberingField />
+              <TextField
+                name="tujuanPerihalSurat"
+                label="Tujuan dan Perihal Surat"
+                placeholder="Masukkan Nama Pihak BCF"
+                register={register}
+              />
+
+              <div className="text-right pt-4">
+                <button
+                  type="submit"
+                  className="bg-[#0d4690] text-white px-15 py-2 rounded-lg hover:bg-[#0c3f82]"
+                >
+                  Simpan
+                </button>
+              </div>
+            </form>
+          </FormProvider>
         </div>
       </div>
     </>

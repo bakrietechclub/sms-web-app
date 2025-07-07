@@ -1,36 +1,78 @@
-import { Pagination } from "../../fragments/Pagination";
-import { FreezeTable } from "../../fragments/Table";
-import { TableToolbar } from "../../fragments/TableToolbar";
-import { useState } from "react";
-import { ChevronLeft } from "lucide-react";
-import { Button } from "../../elements/Button";
-import { Label } from "../../elements/Label";
-
+import { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
+import { ChevronLeft } from "lucide-react";
+
+import { Label } from "../../elements/Label";
+import { Button } from "../../elements/Button";
+import { FreezeTable } from "../../fragments/Table";
+import { Pagination } from "../../fragments/Pagination";
+import { TableToolbar } from "../../fragments/TableToolbar";
+
 import { UnivMouPks } from "../../../data/data_univ";
 import { MediaMouPks } from "../../../data/data_media";
 import { INGOMouPks } from "../../../data/data_ingo";
 
-export const Mou = () => {
-  const [showDetail, setShowDetail] = useState(false);
-  const [search, setSearch] = useState("");
+import { AddModalMouUniv } from "../../fragments/modalforms/univ/AddModalMouUniv";
+import { AddModalMouMedia } from "../../fragments/modalforms/media/AddModalMouMedia";
+import { AddModalMouINGO } from "../../fragments/modalforms/ingo/AddModalMouINGO";
 
+export const Mou = () => {
   const stakeholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
   );
 
-  let dataRaw;
+  const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState({});
+  const [selected, setSelected] = useState({});
+  const [showDetail, setShowDetail] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  let dataRaw = [];
+  let filterOptions = [];
+
   if (stakeholder === "universitas") {
     dataRaw = UnivMouPks;
+    filterOptions = [
+      {
+        label: "Jenis Instansi",
+        options: [
+          { label: "Universitas", value: "universitas" },
+          { label: "Lembaga Sosial", value: "lembaga sosial" },
+        ],
+      },
+    ];
   } else if (stakeholder === "media") {
     dataRaw = MediaMouPks;
+    filterOptions = [
+      {
+        label: "Jenis Instansi",
+        options: [
+          { label: "Pemerintah Pusat", value: "pemerintah pusat" },
+          { label: "Pemerintah Daerah", value: "pemerintah daerah" },
+          { label: "Dunia Usaha", value: "dunia usaha" },
+          { label: "Media Massa", value: "media massa" },
+        ],
+      },
+    ];
   } else {
     dataRaw = INGOMouPks;
+    filterOptions = [];
   }
 
   const handleClick = () => {
     setShowDetail(!showDetail);
   };
+
+  const filteredData = useMemo(() => {
+    return dataRaw.filter((item) => {
+      const matchSearch = item.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+      const matchJenis =
+        !filters["Jenis Instansi"] || item.jenis === filters["Jenis Instansi"];
+      return matchSearch && matchJenis;
+    });
+  }, [dataRaw, search, filters]);
 
   const headers = [
     "No.",
@@ -44,27 +86,18 @@ export const Mou = () => {
     "Aksi",
   ];
 
-  const [selected, setSelected] = useState({
-    name: "",
-    jenis: "",
-    division: "",
-    colabType: "",
-    duration: "",
-    dueDate: "",
-    signYear: "",
-  });
-
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
-      <td className="py-3 border-b border-gray-200">{index + 1}</td>
-      <td className="border-b border-gray-200">{value.name}</td>
-      <td className="border-b border-gray-200">{value.jenis}</td>
-      <td className="border-b border-gray-200">{value.division}</td>
+      <td className="py-3">{index + 1}</td>
+      <td>{value.name}</td>
+      <td>{value.jenis}</td>
+      <td>{value.division}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
+      <td className="border-b border-gray-200">Jenis Kerjasama</td>
       <td className="border-b border-gray-200">{value.duration}</td>
       <td className="border-b border-gray-200">{value.dueDate}</td>
       <td className="border-b border-gray-200">{value.signYear}</td>
@@ -72,8 +105,8 @@ export const Mou = () => {
         <Button
           className="text-[#0D4690] underline cursor-pointer"
           onClick={() => {
-            handleClick();
             setSelected(value);
+            handleClick();
           }}
         >
           Lihat Detail
@@ -86,34 +119,41 @@ export const Mou = () => {
     return (
       <div>
         <h1 className="text-2xl font-semibold">Tabel MoU</h1>
-        <div className="w-full">
-          <TableToolbar
-            searchValue={search}
-            onSearchChange={setSearch}
-            onAddClick={(opt) => handleAdd(opt)}
-            filters={[
-              {
-                label: "Jenis Instansi",
-                options: [
-                  { label: "Universitas", value: "universitas" },
-                  { label: "Lembaga Sosial", value: "lembaga sosial" },
-                ],
-              },
-            ]}
-            onFilterSet={() => console.log("Filter diset")}
-            searchWidth="w-1/4"
-          />
-        </div>
-        <div className="w-full overflow-hidden h-fit">
-          <FreezeTable
-            headers={headers}
-            data={dataRaw}
-            renderRow={renderRow}
-            renderRowFreeze={renderRowFreeze}
-            freezeCol={4}
-          />
-        </div>
+        <TableToolbar
+          searchValue={search}
+          onSearchChange={setSearch}
+          onAddClick={() => setIsModalOpen(true)}
+          filters={filterOptions}
+          onFilterSet={(f) => setFilters(f)}
+          searchWidth="w-1/4"
+        />
+        <FreezeTable
+          headers={headers}
+          data={filteredData}
+          renderRowFreeze={renderRowFreeze}
+          renderRow={renderRow}
+          freezeCol={4}
+        />
         <Pagination />
+
+        {isModalOpen && stakeholder === "universitas" && (
+          <AddModalMouUniv
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
+        {isModalOpen && stakeholder === "media" && (
+          <AddModalMouMedia
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
+        {isModalOpen && stakeholder === "lembagaInternasional" && (
+          <AddModalMouINGO
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
       </div>
     );
   } else {
@@ -127,7 +167,7 @@ export const Mou = () => {
         >
           <ChevronLeft /> Kembali
         </Button>
-        <h1 className="text-2xl font-semibold mt-4">Data Lengkap MoU / PKS</h1>
+        <h1 className="text-2xl font-semibold my-4">Data Lengkap MoU</h1>
         <div className="flex justify-end">
           <Button
             className={
