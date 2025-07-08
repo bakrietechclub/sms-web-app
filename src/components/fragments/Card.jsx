@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../elements/Button";
 import { useDispatch } from "react-redux";
 import { setActiveStakeholder } from "../../features/stakeholder/activeStakeholderSlice";
+import { RadioTower } from "lucide-react";
 
 import trophy from "../../assets/icons/trophy.png";
 
@@ -69,3 +70,39 @@ export const CardItem = ({ item, onViewDetails }) => (
     </div>
   </div>
 );
+
+export const MediaCard = ({ items }) => {
+  if (!items || !Array.isArray(items)) {
+    return null;
+  }
+
+  const totalPemberitaan = items.reduce(
+    (sum, item) => sum + (item.counts || 0),
+    0
+  );
+
+  return (
+    //First card is summary card
+    <div className="flex gap-3 w-auto">
+      <div className="rounded-md shadow p-3 flex-1">
+        <h1 className="font-semibold text-[#0D4690]">Jumlah Pemberitaan</h1>
+        <p>Keseluruhan</p>
+        <div className="flex justify-between rounded-md shadow p-2">
+          <RadioTower color="#DC3545" />
+          <p>{totalPemberitaan} Pemberitaan</p>
+        </div>
+      </div>
+      {/* The rest is based on array counts (Year) */}
+      {items.map((item, index) => (
+        <div key={index} className="rounded-md shadow p-3 flex-1">
+          <h1 className="font-semibold text-[#0D4690]">Jumlah Pemberitaan</h1>
+          <p>Tahun {item.year}</p>
+          <div className="flex justify-between rounded-md shadow p-2">
+            <RadioTower color="#DC3545" />
+            <p>{item.counts} Pemberitaan</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};

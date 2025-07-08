@@ -1,3 +1,4 @@
+import { Button } from "../../elements/Button";
 import { Pagination } from "../../fragments/Pagination";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
@@ -47,9 +48,14 @@ export const Program = () => {
       <td>PR Factor</td>
       <td>PR Value</td>
       <td>
-        <a href="#" className="text-[#0D4690] underline">
-          Lihat Detail
-        </a>
+        <Button
+          onClick={() => {
+            alert("Perbarui Data feature not ready yet");
+          }}
+          className="text-[#0D4690] underline cursor-pointer"
+        >
+          Perbarui Data
+        </Button>
       </td>
     </tr>
   );

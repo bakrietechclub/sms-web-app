@@ -79,7 +79,7 @@ export const LoginForm = () => {
     >
       {showAlert && (
         <AlertBox
-          alertType=""
+          alertType="errorLogin"
           onClose={() => {
             setError("");
             setShowAlert(false);
