@@ -10,6 +10,8 @@ export const HeaderDashboard = () => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
+  const simplifiedRole = user?.role.split(" ")[0];
+  
   const handleMenuClick = () => {
     const menu = document.querySelector(".menu-dropdown");
     menu.classList.toggle("hidden");
@@ -63,7 +65,7 @@ export const HeaderDashboard = () => {
           <div className="inline-grid text-[#1f1f1f]">
             <strong>{user?.username}</strong>
             <div className="flex gap-2">
-              <span className="text-sm text-[#28A745]">{user?.role}</span>
+              <span className="text-sm text-[#28A745]">{simplifiedRole}</span>
               <span className="text-sm">|</span>
               <span className="text-sm">{user?.division}</span>
             </div>

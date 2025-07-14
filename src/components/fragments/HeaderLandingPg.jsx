@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux"; 
+import { useDispatch, useSelector } from "react-redux"; 
 import { logout } from "../../features/auth/authSlice"; 
 import { DoorOpenIcon, ChevronDown } from "lucide-react";
 import logoBCF from "../../assets/img/logoBCF.png";
@@ -8,6 +8,10 @@ import avatar from "../../assets/img/userAvatar.png";
 export const HeaderLandingPg = (props) => {
   const dispatch = useDispatch(); 
   const navigate = useNavigate();
+
+  const user = useSelector((state) => state.auth.user);
+
+  const simplifiedRole = user?.role.split(" ")[0];
 
   const handleMenuClick = () => {
     const menu = document.querySelector(".menu-dropdown");
@@ -26,7 +30,7 @@ export const HeaderLandingPg = (props) => {
         <img src={avatar} alt="Avatar" className="w-10 h-10" />
         <div className="inline-grid">
           <strong className="font-semibold text-base w-32 h-6">{props.username}</strong>
-          <span className="text-xs w-32 h-5">{props.role}</span>
+          <span className="text-xs w-32 h-5">{simplifiedRole}</span>
         </div>
 
         <div className="relative">
@@ -50,3 +54,4 @@ export const HeaderLandingPg = (props) => {
     </header>
   );
 };
+ 
