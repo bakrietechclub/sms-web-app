@@ -4,9 +4,9 @@ import { FreezeTable } from "../fragments/Table";
 import { Pagination } from "../fragments/Pagination";
 import { TableToolbar } from "../fragments/TableToolbar";
 
-import { UnivBcfPartnership } from "../../data/data_univ";
-import { MediaBcfPartnership } from "../../data/data_media";
-import { INGOBcfPartnership } from "../../data/data_ingo";
+import { UnivBcfPartnership, UCG } from "../../data/data_univ";
+import { MediaBcfPartnership, MCG } from "../../data/data_media";
+import { INGOBcfPartnership, ICG } from "../../data/data_ingo";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Eye, ChevronLeft } from "lucide-react";
@@ -16,6 +16,8 @@ export const BcfPartnership = () => {
   const [selected, setSelected] = useState({});
   const [showDetailMoU, setShowDetailMoU] = useState(false);
   const [showDetailPks, setShowDetailPks] = useState(false);
+  const [showContact, setShowContact] = useState(false);
+
   const stakeholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
   );
@@ -28,13 +30,21 @@ export const BcfPartnership = () => {
     setShowDetailPks(!showDetailPks);
   };
 
+  const handleClickContact = () => {
+    setShowContact(!showContact);
+  };
+
   let data;
+  let dataDetails;
   if (stakeholder === "universitas") {
     data = UnivBcfPartnership;
+    dataDetails = UCG;
   } else if (stakeholder === "media") {
     data = MediaBcfPartnership;
+    dataDetails = MCG;
   } else {
     data = INGOBcfPartnership;
+    dataDetails = ICG;
   }
 
   const headers = ["No.", "Nama Instansi", "Jenis Instansi", "Divisi Instansi"];
@@ -90,7 +100,10 @@ export const BcfPartnership = () => {
       <td className="border-b border-gray-200">
         <Button
           className="flex text-sm p-1 m-2 items-center justify-center bg-[#e89229] text-[#f1f1f1] rounded-md hover:bg-[#d18325] cursor-pointer gap-1"
-          onClick={() => alert("Lihat Kontak")}
+          onClick={() => {
+            handleClickContact();
+            setSelected(value);
+          }}
         >
           <Eye className="inline" />
           Lihat Kontak
@@ -162,7 +175,7 @@ export const BcfPartnership = () => {
     </>
   );
 
-  if (!showDetailMoU && !showDetailPks) {
+  if (!showDetailMoU && !showDetailPks && !showContact) {
     return (
       <div>
         <h1 className="text-2xl font-semibold mb-3">Database Partnership</h1>
@@ -203,7 +216,7 @@ export const BcfPartnership = () => {
         <Pagination />
       </div>
     );
-  } else if (showDetailMoU) {
+  } else if (showDetailMoU && !showContact && !showDetailPks) {
     return (
       <div>
         <Button
@@ -294,7 +307,7 @@ export const BcfPartnership = () => {
         </div>
       </div>
     );
-  } else {
+  } else if (showDetailPks && !showDetailMoU && !showContact) {
     return (
       <div>
         <Button
@@ -377,6 +390,108 @@ export const BcfPartnership = () => {
             <p>-</p>
           </div>
         </div>
+      </div>
+    );
+  } else if (showContact) {
+    return (
+      <div>
+        <Button
+          className={"text-[#0D4690] cursor-pointer flex"}
+          onClick={() => handleClickContact()}
+        >
+          <ChevronLeft /> Kembali
+        </Button>
+        <h1 className="text-2xl font-semibold mt-4">
+          Data Lengkap Grup Koordinasi
+        </h1>
+        <div className="flex justify-end">
+          <Button className="bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2">
+            Perbarui
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-2 gap-y-7 mb-7">
+          <div>
+            <p className="font-semibold">Nama Instansi:</p>
+            <p className="ml-2">{selected.name}</p>
+          </div>
+          <div>
+            <p className="font-semibold">Jenis Instansi:</p>
+            <p className="ml-2">{selected.jenis}</p>
+          </div>
+          <div>
+            <p className="font-semibold">Divisi Instansi:</p>
+            <p className="ml-2">{selected.division}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-y-7 mb-7">
+          <div>
+            <p className="font-semibold">Link Grup:</p>
+            <a
+              href={selected.link}
+              className="ml-2 text-[#0D4690] italic underline"
+            >
+              {selected.link}
+            </a>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-y-7 mb-7">
+          <div>
+            <p className="text-xl font-semibold">Kontak</p>
+          </div>
+          <div className="flex justify-end">
+            <Button className="bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2">
+              Tambah Kontak
+            </Button>
+          </div>
+        </div>
+
+        <table className="table-auto text-center w-full">
+          <thead className="text-[#0D4690] bg-[#E7EDF4]">
+            <tr className="h-10 text-base font-semibold">
+              <th className="rounded-tl-xl">No.</th>
+              <th>Nama</th>
+              <th>Jabatan</th>
+              <th>No. Hp</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Status Aktif</th>
+              <th className="rounded-tr-xl">Aksi</th>
+            </tr>
+          </thead>
+          <tbody className="text-base border-l border-r border-[#E7EDF4]">
+            {dataDetails.map((item, index) => (
+              <tr key={index} className="border-b border-[#E7EDF4] h-10">
+                <td className="py-3">{index + 1}</td>
+                <td>{item.name}</td>
+                <td>{item.position}</td>
+                <td className="text-[#0d4690]">{item.phone}</td>
+                <td className="text-[#0d4690]">{item.email}</td>
+                <td>
+                  <Label
+                    label={item.status}
+                    status={
+                      item.status === "Belum Join Grup" ? "danger" : "success"
+                    }
+                  />
+                </td>
+                <td>
+                  <Label
+                    label={item.activeStatus}
+                    status={
+                      item.activeStatus === "Tidak Aktif" ? "danger" : "success"
+                    }
+                  />
+                </td>
+                <td className="text-[#0D4690] underline">
+                  <a>Edit Data</a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }

@@ -1,10 +1,13 @@
+import { Button } from "../../elements/Button";
 import { Pagination } from "../../fragments/Pagination";
 import { TableToolbar } from "../../fragments/TableToolbar";
 import { useState } from "react";
 import { MediaProgramRecap } from "../../../data/data_media";
+import { AddModalProgramRecap } from "../../fragments/modalforms/media/AddModalProgramRecap";
 
 export const Program = () => {
   const [search, setSearch] = useState("");
+  const [openModal, setOpenModal] = useState("");
 
   const headers = [
     "No",
@@ -47,9 +50,14 @@ export const Program = () => {
       <td>PR Factor</td>
       <td>PR Value</td>
       <td>
-        <a href="#" className="text-[#0D4690] underline">
-          Lihat Detail
-        </a>
+        <Button
+          onClick={() => {
+            alert("Perbarui Data feature not ready yet");
+          }}
+          className="text-[#0D4690] underline cursor-pointer"
+        >
+          Perbarui Data
+        </Button>
       </td>
     </tr>
   );
@@ -60,14 +68,10 @@ export const Program = () => {
       <TableToolbar
         searchValue={search}
         onSearchChange={setSearch}
-        onAddClick={(type) => {
-          if (type === "Kategori A") openModalA();
-          if (type === "Kategori B") openModalB();
-        }}
-        addOptions={["Kategori A", "Kategori B"]}
+        onAddClick={() => setOpenModal(true)}
         filters={[
           {
-            label: "Tahun",
+            label: "Tahun", 
             options: [
               { label: "2023", value: "2023" },
               { label: "2024", value: "2024" },
@@ -87,6 +91,14 @@ export const Program = () => {
         onFilterSet={() => console.log("Filter diset")}
         searchWidth="w-1/4"
       />
+
+      <AddModalProgramRecap
+        isOpen={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+      />
+
       <div className="overflow-x-auto w-full">
         <table className="text-center w-600 table-auto">
           <thead className="text-[#0D4690] bg-[#E7EDF4]">
@@ -112,3 +124,4 @@ export const Program = () => {
     </div>
   );
 };
+
