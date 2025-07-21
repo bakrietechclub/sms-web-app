@@ -30,7 +30,7 @@ export const HeaderLandingPg = (props) => {
         <img src={avatar} alt="Avatar" className="w-10 h-10" />
         <div className="inline-grid">
           <strong className="font-semibold text-base w-32 h-6">{props.username}</strong>
-          <span className="text-xs w-32 h-5">{simplifiedRole}</span>
+          <span className="text-xs w-32 h-5">admin</span>
         </div>
 
         <div className="relative">
