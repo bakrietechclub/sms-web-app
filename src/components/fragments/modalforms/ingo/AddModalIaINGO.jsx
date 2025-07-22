@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import TextField from "../../../elements/formfields/TextField";
 import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropdown";
 import RedirectTextField from "../../../elements/formfields/RedirectTextField";
-import { AddModalLetterNumberingUniv } from "../../../fragments/modalforms/univ/AddModalLetterNumberingUniv";
+import { AddLetterNumberingIa } from "../../../fragments/modalforms/ingo/letter-numbering/AddLetterNumberingIa";
 
 const cooperationProgram = ["LEAD", "HOL", "CLP", "BCF",];
 
@@ -179,7 +179,7 @@ export const AddModalIaINGO = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      <AddModalLetterNumberingUniv
+      <AddLetterNumberingIa
         isOpen={openLetterModal}
         onClose={() => setOpenLetterModal(false)}
         onSuccess={handleNomorSuratSuccess}

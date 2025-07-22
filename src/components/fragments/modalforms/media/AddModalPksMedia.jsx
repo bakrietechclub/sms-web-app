@@ -6,7 +6,7 @@ import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropd
 import SingleSelectDropdownBadge from "../../../elements/formfields/SingleSelectDropdownBadge";
 import DatePickerField from "../../../elements/formfields/DatePickerField";
 import RedirectTextField from "../../../elements/formfields/RedirectTextField";
-import {AddModalLetterNumberingMedia} from "../../../fragments/modalforms/Media/AddModalLetterNumberingMedia";
+import {AddLetterNumberingPks} from "../../../fragments/modalforms/media/letter-numbering/AddLetterNumberingPks";
 
 const typeOfInstitution = [
   "Pemerintah Pusat",
@@ -131,7 +131,7 @@ export const AddModalPksMedia = ({ isOpen, onClose }) => {
             <SingleSelectDropdownBadge
               name="statusPks"
               label="Status PKS"
-              options={mouStatus}
+              options={pksStatus}
               register={register}
               setValue={setValue}
               isRequired
@@ -204,7 +204,7 @@ export const AddModalPksMedia = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      <AddModalLetterNumberingMedia
+      <AddLetterNumberingPks
         isOpen={openLetterModal}
         onClose={() => setOpenLetterModal(false)}
         onSuccess={handleNomorSuratSuccess}
