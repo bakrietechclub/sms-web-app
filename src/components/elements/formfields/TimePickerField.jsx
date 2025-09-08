@@ -2,27 +2,35 @@ import { useState, useEffect } from "react";
 import { motion, useMotionValue, animate } from "framer-motion";
 import clock from "../../../assets/icons/clock.png";
 
-const TimePickerField = ({ 
-  name = "waktu", 
-  label = "Waktu", 
-  value, 
-  onChange, 
+const TimePickerField = ({
+  name = "waktu",
+  label = "Waktu",
+  value,
+  onChange,
   placeholder = "HH:MM AM/PM",
   className = "",
   required = false,
-  disabled = false
+  disabled = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState("hour");
   const [hour, setHour] = useState(12);
   const [minute, setMinute] = useState("00");
   const [amPm, setAmPm] = useState("AM");
+  const [localValue, setLocalValue] = useState(value || "");
 
   const radius = 100;
   const center = 120;
   const hours = [...Array(12)].map((_, i) => i + 1);
   const minutes = [...Array(12)].map((_, i) => String(i * 5).padStart(2, "0"));
   const numbers = step === "hour" ? hours : minutes;
+
+  // Sync external value to internal localValue
+  useEffect(() => {
+    if (value !== undefined) {
+      setLocalValue(value);
+    }
+  }, [value]);
 
   const polarToCartesian = (r, angleInDegrees) => {
     const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180;
@@ -33,9 +41,7 @@ const TimePickerField = ({
   };
 
   const pointerAngle =
-    step === "hour"
-      ? (hour % 12 === 0 ? 360 : hour * 30)
-      : parseInt(minute) * 6;
+    step === "hour" ? (hour % 12 === 0 ? 360 : hour * 30) : parseInt(minute) * 6;
 
   const targetCoord = polarToCartesian(radius, pointerAngle);
   const lineEndCoord = polarToCartesian(radius - 20, pointerAngle);
@@ -77,6 +83,7 @@ const TimePickerField = ({
       setStep("minute");
     } else {
       const formatted = `${String(hour).padStart(2, "0")}:${minute} ${amPm}`;
+      setLocalValue(formatted);
       if (onChange) {
         onChange(formatted);
       }
@@ -101,12 +108,12 @@ const TimePickerField = ({
         <input
           name={name}
           readOnly
-          value={value || ""}
+          value={localValue}
           placeholder={placeholder}
           onClick={handleInputClick}
           disabled={disabled}
           className={`w-full border border-gray-300 px-3 py-2 rounded cursor-pointer pr-10 ${
-            disabled ? 'bg-gray-100 cursor-not-allowed' : ''
+            disabled ? "bg-gray-100 cursor-not-allowed" : ""
           }`}
         />
         <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
@@ -133,14 +140,22 @@ const TimePickerField = ({
 
           <div className="flex items-center justify-center gap-2 text-5xl font-normal mb-4">
             <span
-              className={step === "hour" ? "text-black cursor-pointer" : "text-gray-400 cursor-pointer"}
+              className={
+                step === "hour"
+                  ? "text-black cursor-pointer"
+                  : "text-gray-400 cursor-pointer"
+              }
               onClick={() => setStep("hour")}
             >
               {String(hour).padStart(2, "0")}
             </span>
             <span className="text-gray-400">:</span>
             <span
-              className={step === "minute" ? "text-black cursor-pointer" : "text-gray-400 cursor-pointer"}
+              className={
+                step === "minute"
+                  ? "text-black cursor-pointer"
+                  : "text-gray-400 cursor-pointer"
+              }
               onClick={() => setStep("minute")}
             >
               {minute}
@@ -164,7 +179,10 @@ const TimePickerField = ({
               strokeWidth="2"
             />
             {numbers.map((num) => {
-              const isSelected = step === "hour" ? parseInt(num) === hour : parseInt(num) === parseInt(minute);
+              const isSelected =
+                step === "hour"
+                  ? parseInt(num) === hour
+                  : parseInt(num) === parseInt(minute);
               if (isSelected) return null;
 
               let angleValue;

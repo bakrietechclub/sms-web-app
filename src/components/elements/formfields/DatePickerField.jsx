@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { DayPicker } from "react-day-picker";
@@ -6,8 +6,8 @@ import "react-day-picker/dist/style.css";
 import calendar from "../../../assets/icons/calendar.png";
 
 const DatePickerField = ({ 
-  name = "tanggal", 
-  label = "Tanggal", 
+  name = "date", 
+  label = "Date", 
   value, 
   onChange, 
   placeholder = "DD/MM/YYYY",
@@ -16,8 +16,16 @@ const DatePickerField = ({
   disabled = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [localValue, setLocalValue] = useState(value);
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setLocalValue(value);
+    }
+  }, [value]);
 
   const handleSelect = (date) => {
+    setLocalValue(date);
     if (onChange) {
       onChange(date);
     }
@@ -39,7 +47,7 @@ const DatePickerField = ({
       <div className="relative">
         <input
           name={name}
-          value={value ? format(value, "dd/MM/yyyy") : ""}
+          value={localValue ? format(localValue, "dd/MM/yyyy") : ""}
           onClick={handleInputClick}
           placeholder={placeholder}
           readOnly
@@ -57,7 +65,7 @@ const DatePickerField = ({
         <div className="mt-2 bg-white border border-gray-200 rounded-lg shadow-lg">
           <DayPicker
             mode="single"
-            selected={value}
+            selected={localValue}
             onSelect={handleSelect}
             locale={id}
             className="p-3 text-base"

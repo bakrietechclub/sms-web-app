@@ -6,7 +6,7 @@ import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropd
 import SingleSelectDropdownBadge from "../../../elements/formfields/SingleSelectDropdownBadge";
 import DatePickerField from "../../../elements/formfields/DatePickerField";
 import RedirectTextField from "../../../elements/formfields/RedirectTextField";
-import {AddModalLetterNumberingINGO} from "../../../fragments/modalforms/INGO/AddModalLetterNumberingINGO";
+import {AddLetterNumberingPks} from "../../../fragments/modalforms/ingo/letter-numbering/AddLetterNumberingPks";
 
 const cooperationProgram = [
   "LEAD", "HOL", "CLP", "BCF", "SDI"
@@ -198,7 +198,7 @@ export const AddModalPksINGO = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      <AddModalLetterNumberingINGO
+      <AddLetterNumberingPks
         isOpen={openLetterModal}
         onClose={() => setOpenLetterModal(false)}
         onSuccess={handleNomorSuratSuccess}

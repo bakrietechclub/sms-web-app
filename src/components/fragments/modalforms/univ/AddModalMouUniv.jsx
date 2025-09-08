@@ -6,7 +6,7 @@ import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropd
 import SingleSelectDropdownBadge from "../../../elements/formfields/SingleSelectDropdownBadge";
 import DatePickerField from "../../../elements/formfields/DatePickerField";
 import RedirectTextField from "../../../elements/formfields/RedirectTextField";
-import {AddModalLetterNumberingUniv} from "../../../fragments/modalforms/univ/AddModalLetterNumberingUniv";
+import {AddLetterNumberingMou} from "../../../fragments/modalforms/univ/letter-numbering/AddLetterNumberingMou";
 
 const potentialResearchData = [
   "Universitas Indonesia",
@@ -188,7 +188,7 @@ export const AddModalMouUniv = ({ isOpen, onClose }) => {
       </div>
 
       {/* ⬇️ Modal AddNomorSurat */}
-      <AddModalLetterNumberingUniv
+      <AddLetterNumberingMou
         isOpen={openLetterModal}
         onClose={() => setOpenLetterModal(false)}
         onSuccess={handleNomorSuratSuccess}

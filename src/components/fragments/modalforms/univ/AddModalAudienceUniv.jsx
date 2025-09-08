@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form"; // Hapus FormProvider
+import { useForm } from "react-hook-form"; 
 import { useEffect, useRef } from "react";
 import TextField from "../../../elements/formfields/TextField";
 import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropdown";
@@ -6,10 +6,8 @@ import DatePickerField from "../../../elements/formfields/DatePickerField";
 import TimePickerField from "../../../elements/formfields/TimePickerField";
 import SingleSelectDropdownBadge from "../../../elements/formfields/SingleSelectDropdownBadge";
 
-// ... (const options tetap sama)
-
 export const AddModalAudienceUniv = ({ isOpen, onClose }) => {
-  // Destructure semua method yang dibutuhkan di sini
+
   const { register, handleSubmit, setValue, watch } = useForm();
   const dropdownRef = useRef(null);
 
@@ -19,7 +17,7 @@ export const AddModalAudienceUniv = ({ isOpen, onClose }) => {
   };
 
   useEffect(() => {
-    // ... (useEffect tetap sama)
+
   }, []);
 
   if (!isOpen) return null;
@@ -37,14 +35,12 @@ export const AddModalAudienceUniv = ({ isOpen, onClose }) => {
             <button onClick={onClose} className="text-2xl">×</button>
           </div>
 
-          {/* Hapus FormProvider */}
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto"
             style={{ height: "calc(900px - 92px)" }}
             ref={dropdownRef}
           >
-            {/* Kirim props yang relevan ke setiap komponen */}
             <SingleSelectDropdown
               name="dataRisetPotensial"
               label="Data Riset Potensial"

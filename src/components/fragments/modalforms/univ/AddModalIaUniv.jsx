@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import TextField from "../../../elements/formfields/TextField";
 import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropdown";
 import RedirectTextField from "../../../elements/formfields/RedirectTextField";
-import { AddModalLetterNumberingUniv } from "../../../fragments/modalforms/univ/AddModalLetterNumberingUniv";
+import { AddLetterNumberingIa } from "../../../fragments/modalforms/univ/letter-numbering/AddLetterNumberingIa";
 
 const pksData = [
   "Universitas Indonesia - Fakultas Kedokteran",
@@ -174,7 +174,7 @@ export const AddModalIaUniv = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      <AddModalLetterNumberingUniv
+      <AddLetterNumberingIa
         isOpen={openLetterModal}
         onClose={() => setOpenLetterModal(false)}
         onSuccess={handleNomorSuratSuccess}

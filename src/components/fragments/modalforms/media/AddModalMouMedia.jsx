@@ -6,7 +6,7 @@ import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropd
 import SingleSelectDropdownBadge from "../../../elements/formfields/SingleSelectDropdownBadge";
 import DatePickerField from "../../../elements/formfields/DatePickerField";
 import RedirectTextField from "../../../elements/formfields/RedirectTextField";
-import {AddModalLetterNumberingMedia} from "../../../fragments/modalforms/Media/AddModalLetterNumberingMedia";
+import {AddLetterNumberingMou} from "./letter-numbering/AddLetterNumberingMou";
 
 const typeOfInstitution = [
   "Pemerintah Pusat",
@@ -204,7 +204,7 @@ export const AddModalMouMedia = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      <AddModalLetterNumberingMedia
+      <AddLetterNumberingMou
         isOpen={openLetterModal}
         onClose={() => setOpenLetterModal(false)}
         onSuccess={handleNomorSuratSuccess}

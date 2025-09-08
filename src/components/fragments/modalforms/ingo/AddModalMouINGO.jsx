@@ -6,7 +6,7 @@ import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropd
 import SingleSelectDropdownBadge from "../../../elements/formfields/SingleSelectDropdownBadge";
 import DatePickerField from "../../../elements/formfields/DatePickerField";
 import RedirectTextField from "../../../elements/formfields/RedirectTextField";
-import {AddModalLetterNumberingINGO} from "../../../fragments/modalforms/INGO/AddModalLetterNumberingINGO";
+import {AddLetterNumberingMou} from "../../../fragments/modalforms/ingo/letter-numbering/AddLetterNumberingMou";
 
 const potentialResearchData = [
   "Universitas Indonesia",
@@ -207,7 +207,7 @@ export const AddModalMouINGO = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      <AddModalLetterNumberingINGO
+      <AddLetterNumberingMou
         isOpen={openLetterModal}
         onClose={() => setOpenLetterModal(false)}
         onSuccess={handleNomorSuratSuccess}

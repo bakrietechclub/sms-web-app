@@ -65,7 +65,7 @@ export const HeaderDashboard = () => {
           <div className="inline-grid text-[#1f1f1f]">
             <strong>{user?.username}</strong>
             <div className="flex gap-2">
-              <span className="text-sm text-[#28A745]">{simplifiedRole}</span>
+              <span className="text-sm text-[#28A745]">admin</span>
               <span className="text-sm">|</span>
               <span className="text-sm">{user?.division}</span>
             </div>
