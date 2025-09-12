@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  activeStakeholder: null, 
+  activeStakeholder: null,
 };
 
 const activeStakeholderSlice = createSlice({
-  name: "activeStakeholder",
+  name: 'activeStakeholder',
   initialState,
   reducers: {
     setActiveStakeholder(state, action) {
@@ -17,5 +17,6 @@ const activeStakeholderSlice = createSlice({
   },
 });
 
-export const { setActiveStakeholder, resetActiveStakeholder } = activeStakeholderSlice.actions;
+export const { setActiveStakeholder, resetActiveStakeholder } =
+  activeStakeholderSlice.actions;
 export default activeStakeholderSlice.reducer;

@@ -1,28 +1,46 @@
-import { Routes, Route } from "react-router-dom";
-import LoginPage from "./components/pages/LoginPage";
-import LandingPage from "./components/pages/LandingPage";
-import DashboardPage from "./components/pages/DashboardPage";
-import { PotentialPartner } from "./components/pages/Researches/PotentialPartner";
-import { ColabPartner } from "./components/pages/Researches/ColabPartner";
-import { Partner } from "./components/pages/Researches/Partner";
-import { Audiences } from "./components/pages/Audiences";
-import { CoordinationGroups } from "./components/pages/CoordinationGroups";
-import { Mou } from "./components/pages/Partnerships/Mou";
-import { Pks } from "./components/pages/Partnerships/Pks";
-import { Spk } from "./components/pages/Partnerships/Spk";
-import { Tor } from "./components/pages/Partnerships/Tor";
-import { Ia } from "./components/pages/Partnerships/Ia";
-import { CooperationSign } from "./components/pages/Partnerships/CooperationSign";
-import { LetterNumbering } from "./components/pages/LetterNumbering";
-import { Pta } from "./components/pages/Recap/Pta";
-import { Colab } from "./components/pages/Recap/Colab";
-import { Media } from "./components/pages/Recap/Media";
-import { Program } from "./components/pages/Recap/Program";
-import { SatisfactionSurvey } from "./components/pages/SatisfactionSurvey";
-import { BcfPartnership } from "./components/pages/BcfPartnership";
-import { PartnershipAwards } from "./components/pages/PartnershipAwards";
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import LoginPage from './components/pages/LoginPage';
+import LandingPage from './components/pages/LandingPage';
+import DashboardPage from './components/pages/DashboardPage';
+import { PotentialPartner } from './components/pages/Researches/PotentialPartner';
+import { ColabPartner } from './components/pages/Researches/ColabPartner';
+import { Partner } from './components/pages/Researches/Partner';
+import { Audiences } from './components/pages/Audiences';
+import { CoordinationGroups } from './components/pages/CoordinationGroups';
+import { Mou } from './components/pages/Partnerships/Mou';
+import { Pks } from './components/pages/Partnerships/Pks';
+import { Spk } from './components/pages/Partnerships/Spk';
+import { Tor } from './components/pages/Partnerships/Tor';
+import { Ia } from './components/pages/Partnerships/Ia';
+import { CooperationSign } from './components/pages/Partnerships/CooperationSign';
+import { LetterNumbering } from './components/pages/LetterNumbering';
+import { Pta } from './components/pages/Recap/Pta';
+import { Colab } from './components/pages/Recap/Colab';
+import { Media } from './components/pages/Recap/Media';
+import { Program } from './components/pages/Recap/Program';
+import { SatisfactionSurvey } from './components/pages/SatisfactionSurvey';
+import { BcfPartnership } from './components/pages/BcfPartnership';
+import { PartnershipAwards } from './components/pages/PartnershipAwards';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { asyncPreloadProcess } from './states/features/preload/preloadThunk';
 
 const App = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { authUser = null, isPreload } = useSelector((state) => state);
+
+  useEffect(() => {
+    dispatch(asyncPreloadProcess());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!authUser.user && !isPreload) {
+      navigate('/');
+    }
+  }, [authUser.user, isPreload]);
+
   return (
     <Routes>
       <Route path="/" element={<LoginPage />} />

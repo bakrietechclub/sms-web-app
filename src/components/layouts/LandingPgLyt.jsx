@@ -1,30 +1,30 @@
-import uni from "../../assets/img/uniCard.png";
-import media from "../../assets/img/mediaCard.png";
-import ingo from "../../assets/img/ingoCard.png";
+import uni from '../../assets/img/uniCard.png';
+import media from '../../assets/img/mediaCard.png';
+import ingo from '../../assets/img/ingoCard.png';
 
-import { Card } from "../fragments/Card";
-import { HeaderLandingPg } from "../fragments/HeaderLandingPg";
-import { HeroLandingPg } from "../fragments/HeroLandingPg";
+import { Card } from '../fragments/Card';
+import { HeaderLandingPg } from '../fragments/HeaderLandingPg';
+import { HeroLandingPg } from '../fragments/HeroLandingPg';
 
 export const LandingPgLyt = ({ username, role }) => {
   const cardsData = [
     {
-      name: "Universitas, Lembaga (NGO) & Komunitas",
+      name: 'Universitas, Lembaga (NGO) & Komunitas',
       image: uni,
-      accessRole: "Admin Universitas",
-      stakeholderKey: "universitas",
+      accessRole: 'LSD-SMS',
+      stakeholderKey: 'universitas',
     },
     {
-      name: "Media Massa, Dunia Usaha & Pemerintahan",
+      name: 'Media Massa, Dunia Usaha & Pemerintahan',
       image: media,
-      accessRole: "Admin Media",
-      stakeholderKey: "media",
+      accessRole: 'SCP-SMS',
+      stakeholderKey: 'media',
     },
     {
-      name: "Lembaga Internasional (INGO)",
+      name: 'Lembaga Internasional (INGO)',
       image: ingo,
-      accessRole: "Admin INGO",
-      stakeholderKey: "lembagaInternasional"
+      accessRole: 'SDI-SMS',
+      stakeholderKey: 'lembagaInternasional',
     },
   ];
 

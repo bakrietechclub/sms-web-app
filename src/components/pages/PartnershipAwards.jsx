@@ -1,19 +1,19 @@
-import TextField from "../elements/formfields/TextField";
-import { CardItem } from "../fragments/Card";
-import { Table } from "../fragments/Table";
-import { Pagination } from "../fragments/Pagination";
-import { TableToolbar } from "../fragments/TableToolbar";
-import { HorizontalScrollSection } from "../fragments/HorizontalScrollSection";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { ChevronLeft, ListFilter } from "lucide-react";
+import TextField from '../elements/formfields/TextField';
+import { CardItem } from '../fragments/Card';
+import { Table } from '../fragments/Table';
+import { Pagination } from '../fragments/Pagination';
+import { TableToolbar } from '../fragments/TableToolbar';
+import { HorizontalScrollSection } from '../fragments/HorizontalScrollSection';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { ChevronLeft, ListFilter } from 'lucide-react';
 
-import { UnivPAUnivCards, UnivPAInstitutionCards } from "../../data/data_univ";
-import { INGOPAUnivCards, INGOPAInstitutionCards } from "../../data/data_ingo";
+import { UnivPAUnivCards, UnivPAInstitutionCards } from '../../data/data_univ';
+import { INGOPAUnivCards, INGOPAInstitutionCards } from '../../data/data_ingo';
 
 export const PartnershipAwards = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [showDetails, setShowDetails] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const { register } = useForm();
@@ -34,7 +34,7 @@ export const PartnershipAwards = () => {
 
   let univCards = [];
   let instituteCards = [];
-  if (stakeholder === "universitas") {
+  if (stakeholder === 'universitas') {
     univCards = UnivPAUnivCards;
     instituteCards = UnivPAInstitutionCards;
   } else {
@@ -44,7 +44,7 @@ export const PartnershipAwards = () => {
 
   const detailedItem = selectedItem;
 
-  const headers = ["No"];
+  const headers = ['No'];
   const data = [{ no: 1 }, { no: 2 }, { no: 3 }, { no: 4 }, { no: 5 }];
 
   const renderRow = (value, index) => (
@@ -80,7 +80,7 @@ export const PartnershipAwards = () => {
               <h2 className="text-xl font-semibold">Indikator:</h2>
               <p className="ml-2 mb-2">
                 {detailedItem.indicatorDescription ||
-                  "Deskripsi indikator belum tersedia."}
+                  'Deskripsi indikator belum tersedia.'}
               </p>
               <div className="w-2/3">
                 <div className="flex justify-between">

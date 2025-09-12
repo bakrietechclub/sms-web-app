@@ -1,27 +1,27 @@
-import { useState, useMemo } from "react";
-import { useSelector } from "react-redux";
-import { ChevronLeft } from "lucide-react";
+import { useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { ChevronLeft } from 'lucide-react';
 
-import { Label } from "../../elements/Label";
-import { Button } from "../../elements/Button";
-import { FreezeTable } from "../../fragments/Table";
-import { Pagination } from "../../fragments/Pagination";
-import { TableToolbar } from "../../fragments/TableToolbar";
+import { Label } from '../../elements/Label';
+import { Button } from '../../elements/Button';
+import { FreezeTable } from '../../fragments/Table';
+import { Pagination } from '../../fragments/Pagination';
+import { TableToolbar } from '../../fragments/TableToolbar';
 
-import { UnivMouPks } from "../../../data/data_univ";
-import { MediaMouPks } from "../../../data/data_media";
-import { INGOMouPks } from "../../../data/data_ingo";
+import { UnivMouPks } from '../../../data/data_univ';
+import { MediaMouPks } from '../../../data/data_media';
+import { INGOMouPks } from '../../../data/data_ingo';
 
-import { AddModalMouUniv } from "../../fragments/modalforms/univ/AddModalMouUniv";
-import { AddModalMouMedia } from "../../fragments/modalforms/media/AddModalMouMedia";
-import { AddModalMouINGO } from "../../fragments/modalforms/ingo/AddModalMouINGO";
+import { AddModalMouUniv } from '../../fragments/modalforms/univ/AddModalMouUniv';
+import { AddModalMouMedia } from '../../fragments/modalforms/media/AddModalMouMedia';
+import { AddModalMouINGO } from '../../fragments/modalforms/ingo/AddModalMouINGO';
 
 export const Mou = () => {
   const stakeholder = useSelector(
     (state) => state.activeStakeholder.activeStakeholder
   );
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({});
   const [selected, setSelected] = useState({});
   const [showDetail, setShowDetail] = useState(false);
@@ -30,27 +30,27 @@ export const Mou = () => {
   let dataRaw = [];
   let filterOptions = [];
 
-  if (stakeholder === "universitas") {
+  if (stakeholder === 'universitas') {
     dataRaw = UnivMouPks;
     filterOptions = [
       {
-        label: "Jenis Instansi",
+        label: 'Jenis Instansi',
         options: [
-          { label: "Universitas", value: "universitas" },
-          { label: "Lembaga Sosial", value: "lembaga sosial" },
+          { label: 'Universitas', value: 'universitas' },
+          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
         ],
       },
     ];
-  } else if (stakeholder === "media") {
+  } else if (stakeholder === 'media') {
     dataRaw = MediaMouPks;
     filterOptions = [
       {
-        label: "Jenis Instansi",
+        label: 'Jenis Instansi',
         options: [
-          { label: "Pemerintah Pusat", value: "pemerintah pusat" },
-          { label: "Pemerintah Daerah", value: "pemerintah daerah" },
-          { label: "Dunia Usaha", value: "dunia usaha" },
-          { label: "Media Massa", value: "media massa" },
+          { label: 'Pemerintah Pusat', value: 'pemerintah pusat' },
+          { label: 'Pemerintah Daerah', value: 'pemerintah daerah' },
+          { label: 'Dunia Usaha', value: 'dunia usaha' },
+          { label: 'Media Massa', value: 'media massa' },
         ],
       },
     ];
@@ -69,21 +69,21 @@ export const Mou = () => {
         .toLowerCase()
         .includes(search.toLowerCase());
       const matchJenis =
-        !filters["Jenis Instansi"] || item.jenis === filters["Jenis Instansi"];
+        !filters['Jenis Instansi'] || item.jenis === filters['Jenis Instansi'];
       return matchSearch && matchJenis;
     });
   }, [dataRaw, search, filters]);
 
   const headers = [
-    "No.",
-    "Nama Instansi",
-    "Jenis Instansi",
-    "Divisi Instansi",
-    "Jenis Kerjasama",
-    "Jangka Kerjasama",
-    "Jatuh Tempo",
-    "Tahun Tanda Tangan",
-    "Aksi",
+    'No.',
+    'Nama Instansi',
+    'Jenis Instansi',
+    'Divisi Instansi',
+    'Jenis Kerjasama',
+    'Jangka Kerjasama',
+    'Jatuh Tempo',
+    'Tahun Tanda Tangan',
+    'Aksi',
   ];
 
   const renderRowFreeze = (value, index) => (
@@ -136,19 +136,19 @@ export const Mou = () => {
         />
         <Pagination />
 
-        {isModalOpen && stakeholder === "universitas" && (
+        {isModalOpen && stakeholder === 'universitas' && (
           <AddModalMouUniv
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
           />
         )}
-        {isModalOpen && stakeholder === "media" && (
+        {isModalOpen && stakeholder === 'media' && (
           <AddModalMouMedia
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
           />
         )}
-        {isModalOpen && stakeholder === "lembagaInternasional" && (
+        {isModalOpen && stakeholder === 'lembagaInternasional' && (
           <AddModalMouINGO
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
@@ -160,7 +160,7 @@ export const Mou = () => {
     return (
       <div>
         <Button
-          className={"text-[#0D4690] cursor-pointer flex"}
+          className={'text-[#0D4690] cursor-pointer flex'}
           onClick={() => {
             handleClick();
           }}
@@ -171,7 +171,7 @@ export const Mou = () => {
         <div className="flex justify-end">
           <Button
             className={
-              "bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2"
+              'bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2'
             }
           >
             Perbarui
@@ -201,7 +201,7 @@ export const Mou = () => {
           <div className="">
             <p className="font-semibold">Status:</p>
             <p className="">
-              <Label label={"Sudah Diperiksa oleh Mitra"} status={""} />
+              <Label label={'Sudah Diperiksa oleh Mitra'} status={''} />
             </p>
           </div>
           <div className="">

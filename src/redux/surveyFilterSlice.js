@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  activeFilter: "LEAD",
+  activeFilter: 'LEAD',
 };
 
 const surveyFilterSlice = createSlice({
-  name: "surveyFilter",
+  name: 'surveyFilter',
   initialState,
   reducers: {
     setFilter(state, action) {

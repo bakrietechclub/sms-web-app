@@ -1,26 +1,22 @@
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux"; 
-import { logout } from "../../features/auth/authSlice"; 
-import { DoorOpenIcon, ChevronDown } from "lucide-react";
-import logoBCF from "../../assets/img/logoBCF.png";
-import avatar from "../../assets/img/userAvatar.png";
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncUnsetAuthUser } from '../../states/features/auth/authThunk';
+import { DoorOpenIcon, ChevronDown } from 'lucide-react';
+import logoBCF from '../../assets/img/logoBCF.png';
+import avatar from '../../assets/img/userAvatar.png';
 
 export const HeaderLandingPg = (props) => {
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const user = useSelector((state) => state.auth.user);
-
-  const simplifiedRole = user?.role.split(" ")[0];
-
   const handleMenuClick = () => {
-    const menu = document.querySelector(".menu-dropdown");
-    menu.classList.toggle("hidden");
+    const menu = document.querySelector('.menu-dropdown');
+    menu.classList.toggle('hidden');
   };
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
+    dispatch(asyncUnsetAuthUser());
+    navigate('/');
   };
 
   return (
@@ -29,8 +25,10 @@ export const HeaderLandingPg = (props) => {
       <div className="flex items-center justify-between space-x-4">
         <img src={avatar} alt="Avatar" className="w-10 h-10" />
         <div className="inline-grid">
-          <strong className="font-semibold text-base w-32 h-6">{props.username}</strong>
-          <span className="text-xs w-32 h-5">admin</span>
+          <strong className="font-semibold text-base w-32 h-6">
+            {props.username}
+          </strong>
+          <span className="text-xs w-32 h-5">{props.role}</span>
         </div>
 
         <div className="relative">
@@ -43,7 +41,7 @@ export const HeaderLandingPg = (props) => {
           <div className="menu-dropdown hidden absolute w-78 h-13 top-10 right-4 mt-2 bg-white border border-gray-200 rounded-md shadow-lg p-2 animate-fadeIn">
             <button
               className="px-4 py-1 hover:bg-[#fae1e3] cursor-pointer flex items-center text-base w-full rounded-md transition duration-300 ease-in-out"
-              onClick={handleLogout} 
+              onClick={handleLogout}
             >
               <DoorOpenIcon className="w-5 h-5 mr-2 text-[#DC3545]" />
               Keluar
@@ -54,4 +52,3 @@ export const HeaderLandingPg = (props) => {
     </header>
   );
 };
- 

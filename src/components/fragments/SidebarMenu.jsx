@@ -1,27 +1,27 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setActiveStakeholder } from "../../features/stakeholder/activeStakeholderSlice";
-import { sidebarMenus } from "../../config/sidebarMenus";
-import { ChevronRight, ChevronDown } from "lucide-react";
-import LogoBCF from "../../assets/img/logoBCF.png";
-import { NavLink, useLocation } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+// import { setActiveStakeholder } from '../../states/features/stakeholder/activeStakeholderSlice';
+import { sidebarMenus } from '../../config/sidebarMenus';
+import { ChevronRight, ChevronDown } from 'lucide-react';
+import LogoBCF from '../../assets/img/logoBCF.png';
+import { NavLink, useLocation } from 'react-router-dom';
 
 export const SidebarMenu = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const activeStakeholder = useSelector(
-    (state) => state.activeStakeholder.activeStakeholder
-  );
+  // const activeStakeholder = useSelector(
+  //   (state) => state.activeStakeholder.activeStakeholder
+  // );
   const [openMenus, setOpenMenus] = useState([]);
 
   useEffect(() => {
-    const storedStakeholder = localStorage.getItem("activeStakeholder");
+    const storedStakeholder = localStorage.getItem('activeStakeholder');
     if (storedStakeholder) {
-      dispatch(setActiveStakeholder(storedStakeholder));
+      // dispatch(setActiveStakeholder(storedStakeholder));
     }
   }, [dispatch]);
 
-  const menus = sidebarMenus[activeStakeholder || "universitas"];
+  const menus = sidebarMenus[activeStakeholder || 'universitas'];
 
   // UNTUK MEMBUKA SUB-MENU YANG AKTIF SAAT RELOAD
   // UNTUK MEMASTIKAN HANYA SATU SUB-MENU YANG TERBUKA SAAT LOAD
@@ -72,7 +72,7 @@ export const SidebarMenu = () => {
                 to={menu.path}
                 className={({ isActive }) =>
                   `flex items-center justify-between p-3 cursor-pointer hover:bg-[#E7EDF4] hover:text-[#0D4690] rounded-md transition-all duration-200 ${
-                    isActive ? "text-[#0D4690] font-semibold bg-[#E7EDF4]" : ""
+                    isActive ? 'text-[#0D4690] font-semibold bg-[#E7EDF4]' : ''
                   }`
                 }
                 // NavLink DIKLIK SEMUA MENU AKAN TERTUTUP
@@ -97,8 +97,8 @@ export const SidebarMenu = () => {
                 }}
                 className={`flex items-center justify-between p-3 cursor-pointer hover:bg-[#E7EDF4] hover:text-[#0D4690] rounded-md transition-all duration-200 ${
                   openMenus.includes(menu.title) || isMainMenuActive(menu)
-                    ? "text-[#0D4690] font-semibold bg-[#E7EDF4]"
-                    : ""
+                    ? 'text-[#0D4690] font-semibold bg-[#E7EDF4]'
+                    : ''
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -123,8 +123,8 @@ export const SidebarMenu = () => {
                     className={({ isActive }) =>
                       `text-sm font-medium transition-all duration-200 ${
                         isActive
-                          ? "text-[#0D4690] font-semibold"
-                          : "text-[#999999] hover:text-[#0D4690]"
+                          ? 'text-[#0D4690] font-semibold'
+                          : 'text-[#999999] hover:text-[#0D4690]'
                       }`
                     }
                   >

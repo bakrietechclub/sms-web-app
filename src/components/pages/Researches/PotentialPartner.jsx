@@ -1,30 +1,30 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { Label } from "../../elements/Label";
-import { Button } from "../../elements/Button";
-import { Table } from "../../fragments/Table";
-import { TableToolbar } from "../../fragments/TableToolbar";
-import { Pagination } from "../../fragments/Pagination";
-import { AddModalUniv } from "../../fragments/modalforms/univ/AddModalUniv";
-import { AddModalSocialInstitution } from "../../fragments/modalforms/univ/addModalSocialInstitution";
-import { AddModalPotentialResearch } from "../../fragments/modalforms/ingo/AddModalPotentialResearch";
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Label } from '../../elements/Label';
+import { Button } from '../../elements/Button';
+import { Table } from '../../fragments/Table';
+import { TableToolbar } from '../../fragments/TableToolbar';
+import { Pagination } from '../../fragments/Pagination';
+import { AddModalUniv } from '../../fragments/modalforms/univ/AddModalUniv';
+import { AddModalSocialInstitution } from '../../fragments/modalforms/univ/addModalSocialInstitution';
+import { AddModalPotentialResearch } from '../../fragments/modalforms/ingo/AddModalPotentialResearch';
 
-import { UnivPotentialPartnerResearch } from "../../../data/data_univ";
-import { INGOPotentialPartnerResearch } from "../../../data/data_ingo";
+import { UnivPotentialPartnerResearch } from '../../../data/data_univ';
+import { INGOPotentialPartnerResearch } from '../../../data/data_ingo';
 
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft } from 'lucide-react';
 
 export const PotentialPartner = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [modalType, setModalType] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [selected, setSelected] = useState({
-    name: "",
-    jenis: "",
-    region: "",
-    program: "",
-    status: "belum",
+    name: '',
+    jenis: '',
+    region: '',
+    program: '',
+    status: 'belum',
   });
 
   const stakeholder = useSelector(
@@ -32,7 +32,7 @@ export const PotentialPartner = () => {
   );
 
   let dataRaw;
-  if (stakeholder === "universitas") {
+  if (stakeholder === 'universitas') {
     dataRaw = UnivPotentialPartnerResearch;
   } else {
     dataRaw = INGOPotentialPartnerResearch;
@@ -43,50 +43,50 @@ export const PotentialPartner = () => {
   };
 
   const headers = [
-    "No",
-    "Nama Instansi",
-    "Jenis Instansi",
-    "Region",
-    "Program LSD",
-    "Status",
-    "Aksi",
+    'No',
+    'Nama Instansi',
+    'Jenis Instansi',
+    'Region',
+    'Program LSD',
+    'Status',
+    'Aksi',
   ];
 
   let filterType;
-  if (stakeholder === "universitas") {
+  if (stakeholder === 'universitas') {
     filterType = {
-      label: "Jenis Instansi",
+      label: 'Jenis Instansi',
       options: [
-        { label: "Universitas", value: "universitas" },
-        { label: "Lembaga Sosial", value: "lembaga sosial" },
+        { label: 'Universitas', value: 'universitas' },
+        { label: 'Lembaga Sosial', value: 'lembaga sosial' },
       ],
     };
   } else {
     filterType = {
-      label: "Cluster",
+      label: 'Cluster',
       options: [
-        { label: "Kesehatan", value: "kesehatan" },
-        { label: "Pendidikan", value: "pendidikan" },
-        { label: "Lingkungan", value: "lingkungan" },
+        { label: 'Kesehatan', value: 'kesehatan' },
+        { label: 'Pendidikan', value: 'pendidikan' },
+        { label: 'Lingkungan', value: 'lingkungan' },
       ],
     };
   }
 
   let modalSelector = null;
-  if (stakeholder === "universitas") {
+  if (stakeholder === 'universitas') {
     modalSelector = {
-      "Jenis Instansi": [
+      'Jenis Instansi': [
         {
-          label: "Universitas",
+          label: 'Universitas',
           onClick: () => {
-            setModalType("universitas");
+            setModalType('universitas');
             setOpenModal(true);
           },
         },
         {
-          label: "Lembaga Sosial",
+          label: 'Lembaga Sosial',
           onClick: () => {
-            setModalType("lembaga sosial");
+            setModalType('lembaga sosial');
             setOpenModal(true);
           },
         },
@@ -95,12 +95,12 @@ export const PotentialPartner = () => {
   }
 
   const handleAddClick = () => {
-    if (stakeholder === "universitas") {
+    if (stakeholder === 'universitas') {
       console.log(
         "Tombol 'Tambah' diklik untuk universitas, seharusnya menampilkan dropdown."
       );
-    } else if (stakeholder === "lembagaInternasional") {
-      setModalType("INGO");
+    } else if (stakeholder === 'lembagaInternasional') {
+      setModalType('INGO');
       setOpenModal(true);
     } else {
       setOpenModal(true);
@@ -116,8 +116,8 @@ export const PotentialPartner = () => {
       <td>{value.program}</td>
       <td>
         <Label
-          label={(value.status ? "Sudah" : "Belum") + " dikontak"}
-          status={value.status ? "success" : "danger"}
+          label={(value.status ? 'Sudah' : 'Belum') + ' dikontak'}
+          status={value.status ? 'success' : 'danger'}
         />
       </td>
       <td>
@@ -147,18 +147,18 @@ export const PotentialPartner = () => {
           filters={[
             filterType,
             {
-              label: "Status Kontak",
+              label: 'Status Kontak',
               options: [
-                { label: "Sudah dikontak", value: "sudah" },
-                { label: "Belum dikontak", value: "belum" },
+                { label: 'Sudah dikontak', value: 'sudah' },
+                { label: 'Belum dikontak', value: 'belum' },
               ],
             },
           ]}
-          onFilterSet={() => console.log("Filter diset")}
+          onFilterSet={() => console.log('Filter diset')}
           searchWidth="w-1/4"
         />
 
-        {modalType === "universitas" && (
+        {modalType === 'universitas' && (
           <AddModalUniv
             isOpen={openModal}
             onClose={() => {
@@ -168,7 +168,7 @@ export const PotentialPartner = () => {
           />
         )}
 
-        {modalType === "lembaga sosial" && (
+        {modalType === 'lembaga sosial' && (
           <AddModalSocialInstitution
             isOpen={openModal}
             onClose={() => {
@@ -178,7 +178,7 @@ export const PotentialPartner = () => {
           />
         )}
 
-        {modalType === "INGO" && (
+        {modalType === 'INGO' && (
           <AddModalPotentialResearch
             isOpen={openModal}
             onClose={() => {
@@ -196,7 +196,7 @@ export const PotentialPartner = () => {
     return (
       <div>
         <Button
-          className={"text-[#0D4690] cursor-pointer flex"}
+          className={'text-[#0D4690] cursor-pointer flex'}
           onClick={() => {
             handleClickDetail();
           }}
@@ -204,15 +204,15 @@ export const PotentialPartner = () => {
           <ChevronLeft /> Kembali
         </Button>
         <h1 className="text-2xl font-semibold mt-4">
-          Data Lengkap{" "}
-          {selected.name.toLowerCase().includes("universitas")
-            ? "Universitas"
-            : "Lembaga Sosial/Komunitas"}
+          Data Lengkap{' '}
+          {selected.name.toLowerCase().includes('universitas')
+            ? 'Universitas'
+            : 'Lembaga Sosial/Komunitas'}
         </h1>
         <div className="flex justify-end">
           <Button
             className={
-              "bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2"
+              'bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2'
             }
             // onClick={}
           >
@@ -235,12 +235,12 @@ export const PotentialPartner = () => {
           <div className="">
             <p className="font-semibold">Status Audiensi:</p>
             <Label
-              label={(selected.status ? "Sudah" : "Belum") + " dikontak"}
-              status={selected.status ? "success" : "danger"}
+              label={(selected.status ? 'Sudah' : 'Belum') + ' dikontak'}
+              status={selected.status ? 'success' : 'danger'}
             />
           </div>
           {selected.name &&
-            !selected.name.toLowerCase().includes("universitas") && (
+            !selected.name.toLowerCase().includes('universitas') && (
               <>
                 <div className="">
                   <p className="font-semibold">Cluster:</p>

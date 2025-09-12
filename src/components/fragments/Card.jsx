@@ -1,27 +1,27 @@
 // New folder/Card.jsx
-import { useNavigate } from "react-router-dom";
-import { Button } from "../elements/Button";
-import { useDispatch } from "react-redux";
-import { setActiveStakeholder } from "../../features/stakeholder/activeStakeholderSlice";
-import { RadioTower } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../elements/Button';
+import { useDispatch } from 'react-redux';
+// import { setActiveStakeholder } from '../../states/features/stakeholder/activeStakeholderSlice';
+import { RadioTower } from 'lucide-react';
 
-import trophy from "../../assets/icons/trophy.png";
+import trophy from '../../assets/icons/trophy.png';
 
 export const Card = ({ name, image, manageAccess, stakeholderKey }) => {
   const isOutlined = manageAccess
-    ? "bg-[#E89229] text-white hover:bg-[#D18325]"
-    : "bg-white text-[#E89229] outline-1 outline-[#E89229] hover:bg-[#E89229] hover:text-white";
+    ? 'bg-[#E89229] text-white hover:bg-[#D18325]'
+    : 'bg-white text-[#E89229] outline-1 outline-[#E89229] hover:bg-[#E89229] hover:text-white';
 
-  const buttonLabel = manageAccess ? "Kelola" : "Lihat";
+  const buttonLabel = manageAccess ? 'Kelola' : 'Lihat';
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(setActiveStakeholder(stakeholderKey));
-    localStorage.setItem("activeStakeholder", stakeholderKey);
-    if (stakeholderKey !== "media") {
-      navigate("/dashboard/research/potential-partner");
-    } else navigate("/dashboard/research/partner");
+    // dispatch(setActiveStakeholder(stakeholderKey));
+    localStorage.setItem('activeStakeholder', stakeholderKey);
+    if (stakeholderKey !== 'media') {
+      navigate('/dashboard/research/potential-partner');
+    } else navigate('/dashboard/research/partner');
   };
 
   return (
@@ -29,8 +29,8 @@ export const Card = ({ name, image, manageAccess, stakeholderKey }) => {
       className="relative max-w-96 h-48 rounded-md shadow-sm p-4 flex flex-2/4 overflow-hidden"
       style={{
         backgroundImage: `url(${image})`,
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "bottom -1rem left -1rem",
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'bottom -1rem left -1rem',
       }}
     >
       <h2 className="font-semibold text-xl">{name}</h2>
