@@ -1,0 +1,62 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import api from '../../../../utils/api';
+
+export const asyncAddMou = createAsyncThunk(
+  'mou/asyncAddMou',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const data = await api.addMou(payload);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const asyncGetMouById = createAsyncThunk(
+  'mou/asyncGetMouById',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const data = await api.getMouById({ id });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const asyncGetMou = createAsyncThunk(
+  'mou/asyncGetMou',
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await api.getMou();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const asyncDeleteMouById = createAsyncThunk(
+  'mou/asyncDeleteMouById',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const message = await api.deleteMouById({ id });
+      return { id, message };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const asyncUpdateMouById = createAsyncThunk(
+  'mou/asyncUpdateMouById',
+  async ({ id, payload }, { rejectWithValue }) => {
+    try {
+      const data = await api.updateMouById({ id, payload });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

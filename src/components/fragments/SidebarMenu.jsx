@@ -5,13 +5,12 @@ import { sidebarMenus } from '../../config/sidebarMenus';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import LogoBCF from '../../assets/img/logoBCF.png';
 import { NavLink, useLocation } from 'react-router-dom';
+import { selectAccessRole } from '../../states/features/auth/authSelectors';
 
 export const SidebarMenu = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  // const activeStakeholder = useSelector(
-  //   (state) => state.activeStakeholder.activeStakeholder
-  // );
+  const accessRole = useSelector(selectAccessRole);
   const [openMenus, setOpenMenus] = useState([]);
 
   useEffect(() => {
@@ -21,7 +20,7 @@ export const SidebarMenu = () => {
     }
   }, [dispatch]);
 
-  const menus = sidebarMenus[activeStakeholder || 'universitas'];
+  const menus = sidebarMenus[accessRole] || [];
 
   // UNTUK MEMBUKA SUB-MENU YANG AKTIF SAAT RELOAD
   // UNTUK MEMASTIKAN HANYA SATU SUB-MENU YANG TERBUKA SAAT LOAD
@@ -65,7 +64,7 @@ export const SidebarMenu = () => {
       </div>
       {/* SIDEBAR MENU */}
       <nav>
-        {menus.map((menu, idx) => (
+        {menus?.map((menu, idx) => (
           <div key={idx} className="text-[#999999]">
             {!menu.submenu ? ( // MENU TANPA SUBMENU
               <NavLink

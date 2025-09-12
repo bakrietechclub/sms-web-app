@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { InputField } from '../elements/InputField';
 import { AlertBox } from '../elements/AlertBox';
 import { Button } from '../elements/Button';
-import { asyncSetAuthUser } from '../../states/features/auth/authThunk';
+import { asyncSetAuthUser } from '../../states/features/auth/authThunks';
 
 export const LoginForm = () => {
   const [email, setEmail] = useState('');

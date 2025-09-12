@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { asyncSetAuthUser, asyncUnsetAuthUser } from './authThunk';
+import { asyncSetAuthUser, asyncUnsetAuthUser } from './authThunks';
 
 const authSlice = createSlice({
   name: 'authUser',

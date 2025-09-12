@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 export const sidebarMenus = {
-  universitas: [
+  'LSD-SMS': [
     {
       title: 'Riset Mitra',
       icon: Search,
@@ -74,7 +74,7 @@ export const sidebarMenus = {
     },
   ],
 
-  media: [
+  'SCP-SMS': [
     {
       title: 'Riset Mitra',
       icon: Search,
@@ -124,7 +124,7 @@ export const sidebarMenus = {
     },
   ],
 
-  lembagaInternasional: [
+  'SDI-SMS': [
     {
       title: 'Riset Mitra',
       icon: Search,

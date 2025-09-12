@@ -1,20 +1,23 @@
-import { DoorOpenIcon, BellIcon, ChevronDown, HomeIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useState, useEffect, useCallback } from "react";
-import avatar from "../../assets/img/userAvatar.png";
-import NotificationsModal from "./NotificationsModal";
+import { DoorOpenIcon, BellIcon, ChevronDown, HomeIcon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useState, useEffect, useCallback } from 'react';
+import avatar from '../../assets/img/userAvatar.png';
+import NotificationsModal from './NotificationsModal';
+import {
+  selectAccessRole,
+  selectAuthUser,
+} from '../../states/features/auth/authSelectors';
 
 export const HeaderDashboard = () => {
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector(selectAuthUser);
+  const accessRole = useSelector(selectAccessRole);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
-  const simplifiedRole = user?.role.split(" ")[0];
-  
   const handleMenuClick = () => {
-    const menu = document.querySelector(".menu-dropdown");
-    menu.classList.toggle("hidden");
+    const menu = document.querySelector('.menu-dropdown');
+    menu.classList.toggle('hidden');
   };
 
   const handleBellClick = () => {
@@ -27,23 +30,22 @@ export const HeaderDashboard = () => {
 
   const updateUnreadCount = useCallback((notifications) => {
     if (!Array.isArray(notifications)) {
-      console.error("updateUnreadCount dipanggil dengan nilai yang bukan array:", notifications);
+      console.error(
+        'updateUnreadCount dipanggil dengan nilai yang bukan array:',
+        notifications
+      );
       return;
     }
     const unread = notifications.filter((notif) => !notif.isRead).length;
     setUnreadCount(unread);
   }, []);
 
-  const activeStakeholder = useSelector(
-    (state) => state.activeStakeholder.activeStakeholder
-  );
-
   const headerTitle =
-    activeStakeholder === "universitas"
-      ? "Universitas, Lembaga (NGO) & Komunitas"
-      : activeStakeholder === "media"
-      ? "Media Massa, Dunia Usaha & Pemerintahan"
-      : "Lembaga Internasional (INGO)";
+    accessRole === 'LSD-SMS'
+      ? 'Universitas, Lembaga (NGO) & Komunitas'
+      : accessRole === 'SCP-SMS'
+      ? 'Media Massa, Dunia Usaha & Pemerintahan'
+      : 'Lembaga Internasional (INGO)';
 
   const navigate = useNavigate();
 
@@ -63,11 +65,11 @@ export const HeaderDashboard = () => {
           </button>
           <img src={avatar} alt="Avatar" className="h-9" />
           <div className="inline-grid text-[#1f1f1f]">
-            <strong>{user?.username}</strong>
+            <strong>{user?.fullName}</strong>
             <div className="flex gap-2">
-              <span className="text-sm text-[#28A745]">admin</span>
+              <span className="text-sm text-[#28A745]">{user?.accessRole}</span>
               <span className="text-sm">|</span>
-              <span className="text-sm">{user?.division}</span>
+              {/* <span className="text-sm">{user?.division}</span> */}
             </div>
           </div>
           <div className="relative">
@@ -80,14 +82,14 @@ export const HeaderDashboard = () => {
             <div className="menu-dropdown hidden absolute top-10 right-4 mt-2 w-max bg-white border border-gray-200 rounded-md shadow-lg p-2 animate-fadeIn z-50">
               <button
                 className="px-4 py-2 hover:bg-[#E7EDF4] cursor-pointer flex items-center text-sm w-full rounded-md transition duration-300 ease-in-out"
-                onClick={() => navigate("/home")}
+                onClick={() => navigate('/home')}
               >
                 <HomeIcon className="w-4 h-4 mr-2 text-[#0d4690]" />
                 Dashboard Utama
               </button>
               <button
                 className="px-4 py-2 hover:bg-[#fae1e3] cursor-pointer flex items-center text-sm w-full rounded-md transition duration-300 ease-in-out"
-                onClick={() => navigate("/")}
+                onClick={() => navigate('/')}
               >
                 <DoorOpenIcon className="w-4 h-4 mr-2 text-[#DC3545]" />
                 Keluar
