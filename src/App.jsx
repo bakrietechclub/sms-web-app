@@ -8,10 +8,10 @@ import { Partner } from './components/pages/Researches/Partner';
 import { Audiences } from './components/pages/Audiences/Audiences';
 import { CoordinationGroup } from './components/pages/Groups/CoordinationGroup';
 import { Mou } from './components/pages/Partnerships/Mou/Mou';
-import { Pks } from './components/pages/Partnerships/Pks';
-import { Spk } from './components/pages/Partnerships/Spk';
-import { Tor } from './components/pages/Partnerships/Tor';
-import { Ia } from './components/pages/Partnerships/Ia';
+import { Pks } from './components/pages/Partnerships/Pks/Pks';
+import { Spk } from './components/pages/Partnerships/Spk/Spk';
+import { Tor } from './components/pages/Partnerships/Tor/Tor';
+import { Ia } from './components/pages/Partnerships/Ia/Ia';
 import { CooperationSign } from './components/pages/Partnerships/CooperationSign';
 import { LetterNumbering } from './components/pages/LetterNumbering';
 import { Pta } from './components/pages/Recap/Pta';
@@ -28,6 +28,10 @@ import PotentialPartnerDetail from './components/pages/Researches/PotentialPartn
 import AudiencesDetail from './components/pages/Audiences/AudiencesDetail';
 import CoordinationGroupDetail from './components/pages/Groups/CoordinationGroupDetail';
 import MouDetail from './components/pages/Partnerships/Mou/MouDetail';
+import PksDetail from './components/pages/Partnerships/Pks/PksDetail';
+import IaDetail from './components/pages/Partnerships/Ia/IaDetail';
+import TorDetail from './components/pages/Partnerships/Tor/TorDetail';
+import SpkDetail from './components/pages/Partnerships/Spk/SpkDetail';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -72,11 +76,23 @@ const App = () => {
             <Route index element={<Mou />} />
             <Route path=":id" element={<MouDetail />} />
           </Route>
-          <Route path="pks" element={<Pks />} />
-          <Route path="implementation-agreements" element={<Ia />} />
+          <Route path="pks">
+            <Route index element={<Pks />} />
+            <Route path=":id" element={<PksDetail />} />
+          </Route>
+          <Route path="implementation-agreements">
+            <Route index element={<Ia />} />
+            <Route path=":id" element={<IaDetail />} />
+          </Route>
           <Route path="coop-sign" element={<CooperationSign />} />
-          <Route path="spk" element={<Spk />} />
-          <Route path="tor" element={<Tor />} />
+          <Route path="spk">
+            <Route index element={<Spk />} />
+            <Route path=":id" element={<SpkDetail />} />
+          </Route>
+          <Route path="tor">
+            <Route index element={<Tor />} />
+            <Route path=":id" element={<TorDetail />} />
+          </Route>
         </Route>
         <Route path="letter-numbers" element={<LetterNumbering />} />
         <Route path="recap">

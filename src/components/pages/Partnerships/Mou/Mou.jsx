@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { selectMous } from '../../../../states/features/partnerships/mou/mouSelectors';
 import { selectAccessRole } from '../../../../states/features/auth/authSelectors';
 import { asyncGetMou } from '../../../../states/features/partnerships/mou/mouThunks';
+import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
 
 export const Mou = () => {
   const dispatch = useDispatch();
@@ -28,33 +29,7 @@ export const Mou = () => {
   const [filters, setFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  let filterOptions = [];
-
-  if (accessRole === 'universitas') {
-    filterOptions = [
-      {
-        label: 'Jenis Instansi',
-        options: [
-          { label: 'Universitas', value: 'universitas' },
-          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
-        ],
-      },
-    ];
-  } else if (accessRole === 'media') {
-    filterOptions = [
-      {
-        label: 'Jenis Instansi',
-        options: [
-          { label: 'Pemerintah Pusat', value: 'pemerintah pusat' },
-          { label: 'Pemerintah Daerah', value: 'pemerintah daerah' },
-          { label: 'Dunia Usaha', value: 'dunia usaha' },
-          { label: 'Media Massa', value: 'media massa' },
-        ],
-      },
-    ];
-  } else {
-    filterOptions = [];
-  }
+  const filterOptions = getFiltersByModuleAndRole('mou', accessRole);
 
   const headers = [
     'No.',
