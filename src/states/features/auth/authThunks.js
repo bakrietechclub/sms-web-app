@@ -1,13 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { loginAction, logoutAction } from '../../../utils/action';
+import api from '../../../utils/api';
 
 export const asyncSetAuthUser = createAsyncThunk(
   'auth/asyncSetAuthUser',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const { data } = await loginAction({ email, password });
-      console.log(data);
-      return data;
+      const data = await api.login({ email, password });
+      const { accessToken, refreshToken } = data;
+
+      api.putAccessToken(accessToken);
+      api.putRefreshToken(refreshToken);
+
+      const profile = await api.getOwnProfile();
+      return profile;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -17,7 +22,7 @@ export const asyncSetAuthUser = createAsyncThunk(
 export const asyncUnsetAuthUser = createAsyncThunk(
   'auth/asyncUnsetAuthUser',
   async () => {
-    logoutAction();
+    api.deleteToken();
     return null;
   }
 );

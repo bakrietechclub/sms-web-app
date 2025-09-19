@@ -8,8 +8,8 @@ export const asyncPreloadProcess = () => async (dispatch) => {
     const token = api.getAccessToken();
     if (token) {
       api.putAccessToken(token);
-      const { data } = await api.getOwnProfile();
-      dispatch(setAuthUser(data));
+      const profile = await api.getOwnProfile();
+      dispatch(setAuthUser(profile));
     } else {
       dispatch(setAuthUser(null));
     }
