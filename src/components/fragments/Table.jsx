@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export const Table = ({ headers, data, renderRow }) => (
   <table className="table-auto text-center w-full">
@@ -9,8 +9,8 @@ export const Table = ({ headers, data, renderRow }) => (
           <th
             key={index}
             className={`text-base font-semibold ${
-              index === 0 ? "rounded-tl-xl" : ""
-            } ${index === headers.length - 1 ? "rounded-tr-xl" : ""}`}
+              index === 0 ? 'rounded-tl-xl' : ''
+            } ${index === headers.length - 1 ? 'rounded-tr-xl' : ''}`}
           >
             {header}
           </th>
@@ -40,11 +40,11 @@ export const FreezeTable = ({
   const rightTableRef = useRef(null);
 
   const location = useLocation();
-  const isRecapPtaPage = location.pathname === "/media-recap";
+  const isRecapPtaPage = location.pathname === '/media-recap';
 
   useEffect(() => {
-    const leftRows = leftTableRef.current?.querySelectorAll("tbody tr") || [];
-    const rightRows = rightTableRef.current?.querySelectorAll("tbody tr") || [];
+    const leftRows = leftTableRef.current?.querySelectorAll('tbody tr') || [];
+    const rightRows = rightTableRef.current?.querySelectorAll('tbody tr') || [];
 
     for (let i = 0; i < data.length; i++) {
       const leftHeight = leftRows[i]?.offsetHeight || 0;
@@ -73,8 +73,8 @@ export const FreezeTable = ({
                     <th
                       key={index}
                       className={`p-3 text-base font-semibold 
-    ${index === 0 ? "rounded-tl-xl" : ""} 
-    ${withHeaderColumnBorders || isRecapPtaPage ? "border border-gray-400" : ""}
+    ${index === 0 ? 'rounded-tl-xl' : ''} 
+    ${withHeaderColumnBorders || isRecapPtaPage ? 'border border-gray-400' : ''}
   `}
                     >
                       {header}
@@ -106,12 +106,12 @@ export const FreezeTable = ({
                         key={index}
                         className={`p-3 text-base font-semibold ${
                           index === unfrozenHeaders.length - 1
-                            ? "rounded-tr-xl"
-                            : ""
+                            ? 'rounded-tr-xl'
+                            : ''
                         }${
                           withHeaderColumnBorders
-                            ? "border-r border-gray-400"
-                            : ""
+                            ? 'border-r border-gray-400'
+                            : ''
                         }`}
                       >
                         {header}

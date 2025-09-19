@@ -577,7 +577,7 @@ const api = (() => {
     return data;
   }
 
-  async function getMou({ id }) {
+  async function getMou() {
     const response = await _fetchWithAuth(`${BASE_URL}/partnerships/mou`);
 
     const responseJson = await response.json();
