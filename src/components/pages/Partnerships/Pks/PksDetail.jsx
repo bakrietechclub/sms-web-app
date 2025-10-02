@@ -8,7 +8,7 @@ import { asyncGetPksById } from '../../../../states/features/partnerships/pks/pk
 import { selectPksDetail } from '../../../../states/features/partnerships/pks/pksSelectors';
 
 export default function PksDetail() {
-  const nagigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -19,13 +19,11 @@ export default function PksDetail() {
 
   const data = useSelector(selectPksDetail);
 
-  console.log(data);
-
   return (
     <div>
       <Button
         className="text-[#0D4690] cursor-pointer flex"
-        onClick={() => nagigate(-1)}
+        onClick={() => navigate(-1)}
       >
         <ChevronLeft /> Kembali
       </Button>
@@ -104,6 +102,130 @@ export default function PksDetail() {
           <p className="font-semibold">Catatan Tambahan:</p>
           <p>{data?.pksNote}</p>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          Referensi Implementasi Agreement (IA) Terkait
+        </h2>
+        {data?.referenceIa && data.referenceIa.length > 0 ? (
+          <div className="overflow-x-auto rounded-lg shadow-md">
+            <table className="min-w-full table-auto divide-y divide-gray-200">
+              <thead className="bg-[#0D4690]">
+                <tr>
+                  {['Status Kerjasama', 'Tahun Implementasi', 'Aksi'].map(
+                    (header, index) => (
+                      <th
+                        key={index}
+                        scope="col"
+                        className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider"
+                      >
+                        {header}
+                      </th>
+                    )
+                  )}
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {data.referenceIa.map((value, index) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {value.iaPartnershipStatusName}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {value.iaYearOfImplementations}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <Button
+                        className="text-[#0D4690] underline cursor-pointer"
+                        onClick={() =>
+                          navigate(
+                            `/dashboard/partnerships/implementation-agreements/${value.iaId}`
+                          )
+                        }
+                      >
+                        Lihat Detail
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="text-gray-500 italic">
+            Tidak ada IA yang terhubung dengan PKS ini.
+          </p>
+        )}
+      </div>
+
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          Referensi Term of Reference (ToR) Terkait
+        </h2>
+        {data?.referenceTor && data.referenceTor.length > 0 ? (
+          <div className="overflow-x-auto rounded-lg shadow-md">
+            <table className="min-w-full table-auto divide-y divide-gray-200">
+              <thead className="bg-[#0D4690]">
+                <tr>
+                  {[
+                    'Status Kerjasama',
+                    'Tanggal Tanda Tangan',
+                    'Jangka Kerjasama',
+                    'Tanggal Jatuh Tempo',
+                    'Aksi',
+                  ].map((header, index) => (
+                    <th
+                      key={index}
+                      scope="col"
+                      className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider"
+                    >
+                      {header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {data.referenceTor.map((value, index) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {value.torPartnershipStatusName}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {value.torSignatureDate}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {value.torTimePeriod}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {value.torDueDate}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <Button
+                        className="text-[#0D4690] underline cursor-pointer"
+                        onClick={() =>
+                          navigate(`/dashboard/partnerships/tor/${value.torId}`)
+                        }
+                      >
+                        Lihat Detail
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="text-gray-500 italic">
+            Tidak ada ToR yang terhubung dengan PKS ini.
+          </p>
+        )}
       </div>
     </div>
   );

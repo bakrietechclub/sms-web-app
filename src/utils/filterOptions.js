@@ -41,10 +41,10 @@ const ROLE_FILTERS = {
   pks: {
     'LSD-SMS': [
       {
-        label: 'Jenis Surat',
+        label: 'Jenis Instansi',
         options: [
-          { label: 'MoU', value: 'mou' },
-          { label: 'PKS', value: 'pks' },
+          { label: 'Universitas', value: 'universitas' },
+          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
         ],
       },
     ],
@@ -111,6 +111,43 @@ const ROLE_FILTERS = {
         options: [
           { label: 'MoU', value: 'mou' },
           { label: 'PKS', value: 'pks' },
+        ],
+      },
+    ],
+  },
+  letter: {
+    'LSD-SMS': [
+      {
+        label: 'Jenis Instansi',
+        options: [
+          { label: 'Universitas', value: 'universitas' },
+          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
+        ],
+      },
+      {
+        label: 'Jenis Surat',
+        options: [
+          {
+            label: 'Surat Permohonan Kerjasama',
+            value: 'surat permohonan kerjasama',
+          },
+          {
+            label: 'Surat Undangan Audiensi',
+            value: 'surat undangan audiensi',
+          },
+          { label: 'MoU (Nota Kesepahaman)', value: 'MoU (nota kesepahaman)' },
+          {
+            label: 'PKS (Perjanjian Kerjasama)',
+            value: 'PKS (perjanjian kerjasama)',
+          },
+          {
+            label: 'IA (Implementation Agreement)',
+            value: 'IA (implementation agreement)',
+          },
+          {
+            label: 'SPK (Surat Pernyataan Komitmen)',
+            value: 'SPK (surat pernyataan komitmen)',
+          },
         ],
       },
     ],

@@ -12,7 +12,6 @@ import { AddModalPotentialResearch } from '../../fragments/modalforms/ingo/AddMo
 import { UnivPotentialPartnerResearch } from '../../../data/data_univ';
 import { INGOPotentialPartnerResearch } from '../../../data/data_ingo';
 
-import { ChevronLeft } from 'lucide-react';
 import { selectPotentials } from '../../../states/features/research/potential/potentialSelectors';
 import { asyncGetResearchPotential } from '../../../states/features/research/potential/potentialThunks';
 import { useNavigate } from 'react-router-dom';

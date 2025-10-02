@@ -10,6 +10,7 @@ import pksReducer from './features/partnerships/pks/pksSlice';
 import iaReducer from './features/partnerships/ia/iaSlice';
 import torReducer from './features/partnerships/tor/torSlice';
 import spkReducer from './features/partnerships/spk/spkSlice';
+import letterReducer from './features/letter/letterSlice';
 
 export const store = configureStore({
   reducer: {
@@ -24,5 +25,6 @@ export const store = configureStore({
     ia: iaReducer,
     tor: torReducer,
     spk: spkReducer,
+    letter: letterReducer,
   },
 });

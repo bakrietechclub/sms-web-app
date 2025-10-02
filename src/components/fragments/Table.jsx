@@ -60,7 +60,7 @@ export const FreezeTable = ({
     <div className="w-full overflow-hidden">
       <div className="flex w-full">
         {/* Fixed Column */}
-        <div className="w-[60%] overflow-hidden mr-[1px]" ref={leftTableRef}>
+        <div className="w-[40%] overflow-hidden mr-[1px]" ref={leftTableRef}>
           <table
             className={`border-separate border-spacing-0 table-auto text-center w-full border-r-1 border-gray-200`}
           >
@@ -91,7 +91,7 @@ export const FreezeTable = ({
 
         {/* Scrollable Column */}
         <div
-          className="w-[40%] overflow-x-auto custom-scrollbar scroll-area scrollbar-thin"
+          className="w-[60%] overflow-x-auto custom-scrollbar scroll-area scrollbar-thin"
           ref={rightTableRef}
         >
           <div className="min-w-max">

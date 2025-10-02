@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { selectAccessRole } from '../../../../states/features/auth/authSelectors';
 import { selectAllPks } from '../../../../states/features/partnerships/pks/pksSelectors';
 import { asyncGetPks } from '../../../../states/features/partnerships/pks/pksThunks';
+import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
 
 export const Pks = () => {
   const nagigate = useNavigate();
@@ -28,61 +29,33 @@ export const Pks = () => {
   const [search, setSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  let filters = [];
-
-  if (accessRole === 'LSD-SMS') {
-    filters = [
-      {
-        label: 'Jenis Instansi',
-        options: [
-          { label: 'Universitas', value: 'universitas' },
-          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
-        ],
-      },
-    ];
-  } else if (accessRole === 'LSD-SCP') {
-    filters = [
-      {
-        label: 'Jenis Instansi',
-        options: [
-          { label: 'Pemerintah Pusat', value: 'Pemerintah Pusat' },
-          { label: 'Pemerintah Daerah', value: 'Pemerintah Daerah' },
-          { label: 'Dunia Usaha', value: 'Dunia Usaha' },
-          { label: 'Media Massa', value: 'Media Massa' },
-        ],
-      },
-    ];
-  } else {
-    filters = [];
-  }
+  const filterOptions = getFiltersByModuleAndRole('pks', accessRole);
 
   const headers = [
     'No.',
     'Nama Instansi',
     'Jenis Instansi',
     'Divisi Instansi',
-    'Jenis Kerjasama',
+    'Tanggal Tanda Tangan',
     'Jangka Kerjasama',
     'Jatuh Tempo',
-    'Tahun Tanda Tangan',
     'Aksi',
   ];
 
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
       <td className="py-3 border-b border-gray-200">{index + 1}</td>
-      <td className="border-b border-gray-200">{value.name}</td>
-      <td className="border-b border-gray-200">{value.jenis}</td>
-      <td className="border-b border-gray-200">{value.division}</td>
+      <td className="border-b border-gray-200">{value.instituteName}</td>
+      <td className="border-b border-gray-200">{value.instituteTypeName}</td>
+      <td className="border-b border-gray-200">{value.institutionDivision}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="border-b border-gray-200">{value.typePartnership}</td>
+      <td className="border-b border-gray-200">{value.pksSignatureDate}</td>
       <td className="border-b border-gray-200">{value.pksTimePeriod}</td>
       <td className="border-b border-gray-200">{value.pksDueDate}</td>
-      <td className="border-b border-gray-200">{value.pksSignatureDate}</td>
       <td className="px-6 py-3 border-b border-gray-200">
         <Button
           className="text-[#0D4690] underline cursor-pointer"
@@ -103,7 +76,7 @@ export const Pks = () => {
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={() => setIsModalOpen(true)}
-        filters={filters}
+        filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}
         searchWidth="w-1/4"
       />

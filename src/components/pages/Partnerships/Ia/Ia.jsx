@@ -46,29 +46,29 @@ export const Ia = () => {
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
       <td className="py-3 border-b border-gray-200">{index + 1}</td>
-      <td className="border-b border-gray-200">{value.name}</td>
-      <td className="border-b border-gray-200">{value.jenis}</td>
-      <td className="border-b border-gray-200">{value.division}</td>
+      <td className="border-b border-gray-200">{value.instituteName}</td>
+      <td className="border-b border-gray-200">{value.instituteTypeName}</td>
+      <td className="border-b border-gray-200">{value.institutionDivision}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
       <td className="py-3 px-4 border-b border-gray-200">
-        <Label label={value.partnershipStatusId} status="success" />
+        <Label label={value.iaPartnershipStatusName} status="success" />
       </td>
       <td className="px-4 border-b border-gray-200">
-        <Label label={value.program} status="warning" />
+        <Label label={value.programName} status="warning" />
       </td>
       <td className="px-4 border-b border-gray-200">
         {value.iaYearOfImplementations}
       </td>
-      <td className="px-4 border-b border-gray-200">{value.batchEdition}</td>
+      <td className="px-4 border-b border-gray-200">{value.batchName}</td>
       <td className="px-4 border-b border-gray-200">
         <Button
           onClick={() => {
             navigate(
-              `/dashboard/partnerships/implementation-agreements/${value.implementationAgreementsId}`
+              `/dashboard/partnerships/implementation-agreements/${value.iaId}`
             );
           }}
           className="text-[#0D4690] underline cursor-pointer"

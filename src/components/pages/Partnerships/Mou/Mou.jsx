@@ -35,11 +35,9 @@ export const Mou = () => {
     'No.',
     'Nama Instansi',
     'Jenis Instansi',
-    'Divisi Instansi',
-    'Jenis Kerjasama',
+    'Tanggal Tanda Tangan',
     'Jangka Kerjasama',
     'Jatuh Tempo',
-    'Tahun Tanda Tangan',
     'Aksi',
   ];
 
@@ -47,17 +45,15 @@ export const Mou = () => {
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
       <td className="py-3">{index + 1}</td>
       <td>{value.instituteName}</td>
-      <td>{value.jenis}</td>
-      <td>{value.division}</td>
+      <td>{value.instituteTypeName}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="border-b border-gray-200">{value.typePartnership}</td>
+      <td className="border-b border-gray-200">{value.mouSignatureDate}</td>
       <td className="border-b border-gray-200">{value.mouTimePeriod}</td>
       <td className="border-b border-gray-200">{value.mouDueDate}</td>
-      <td className="border-b border-gray-200">{value.mouSignatureDate}</td>
       <td className="px-6 py-3 border-b border-gray-200">
         <Button
           className="text-[#0D4690] underline cursor-pointer"
@@ -87,7 +83,7 @@ export const Mou = () => {
         data={data}
         renderRowFreeze={renderRowFreeze}
         renderRow={renderRow}
-        freezeCol={4}
+        freezeCol={3}
       />
       <Pagination />
 

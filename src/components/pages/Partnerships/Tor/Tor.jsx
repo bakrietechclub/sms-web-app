@@ -35,7 +35,6 @@ export const Tor = () => {
     'Nama Instansi',
     'Jenis Instansi',
     'Divisi Instansi',
-    'Jenis Kerjasama',
     'Tanggal Tanda Tangan',
     'Jangka Kerjasama',
     'Jatuh Tempo',
@@ -45,22 +44,21 @@ export const Tor = () => {
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
       <td className="py-3 border-b border-gray-200">{index + 1}</td>
-      <td className="border-b border-gray-200">{value.name}</td>
-      <td className="border-b border-gray-200">{value.jenis}</td>
-      <td className="border-b border-gray-200">{value.division}</td>
+      <td className="border-b border-gray-200">{value.instituteName}</td>
+      <td className="border-b border-gray-200">{value.instituteTypeName}</td>
+      <td className="border-b border-gray-200">{value.institutionDivision}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="border-b border-gray-200">Jenis Kerjasama</td>
-      <td className="border-b border-gray-200">{value.signDate}</td>
-      <td className="border-b border-gray-200">{value.duration}</td>
-      <td className="border-b border-gray-200">{value.dueDate}</td>
+      <td className="border-b border-gray-200">{value.torSignatureDate}</td>
+      <td className="border-b border-gray-200">{value.torTimePeriod}</td>
+      <td className="border-b border-gray-200">{value.torDueDate}</td>
       <td className="px-5 border-b border-gray-200">
         <Button
           onClick={() => {
-            navigate(`/dashboard/partnerships/tor/${value.id}`);
+            navigate(`/dashboard/partnerships/tor/${value.torId}`);
           }}
           className="text-[#0D4690] underline cursor-pointer"
         >

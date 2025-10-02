@@ -5,6 +5,7 @@ import { Label } from '../../../elements/Label';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSpkDetail } from '../../../../states/features/partnerships/spk/spkSelectors';
+import { asyncGetSpkById } from '../../../../states/features/partnerships/spk/spkThunks';
 
 export default function SpkDetail() {
   const navigate = useNavigate();
@@ -35,15 +36,15 @@ export default function SpkDetail() {
       <div className="grid grid-cols-2 gap-y-5 mb-5">
         <div>
           <p className="font-semibold">Nama Universitas:</p>
-          <p className="ml-2">{data?.name}</p>
+          <p className="ml-2">{data?.instituteName}</p>
         </div>
         <div>
           <p className="font-semibold">Jenis Instansi:</p>
-          <p className="ml-2">{data?.jenis}</p>
+          <p className="ml-2">{data?.instituteTypeName}</p>
         </div>
         <div>
           <p className="font-semibold">Divisi Instansi:</p>
-          <p className="ml-2">{data?.division}</p>
+          <p className="ml-2">{data?.institutionDivision}</p>
         </div>
         <div>
           <p className="font-semibold">Status PKS:</p>
@@ -51,35 +52,34 @@ export default function SpkDetail() {
         </div>
         <div>
           <p className="font-semibold">Detail Kerjasama:</p>
-          <p className="ml-2">-</p>
+          <p className="ml-2">{data?.spkDetailPartnership}</p>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-y-5 mb-5">
         <div>
-          <p className="font-semibold">Jenis Surat:</p>
-          <p className="ml-2">-</p>
-        </div>
-        <div>
           <p className="font-semibold">Status:</p>
-          <Label label={'Sudah diperiksa oleh mitra'} />
+          <Label label={data?.spkPartnershipStatus} />
         </div>
         <div className="">
           <p className="font-semibold">Tanggal Jatuh Tempo:</p>
-          <p className="">{data?.dueDate}</p>
+          <p className="">{data?.spkDueDate}</p>
         </div>
         <div className="">
           <p className="font-semibold">Tanggal Tanda Tangan:</p>
-          <p className="">{data?.signYear}</p>
+          <p className="">{data?.spkSignatureDate}</p>
         </div>
         <div className="">
           <p className="font-semibold">Link Dokumentasi:</p>
-          <a href="#" className="text-[#0D4690] italic underline">
-            Link Dokumen
+          <a
+            href={data?.spkDocumentUrl}
+            className="text-[#0D4690] italic underline"
+          >
+            {data?.spkDocumentUrl}
           </a>
         </div>
         <div className="">
           <p className="font-semibold">Jangka Waktu:</p>
-          <p className="">{data?.duration}</p>
+          <p className="">{data?.spkTimePeriod}</p>
         </div>
       </div>
     </div>

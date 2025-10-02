@@ -13,7 +13,7 @@ import { Spk } from './components/pages/Partnerships/Spk/Spk';
 import { Tor } from './components/pages/Partnerships/Tor/Tor';
 import { Ia } from './components/pages/Partnerships/Ia/Ia';
 import { CooperationSign } from './components/pages/Partnerships/CooperationSign';
-import { LetterNumbering } from './components/pages/LetterNumbering';
+import { LetterNumbering } from './components/pages/LetterNumber/LetterNumbering';
 import { Pta } from './components/pages/Recap/Pta';
 import { Colab } from './components/pages/Recap/Colab';
 import { Media } from './components/pages/Recap/Media';
@@ -32,6 +32,7 @@ import PksDetail from './components/pages/Partnerships/Pks/PksDetail';
 import IaDetail from './components/pages/Partnerships/Ia/IaDetail';
 import TorDetail from './components/pages/Partnerships/Tor/TorDetail';
 import SpkDetail from './components/pages/Partnerships/Spk/SpkDetail';
+import LetterNumberingDetail from './components/pages/LetterNumber/LetterNumberingDetail';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -94,7 +95,10 @@ const App = () => {
             <Route path=":id" element={<TorDetail />} />
           </Route>
         </Route>
-        <Route path="letter-numbers" element={<LetterNumbering />} />
+        <Route path="letter-numbers">
+          <Route index element={<LetterNumbering />} />
+          <Route path=":id" element={<LetterNumberingDetail />} />
+        </Route>
         <Route path="recap">
           <Route path="pta" element={<Pta />} />
           <Route path="media" element={<Media />} />
