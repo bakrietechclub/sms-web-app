@@ -12,6 +12,7 @@ import * as ia from './ia';
 import * as tor from './tor';
 import * as spk from './spk';
 import * as letter from './letter';
+import * as institutions from './institutions';
 // Anda dapat menambahkan modul lain di sini
 
 // Gabungkan semua fungsionalitas ke dalam satu objek API tunggal
@@ -34,6 +35,7 @@ const api = {
   ...tor,
   ...spk,
   ...letter,
+  ...institutions,
 };
 
 export default api;

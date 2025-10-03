@@ -5,10 +5,12 @@ import {
   asyncGetPks,
   asyncDeletePksById,
   asyncUpdatePksById,
+  asyncGetPksOptions,
 } from './pksThunks';
 
 const initialState = {
   pks: [],
+  pksOptions: [],
   pksDetail: null,
   loading: false,
   error: null,
@@ -43,6 +45,11 @@ const pksSlice = createSlice({
       .addCase(asyncGetPks.fulfilled, (state, action) => {
         state.loading = false;
         state.pks = action.payload;
+      })
+
+      .addCase(asyncGetPksOptions.fulfilled, (state, action) => {
+        state.loading = false;
+        state.pksOptions = action.payload;
       })
       // Get By Id
       .addCase(asyncGetPksById.fulfilled, (state, action) => {

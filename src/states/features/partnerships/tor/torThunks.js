@@ -39,6 +39,18 @@ export const asyncGetTor = createAsyncThunk(
   }
 );
 
+export const asyncGetTorOptions = createAsyncThunk(
+  'tor/asyncGetTorOptions',
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await api.getTorOptions();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const asyncDeleteTorById = createAsyncThunk(
   'tor/asyncDeleteTorById',
   async ({ id }, { rejectWithValue }) => {

@@ -5,10 +5,12 @@ import {
   asyncGetMou,
   asyncDeleteMouById,
   asyncUpdateMouById,
+  asyncGetMouOptions,
 } from './mouThunks';
 
 const initialState = {
   mous: [],
+  mousOptions: [],
   mouDetail: null,
   loading: false,
   error: null,
@@ -47,6 +49,19 @@ const mouSlice = createSlice({
         state.mous = action.payload;
       })
       .addCase(asyncGetMou.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(asyncGetMouOptions.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(asyncGetMouOptions.fulfilled, (state, action) => {
+        state.loading = false;
+        state.mousOptions = action.payload;
+      })
+      .addCase(asyncGetMouOptions.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

@@ -3,6 +3,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 export const selectAllTors = (state) => state.tor.tor;
+export const selectAllTorsOptions = (state) => state.tor.torOptions;
 export const selectTorDetail = (state) => state.tor.torDetail;
 export const selectTorLoading = (state) => state.tor.loading;
 export const selectTorError = (state) => state.tor.error;

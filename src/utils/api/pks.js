@@ -34,6 +34,11 @@ async function getPks() {
   return responseJson.data;
 }
 
+async function getPksOptions({ q }) {
+  const responseJson = await fetchWithAuth(`/partnerships/pks-options?q=${q}`);
+  return responseJson.data;
+}
+
 /**
  * Menghapus data PKS berdasarkan ID.
  * @param {number} id - ID PKS.
@@ -60,4 +65,11 @@ async function updatePksById({ id, payload }) {
   return responseJson.data;
 }
 
-export { addPks, getPksById, getPks, deletePksById, updatePksById };
+export {
+  addPks,
+  getPksById,
+  getPks,
+  getPksOptions,
+  deletePksById,
+  updatePksById,
+};

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 const MultiSelectDropdown = ({
   label,
@@ -15,10 +15,10 @@ const MultiSelectDropdown = ({
 
   useEffect(() => {
     const initialValue = register(name).value;
-    if (initialValue && typeof initialValue === "string") {
+    if (initialValue && typeof initialValue === 'string') {
       const initialSelected = initialValue
-        .split(", ")
-        .filter((item) => item !== "");
+        .split(', ')
+        .filter((item) => item !== '');
       setSelected(initialSelected);
       setTempSelected(initialSelected);
     }
@@ -33,15 +33,15 @@ const MultiSelectDropdown = ({
 
   const handleChange = (option) => {
     setTempSelected((prev) =>
-      prev.includes(option)
-        ? prev.filter((item) => item !== option)
-        : [...prev, option]
+      prev.includes(option.id)
+        ? prev.filter((item) => item !== option.id)
+        : [...prev, option.id]
     );
   };
 
   const confirmSelection = () => {
     setSelected(tempSelected);
-    setValue(name, tempSelected.join(", "));
+    setValue(name, tempSelected);
     setOpen(false);
   };
 
@@ -53,7 +53,10 @@ const MultiSelectDropdown = ({
       <div className="relative">
         <input
           readOnly
-          value={selected.join(", ")}
+          value={options
+            .filter((option) => selected.includes(option.id))
+            .map((option) => option.label)
+            .join(', ')}
           placeholder={`Pilih ${label.toLowerCase()}`}
           {...register(name)}
           onClick={toggleDropdown}
@@ -74,7 +77,6 @@ const MultiSelectDropdown = ({
           "
         >
           <div className="sticky top-0 bg-white p-2 flex justify-end">
-            {" "}
             <button
               type="button"
               onClick={confirmSelection}
@@ -87,12 +89,12 @@ const MultiSelectDropdown = ({
           <div className="flex flex-col">
             {options.map((option) => (
               <label
-                key={option}
+                key={option.id}
                 className="flex items-center px-3 py-2 hover:bg-gray-100 cursor-pointer"
               >
                 <input
                   type="checkbox"
-                  checked={tempSelected.includes(option)}
+                  checked={tempSelected.includes(option.id)}
                   onChange={() => handleChange(option)}
                   className="absolute opacity-0 w-0 h-0"
                 />
@@ -100,13 +102,13 @@ const MultiSelectDropdown = ({
                   className={`
                     flex items-center justify-center w-5 h-5 rounded-md border-2 transition-all duration-200 ease-in-out flex-shrink-0
                     ${
-                      tempSelected.includes(option)
-                        ? "bg-[#E89229] border-[#E89229]"
-                        : "bg-white border-gray-300"
+                      tempSelected.includes(option.id)
+                        ? 'bg-[#E89229] border-[#E89229]'
+                        : 'bg-white border-gray-300'
                     }
                   `}
                 >
-                  {tempSelected.includes(option) && (
+                  {tempSelected.includes(option.id) && (
                     <svg
                       className="w-3 h-3 text-white"
                       fill="none"
@@ -123,7 +125,7 @@ const MultiSelectDropdown = ({
                     </svg>
                   )}
                 </div>
-                <span className="ml-2 select-none">{option}</span>
+                <span className="ml-2 select-none">{option.label}</span>
               </label>
             ))}
           </div>

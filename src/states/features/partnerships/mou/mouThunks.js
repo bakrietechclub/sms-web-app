@@ -37,6 +37,18 @@ export const asyncGetMou = createAsyncThunk(
   }
 );
 
+export const asyncGetMouOptions = createAsyncThunk(
+  'mou/asyncGetMouOptions',
+  async ({ q }, { rejectWithValue }) => {
+    try {
+      const data = await api.getMouOptions({ q });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const asyncDeleteMouById = createAsyncThunk(
   'mou/asyncDeleteMouById',
   async ({ id }, { rejectWithValue }) => {

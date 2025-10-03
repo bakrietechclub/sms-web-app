@@ -37,6 +37,18 @@ export const asyncGetResearchPotential = createAsyncThunk(
   }
 );
 
+export const asyncGetResearchPotentialOptions = createAsyncThunk(
+  'potential/asyncGetResearchPotentialOptions',
+  async ({ q }, { rejectWithValue }) => {
+    try {
+      const data = await api.getResearchPotentialOptions({ q });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const asyncDeleteResearchPotentialById = createAsyncThunk(
   'potential/asyncDeleteResearchPotentialById',
   async ({ id }, { rejectWithValue }) => {

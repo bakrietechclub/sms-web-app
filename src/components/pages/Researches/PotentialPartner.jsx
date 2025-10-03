@@ -9,13 +9,12 @@ import { AddModalUniv } from '../../fragments/modalforms/univ/AddModalUniv';
 import { AddModalSocialInstitution } from '../../fragments/modalforms/univ/addModalSocialInstitution';
 import { AddModalPotentialResearch } from '../../fragments/modalforms/ingo/AddModalPotentialResearch';
 
-import { UnivPotentialPartnerResearch } from '../../../data/data_univ';
-import { INGOPotentialPartnerResearch } from '../../../data/data_ingo';
-
 import { selectPotentials } from '../../../states/features/research/potential/potentialSelectors';
 import { asyncGetResearchPotential } from '../../../states/features/research/potential/potentialThunks';
 import { useNavigate } from 'react-router-dom';
 import { selectAccessRole } from '../../../states/features/auth/authSelectors';
+import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
+import AddResearchPotentialModal from '../../fragments/AddResearchPotentialModal';
 
 export const PotentialPartner = () => {
   const [search, setSearch] = useState('');
@@ -42,26 +41,7 @@ export const PotentialPartner = () => {
     'Aksi',
   ];
 
-  let filterType;
-
-  if (accessRole === 'LSD-SMS') {
-    filterType = {
-      label: 'Jenis Instansi',
-      options: [
-        { label: 'Universitas', value: 'universitas' },
-        { label: 'Lembaga Sosial', value: 'lembaga sosial' },
-      ],
-    };
-  } else {
-    filterType = {
-      label: 'Cluster',
-      options: [
-        { label: 'Kesehatan', value: 'kesehatan' },
-        { label: 'Pendidikan', value: 'pendidikan' },
-        { label: 'Lingkungan', value: 'lingkungan' },
-      ],
-    };
-  }
+  const filterOptions = getFiltersByModuleAndRole('potential', accessRole);
 
   let modalSelector = null;
   if (accessRole === 'LSD-SMS') {
@@ -138,7 +118,7 @@ export const PotentialPartner = () => {
         onAddClick={handleAddClick} // Ini akan terpanggil jika addOptions TIDAK ADA
         addOptions={modalSelector} // Ini hanya akan ada jika stakeholder === "universitas"
         filters={[
-          filterType,
+          filterOptions,
           {
             label: 'Status Kontak',
             options: [
@@ -152,22 +132,38 @@ export const PotentialPartner = () => {
       />
 
       {modalType === 'universitas' && (
-        <AddModalUniv
+        <AddResearchPotentialModal
           isOpen={openModal}
           onClose={() => {
             setOpenModal(false);
             setModalType(null);
           }}
+          partnershipResearchTypeId={1}
         />
+        // <AddModalUniv
+        //   isOpen={openModal}
+        //   onClose={() => {
+        //     setOpenModal(false);
+        //     setModalType(null);
+        //   }}
+        // />
       )}
 
       {modalType === 'lembaga sosial' && (
-        <AddModalSocialInstitution
+        // <AddModalSocialInstitution
+        //   isOpen={openModal}
+        //   onClose={() => {
+        //     setOpenModal(false);
+        //     setModalType(null);
+        //   }}
+        // />
+        <AddResearchPotentialModal
           isOpen={openModal}
           onClose={() => {
             setOpenModal(false);
             setModalType(null);
           }}
+          partnershipResearchTypeId={2}
         />
       )}
 

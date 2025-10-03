@@ -34,6 +34,11 @@ async function getMou() {
   return responseJson.data;
 }
 
+async function getMouOptions({ q }) {
+  const responseJson = await fetchWithAuth(`/partnerships/mou-options?q=${q}`);
+  return responseJson.data;
+}
+
 /**
  * Menghapus data MOU berdasarkan ID.
  * @param {number} id - ID MOU.
@@ -60,4 +65,11 @@ async function updateMouById({ id, payload }) {
   return responseJson.data;
 }
 
-export { addMou, getMouById, getMou, deleteMouById, updateMouById };
+export {
+  addMou,
+  getMouById,
+  getMou,
+  getMouOptions,
+  deleteMouById,
+  updateMouById,
+};

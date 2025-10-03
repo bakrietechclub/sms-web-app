@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 const TextField = ({
   label,
@@ -6,23 +6,22 @@ const TextField = ({
   register,
   placeholder,
   isRequired,
-  className = "",
-  defaultValue = "",
+  className = '',
   disable = false,
 }) => {
-  const textareaRef = useRef();
+  // const textareaRef = useRef();
 
-  const handleResize = () => {
-    const el = textareaRef.current;
-    if (el) {
-      el.style.height = "auto";
-      el.style.height = el.scrollHeight + "px"; 
-    }
-  };
+  // const handleResize = () => {
+  //   const el = textareaRef.current;
+  //   if (el) {
+  //     el.style.height = 'auto';
+  //     el.style.height = el.scrollHeight + 'px';
+  //   }
+  // };
 
-  useEffect(() => {
-    handleResize();
-  }, [defaultValue]);
+  // useEffect(() => {
+  //   handleResize();
+  // }, []);
 
   return (
     <div>
@@ -31,13 +30,12 @@ const TextField = ({
       </label>
       <textarea
         {...register(name)}
-        ref={textareaRef}
+        // ref={textareaRef}
         placeholder={placeholder}
-        defaultValue={defaultValue}
         disabled={disable}
-        onInput={handleResize}
+        // onInput={handleResize}
         className={
-          "w-full border border-gray-300 px-3 py-2 rounded resize-none overflow-hidden " +
+          'w-full border border-gray-300 px-3 py-2 rounded resize-none overflow-hidden ' +
           className
         }
         rows={1}

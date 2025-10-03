@@ -24,6 +24,13 @@ async function getResearchPotential() {
   return responseJson.data;
 }
 
+async function getResearchPotentialOptions({ q }) {
+  const responseJson = await fetchWithAuth(
+    `/research/potential-options?q=${q}`
+  );
+  return responseJson.data;
+}
+
 /**
  * Mengambil potensi riset berdasarkan ID.
  * @param {number} id - ID potensi riset.
@@ -63,6 +70,7 @@ async function deleteResearchPotentialById({ id }) {
 export {
   addResearchPotential,
   getResearchPotential,
+  getResearchPotentialOptions,
   getResearchPotentialById,
   updateResearchPotentialById,
   deleteResearchPotentialById,

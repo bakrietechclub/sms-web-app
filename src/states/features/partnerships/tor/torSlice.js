@@ -7,10 +7,12 @@ import {
   asyncGetTorById,
   asyncDeleteTorById,
   asyncUpdateTorById,
+  asyncGetTorOptions,
 } from './torThunks';
 
 const initialState = {
   tor: [],
+  torOptions: [],
   torDetail: null,
   loading: false,
   error: null,
@@ -33,6 +35,10 @@ const torSlice = createSlice({
       .addCase(asyncGetTor.fulfilled, (state, action) => {
         state.loading = false;
         state.tor = action.payload;
+      })
+      .addCase(asyncGetTorOptions.fulfilled, (state, action) => {
+        state.loading = false;
+        state.torOptions = action.payload;
       })
       .addCase(asyncGetTorById.fulfilled, (state, action) => {
         state.loading = false;

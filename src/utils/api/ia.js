@@ -41,6 +41,13 @@ async function getImplementationAgreements() {
   return responseJson.data;
 }
 
+async function getImplementationAgreementsOptions({ q }) {
+  const responseJson = await fetchWithAuth(
+    `/partnerships/implementation-agreements-options?q=${q}`
+  );
+  return responseJson.data;
+}
+
 /**
  * Menghapus data IA berdasarkan ID.
  * @param {number} id - ID IA.
@@ -76,6 +83,7 @@ async function updateImplementationAgreementById({ id, payload }) {
 export {
   addImplementationAgreement,
   getImplementationAgreements,
+  getImplementationAgreementsOptions,
   getImplementationAgreementById,
   deleteImplementationAgreementById,
   updateImplementationAgreementById,

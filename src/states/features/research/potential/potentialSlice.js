@@ -5,10 +5,12 @@ import {
   asyncGetResearchPotential,
   asyncDeleteResearchPotentialById,
   asyncUpdateResearchPotentialById,
+  asyncGetResearchPotentialOptions,
 } from './potentialThunks';
 
 const initialState = {
   potentials: [],
+  potentialsOptions: [],
   potentialDetail: null,
   loading: false,
   error: null,
@@ -47,6 +49,19 @@ const potentialSlice = createSlice({
         state.potentials = action.payload;
       })
       .addCase(asyncGetResearchPotential.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(asyncGetResearchPotentialOptions.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(asyncGetResearchPotentialOptions.fulfilled, (state, action) => {
+        state.loading = false;
+        state.potentialsOptions = action.payload;
+      })
+      .addCase(asyncGetResearchPotentialOptions.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

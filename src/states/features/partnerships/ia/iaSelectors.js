@@ -3,6 +3,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 export const selectAllIAs = (state) => state.ia.ia;
+export const selectAllIAsOptions = (state) => state.ia.iaOptions;
 export const selectIADetail = (state) => state.ia.iaDetail;
 export const selectIALoading = (state) => state.ia.loading;
 export const selectIAError = (state) => state.ia.error;

@@ -34,6 +34,11 @@ async function getTor() {
   return responseJson.data;
 }
 
+async function getTorOptions({ q }) {
+  const responseJson = await fetchWithAuth(`/partnerships/tor-options?q=${q}`);
+  return responseJson.data;
+}
+
 /**
  * Menghapus data TOR berdasarkan ID.
  * @param {number} id - ID TOR.
@@ -60,4 +65,11 @@ async function updateTorById({ id, payload }) {
   return responseJson.data;
 }
 
-export { addTor, getTorById, getTor, deleteTorById, updateTorById };
+export {
+  addTor,
+  getTorById,
+  getTor,
+  getTorOptions,
+  deleteTorById,
+  updateTorById,
+};

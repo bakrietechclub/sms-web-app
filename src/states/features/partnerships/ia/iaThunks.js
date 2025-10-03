@@ -27,6 +27,18 @@ export const asyncGetImplementationAgreements = createAsyncThunk(
   }
 );
 
+export const asyncGetImplementationAgreementsOptions = createAsyncThunk(
+  'ia/asyncGetImplementationAgreementsOptions',
+  async ({ q }, { rejectWithValue }) => {
+    try {
+      const data = await api.getImplementationAgreementsOptions({ q });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const asyncGetImplementationAgreementById = createAsyncThunk(
   'ia/asyncGetImplementationAgreementById',
   async ({ id }, { rejectWithValue }) => {

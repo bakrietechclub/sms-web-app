@@ -1,12 +1,12 @@
 const SwotFields = ({ register, label }) => (
   <div>
-      <label className="block mb-1 font-medium">{label}</label>
+    <label className="block mb-1 font-medium">{label}</label>
 
     {[
-      { label: "Strengths", name: "analisis.strengths" },
-      { label: "Weakness", name: "analisis.weakness" },
-      { label: "Opportunities", name: "analisis.opportunities" },
-      { label: "Challenge", name: "analisis.challenge" },
+      { label: 'Strengths', name: 'analysisStrength' },
+      { label: 'Weakness', name: 'analysisWeakness' },
+      { label: 'Opportunities', name: 'analysisOpportunities' },
+      { label: 'Challenge', name: 'analysisChallenge' },
     ].map(({ label, name }) => (
       <div key={name} className="flex items-center gap-2 mb-2">
         <label className="w-32">{label}</label>

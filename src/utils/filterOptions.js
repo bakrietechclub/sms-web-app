@@ -152,6 +152,27 @@ const ROLE_FILTERS = {
       },
     ],
   },
+  potential: {
+    'LSD-SMS': [
+      {
+        label: 'Jenis Instansi',
+        options: [
+          { label: 'Universitas', value: 'universitas' },
+          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
+        ],
+      },
+    ],
+    default: [
+      {
+        label: 'Cluster',
+        options: [
+          { label: 'Kesehatan', value: 'kesehatan' },
+          { label: 'Pendidikan', value: 'pendidikan' },
+          { label: 'Lingkungan', value: 'lingkungan' },
+        ],
+      },
+    ],
+  },
 };
 
 /**
@@ -165,5 +186,5 @@ export function getFiltersByModuleAndRole(moduleName, accessRole) {
   if (!moduleFilters) {
     return [];
   }
-  return moduleFilters[accessRole] || [];
+  return moduleFilters[accessRole] || moduleFilters.default || [];
 }

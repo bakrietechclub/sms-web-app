@@ -7,10 +7,12 @@ import {
   asyncGetImplementationAgreementById,
   asyncDeleteImplementationAgreementById,
   asyncUpdateImplementationAgreementById,
+  asyncGetImplementationAgreementsOptions,
 } from './iaThunks';
 
 const initialState = {
   ia: [],
+  iaOptions: [],
   iaDetail: null,
   loading: false,
   error: null,
@@ -34,6 +36,13 @@ const iaSlice = createSlice({
         state.loading = false;
         state.ia = action.payload;
       })
+      .addCase(
+        asyncGetImplementationAgreementsOptions.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.iaOptions = action.payload;
+        }
+      )
       .addCase(
         asyncGetImplementationAgreementById.fulfilled,
         (state, action) => {

@@ -37,6 +37,18 @@ export const asyncGetPks = createAsyncThunk(
   }
 );
 
+export const asyncGetPksOptions = createAsyncThunk(
+  'pks/asyncGetPksOptions',
+  async ({ q }, { rejectWithValue }) => {
+    try {
+      const data = await api.getPksOptions({ q });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const asyncDeletePksById = createAsyncThunk(
   'pks/asyncDeletePksById',
   async ({ id }, { rejectWithValue }) => {
