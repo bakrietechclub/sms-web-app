@@ -14,6 +14,7 @@ import { selectAccessRole } from '../../../../states/features/auth/authSelectors
 import { selectAllPks } from '../../../../states/features/partnerships/pks/pksSelectors';
 import { asyncGetPks } from '../../../../states/features/partnerships/pks/pksThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
+import AddPksModal from '../../../fragments/AddPksModal';
 
 export const Pks = () => {
   const nagigate = useNavigate();
@@ -91,11 +92,15 @@ export const Pks = () => {
       </div>
       <Pagination />
 
-      {isModalOpen && accessRole === 'universitas' && (
-        <AddModalPksUniv
+      {isModalOpen && accessRole === 'LSD-SMS' && (
+        <AddPksModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
+        // <AddModalPksUniv
+        //   isOpen={isModalOpen}
+        //   onClose={() => setIsModalOpen(false)}
+        // />
       )}
       {isModalOpen && accessRole === 'media' && (
         <AddModalPksMedia

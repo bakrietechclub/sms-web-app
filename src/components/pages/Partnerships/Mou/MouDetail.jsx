@@ -67,11 +67,11 @@ export default function MouDetail() {
         </div>
         <div>
           <p className="font-semibold">Nomor Surat BCF:</p>
-          <p>{data?.mouPartnerLetterNumber || '-'}</p>
+          <p>-</p>
         </div>
         <div>
           <p className="font-semibold">Nomor Surat Mitra:</p>
-          <p>-</p>
+          <p>{data?.mouPartnerLetterNumber || '-'}</p>
         </div>
         <div>
           <p className="font-semibold">Nama Pihak BCF:</p>

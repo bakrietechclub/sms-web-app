@@ -1,36 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectMousOptions } from '../../states/features/partnerships/mou/mouSelectors';
+import { asyncGetMouOptions } from '../../states/features/partnerships/mou/mouThunks';
+import AddModalLetterNumbering from './AddModalLetterNumbering';
 import TextField from '../elements/formfields/TextField';
+import DatePickerField from '../elements/formfields/DatePickerField';
 import RedirectTextField from '../elements/formfields/RedirectTextField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
-import { selectPotentialsOptions } from '../../states/features/research/potential/potentialSelectors';
-import { asyncGetResearchPotentialOptions } from '../../states/features/research/potential/potentialThunks';
 import Select from 'react-select';
-import DatePickerField from '../elements/formfields/DatePickerField';
-import { AddLetterNumberingMou } from './modalforms/univ/letter-numbering/AddLetterNumberingMou';
-import AddModalLetterNumbering from './AddModalLetterNumbering';
+import { asyncAddPks } from '../../states/features/partnerships/pks/pksThunks';
 import { STATUS_OPTIONS } from '../../utils';
-import { asyncAddMou } from '../../states/features/partnerships/mou/mouThunks';
 
-export default function AddMouModal({ isOpen, onClose }) {
+export default function AddPksModal({ isOpen, onClose }) {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
 
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
-      partnershipLetterNumberId: 1,
-      partnershipResearchId: 8,
+      partnershipMouId: null,
       partnershipStatusId: 1,
-      mouPartnershipDetail: '',
-      mouPartnerLetterNumber: '',
-      mouPartnerName: '',
-      mouBcfName: '',
-      mouSignatureDate: '',
-      mouTimePeriod: 5,
-      mouDueDate: '',
-      mouDocumentUrl: '',
-      mouNote: '',
+      partnershipLetterNumberId: null,
+      pksInstituteDivision: '',
+      pksDetailPartnership: '',
+      pksPartnerLetterNumber: '',
+      pksNameOfPartner: '',
+      pksNameofBcf: '',
+      pksSignatureDate: '',
+      pksTimePeriod: 5,
+      pksDueDate: '',
+      pksDocumentUrl: '',
+      pksNote: '',
     },
   });
 
@@ -39,7 +39,7 @@ export default function AddMouModal({ isOpen, onClose }) {
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
-    dispatch(asyncAddMou(data))
+    dispatch(asyncAddPks(data))
       .unwrap()
       .then(() => onClose())
       .catch((err) => console.error(err));
@@ -57,19 +57,9 @@ export default function AddMouModal({ isOpen, onClose }) {
     setValue('partnershipLetterNumberId', letterNumberId);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        document.activeElement.blur();
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState(null);
-  const options = useSelector(selectPotentialsOptions);
+  const options = useSelector(selectMousOptions);
 
   const selectOptions = options.map((item) => ({
     value: item.id,
@@ -77,7 +67,7 @@ export default function AddMouModal({ isOpen, onClose }) {
   }));
 
   useEffect(() => {
-    dispatch(asyncGetResearchPotentialOptions({ query, typeId: [1] }));
+    dispatch(asyncGetMouOptions({ query, typeId: [1] }));
   }, [dispatch, query]);
 
   if (!isOpen) return null;
@@ -94,7 +84,7 @@ export default function AddMouModal({ isOpen, onClose }) {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="w-full h-[92px] px-6 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">Tambah Data MoU</h2>
+            <h2 className="text-2xl font-semibold">Tambah Data PKS</h2>
             <button onClick={onClose} className="text-2xl">
               ×
             </button>
@@ -106,31 +96,35 @@ export default function AddMouModal({ isOpen, onClose }) {
             style={{ height: 'calc(900px - 92px)' }}
             ref={dropdownRef}
           >
-            <label className="block mb-1 font-medium">
-              Data Riset Potensial
-            </label>
+            <label className="block mb-1 font-medium">MoU</label>
             <Select
-              name="partnershipResearchId"
+              name="partnershipMouId"
               options={selectOptions}
-              placeholder="Cari & pilih nama instansi"
-              onInputChange={setQuery} // agar search ke API
+              placeholder="Cari & pilih MoU"
+              onInputChange={setQuery}
               onChange={(option) => {
-                setSelected(option); // simpan option di state
-                setValue('partnershipResearchId', option ? option.value : null);
+                setSelected(option);
+                setValue('partnershipMouId', option ? option.value : null);
               }}
               isClearable
               isSearchable
               value={selected}
             />
             <TextField
-              name="mouPartnershipDetail"
+              name="pksInstituteDivision"
+              label="Divisi"
+              placeholder="Masukkan divisi"
+              register={register}
+            />
+            <TextField
+              name="pksDetailPartnership"
               label="Detail Kerjasama"
               placeholder="Masukkan detail kerjasama"
               register={register}
             />
             <SingleSelectDropdownBadge
               name="partnershipStatusId"
-              label="Status MoU"
+              label="Status PkS"
               options={STATUS_OPTIONS}
               register={register}
               setValue={setValue}
@@ -143,25 +137,25 @@ export default function AddMouModal({ isOpen, onClose }) {
               isRequired
             />
             <TextField
-              name="mouPartnerLetterNumber"
+              name="pksPartnerLetterNumber"
               label="Nomor Surat Mitra"
               placeholder="Masukkan nomor surat mitra"
               register={register}
             />
             <TextField
-              name="mouBcfName"
+              name="pksNameofBcf"
               label="Nama Pihak BCF"
               placeholder="Masukkan nama pihak BCF"
               register={register}
             />
             <TextField
-              name="mouPartnerName"
+              name="pksNameOfPartner"
               label="Nama Pihak Mitra"
               placeholder="Masukkan nama pihak mitra"
               register={register}
             />
             <DatePickerField
-              name="mouSignatureDate"
+              name="pksSignatureDate"
               label="Tanggal Tanda Tangan"
               className="w-full"
               placeholder="Masukkan tanggal tanda tangan"
@@ -169,13 +163,13 @@ export default function AddMouModal({ isOpen, onClose }) {
               setValue={setValue}
             />
             <TextField
-              name="mouTimePeriod"
+              name="pksTimePeriod"
               label="Jangka Waktu"
               placeholder="Masukkan jangka waktu"
               register={register}
             />
             <DatePickerField
-              name="mouDueDate"
+              name="pksDueDate"
               label="Jatuh Tempo"
               className="w-full"
               placeholder="Masukkan jatuh tempo"
@@ -183,13 +177,13 @@ export default function AddMouModal({ isOpen, onClose }) {
               setValue={setValue}
             />
             <TextField
-              name="mouDocumentUrl"
+              name="pksDocumentUrl"
               label="Link File MoU"
               placeholder="https://.."
               register={register}
             />
             <TextField
-              name="mouNote"
+              name="pksNote"
               label="Catatan Tambahan"
               placeholder="Masukkan catatan tambahan"
               register={register}
@@ -211,7 +205,7 @@ export default function AddMouModal({ isOpen, onClose }) {
         isOpen={openLetterModal}
         onClose={() => setOpenLetterModal(false)}
         onSuccess={handleNomorSuratSuccess}
-        partnershipLetterNumberTypeId={3}
+        partnershipLetterNumberTypeId={4}
       />
     </>
   );

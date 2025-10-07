@@ -52,7 +52,7 @@ export default function PksDetail() {
         </div>
         <div>
           <p className="font-semibold">Detail Kerjasama:</p>
-          <p>-</p>
+          <p>{data?.pksDetailPartnership || '-'}</p>
         </div>
         <div>
           <p className="font-semibold">Status:</p>
@@ -60,11 +60,11 @@ export default function PksDetail() {
         </div>
         <div>
           <p className="font-semibold">Nomor Surat BCF:</p>
-          <p>{data?.pksPartnerLetterNumber}</p>
+          <p>{data?.pksLetterNumberReference || '-'}</p>
         </div>
         <div>
           <p className="font-semibold">Nomor Surat Mitra:</p>
-          <p>-</p>
+          <p>{data?.pksPartnerLetterNumber || '-'}</p>
         </div>
         <div>
           <p className="font-semibold">Nama Pihak BCF:</p>
