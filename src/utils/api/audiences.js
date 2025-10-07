@@ -8,7 +8,7 @@ import { fetchWithAuth } from './client/apiClient';
  * @returns {Promise<object>} Data audiens yang baru ditambahkan.
  */
 async function addAudience(payload) {
-  const responseJson = await fetchWithAuth('/research/potential', {
+  const responseJson = await fetchWithAuth('/audiences', {
     method: 'POST',
     body: JSON.stringify(payload),
   });

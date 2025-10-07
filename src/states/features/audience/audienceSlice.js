@@ -31,7 +31,7 @@ const audienceSlice = createSlice({
       })
       .addCase(asyncAddAudience.fulfilled, (state, action) => {
         state.loading = false;
-        state.audiences.push(action.payload);
+        state.audiences = action.payload;
       })
       .addCase(asyncAddAudience.rejected, (state, action) => {
         state.loading = false;

@@ -5,7 +5,8 @@ export const asyncAddAudience = createAsyncThunk(
   'audience/asyncAddAudience',
   async (payload, { rejectWithValue }) => {
     try {
-      const data = await api.addAudience(payload);
+      await api.addAudience(payload);
+      const data = await api.getAudiences();
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

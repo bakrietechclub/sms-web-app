@@ -1,17 +1,74 @@
-import { useForm, FormProvider } from 'react-hook-form';
-import { useEffect, useRef } from 'react';
-import TextField from '../../../../elements/formfields/TextField';
-import LetterNumberingField from '../../../../elements/formfields/LetterNumberingField';
+import React, { useEffect, useRef } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import TextField from '../elements/formfields/TextField';
+import LetterNumberingField from '../elements/formfields/LetterNumberingField';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  asyncAddLetter,
+  asyncGetLastLetterNumber,
+} from '../../states/features/letter/letterThunks';
+import { selectLastletterNumber } from '../../states/features/letter/letterSelectors';
 
-export const AddLetterNumberingMou = ({ isOpen, onClose }) => {
-  const methods = useForm();
+export default function AddModalLetterNumbering({
+  isOpen,
+  onClose,
+  onSuccess,
+  partnershipLetterNumberTypeId,
+}) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(asyncGetLastLetterNumber());
+  }, []);
+
+  const lastLetterNumber = useSelector(selectLastletterNumber);
+
+  const letterTypeOptions = [
+    { id: 1, name: 'Surat Permohonan Kerjasama' },
+    { id: 2, name: 'Surat Undangan Audiensi' },
+    { id: 3, name: 'MoU (Nota Kesepahaman)' },
+    { id: 4, name: 'PKS (Perjanjian Kerjasama)' },
+    { id: 5, name: 'IA (Implementation Agreement)' },
+    { id: 6, name: 'SPK (Surat Pernyataan Komitmen)' },
+  ];
+
+  const getLetterTypeName = (id) => {
+    const found = letterTypeOptions.find((item) => item.id === id);
+    return found ? found.name : '';
+  };
+
+  const methods = useForm({
+    defaultValues: {
+      partnershipLetterNumberSubClassificationId: null, // Administrasi - Pemberitahuan/Undangan/Persetujuan
+      partnershipLetterNumberTypeId, // Surat Permohonan Kerjasama
+      partnershipLetterNumberTypeName: getLetterTypeName(
+        partnershipLetterNumberTypeId
+      ),
+      masterSecondTierProgramId: 1, // CLP
+      letterNumber: null,
+      letterNumberDate: '',
+      letterNumberSubjectOfLetter: '',
+    },
+  });
   const { register, handleSubmit, setValue } = methods;
   const dropdownRef = useRef(null);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log('Form data:', data);
-    onClose();
+    try {
+      const result = await dispatch(asyncAddLetter(data)).unwrap();
+      onSuccess(result);
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  useEffect(() => {
+    if (lastLetterNumber?.nextNumber) {
+      setValue('letterNumber', lastLetterNumber.nextNumber);
+    }
+  }, [lastLetterNumber, setValue]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -53,16 +110,15 @@ export const AddLetterNumberingMou = ({ isOpen, onClose }) => {
               ref={dropdownRef}
             >
               <TextField
-                name="mou"
+                name="partnershipLetterNumberTypeName"
                 label="Jenis Surat"
-                defaultValue="MoU (Nota Kesepahaman)"
                 disable={true}
                 className="bg-gray-200 text-gray-500"
                 register={register}
               />
               <LetterNumberingField />
               <TextField
-                name="tujuanPerihalSurat"
+                name="letterNumberSubjectOfLetter"
                 label="Tujuan dan Perihal Surat"
                 placeholder="Masukkan Nama Pihak BCF"
                 register={register}
@@ -82,4 +138,4 @@ export const AddLetterNumberingMou = ({ isOpen, onClose }) => {
       </div>
     </>
   );
-};
+}

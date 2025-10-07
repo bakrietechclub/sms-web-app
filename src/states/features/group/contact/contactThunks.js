@@ -5,7 +5,8 @@ export const asyncAddContact = createAsyncThunk(
   'contact/asyncAddContact',
   async (payload, { rejectWithValue }) => {
     try {
-      const data = await api.addContact(payload);
+      await api.addContact(payload);
+      const data = api.getGroupById({ id: payload.groupId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

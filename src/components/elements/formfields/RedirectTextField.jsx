@@ -1,18 +1,18 @@
-import { useRef } from "react";
-import redirect from "../../../assets/icons/redirect.png";
+import { useRef } from 'react';
+import redirect from '../../../assets/icons/redirect.png';
 
 const RedirectTextField = ({
   label,
-  value = "",
+  value = '',
   onRedirect,
-  className = "",
-  role = "", 
-  isRequired
+  className = '',
+  role = '',
+  isRequired,
 }) => {
   const containerRef = useRef();
 
   const handleClick = () => {
-    if (onRedirect && typeof onRedirect === "function") {
+    if (onRedirect && typeof onRedirect === 'function') {
       onRedirect(role);
     }
   };
@@ -26,8 +26,8 @@ const RedirectTextField = ({
         className="w-full border border-gray-300 px-3 py-2 rounded bg-gray-100 text-gray-500 italic cursor-pointer flex items-center justify-between"
         onClick={handleClick}
       >
-        <span className={`${value ? "not-italic text-black" : ""}`}>
-          {value || "Kamu belum membuat penomoran surat"}
+        <span className={`${value ? 'not-italic text-black' : ''}`}>
+          {value || 'Kamu belum membuat penomoran surat'}
         </span>
         <img
           src={redirect}

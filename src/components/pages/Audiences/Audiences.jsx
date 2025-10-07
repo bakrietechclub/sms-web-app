@@ -1,24 +1,17 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ChevronLeft } from 'lucide-react';
 
 import { Table } from '../../fragments/Table';
 import { TableToolbar } from '../../fragments/TableToolbar';
 import { Pagination } from '../../fragments/Pagination';
 import { Button } from '../../elements/Button';
 import { Label } from '../../elements/Label';
-
-import { UnivAudience } from '../../../data/data_univ';
-import { MediaAudience } from '../../../data/data_media';
-import { INGOAudience } from '../../../data/data_ingo';
-
-import { AddModalAudienceUniv } from '../../fragments/modalforms/univ/AddModalAudienceUniv';
-import { AddModalAudienceMedia } from '../../fragments/modalforms/media/AddModalAudienceMedia';
-import { AddModalAudienceINGO } from '../../fragments/modalforms/ingo/AddModalAudienceINGO';
 import { selectAccessRole } from '../../../states/features/auth/authSelectors';
 import { selectAudiences } from '../../../states/features/audience/audienceSelectors';
 import { asyncGetAudiences } from '../../../states/features/audience/audienceThunks';
 import { useNavigate } from 'react-router-dom';
+import AddAudienceModal from '../../fragments/AddAudienceModal';
+import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
 
 export const Audiences = () => {
   const dispatch = useDispatch();
@@ -34,51 +27,7 @@ export const Audiences = () => {
   const [search, setSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  let filterOptions = [];
-
-  if (accessRole === 'LSD-SMS') {
-    filterOptions = [
-      {
-        label: 'Status',
-        options: [
-          { label: 'Belum Audiensi', value: 'belum' },
-          { label: 'Re-Audiensi', value: 're-audiensi' },
-          { label: 'Selesai', value: 'selesai' },
-        ],
-      },
-    ];
-  } else if (accessRole === 'SCP-SMS') {
-    filterOptions = [
-      {
-        label: 'Jenis Instansi',
-        options: [
-          { label: 'Pemerintah Pusat', value: 'pemerintah pusat' },
-          { label: 'Pemerintah Daerah', value: 'pemerintah daerah' },
-          { label: 'Dunia Usaha', value: 'dunia usaha' },
-          { label: 'Media Massa', value: 'media massa' },
-        ],
-      },
-      {
-        label: 'Status',
-        options: [
-          { label: 'Belum Audiensi', value: 'belum' },
-          { label: 'Re-Audiensi', value: 're-audiensi' },
-          { label: 'Selesai', value: 'selesai' },
-        ],
-      },
-    ];
-  } else {
-    filterOptions = [
-      {
-        label: 'Status',
-        options: [
-          { label: 'Belum Audiensi', value: 'belum' },
-          { label: 'Re-Audiensi', value: 're-audiensi' },
-          { label: 'Selesai', value: 'selesai' },
-        ],
-      },
-    ];
-  }
+  const filterOptions = getFiltersByModuleAndRole('audience', accessRole);
 
   const headers = [
     'No',
@@ -143,20 +92,9 @@ export const Audiences = () => {
       <Table headers={headers} data={data} renderRow={renderRow} />
       <Pagination />
 
-      {isModalOpen && accessRole === 'LSD-SMS' && (
-        <AddModalAudienceUniv
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
-      {isModalOpen && accessRole === 'SCP-SMS' && (
-        <AddModalAudienceMedia
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
-      {isModalOpen && accessRole === 'SDI-SMS' && (
-        <AddModalAudienceINGO
+      {isModalOpen && (
+        <AddAudienceModal
+          accessRole={accessRole}
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />

@@ -13,6 +13,7 @@ import { selectMous } from '../../../../states/features/partnerships/mou/mouSele
 import { selectAccessRole } from '../../../../states/features/auth/authSelectors';
 import { asyncGetMou } from '../../../../states/features/partnerships/mou/mouThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
+import AddMouModal from '../../../fragments/AddMouModal';
 
 export const Mou = () => {
   const dispatch = useDispatch();
@@ -87,19 +88,23 @@ export const Mou = () => {
       />
       <Pagination />
 
-      {isModalOpen && stakeholder === 'universitas' && (
-        <AddModalMouUniv
+      {isModalOpen && accessRole === 'LSD-SMS' && (
+        // <AddModalMouUniv
+        //   isOpen={isModalOpen}
+        //   onClose={() => setIsModalOpen(false)}
+        // />
+        <AddMouModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
       )}
-      {isModalOpen && stakeholder === 'media' && (
+      {isModalOpen && accessRole === 'media' && (
         <AddModalMouMedia
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
       )}
-      {isModalOpen && stakeholder === 'lembagaInternasional' && (
+      {isModalOpen && accessRole === 'lembagaInternasional' && (
         <AddModalMouINGO
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}

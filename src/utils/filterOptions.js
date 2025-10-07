@@ -173,6 +173,47 @@ const ROLE_FILTERS = {
       },
     ],
   },
+  audience: {
+    'LSD-SMS': [
+      {
+        label: 'Status',
+        options: [
+          { label: 'Belum Audiensi', value: 'belum' },
+          { label: 'Re-Audiensi', value: 're-audiensi' },
+          { label: 'Selesai', value: 'selesai' },
+        ],
+      },
+    ],
+    'SCP-SMS': [
+      {
+        label: 'Jenis Instansi',
+        options: [
+          { label: 'Pemerintah Pusat', value: 'pemerintah pusat' },
+          { label: 'Pemerintah Daerah', value: 'pemerintah daerah' },
+          { label: 'Dunia Usaha', value: 'dunia usaha' },
+          { label: 'Media Massa', value: 'media massa' },
+        ],
+      },
+      {
+        label: 'Status',
+        options: [
+          { label: 'Belum Audiensi', value: 'belum' },
+          { label: 'Re-Audiensi', value: 're-audiensi' },
+          { label: 'Selesai', value: 'selesai' },
+        ],
+      },
+    ],
+    default: [
+      {
+        label: 'Status',
+        options: [
+          { label: 'Belum Audiensi', value: 'belum' },
+          { label: 'Re-Audiensi', value: 're-audiensi' },
+          { label: 'Selesai', value: 'selesai' },
+        ],
+      },
+    ],
+  },
 };
 
 /**

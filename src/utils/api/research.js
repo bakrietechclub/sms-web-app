@@ -24,9 +24,9 @@ async function getResearchPotential() {
   return responseJson.data;
 }
 
-async function getResearchPotentialOptions({ q }) {
+async function getResearchPotentialOptions({ q, typeId }) {
   const responseJson = await fetchWithAuth(
-    `/research/potential-options?q=${q}`
+    `/research/potential-options?q=${q}&typeId=${typeId}`
   );
   return responseJson.data;
 }

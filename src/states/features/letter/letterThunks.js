@@ -25,6 +25,30 @@ export const asyncGetLetterById = createAsyncThunk(
   }
 );
 
+export const asyncGetLastLetterNumber = createAsyncThunk(
+  'letter/asyncGetLastLetterNumber',
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await api.getLastLetterNumber();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const asyncGetSubClassifications = createAsyncThunk(
+  'letter/asyncGetSubClassifications',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const data = await api.getSubClassifications({ id });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const asyncGetLetters = createAsyncThunk(
   'letter/asyncGetLetters',
   async (_, { rejectWithValue }) => {

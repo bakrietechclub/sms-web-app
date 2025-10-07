@@ -1,231 +1,247 @@
-import { useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
+import { ChevronDown, ChevronRight } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncGetSubClassifications } from '../../../states/features/letter/letterThunks';
+import { selectSubClassifications } from '../../../states/features/letter/letterSelectors';
 
-// OPTIONS FOR LETTER CLASS, SUB-CLASSIFICATION, PROGRAM, AND MONTH
-const letterClassOptions = ["Administrasi", "Finance"];
-const subClassOptions = {
-  Administrasi: [
-    "Pemberitahuan/Undangan/Persetujuan",
-    "Penawaran",
-    "Kontrak Eksternal/Internal",
-  ],
-  Finance: ["Pesanan Pembelian", "Faktur/Invoice", "Kwitansi"],
-};
-const programOptions = ["LEAD", "HOL", "CLP", "BCF"];
-const months = [
-  "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
-  "Jul", "Agu", "Sep", "Okt", "Nov", "Des",
+// === STATIC OPTIONS ===
+const LETTER_CLASSES = [
+  { id: 1, label: 'Administrasi' },
+  { id: 2, label: 'Finance' },
 ];
 
-const LetterNumberingField = () => {
-  const { register, setValue, watch } = useFormContext();
+const PROGRAM_OPTIONS = [
+  { id: 1, label: 'LEAD' },
+  { id: 2, label: 'CLP' },
+  { id: 3, label: 'HOL' },
+  { id: 4, label: 'BCF' },
+];
 
-  // WATCH FOR SELECTED VALUES FROM THE FORM
-  const selectedClass = watch("kelas");
-  const selectedSubClass = watch("subKlasifikasi");
-  const selectedMonth = watch("bulan");
-  const selectedProgram = watch("program");
+const MONTHS = {
+  Jan: '01',
+  Feb: '02',
+  Mar: '03',
+  Apr: '04',
+  Mei: '05',
+  Jun: '06',
+  Jul: '07',
+  Agu: '08',
+  Sep: '09',
+  Okt: '10',
+  Nov: '11',
+  Des: '12',
+};
 
-  // STATE TO CONTROL OPEN/CLOSE STATE OF DROPDOWNS
-  const [isClassDropdownOpen, setIsClassDropdownOpen] = useState(false);
-  const [isSubClassDropdownOpen, setIsSubClassDropdownOpen] = useState(false);
-  const [isMonthDropdownOpen, setIsMonthDropdownOpen] = useState(false);
-  const [isProgramDropdownOpen, setIsProgramDropdownOpen] = useState(false);
+// === HELPERS ===
+function getLetterNumberDate(month, year) {
+  if (!month || !year) return '';
+  return `${year}-${MONTHS[month]}-01`;
+}
 
-  // HANDLER FUNCTIONS TO UPDATE FORM FIELDS
-  const handleSelectClass = (val) => {
-    setValue("kelas", val);
-    setValue("subKlasifikasi", "");
-    setIsClassDropdownOpen(false);
+export default function LetterNumberingField() {
+  const dispatch = useDispatch();
+  const subClassifications = useSelector(selectSubClassifications);
+  const { register, setValue, control } = useFormContext();
+
+  // === WATCH FORM VALUES ===
+  const { kelas, bulan, tahun } = useWatch({ control });
+
+  // === UI STATE (LOCAL) ===
+  const [dropdown, setDropdown] = useState({
+    kelas: false,
+    subKlasifikasi: false,
+    bulan: false,
+    program: false,
+  });
+
+  // === HANDLERS ===
+  const toggleDropdown = (key) =>
+    setDropdown((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  const handleSelectClass = (opt) => {
+    setValue('kelas', opt.label);
+    setValue('subKlasifikasi', '');
+    toggleDropdown('kelas');
+    dispatch(asyncGetSubClassifications({ id: opt.id }));
   };
 
-  const handleSelectSubClass = (val) => {
-    setValue("subKlasifikasi", val);
-    setIsSubClassDropdownOpen(false);
+  const handleSelectSubClass = (opt) => {
+    setValue('subKlasifikasi', opt.label);
+    setValue('partnershipLetterNumberSubClassificationId', opt.id);
+    toggleDropdown('subKlasifikasi');
   };
 
-  const handleSelectProgram = (val) => {
-    setValue("program", val);
-    setIsProgramDropdownOpen(false);
+  const handleSelectProgram = (opt) => {
+    setValue('program', opt.label);
+    setValue('masterSecondTierProgramId', opt.id);
+    toggleDropdown('program');
   };
 
-  const handleSelectMonth = (val) => {
-    setValue("bulan", val);
-    setIsMonthDropdownOpen(false);
+  const handleSelectMonth = (month) => {
+    setValue('bulan', month);
+    toggleDropdown('bulan');
+    const date = getLetterNumberDate(month, tahun);
+    if (date) setValue('letterNumberDate', date);
   };
+
+  const handleChangeYear = (e) => {
+    const y = e.target.value;
+    setValue('tahun', y);
+    const date = getLetterNumberDate(bulan, y);
+    if (date) setValue('letterNumberDate', date);
+  };
+
+  // === EFFECTS ===
+  // Reset subclassifications when class changes
+  useEffect(() => {
+    setValue('subKlasifikasi', '');
+    setValue('partnershipLetterNumberSubClassificationId', '');
+  }, [kelas]);
 
   return (
     <div className="flex flex-col gap-4">
-      {/* MAIN LABEL FOR LETTER NUMBERING */}
+      {/* === LABEL === */}
       <label className="font-medium text-base">
         Penomoran Surat <span className="text-red-500">*</span>
       </label>
 
-      {/* READONLY FIELD FOR LETTER NUMBERING */}
+      {/* === READONLY LETTER NUMBER === */}
       <input
-        {...register("nomorSurat")}
-        placeholder="Penomoran Surat"
+        {...register('letterNumber')}
+        placeholder="Nomor Surat (auto)"
         readOnly
         disabled
         className="w-full border border-gray-300 px-3 py-2 rounded bg-gray-100 text-gray-500"
       />
 
-      {/* INPUT GROUP FOR ALL FIELDS */}
+      {/* === CLASS & SUBCLASS === */}
       <div className="grid grid-cols-2 gap-4">
-        {/* CLASS FIELD */}
-        <div>
-          <div className="relative">
-            <input
-              {...register("kelas")}
-              placeholder="Kelas"
-              readOnly
-              value={selectedClass || ""}
-              onClick={() => setIsClassDropdownOpen((prev) => !prev)}
-              className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer"
-            />
-            {/* CHEVRON ICON FOR DROPDOWN */}
-            <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none z-10">
-              {isClassDropdownOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-            </div>
-          </div>
-          {/* CLASS DROPDOWN LIST */}
-          {isClassDropdownOpen && (
-            <div className="w-full bg-white border rounded shadow-lg mt-1">
-              {letterClassOptions.map((opt) => (
-                <div
-                  key={opt}
-                  onClick={() => handleSelectClass(opt)}
-                  className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                >
-                  {opt}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* === KELAS === */}
+        <DropdownInput
+          label="Kelas"
+          value={kelas}
+          options={LETTER_CLASSES}
+          isOpen={dropdown.kelas}
+          onToggle={() => toggleDropdown('kelas')}
+          onSelect={handleSelectClass}
+        />
 
-        {/* SUB-CLASSIFICATION FIELD */}
-        <div>
-          <div className="relative">
-            <input
-              {...register("subKlasifikasi")}
-              placeholder="Sub Klasifikasi"
-              readOnly
-              disabled={!selectedClass}
-              value={selectedSubClass || ""}
-              onClick={() => {
-                if (selectedClass) setIsSubClassDropdownOpen((prev) => !prev);
-              }}
-              className={`w-full border px-3 py-2 rounded pr-8 ${
-                !selectedClass
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "border-gray-300 cursor-pointer"
-              }`}
-            />
-            {/* CHEVRON ICON FOR SUBCLASS DROPDOWN */}
-            <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none z-10">
-              {isSubClassDropdownOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-            </div>
-          </div>
-          {/* SUBCLASS DROPDOWN LIST */}
-          {isSubClassDropdownOpen && selectedClass && (
-            <div className="w-full bg-white border rounded shadow-lg mt-1">
-              {subClassOptions[selectedClass].map((opt) => (
-                <div
-                  key={opt}
-                  onClick={() => handleSelectSubClass(opt)}
-                  className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                >
-                  {opt}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* === SUB KLASIFIKASI === */}
+        <DropdownInput
+          label="Sub Klasifikasi"
+          value={useWatch({ control, name: 'subKlasifikasi' })}
+          options={subClassifications}
+          isOpen={dropdown.subKlasifikasi}
+          disabled={!kelas}
+          onToggle={() => toggleDropdown('subKlasifikasi')}
+          onSelect={handleSelectSubClass}
+        />
       </div>
 
-      {/* PROGRAM FIELD */}
-      <div>
+      {/* === PROGRAM === */}
+      <DropdownInput
+        label="Program"
+        value={useWatch({ control, name: 'program' })}
+        options={PROGRAM_OPTIONS}
+        isOpen={dropdown.program}
+        onToggle={() => toggleDropdown('program')}
+        onSelect={handleSelectProgram}
+      />
+
+      {/* === BULAN & TAHUN === */}
+      <div className="grid grid-cols-2 gap-4">
+        {/* === BULAN === */}
         <div className="relative">
           <input
-            {...register("program")}
-            placeholder="Program"
+            {...register('bulan')}
+            placeholder="Bulan"
             readOnly
-            value={selectedProgram || ""}
-            onClick={() => setIsProgramDropdownOpen((prev) => !prev)}
+            value={bulan || ''}
+            onClick={() => toggleDropdown('bulan')}
             className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer"
           />
-          {/* CHEVRON ICON FOR PROGRAM DROPDOWN */}
-          <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none z-10">
-            {isProgramDropdownOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-          </div>
-        </div>
-        {/* PROGRAM DROPDOWN LIST */}
-        {isProgramDropdownOpen && (
-          <div className="w-full bg-white border rounded shadow-lg mt-1">
-            {programOptions.map((opt) => (
-              <div
-                key={opt}
-                onClick={() => handleSelectProgram(opt)}
-                className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
-              >
-                {opt}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* ROW FOR MONTH & YEAR */}
-      <div className="grid grid-cols-2 gap-4 relative">
-        {/* MONTH FIELD */}
-        <div className="relative overflow-visible">
-          <div className="relative">
-            <input
-              {...register("bulan")}
-              placeholder="Bulan"
-              readOnly
-              value={selectedMonth || ""}
-              onClick={() => setIsMonthDropdownOpen((prev) => !prev)}
-              className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer"
-            />
-            {/* CHEVRON ICON FOR MONTH DROPDOWN */}
-            <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none z-20">
-              {isMonthDropdownOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-            </div>
-          </div>
-          {/* MONTH DROPDOWN LIST */}
-          {isMonthDropdownOpen && (
+          <ChevronIcon open={dropdown.bulan} />
+          {dropdown.bulan && (
             <div className="w-full bg-white shadow-lg mt-1 p-2 grid grid-cols-3 gap-2">
-              {months.map((month) => (
+              {Object.keys(MONTHS).map((m) => (
                 <div
-                  key={month}
-                  onClick={() => handleSelectMonth(month)}
+                  key={m}
+                  onClick={() => handleSelectMonth(m)}
                   className={`text-center text-sm py-1 rounded cursor-pointer ${
-                    selectedMonth === month
-                      ? "bg-blue-900 text-white"
-                      : "hover:bg-gray-200 text-gray-700"
+                    bulan === m
+                      ? 'bg-blue-900 text-white'
+                      : 'hover:bg-gray-200 text-gray-700'
                   }`}
                 >
-                  {month}
+                  {m}
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        {/* YEAR FIELD */}
-        <div className={`relative ${isMonthDropdownOpen ? 'mt-20' : ''}`}>
-          <input
-            {...register("tahun")}
-            placeholder="Tahun"
-            className="w-full border border-gray-300 px-3 py-2 rounded"
-          />
-        </div>
+        {/* === TAHUN === */}
+        <input
+          {...register('tahun')}
+          placeholder="Tahun"
+          className="w-full border border-gray-300 px-3 py-2 rounded"
+          onChange={handleChangeYear}
+        />
       </div>
     </div>
   );
-};
+}
 
-export default LetterNumberingField;
+// === SMALL SUBCOMPONENTS ===
+function DropdownInput({
+  label,
+  value,
+  options,
+  isOpen,
+  onToggle,
+  onSelect,
+  disabled,
+}) {
+  return (
+    <div>
+      <div className="relative">
+        <input
+          placeholder={label}
+          readOnly
+          disabled={disabled}
+          value={value || ''}
+          onClick={!disabled ? onToggle : undefined}
+          className={`w-full border px-3 py-2 rounded pr-8 ${
+            disabled
+              ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+              : 'border-gray-300 cursor-pointer'
+          }`}
+        />
+        <ChevronIcon open={isOpen} />
+      </div>
+      {isOpen && !disabled && (
+        <div className="w-full bg-white border rounded shadow-lg mt-1 z-10">
+          {options?.map((opt) => (
+            <div
+              key={opt.id}
+              onClick={() => onSelect(opt)}
+              className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+            >
+              {opt.label}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ChevronIcon({ open }) {
+  const Icon = open ? ChevronDown : ChevronRight;
+  return (
+    <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none z-10">
+      <Icon size={16} />
+    </div>
+  );
+}

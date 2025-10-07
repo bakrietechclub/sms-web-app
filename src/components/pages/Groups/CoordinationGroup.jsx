@@ -7,13 +7,14 @@ import { Pagination } from '../../fragments/Pagination';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AddModalCoorGroupUniv } from '../../fragments/modalforms/univ/AddModalCoorGroupUniv';
 import { AddModalCoorGroupMedia } from '../../fragments/modalforms/media/AddModalCoorGroupMedia';
 import { AddModalCoorGroupINGO } from '../../fragments/modalforms/ingo/AddModalCoorGroupINGO';
 import { useNavigate } from 'react-router-dom';
 import { selectGroups } from '../../../states/features/group/groupSelectors';
 import { selectAccessRole } from '../../../states/features/auth/authSelectors';
 import { asyncGetGroups } from '../../../states/features/group/groupThunks';
+
+import AddCoorGroupModal from '../../fragments/AddCoorGroupModal';
 
 export const CoordinationGroup = () => {
   const dispatch = useDispatch();
@@ -114,8 +115,12 @@ export const CoordinationGroup = () => {
       />
 
       {/* Modal Add berdasarkan stakeholder */}
-      {accessRole === 'universitas' && (
-        <AddModalCoorGroupUniv
+      {accessRole === 'LSD-SMS' && (
+        // <AddModalCoorGroupUniv
+        //   isOpen={openModal}
+        //   onClose={() => setOpenModal(false)}
+        // />
+        <AddCoorGroupModal
           isOpen={openModal}
           onClose={() => setOpenModal(false)}
         />

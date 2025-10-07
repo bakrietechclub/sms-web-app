@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
-import { format } from "date-fns";
-import { id } from "date-fns/locale";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
-import calendar from "../../../assets/icons/calendar.png";
+import { useState, useEffect } from 'react';
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale';
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+import calendar from '../../../assets/icons/calendar.png';
 
-const DatePickerField = ({ 
-  name = "date", 
-  label = "Date", 
-  value, 
-  onChange, 
-  placeholder = "DD/MM/YYYY",
-  className = "",
+const DatePickerField = ({
+  name = 'date',
+  label = 'Date',
+  value,
+  register,
+  setValue,
+  onChange,
+  placeholder = 'DD/MM/YYYY',
+  className = '',
   required = false,
-  disabled = false
+  disabled = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [localValue, setLocalValue] = useState(value);
@@ -26,8 +28,12 @@ const DatePickerField = ({
 
   const handleSelect = (date) => {
     setLocalValue(date);
-    if (onChange) {
-      onChange(date);
+    const formatted = date ? format(date, 'yyyy-MM-dd') : '';
+    if (setValue) {
+      setValue(name, formatted);
+    }
+    if (onChange && date) {
+      onChange(formatted);
     }
     setIsOpen(false);
   };
@@ -47,7 +53,8 @@ const DatePickerField = ({
       <div className="relative">
         <input
           name={name}
-          value={localValue ? format(localValue, "dd/MM/yyyy") : ""}
+          {...register(name)}
+          value={localValue ? format(localValue, 'yyyy-MM-dd') : ''}
           onClick={handleInputClick}
           placeholder={placeholder}
           readOnly
@@ -57,7 +64,11 @@ const DatePickerField = ({
           }`}
         />
         <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
-          <img src={calendar} alt="calendar icon" className="w-5 h-5 opacity-60" />
+          <img
+            src={calendar}
+            alt="calendar icon"
+            className="w-5 h-5 opacity-60"
+          />
         </div>
       </div>
 
@@ -70,12 +81,12 @@ const DatePickerField = ({
             locale={id}
             className="p-3 text-base"
             modifiersClassNames={{
-              caption_label: "text-base text-gray-600 font-normal",
-              selected: "bg-blue-900 text-white rounded-full",
-              today: "font-bold",
-              nav_button: "text-black",
-              day: "rounded-full hover:bg-blue-100",
-              weekday: "text-blue-600 font-medium text-xs",
+              caption_label: 'text-base text-gray-600 font-normal',
+              selected: 'bg-blue-900 text-white rounded-full',
+              today: 'font-bold',
+              nav_button: 'text-black',
+              day: 'rounded-full hover:bg-blue-100',
+              weekday: 'text-blue-600 font-medium text-xs',
             }}
           />
         </div>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '../elements/formfields/TextField';
-import SingleSelectDropdown from '../elements/formfields/SingleSelectDropdown';
 import MultiSelectDropdown from '../elements/formfields/MultiSelectDropdown';
 import SwotFields from '../elements/formfields/SwotFields';
 import ContactFields from '../elements/formfields/ContactFields';
@@ -8,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncAddResearchPotential } from '../../states/features/research/potential/potentialThunks';
-import ClusterSubClusterField from '../elements/formfields/ClusterSubClusterField';
 import {
   asyncGetInstitutionsOptions,
   asyncGetInstitutionsOptionsById,
@@ -46,8 +44,10 @@ export default function AddResearchPotentialModal({
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
-    dispatch(asyncAddResearchPotential(data));
-    // onClose();
+    dispatch(asyncAddResearchPotential(data))
+      .unwrap()
+      .then(() => onClose())
+      .catch((err) => console.error(err));
   };
 
   const [query, setQuery] = useState('');

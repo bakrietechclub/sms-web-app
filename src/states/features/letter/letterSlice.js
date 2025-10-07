@@ -2,14 +2,19 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   asyncAddLetter,
   asyncDeleteLetterById,
+  asyncGetLastLetterNumber,
   asyncGetLetterById,
   asyncGetLetters,
+  asyncGetSubClassifications,
   asyncUpdateLetterById,
 } from './letterThunks';
 
 const initialState = {
   letters: [],
+  letterSuccessAdd: null,
   letterDetail: null,
+  lastLetterNumber: null,
+  subClassifications: null,
   loading: false,
   error: null,
 };
@@ -22,7 +27,7 @@ const letterSlice = createSlice({
     builder
       .addCase(asyncAddLetter.fulfilled, (state, action) => {
         state.loading = false;
-        state.letters.push(action.payload);
+        state.letterSuccessAdd = action.payload;
       })
       .addCase(asyncGetLetterById.fulfilled, (state, action) => {
         state.loading = false;
@@ -31,6 +36,14 @@ const letterSlice = createSlice({
       .addCase(asyncGetLetters.fulfilled, (state, action) => {
         state.loading = false;
         state.letters = action.payload;
+      })
+      .addCase(asyncGetLastLetterNumber.fulfilled, (state, action) => {
+        state.loading = false;
+        state.lastLetterNumber = action.payload;
+      })
+      .addCase(asyncGetSubClassifications.fulfilled, (state, action) => {
+        state.loading = false;
+        state.subClassifications = action.payload;
       })
       .addCase(asyncDeleteLetterById.fulfilled, (state, action) => {
         state.loading = false;

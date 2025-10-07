@@ -91,19 +91,19 @@ export const Pks = () => {
       </div>
       <Pagination />
 
-      {isModalOpen && stakeholder === 'universitas' && (
+      {isModalOpen && accessRole === 'universitas' && (
         <AddModalPksUniv
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
       )}
-      {isModalOpen && stakeholder === 'media' && (
+      {isModalOpen && accessRole === 'media' && (
         <AddModalPksMedia
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
       )}
-      {isModalOpen && stakeholder === 'lembagaInternasional' && (
+      {isModalOpen && accessRole === 'lembagaInternasional' && (
         <AddModalPksINGO
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}

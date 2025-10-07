@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '../../elements/Button';
 import { ChevronLeft } from 'lucide-react';
 import { Label } from '../../elements/Label';
@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectGroupDetail } from '../../../states/features/group/groupSelectors';
 import { asyncGetGroupById } from '../../../states/features/group/groupThunks';
+import AddCoorGroupContactModal from '../../fragments/AddCoorGroupContactModal';
 
 export default function CoordinationGroupDetail() {
   const dispatch = useDispatch();
@@ -13,6 +14,8 @@ export default function CoordinationGroupDetail() {
 
   const { id } = useParams();
   const data = useSelector(selectGroupDetail);
+
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetGroupById({ id }));
@@ -67,7 +70,10 @@ export default function CoordinationGroupDetail() {
           <p className="font-semibold">Kontak</p>
         </div>
         <div className="flex justify-end">
-          <Button className="bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2">
+          <Button
+            onClick={() => setOpenModal(true)}
+            className="bg-[#0D4690] text-white cursor-pointer rounded-md px-4 py-2"
+          >
             Tambah Kontak
           </Button>
         </div>
@@ -115,6 +121,11 @@ export default function CoordinationGroupDetail() {
           ))}
         </tbody>
       </table>
+
+      <AddCoorGroupContactModal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+      />
     </div>
   );
 }

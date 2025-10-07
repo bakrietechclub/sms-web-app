@@ -18,6 +18,18 @@ async function getLetter() {
   return responseJson.data;
 }
 
+async function getLastLetterNumber() {
+  const responseJson = await fetchWithAuth('/letter-numbers/last-number');
+  return responseJson.data;
+}
+
+async function getSubClassifications({ id }) {
+  const responseJson = await fetchWithAuth(
+    `/letter-numbers/classifications/${id}`
+  );
+  return responseJson.data;
+}
+
 async function deleteLetterById({ id }) {
   const responseJson = await fetchWithAuth(`/letter-numbers/${id}`, {
     method: 'DELETE',
@@ -37,6 +49,8 @@ export {
   addLetter,
   getLetterById,
   getLetter,
+  getLastLetterNumber,
+  getSubClassifications,
   deleteLetterById,
   updateLetterById,
 };

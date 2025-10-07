@@ -31,7 +31,7 @@ const groupSlice = createSlice({
       })
       .addCase(asyncAddGroup.fulfilled, (state, action) => {
         state.loading = false;
-        state.groups.push(action.payload);
+        state.groups = action.payload;
       })
       .addCase(asyncAddGroup.rejected, (state, action) => {
         state.loading = false;

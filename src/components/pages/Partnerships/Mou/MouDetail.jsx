@@ -43,7 +43,7 @@ export default function MouDetail() {
       <div className="grid grid-cols-2 gap-y-5 mb-5">
         <div>
           <p className="font-semibold">Nama Instansi:</p>
-          <p>{data?.mouPartnerName || '-'}</p>
+          <p>{data?.instituteName || '-'}</p>
         </div>
         <div>
           <p className="font-semibold">Jenis Instansi:</p>
