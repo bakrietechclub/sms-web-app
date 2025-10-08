@@ -5,7 +5,8 @@ export const asyncAddResearchPotential = createAsyncThunk(
   'potential/asyncAddResearchPotential',
   async (payload, { rejectWithValue }) => {
     try {
-      const data = await api.addResearchPotential(payload);
+      await api.addResearchPotential(payload);
+      const data = await api.getResearchPotential();
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

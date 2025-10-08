@@ -19,8 +19,6 @@ export default function IaDetail() {
 
   const data = useSelector(selectIADetail);
 
-  console.log(data);
-
   return (
     <div>
       <Button

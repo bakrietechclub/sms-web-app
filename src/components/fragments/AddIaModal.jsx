@@ -20,6 +20,8 @@ export default function AddIaModal({ isOpen, onClose }) {
       partnershipPksId: null,
       partnershipStatusId: null, // Dikontak
       partnershipLetterNumberId: null,
+      batchId: null,
+      programId: null,
       iaYearOfImplementation: '',
       iaLetterNumberPartner: '',
       iaNameOfBcf: '',
@@ -68,7 +70,7 @@ export default function AddIaModal({ isOpen, onClose }) {
     { id: 1, label: 'LEAD' },
     { id: 2, label: 'CLP' },
     { id: 3, label: 'HOL' },
-    { id: 4, label: 'BCF' },
+    { id: null, label: 'BCF' },
   ];
 
   const BATCH_OPTIONS = [
@@ -137,7 +139,7 @@ export default function AddIaModal({ isOpen, onClose }) {
             <div className="flex gap-4">
               <div className="w-1/2">
                 <SingleSelectDropdown
-                  name="programKerjasama"
+                  name="programId"
                   label="Program Kerjasama"
                   options={PROGRAM_OPTIONS}
                   register={register}
@@ -147,7 +149,7 @@ export default function AddIaModal({ isOpen, onClose }) {
               </div>
               <div className="w-1/2">
                 <SingleSelectDropdown
-                  name="batchProgram"
+                  name="batchId"
                   label="Batch Program"
                   options={BATCH_OPTIONS}
                   register={register}

@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { asyncGetLetterById } from '../../../states/features/letter/letterThunks';
 import { selectLetterDetail } from '../../../states/features/letter/letterSelectors';
 import { Button } from '../../elements/Button';
-import { Label } from '../../elements/Label';
 import { ChevronLeft } from 'lucide-react';
 
 export default function LetterNumberingDetail() {
@@ -19,7 +18,24 @@ export default function LetterNumberingDetail() {
 
   const data = useSelector(selectLetterDetail);
 
-  console.log(data);
+  const handleNavigate = (doc) => {
+    if (!doc?.documentTypeName || !doc?.documentId) return;
+
+    // Mapping tipe dokumen ke path route
+    const routeMap = {
+      'PKS (Perjanjian Kerjasama)': `/dashboard/partnerships/pks/${doc.documentId}`,
+      'MoU (Nota Kesepahaman)': `/dashboard/partnerships/mou/${doc.documentId}`,
+      'IA (Implementation Agreement)': `/dashboard/partnerships/ia/${doc.documentId}`,
+      'SPK (Surat Pernyataan Komitmen)': `/dashboard/partnerships/spk/${doc.documentId}`,
+      // tambahkan sesuai tipe dokumen lain
+    };
+
+    const path =
+      routeMap[doc.documentTypeName] ||
+      `/dashboard/partnerships/documents/${doc.documentId}`; // default fallback
+
+    navigate(path);
+  };
 
   return (
     <div>
@@ -67,8 +83,7 @@ export default function LetterNumberingDetail() {
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
           Referensi Dokumen Terkait
         </h2>
-        {data?.letterNumberReference &&
-        data.letterNumberReference.length > 0 ? (
+        {data?.referenceDocument ? (
           <div className="overflow-x-auto rounded-lg shadow-md">
             <table className="min-w-full table-auto divide-y divide-gray-200">
               <thead className="bg-[#0D4690]">
@@ -91,35 +106,28 @@ export default function LetterNumberingDetail() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {data.referencePks.map((pks, index) => (
-                  <tr
-                    key={index}
-                    className="hover:bg-gray-50 transition-colors"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      {pks.typePartnership}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      {pks.pksSignatureDate}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      {pks.pksTimePeriod}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                      {pks.pksDueDate}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <Button
-                        className="text-[#0D4690] underline cursor-pointer"
-                        onClick={() =>
-                          navigate(`/dashboard/partnerships/pks/${pks.pksId}`)
-                        }
-                      >
-                        Lihat Detail
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                <tr className="hover:bg-gray-50 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    {data?.referenceDocument?.documentTypeName}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    {data?.referenceDocument?.documentSignatureDate}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    {data?.referenceDocument?.docuemntTimePeriod}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    {data?.referenceDocument?.documentDueDate}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <Button
+                      className="text-[#0D4690] underline cursor-pointer"
+                      onClick={() => handleNavigate(data?.referenceDocument)}
+                    >
+                      Lihat Detail
+                    </Button>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

@@ -33,7 +33,7 @@ const mouSlice = createSlice({
       })
       .addCase(asyncAddMou.fulfilled, (state, action) => {
         state.loading = false;
-        state.mous.push(action.payload);
+        state.mous = action.payload;
       })
       .addCase(asyncAddMou.rejected, (state, action) => {
         state.loading = false;

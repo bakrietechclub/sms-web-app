@@ -33,7 +33,7 @@ const potentialSlice = createSlice({
       })
       .addCase(asyncAddResearchPotential.fulfilled, (state, action) => {
         state.loading = false;
-        state.potentials.push(action.payload);
+        state.potentials = action.payload;
       })
       .addCase(asyncAddResearchPotential.rejected, (state, action) => {
         state.loading = false;

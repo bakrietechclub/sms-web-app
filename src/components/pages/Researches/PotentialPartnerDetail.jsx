@@ -58,8 +58,14 @@ export default function PotentialPartnerDetail() {
           <p className="ml-2">{data?.partnershipResearchProgram?.join(', ')}</p>
         </div>
         <div className="">
-          <p className="font-semibold">Region:</p>
-          <p className="ml-2">{data?.partnershipResearchProvincies}</p>
+          <p className="ml-2">
+            <p className="font-semibold">Region:</p>
+            {data?.partnershipResearchProvincies?.map((value, key) => (
+              <p className="ml-2">
+                {value.provincieName} - {value.regencieName}
+              </p>
+            ))}
+          </p>
         </div>
         <div className="">
           <p className="font-semibold">Status Audiensi:</p>
