@@ -7,7 +7,8 @@ export const asyncAddTor = createAsyncThunk(
   'tor/asyncAddTor',
   async (payload, { rejectWithValue }) => {
     try {
-      const data = await api.addTor(payload);
+      await api.addTor(payload);
+      const data = await api.getTor();
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -41,9 +42,9 @@ export const asyncGetTor = createAsyncThunk(
 
 export const asyncGetTorOptions = createAsyncThunk(
   'tor/asyncGetTorOptions',
-  async (_, { rejectWithValue }) => {
+  async ({ query }, { rejectWithValue }) => {
     try {
-      const data = await api.getTorOptions();
+      const data = await api.getTorOptions({ q: query });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

@@ -7,7 +7,8 @@ export const asyncAddSpk = createAsyncThunk(
   'spk/asyncAddSpk',
   async (payload, { rejectWithValue }) => {
     try {
-      const data = await api.addSpk(payload);
+      await api.addSpk(payload);
+      const data = await api.getSpk();
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

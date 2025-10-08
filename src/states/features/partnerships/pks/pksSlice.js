@@ -39,7 +39,7 @@ const pksSlice = createSlice({
       // Add
       .addCase(asyncAddPks.fulfilled, (state, action) => {
         state.loading = false;
-        state.pks.push(action.payload);
+        state.pks = action.payload;
       })
       // Get All
       .addCase(asyncGetPks.fulfilled, (state, action) => {

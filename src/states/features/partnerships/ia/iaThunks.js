@@ -7,7 +7,8 @@ export const asyncAddImplementationAgreement = createAsyncThunk(
   'ia/asyncAddImplementationAgreement',
   async (payload, { rejectWithValue }) => {
     try {
-      const data = await api.addImplementationAgreement(payload);
+      await api.addImplementationAgreement(payload);
+      const data = await api.getImplementationAgreements();
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -29,9 +30,9 @@ export const asyncGetImplementationAgreements = createAsyncThunk(
 
 export const asyncGetImplementationAgreementsOptions = createAsyncThunk(
   'ia/asyncGetImplementationAgreementsOptions',
-  async ({ q }, { rejectWithValue }) => {
+  async ({ query }, { rejectWithValue }) => {
     try {
-      const data = await api.getImplementationAgreementsOptions({ q });
+      const data = await api.getImplementationAgreementsOptions({ q: query });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

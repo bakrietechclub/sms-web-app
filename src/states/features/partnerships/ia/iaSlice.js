@@ -30,7 +30,7 @@ const iaSlice = createSlice({
     builder
       .addCase(asyncAddImplementationAgreement.fulfilled, (state, action) => {
         state.loading = false;
-        state.ia.push(action.payload);
+        state.ia = action.payload;
       })
       .addCase(asyncGetImplementationAgreements.fulfilled, (state, action) => {
         state.loading = false;

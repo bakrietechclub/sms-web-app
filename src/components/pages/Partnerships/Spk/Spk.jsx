@@ -15,6 +15,7 @@ import { selectAccessRole } from '../../../../states/features/auth/authSelectors
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions.js';
 
 import { Button } from '../../../elements/Button';
+import AddSpkModal from '../../../fragments/AddSpkModal.jsx';
 
 export const Spk = () => {
   const navigate = useNavigate();
@@ -93,7 +94,7 @@ export const Spk = () => {
       <Pagination />
 
       {isModalOpen && accessRole === 'LSD-SMS' && (
-        <AddModalSpkUniv
+        <AddSpkModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />

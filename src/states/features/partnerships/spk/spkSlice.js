@@ -28,7 +28,7 @@ const spkSlice = createSlice({
     builder
       .addCase(asyncAddSpk.fulfilled, (state, action) => {
         state.loading = false;
-        state.spk.push(action.payload);
+        state.spk = action.payload;
       })
       .addCase(asyncGetSpk.fulfilled, (state, action) => {
         state.loading = false;

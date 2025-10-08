@@ -12,6 +12,7 @@ import { selectAllTors } from '../../../../states/features/partnerships/tor/torS
 import { selectAccessRole } from '../../../../states/features/auth/authSelectors';
 import { Button } from '../../../elements/Button';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
+import AddTorModal from '../../../fragments/AddTorModal';
 
 export const Tor = () => {
   const navigate = useNavigate();
@@ -91,10 +92,14 @@ export const Tor = () => {
 
       {/* Modal Tambah */}
       {isModalOpen && accessRole === 'LSD-SMS' && (
-        <AddModalTorUniv
+        <AddTorModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
+        // <AddModalTorUniv
+        //   isOpen={isModalOpen}
+        //   onClose={() => setIsModalOpen(false)}
+        // />
       )}
       {isModalOpen && accessRole === 'SDI-SMS' && (
         <AddModalTorINGO

@@ -1,40 +1,40 @@
-import { useForm } from "react-hook-form";
-import { useEffect, useRef, useState } from "react";
+import { useForm } from 'react-hook-form';
+import { useEffect, useRef, useState } from 'react';
 
-import TextField from "../../../elements/formfields/TextField";
-import SingleSelectDropdown from "../../../elements/formfields/SingleSelectDropdown";
-import RedirectTextField from "../../../elements/formfields/RedirectTextField";
-import { AddLetterNumberingIa } from "../../../fragments/modalforms/univ/letter-numbering/AddLetterNumberingIa";
+import TextField from '../../../elements/formfields/TextField';
+import SingleSelectDropdown from '../../../elements/formfields/SingleSelectDropdown';
+import RedirectTextField from '../../../elements/formfields/RedirectTextField';
+import { AddLetterNumberingIa } from '../../../fragments/modalforms/univ/letter-numbering/AddLetterNumberingIa';
 
 const pksData = [
-  "Universitas Indonesia - Fakultas Kedokteran",
-  "Universitas Indonesia - Fakultas Ilmu Komputer",
-  "Universitas Gunadarma - Fakultas Ilmu Komputer dan Teknologi Informasi",
-  "Universitas Gunadarma - Fakultas Kedokteran",
-  "Universitas Sriwijaya - Fakultas Matematika dan Ilmu Pengetahuan Alam",
-  "Universitas Sriwijaya - Fakultas Kesehatan Masyarakat",
+  'Universitas Indonesia - Fakultas Kedokteran',
+  'Universitas Indonesia - Fakultas Ilmu Komputer',
+  'Universitas Gunadarma - Fakultas Ilmu Komputer dan Teknologi Informasi',
+  'Universitas Gunadarma - Fakultas Kedokteran',
+  'Universitas Sriwijaya - Fakultas Matematika dan Ilmu Pengetahuan Alam',
+  'Universitas Sriwijaya - Fakultas Kesehatan Masyarakat',
 ];
 
-const cooperationProgram = ["LEAD", "HOL", "CLP", "BCF", "SDI"];
+const cooperationProgram = ['LEAD', 'HOL', 'CLP', 'BCF', 'SDI'];
 
 const batchProgram = [
-  "Batch 1: Jul-Des 2020",
-  "Batch 2: Jan-Jun 2021",
-  "Batch 3: Jul-Des 2021",
-  "Batch 4: Jan-Jun 2022",
-  "Batch 5: Jul-Des 2022",
-  "Batch 6: Jan-Jun 2023",
-  "Batch 7: Jul-Des 2023",
-  "Batch 8: Jan-Jun 2024",
-  "Batch 9: Jul-Des 2024",
-  "Batch 10: Jan-Jun 2025",
+  'Batch 1: Jul-Des 2020',
+  'Batch 2: Jan-Jun 2021',
+  'Batch 3: Jul-Des 2021',
+  'Batch 4: Jan-Jun 2022',
+  'Batch 5: Jul-Des 2022',
+  'Batch 6: Jan-Jun 2023',
+  'Batch 7: Jul-Des 2023',
+  'Batch 8: Jan-Jun 2024',
+  'Batch 9: Jul-Des 2024',
+  'Batch 10: Jan-Jun 2025',
 ];
 
 export const AddModalIaUniv = ({ isOpen, onClose }) => {
   const { register, handleSubmit, setValue } = useForm();
   const dropdownRef = useRef(null);
 
-  const [nomorSuratBcf, setNomorSuratBcf] = useState("");
+  const [nomorSuratBcf, setNomorSuratBcf] = useState('');
   const [openLetterModal, setOpenLetterModal] = useState(false);
 
   const onSubmit = (data) => {
@@ -42,7 +42,7 @@ export const AddModalIaUniv = ({ isOpen, onClose }) => {
       ...data,
       nomorSuratBcf,
     };
-    console.log("Form data:", finalData);
+    console.log('Form data:', finalData);
     onClose();
   };
 
@@ -52,7 +52,7 @@ export const AddModalIaUniv = ({ isOpen, onClose }) => {
 
   const handleNomorSuratSuccess = (nomor) => {
     setNomorSuratBcf(nomor);
-    setValue("nomorSuratBcf", nomor);
+    setValue('nomorSuratBcf', nomor);
   };
 
   useEffect(() => {
@@ -61,15 +61,18 @@ export const AddModalIaUniv = ({ isOpen, onClose }) => {
         document.activeElement.blur();
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   if (!isOpen) return null;
 
   return (
     <>
-      <div className="fixed inset-0 z-40 bg-black opacity-40" onClick={onClose} />
+      <div
+        className="fixed inset-0 z-40 bg-black opacity-40"
+        onClick={onClose}
+      />
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div
           className="bg-white w-[1116px] h-[900px] max-h-[90vh] rounded-2xl shadow-xl overflow-hidden flex flex-col"
@@ -85,7 +88,7 @@ export const AddModalIaUniv = ({ isOpen, onClose }) => {
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto"
-            style={{ height: "calc(900px - 92px)" }}
+            style={{ height: 'calc(900px - 92px)' }}
             ref={dropdownRef}
           >
             <SingleSelectDropdown

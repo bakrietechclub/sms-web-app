@@ -30,7 +30,7 @@ const torSlice = createSlice({
     builder
       .addCase(asyncAddTor.fulfilled, (state, action) => {
         state.loading = false;
-        state.tor.push(action.payload);
+        state.tor = action.payload;
       })
       .addCase(asyncGetTor.fulfilled, (state, action) => {
         state.loading = false;

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { useState } from 'react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 const SingleSelectDropdown = ({
   label,
@@ -11,7 +11,7 @@ const SingleSelectDropdown = ({
   onClick,
 }) => {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState('');
 
   const toggleDropdown = () => {
     setOpen((prev) => !prev);
@@ -19,8 +19,8 @@ const SingleSelectDropdown = ({
   };
 
   const handleSelect = (value) => {
-    setSelected(value);
-    setValue(name, value);
+    setSelected(value.label);
+    setValue(name, value.id);
     setOpen(false);
   };
 
@@ -46,11 +46,11 @@ const SingleSelectDropdown = ({
         <div className="mt-2 border border-gray-300 rounded max-h-64 overflow-y-auto">
           {options.map((option) => (
             <div
-              key={option}
+              key={option.id}
               onClick={() => handleSelect(option)}
               className="px-3 py-2 hover:bg-[#e7edf4] cursor-pointer hover:text-[#0c3f82]"
             >
-              {option}
+              {option.label}
             </div>
           ))}
         </div>

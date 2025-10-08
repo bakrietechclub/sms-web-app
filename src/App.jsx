@@ -85,15 +85,15 @@ const App = () => {
             <Route index element={<Ia />} />
             <Route path=":id" element={<IaDetail />} />
           </Route>
-          <Route path="coop-sign" element={<CooperationSign />} />
-          <Route path="spk">
-            <Route index element={<Spk />} />
-            <Route path=":id" element={<SpkDetail />} />
-          </Route>
           <Route path="tor">
             <Route index element={<Tor />} />
             <Route path=":id" element={<TorDetail />} />
           </Route>
+          <Route path="spk">
+            <Route index element={<Spk />} />
+            <Route path=":id" element={<SpkDetail />} />
+          </Route>
+          <Route path="coop-sign" element={<CooperationSign />} />
         </Route>
         <Route path="letter-numbers">
           <Route index element={<LetterNumbering />} />

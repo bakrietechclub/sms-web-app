@@ -14,6 +14,7 @@ import { asyncGetImplementationAgreements } from '../../../../states/features/pa
 import { selectAllIAs } from '../../../../states/features/partnerships/ia/iaSelectors';
 import { selectAccessRole } from '../../../../states/features/auth/authSelectors';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
+import AddIaModal from '../../../fragments/AddIaModal';
 
 export const Ia = () => {
   const navigate = useNavigate();
@@ -103,14 +104,14 @@ export const Ia = () => {
       <Pagination />
 
       {/* Modal */}
-      {isModalOpen && stakeholder === 'universitas' && (
-        <AddModalIaUniv
+      {isModalOpen && accessRole === 'LSD-SMS' && (
+        <AddIaModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
       )}
 
-      {isModalOpen && stakeholder === 'lembagaInternasional' && (
+      {isModalOpen && accessRole === 'lembagaInternasional' && (
         <AddModalIaINGO
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
