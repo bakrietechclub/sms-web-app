@@ -12,7 +12,7 @@ import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdo
 import { STATUS_OPTIONS } from '../../utils';
 import DatePickerField from '../elements/formfields/DatePickerField';
 
-export default function AddTorModal({ isOpen, onClose }) {
+export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
 
   const { register, handleSubmit, setValue } = useForm({
@@ -55,11 +55,16 @@ export default function AddTorModal({ isOpen, onClose }) {
   }));
 
   useEffect(() => {
-    dispatch(asyncGetImplementationAgreementsOptions({ query: query.ia }));
+    dispatch(
+      asyncGetImplementationAgreementsOptions({
+        query: query.ia,
+        typeId: accessTypeId,
+      })
+    );
   }, [dispatch, query.ia]);
 
   useEffect(() => {
-    dispatch(asyncGetPksOptions({ query: query.pks }));
+    dispatch(asyncGetPksOptions({ query: query.pks, typeId: accessTypeId }));
   }, [dispatch, query.pks]);
 
   if (!isOpen) return null;

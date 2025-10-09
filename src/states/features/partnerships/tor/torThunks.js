@@ -42,9 +42,9 @@ export const asyncGetTor = createAsyncThunk(
 
 export const asyncGetTorOptions = createAsyncThunk(
   'tor/asyncGetTorOptions',
-  async ({ query }, { rejectWithValue }) => {
+  async ({ query, typeId }, { rejectWithValue }) => {
     try {
-      const data = await api.getTorOptions({ q: query });
+      const data = await api.getTorOptions({ q: query, typeId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

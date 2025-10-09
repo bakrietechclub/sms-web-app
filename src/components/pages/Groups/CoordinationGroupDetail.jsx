@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectGroupDetail } from '../../../states/features/group/groupSelectors';
 import { asyncGetGroupById } from '../../../states/features/group/groupThunks';
 import AddCoorGroupContactModal from '../../fragments/AddCoorGroupContactModal';
+import { selectContacts } from '../../../states/features/group/contact/contactSelectors';
+import { asyncGetContactByGroupId } from '../../../states/features/group/contact/contactThunks';
 
 export default function CoordinationGroupDetail() {
   const dispatch = useDispatch();
@@ -14,11 +16,13 @@ export default function CoordinationGroupDetail() {
 
   const { id } = useParams();
   const data = useSelector(selectGroupDetail);
+  const contacts = useSelector(selectContacts);
 
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetGroupById({ id }));
+    dispatch(asyncGetContactByGroupId({ groupId: id }));
   }, [dispatch, id]);
 
   return (
@@ -46,10 +50,6 @@ export default function CoordinationGroupDetail() {
         <div>
           <p className="font-semibold">Jenis Instansi:</p>
           <p className="ml-2">{data?.parnershipResearchType}</p>
-        </div>
-        <div>
-          <p className="font-semibold">Divisi Instansi:</p>
-          <p className="ml-2">{data?.division}</p>
         </div>
       </div>
 
@@ -93,7 +93,7 @@ export default function CoordinationGroupDetail() {
           </tr>
         </thead>
         <tbody className="text-base border-l border-r border-[#E7EDF4]">
-          {data?.contacts?.map((item, index) => (
+          {contacts?.map((item, index) => (
             <tr key={index} className="border-b border-[#E7EDF4] h-10">
               <td className="py-3">{index + 1}</td>
               <td>{item?.contactName}</td>

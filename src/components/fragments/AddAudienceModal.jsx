@@ -11,17 +11,8 @@ import { asyncGetResearchPotentialOptions } from '../../states/features/research
 import Select from 'react-select';
 import { asyncAddAudience } from '../../states/features/audience/audienceThunks';
 
-export default function AddAudienceModal({ accessRole, isOpen, onClose }) {
+export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
   const dispatch = useDispatch();
-
-  let typeId;
-  if (accessRole === 'LSD-SMS') {
-    typeId = 1;
-  } else if (accessRole === 'SDI-SMS') {
-    typeId = 2;
-  } else if (accessRole === 'LSD-SCP') {
-    typeId = 2;
-  }
 
   const { register, handleSubmit, setValue, watch } = useForm();
   const dropdownRef = useRef(null);
@@ -39,7 +30,7 @@ export default function AddAudienceModal({ accessRole, isOpen, onClose }) {
   const options = useSelector(selectPotentialsOptions);
 
   useEffect(() => {
-    dispatch(asyncGetResearchPotentialOptions({ query, typeId }));
+    dispatch(asyncGetResearchPotentialOptions({ query, typeId: accessTypeId }));
   }, [dispatch, query]);
 
   const selectOptions = options.map((item) => ({

@@ -1,6 +1,6 @@
 import { DoorOpenIcon, BellIcon, ChevronDown, HomeIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect, useCallback } from 'react';
 import avatar from '../../assets/img/userAvatar.png';
 import NotificationsModal from './NotificationsModal';
@@ -8,8 +8,11 @@ import {
   selectAccessRole,
   selectAuthUser,
 } from '../../states/features/auth/authSelectors';
+import { unsetSelectedAccess } from '../../states/features/auth/authSlice';
 
 export const HeaderDashboard = () => {
+  const dispatch = useDispatch();
+
   const user = useSelector(selectAuthUser);
   const accessRole = useSelector(selectAccessRole);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
@@ -89,7 +92,10 @@ export const HeaderDashboard = () => {
               </button>
               <button
                 className="px-4 py-2 hover:bg-[#fae1e3] cursor-pointer flex items-center text-sm w-full rounded-md transition duration-300 ease-in-out"
-                onClick={() => navigate('/')}
+                onClick={() => {
+                  dispatch(unsetSelectedAccess());
+                  navigate('/');
+                }}
               >
                 <DoorOpenIcon className="w-4 h-4 mr-2 text-[#DC3545]" />
                 Keluar

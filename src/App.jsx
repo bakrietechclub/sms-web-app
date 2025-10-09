@@ -23,7 +23,10 @@ import { BcfPartnership } from './components/pages/BcfPartnership';
 import { PartnershipAwards } from './components/pages/PartnershipAwards';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { asyncPreloadProcess } from './states/features/preload/preloadThunk';
+import {
+  asyncPreloadProcess,
+  asyncPreloadSelectedAccess,
+} from './states/features/preload/preloadThunk';
 import PotentialPartnerDetail from './components/pages/Researches/PotentialPartnerDetail';
 import AudiencesDetail from './components/pages/Audiences/AudiencesDetail';
 import CoordinationGroupDetail from './components/pages/Groups/CoordinationGroupDetail';
@@ -42,6 +45,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(asyncPreloadProcess());
+    dispatch(asyncPreloadSelectedAccess());
   }, [dispatch]);
 
   useEffect(() => {

@@ -5,22 +5,14 @@ import { sidebarMenus } from '../../config/sidebarMenus';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import LogoBCF from '../../assets/img/logoBCF.png';
 import { NavLink, useLocation } from 'react-router-dom';
-import { selectAccessRole } from '../../states/features/auth/authSelectors';
+import { selectedAccess } from '../../states/features/auth/authSelectors';
 
 export const SidebarMenu = () => {
-  const dispatch = useDispatch();
   const location = useLocation();
-  const accessRole = useSelector(selectAccessRole);
+  const selectedRole = useSelector(selectedAccess);
   const [openMenus, setOpenMenus] = useState([]);
 
-  useEffect(() => {
-    const storedStakeholder = localStorage.getItem('activeStakeholder');
-    if (storedStakeholder) {
-      // dispatch(setActiveStakeholder(storedStakeholder));
-    }
-  }, [dispatch]);
-
-  const menus = sidebarMenus[accessRole] || [];
+  const menus = sidebarMenus[selectedRole] || [];
 
   // UNTUK MEMBUKA SUB-MENU YANG AKTIF SAAT RELOAD
   // UNTUK MEMASTIKAN HANYA SATU SUB-MENU YANG TERBUKA SAAT LOAD

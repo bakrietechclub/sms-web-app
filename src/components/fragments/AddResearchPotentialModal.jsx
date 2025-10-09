@@ -88,7 +88,7 @@ export default function AddResearchPotentialModal({
     dispatch(
       asyncGetInstitutionsOptions({ query, typeId: partnershipResearchTypeId })
     );
-  }, [dispatch, query]);
+  }, [dispatch, query, isOpen]);
 
   if (!isOpen) return null;
 

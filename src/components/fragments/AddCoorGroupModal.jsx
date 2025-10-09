@@ -7,7 +7,7 @@ import TextField from '../elements/formfields/TextField';
 import Select from 'react-select';
 import { asyncAddGroup } from '../../states/features/group/groupThunks';
 
-export default function AddCoorGroupModal({ isOpen, onClose }) {
+export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
 
   const { register, handleSubmit, setValue } = useForm({
@@ -49,7 +49,7 @@ export default function AddCoorGroupModal({ isOpen, onClose }) {
   }));
 
   useEffect(() => {
-    dispatch(asyncGetResearchPotentialOptions({ query, typeId: [1, 2] }));
+    dispatch(asyncGetResearchPotentialOptions({ query, typeId: accessTypeId }));
   }, [dispatch, query]);
 
   if (!isOpen) return null;

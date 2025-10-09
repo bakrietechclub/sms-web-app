@@ -12,7 +12,7 @@ import TextField from '../elements/formfields/TextField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
 import DatePickerField from '../elements/formfields/DatePickerField';
 
-export default function AddSpkModal({ isOpen, onClose }) {
+export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
 
   const { register, handleSubmit, setValue } = useForm({
@@ -62,7 +62,7 @@ export default function AddSpkModal({ isOpen, onClose }) {
   }));
 
   useEffect(() => {
-    dispatch(asyncGetTorOptions({ query }));
+    dispatch(asyncGetTorOptions({ query, typeId: accessTypeId }));
   }, [dispatch, query]);
 
   if (!isOpen) return null;
@@ -90,7 +90,9 @@ export default function AddSpkModal({ isOpen, onClose }) {
             className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto"
             style={{ height: 'calc(900px - 92px)' }}
           >
-            <label className="block mb-1 font-medium">ToR</label>
+            <label className="block mb-1 font-medium">
+              ToR <span className="text-red-500">*</span>
+            </label>
             <Select
               name="partnershipTorId"
               options={selectOptions}

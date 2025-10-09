@@ -47,10 +47,6 @@ export default function AudiencesDetail() {
           <p className="ml-2">{data?.audiencesTime}</p>
         </div>
       </div>
-      <div className="mb-7">
-        <p className="font-semibold">Divisi Instansi:</p>
-        <p className="ml-2">{data?.instituteDivision}</p>
-      </div>
       <div className="grid grid-cols-2 gap-y-7 mb-7">
         <div>
           <p className="font-semibold">Jenis Audiensi:</p>

@@ -6,7 +6,10 @@ import { TableToolbar } from '../../fragments/TableToolbar';
 import { Pagination } from '../../fragments/Pagination';
 import { Button } from '../../elements/Button';
 import { Label } from '../../elements/Label';
-import { selectAccessRole } from '../../../states/features/auth/authSelectors';
+import {
+  selectAccessRole,
+  selectAccessTypeInstitutionsId,
+} from '../../../states/features/auth/authSelectors';
 import { selectAudiences } from '../../../states/features/audience/audienceSelectors';
 import { asyncGetAudiences } from '../../../states/features/audience/audienceThunks';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +22,7 @@ export const Audiences = () => {
 
   const data = useSelector(selectAudiences);
   const accessRole = useSelector(selectAccessRole);
+  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
 
   useEffect(() => {
     dispatch(asyncGetAudiences());
@@ -32,7 +36,7 @@ export const Audiences = () => {
   const headers = [
     'No',
     'Nama Instansi',
-    'Jenis Instansi',
+    'Jenis Audiensi',
     'Tanggal',
     'Jam',
     'Jenis',
@@ -94,7 +98,7 @@ export const Audiences = () => {
 
       {isModalOpen && (
         <AddAudienceModal
-          accessRole={accessRole}
+          accessTypeId={accessTypeId}
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />

@@ -34,8 +34,10 @@ async function getPks() {
   return responseJson.data;
 }
 
-async function getPksOptions({ q }) {
-  const responseJson = await fetchWithAuth(`/partnerships/pks-options?q=${q}`);
+async function getPksOptions({ q, typeId }) {
+  const responseJson = await fetchWithAuth(
+    `/partnerships/pks-options?q=${q}&typeId=${typeId}`
+  );
   return responseJson.data;
 }
 

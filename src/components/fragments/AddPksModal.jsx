@@ -12,7 +12,7 @@ import Select from 'react-select';
 import { asyncAddPks } from '../../states/features/partnerships/pks/pksThunks';
 import { STATUS_OPTIONS } from '../../utils';
 
-export default function AddPksModal({ isOpen, onClose }) {
+export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
 
@@ -67,7 +67,7 @@ export default function AddPksModal({ isOpen, onClose }) {
   }));
 
   useEffect(() => {
-    dispatch(asyncGetMouOptions({ query, typeId: [1] }));
+    dispatch(asyncGetMouOptions({ query, typeId: accessTypeId }));
   }, [dispatch, query]);
 
   if (!isOpen) return null;

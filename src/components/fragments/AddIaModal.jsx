@@ -12,7 +12,7 @@ import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdo
 import { STATUS_OPTIONS } from '../../utils';
 import AddModalLetterNumbering from './AddModalLetterNumbering';
 
-export default function AddIaModal({ isOpen, onClose }) {
+export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
 
   const { register, handleSubmit, setValue } = useForm({
@@ -63,7 +63,7 @@ export default function AddIaModal({ isOpen, onClose }) {
   }));
 
   useEffect(() => {
-    dispatch(asyncGetPksOptions({ query }));
+    dispatch(asyncGetPksOptions({ query, typeId: accessTypeId }));
   }, [dispatch, query]);
 
   const PROGRAM_OPTIONS = [
@@ -106,7 +106,7 @@ export default function AddIaModal({ isOpen, onClose }) {
             style={{ height: 'calc(900px - 92px)' }}
           >
             <label className="block mb-1 font-medium">
-              ToR <span className="text-red-500">*</span>
+              PkS <span className="text-red-500">*</span>
             </label>
             <Select
               name="partnershipPksId"

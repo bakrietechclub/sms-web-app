@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../../../elements/Button';
 import { FreezeTable } from '../../../fragments/Table';
 import { Pagination } from '../../../fragments/Pagination';
 import { TableToolbar } from '../../../fragments/TableToolbar';
+import AddPksModal from '../../../fragments/AddPksModal';
 
-import { AddModalPksUniv } from '../../../fragments/modalforms/univ/AddModalPksUniv';
-import { AddModalPksMedia } from '../../../fragments/modalforms/media/AddModalPksMedia';
-import { AddModalPksINGO } from '../../../fragments/modalforms/ingo/AddModalPksINGO';
-import { useNavigate } from 'react-router-dom';
-import { selectAccessRole } from '../../../../states/features/auth/authSelectors';
+import {
+  selectAccessRole,
+  selectAccessTypeInstitutionsId,
+} from '../../../../states/features/auth/authSelectors';
 import { selectAllPks } from '../../../../states/features/partnerships/pks/pksSelectors';
 import { asyncGetPks } from '../../../../states/features/partnerships/pks/pksThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
-import AddPksModal from '../../../fragments/AddPksModal';
 
 export const Pks = () => {
   const nagigate = useNavigate();
@@ -22,6 +22,7 @@ export const Pks = () => {
 
   const data = useSelector(selectAllPks);
   const accessRole = useSelector(selectAccessRole);
+  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
 
   useEffect(() => {
     dispatch(asyncGetPks());
@@ -92,26 +93,11 @@ export const Pks = () => {
       </div>
       <Pagination />
 
-      {isModalOpen && accessRole === 'LSD-SMS' && (
+      {isModalOpen && (
         <AddPksModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-        />
-        // <AddModalPksUniv
-        //   isOpen={isModalOpen}
-        //   onClose={() => setIsModalOpen(false)}
-        // />
-      )}
-      {isModalOpen && accessRole === 'media' && (
-        <AddModalPksMedia
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
-      {isModalOpen && accessRole === 'lembagaInternasional' && (
-        <AddModalPksINGO
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          accessTypeId={accessTypeId}
         />
       )}
     </div>

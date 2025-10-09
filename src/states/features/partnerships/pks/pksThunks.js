@@ -40,9 +40,9 @@ export const asyncGetPks = createAsyncThunk(
 
 export const asyncGetPksOptions = createAsyncThunk(
   'pks/asyncGetPksOptions',
-  async ({ query }, { rejectWithValue }) => {
+  async ({ query, typeId }, { rejectWithValue }) => {
     try {
-      const data = await api.getPksOptions({ q: query });
+      const data = await api.getPksOptions({ q: query, typeId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

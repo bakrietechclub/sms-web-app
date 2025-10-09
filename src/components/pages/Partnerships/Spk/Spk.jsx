@@ -10,7 +10,10 @@ import { AddModalSpkINGO } from '../../../fragments/modalforms/ingo/AddModalSpkI
 import { useNavigate } from 'react-router-dom';
 import { asyncGetSpk } from '../../../../states/features/partnerships/spk/spkThunks';
 import { selectAllSpk } from '../../../../states/features/partnerships/spk/spkSelectors';
-import { selectAccessRole } from '../../../../states/features/auth/authSelectors';
+import {
+  selectAccessRole,
+  selectAccessTypeInstitutionsId,
+} from '../../../../states/features/auth/authSelectors';
 
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions.js';
 
@@ -27,6 +30,7 @@ export const Spk = () => {
 
   const data = useSelector(selectAllSpk);
   const accessRole = useSelector(selectAccessRole);
+  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
 
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({});
@@ -93,17 +97,11 @@ export const Spk = () => {
       />
       <Pagination />
 
-      {isModalOpen && accessRole === 'LSD-SMS' && (
+      {isModalOpen && (
         <AddSpkModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-        />
-      )}
-
-      {isModalOpen && accessRole === 'SDI-SMS' && (
-        <AddModalSpkINGO
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          accessTypeId={accessTypeId}
         />
       )}
     </div>

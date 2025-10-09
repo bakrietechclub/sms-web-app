@@ -1,6 +1,6 @@
 // src/features/preload/preloadThunk.js
 import api from '../../../utils/api';
-import { setAuthUser } from '../auth/authSlice'; // dari slice kamu
+import { setAuthUser, setSelectedAccess } from '../auth/authSlice'; // dari slice kamu
 import { setIsPreload } from './preloadSlice';
 
 export const asyncPreloadProcess = () => async (dispatch) => {
@@ -18,5 +18,19 @@ export const asyncPreloadProcess = () => async (dispatch) => {
     api.deleteToken();
   } finally {
     dispatch(setIsPreload(false));
+  }
+};
+
+export const asyncPreloadSelectedAccess = () => async (dispatch) => {
+  try {
+    const selectedAccess = localStorage.getItem('selectedAccess');
+    if (selectedAccess) {
+      dispatch(setSelectedAccess(selectedAccess));
+    } else {
+      dispatch(setSelectedAccess(null));
+    }
+  } catch (err) {
+    dispatch(setSelectedAccess(null));
+    localStorage.removeItem('selectedAccess');
   }
 };

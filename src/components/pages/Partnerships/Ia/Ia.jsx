@@ -12,7 +12,10 @@ import { AddModalIaINGO } from '../../../fragments/modalforms/ingo/AddModalIaING
 import { useNavigate } from 'react-router-dom';
 import { asyncGetImplementationAgreements } from '../../../../states/features/partnerships/ia/iaThunks';
 import { selectAllIAs } from '../../../../states/features/partnerships/ia/iaSelectors';
-import { selectAccessRole } from '../../../../states/features/auth/authSelectors';
+import {
+  selectAccessRole,
+  selectAccessTypeInstitutionsId,
+} from '../../../../states/features/auth/authSelectors';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
 import AddIaModal from '../../../fragments/AddIaModal';
 
@@ -26,6 +29,7 @@ export const Ia = () => {
 
   const data = useSelector(selectAllIAs);
   const accessRole = useSelector(selectAccessRole);
+  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
 
   const filterOptions = getFiltersByModuleAndRole('ia', accessRole);
 
@@ -104,17 +108,11 @@ export const Ia = () => {
       <Pagination />
 
       {/* Modal */}
-      {isModalOpen && accessRole === 'LSD-SMS' && (
+      {isModalOpen && (
         <AddIaModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-        />
-      )}
-
-      {isModalOpen && accessRole === 'lembagaInternasional' && (
-        <AddModalIaINGO
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          accessTypeId={accessTypeId}
         />
       )}
     </div>

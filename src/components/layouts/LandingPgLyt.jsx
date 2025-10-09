@@ -12,19 +12,16 @@ export const LandingPgLyt = ({ username, role }) => {
       name: 'Universitas, Lembaga (NGO) & Komunitas',
       image: uni,
       accessRole: 'LSD-SMS',
-      stakeholderKey: 'universitas',
     },
     {
       name: 'Media Massa, Dunia Usaha & Pemerintahan',
       image: media,
       accessRole: 'SCP-SMS',
-      stakeholderKey: 'media',
     },
     {
       name: 'Lembaga Internasional (INGO)',
       image: ingo,
       accessRole: 'SDI-SMS',
-      stakeholderKey: 'lembagaInternasional',
     },
   ];
 
@@ -43,7 +40,7 @@ export const LandingPgLyt = ({ username, role }) => {
               name={card.name}
               image={card.image}
               manageAccess={role === card.accessRole}
-              stakeholderKey={card.stakeholderKey}
+              selectedAccess={card.accessRole}
             />
           ))}
         </div>

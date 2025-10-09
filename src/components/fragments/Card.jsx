@@ -6,8 +6,9 @@ import { useDispatch } from 'react-redux';
 import { RadioTower } from 'lucide-react';
 
 import trophy from '../../assets/icons/trophy.png';
+import { setSelectedAccess } from '../../states/features/auth/authSlice';
 
-export const Card = ({ name, image, manageAccess, stakeholderKey }) => {
+export const Card = ({ name, image, manageAccess, selectedAccess }) => {
   const isOutlined = manageAccess
     ? 'bg-[#E89229] text-white hover:bg-[#D18325]'
     : 'bg-white text-[#E89229] outline-1 outline-[#E89229] hover:bg-[#E89229] hover:text-white';
@@ -17,9 +18,9 @@ export const Card = ({ name, image, manageAccess, stakeholderKey }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    // dispatch(setActiveStakeholder(stakeholderKey));
-    localStorage.setItem('activeStakeholder', stakeholderKey);
-    if (stakeholderKey !== 'media') {
+    dispatch(setSelectedAccess(selectedAccess));
+    localStorage.setItem('selectedAccess', selectedAccess);
+    if (selectedAccess !== 'SCP-SMS') {
       navigate('/dashboard/research/potential-partner');
     } else navigate('/dashboard/research/partner');
   };

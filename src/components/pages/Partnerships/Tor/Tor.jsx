@@ -9,7 +9,10 @@ import { AddModalTorINGO } from '../../../fragments/modalforms/ingo/AddModalTorI
 import { useNavigate } from 'react-router-dom';
 import { asyncGetTor } from '../../../../states/features/partnerships/tor/torThunks';
 import { selectAllTors } from '../../../../states/features/partnerships/tor/torSelectors';
-import { selectAccessRole } from '../../../../states/features/auth/authSelectors';
+import {
+  selectAccessRole,
+  selectAccessTypeInstitutionsId,
+} from '../../../../states/features/auth/authSelectors';
 import { Button } from '../../../elements/Button';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
 import AddTorModal from '../../../fragments/AddTorModal';
@@ -24,6 +27,7 @@ export const Tor = () => {
 
   const data = useSelector(selectAllTors);
   const accessRole = useSelector(selectAccessRole);
+  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
 
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({});
@@ -45,9 +49,13 @@ export const Tor = () => {
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
       <td className="py-3 border-b border-gray-200">{index + 1}</td>
-      <td className="border-b border-gray-200">{value.instituteName}</td>
-      <td className="border-b border-gray-200">{value.instituteTypeName}</td>
-      <td className="border-b border-gray-200">{value.institutionDivision}</td>
+      <td className="border-b border-gray-200">{value.instituteName || '-'}</td>
+      <td className="border-b border-gray-200">
+        {value.instituteTypeName || '-'}
+      </td>
+      <td className="border-b border-gray-200">
+        {value.institutionDivision || '-'}
+      </td>
     </tr>
   );
 
@@ -91,20 +99,11 @@ export const Tor = () => {
       <Pagination />
 
       {/* Modal Tambah */}
-      {isModalOpen && accessRole === 'LSD-SMS' && (
+      {isModalOpen && (
         <AddTorModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-        />
-        // <AddModalTorUniv
-        //   isOpen={isModalOpen}
-        //   onClose={() => setIsModalOpen(false)}
-        // />
-      )}
-      {isModalOpen && accessRole === 'SDI-SMS' && (
-        <AddModalTorINGO
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          accessTypeId={accessTypeId}
         />
       )}
     </div>

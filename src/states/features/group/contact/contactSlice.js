@@ -4,9 +4,11 @@ import {
   asyncGetContactById,
   asyncDeleteContactById,
   asyncUpdateContactById,
+  asyncGetContactByGroupId,
 } from './contactThunks';
 
 const initialState = {
+  contacts: [],
   contactDetail: null,
   loading: false,
   error: null,
@@ -28,9 +30,21 @@ const contactSlice = createSlice({
       })
       .addCase(asyncAddContact.fulfilled, (state, action) => {
         state.loading = false;
-        state.contactDetail = action.payload;
+        state.contacts = action.payload;
       })
       .addCase(asyncAddContact.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(asyncGetContactByGroupId.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(asyncGetContactByGroupId.fulfilled, (state, action) => {
+        state.loading = false;
+        state.contacts = action.payload;
+      })
+      .addCase(asyncGetContactByGroupId.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

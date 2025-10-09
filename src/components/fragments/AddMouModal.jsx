@@ -13,7 +13,7 @@ import AddModalLetterNumbering from './AddModalLetterNumbering';
 import { STATUS_OPTIONS } from '../../utils';
 import { asyncAddMou } from '../../states/features/partnerships/mou/mouThunks';
 
-export default function AddMouModal({ isOpen, onClose }) {
+export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
 
@@ -77,7 +77,7 @@ export default function AddMouModal({ isOpen, onClose }) {
   }));
 
   useEffect(() => {
-    dispatch(asyncGetResearchPotentialOptions({ query, typeId: [1] }));
+    dispatch(asyncGetResearchPotentialOptions({ query, typeId: accessTypeId }));
   }, [dispatch, query]);
 
   if (!isOpen) return null;

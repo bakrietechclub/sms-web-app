@@ -7,14 +7,16 @@ import { Pagination } from '../../fragments/Pagination';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AddModalCoorGroupMedia } from '../../fragments/modalforms/media/AddModalCoorGroupMedia';
-import { AddModalCoorGroupINGO } from '../../fragments/modalforms/ingo/AddModalCoorGroupINGO';
 import { useNavigate } from 'react-router-dom';
 import { selectGroups } from '../../../states/features/group/groupSelectors';
-import { selectAccessRole } from '../../../states/features/auth/authSelectors';
+import {
+  selectAccessRole,
+  selectAccessTypeInstitutionsId,
+} from '../../../states/features/auth/authSelectors';
 import { asyncGetGroups } from '../../../states/features/group/groupThunks';
 
 import AddCoorGroupModal from '../../fragments/AddCoorGroupModal';
+import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
 
 export const CoordinationGroup = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,7 @@ export const CoordinationGroup = () => {
 
   const data = useSelector(selectGroups);
   const accessRole = useSelector(selectAccessRole);
+  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
 
   useEffect(() => {
     dispatch(asyncGetGroups());
@@ -29,38 +32,13 @@ export const CoordinationGroup = () => {
 
   const [search, setSearch] = useState('');
   const [openModal, setOpenModal] = useState(false);
-  const [modalType, setModalType] = useState(null);
 
-  let filterOptions = null;
-  if (accessRole === 'universitas') {
-    filterOptions = [
-      {
-        label: 'Jenis Instansi',
-        options: [
-          { label: 'Universitas', value: 'universitas' },
-          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
-        ],
-      },
-    ];
-  } else if (accessRole === 'media') {
-    filterOptions = [
-      {
-        label: 'Jenis Instansi',
-        options: [
-          { label: 'Pemerintah Pusat', value: 'pemerintah pusat' },
-          { label: 'Pemerintah Daerah', value: 'pemerintah daerah' },
-          { label: 'Dunia Usaha', value: 'dunia usaha' },
-          { label: 'Media Massa', value: 'media massa' },
-        ],
-      },
-    ];
-  }
+  const filterOptions = getFiltersByModuleAndRole('group', accessRole);
 
   const headers = [
     'No',
     'Nama Instansi',
     'Jenis Instansi',
-    'Divisi Instansi',
     'Link Grup',
     'Kontak PIC',
     'Aksi',
@@ -71,7 +49,6 @@ export const CoordinationGroup = () => {
       <td className="py-3">{index + 1}</td>
       <td>{value.instituteName}</td>
       <td>{value.parnershipResearchType}</td>
-      <td>{value.division}</td>
       <td>
         <Button
           className="text-white bg-[#E89229] rounded-lg w-full py-1.5 hover:py-1 hover:bg-[#d18325] ease-in-out duration-200 cursor-pointer"
@@ -114,29 +91,11 @@ export const CoordinationGroup = () => {
         searchWidth="w-1/4"
       />
 
-      {/* Modal Add berdasarkan stakeholder */}
-      {accessRole === 'LSD-SMS' && (
-        // <AddModalCoorGroupUniv
-        //   isOpen={openModal}
-        //   onClose={() => setOpenModal(false)}
-        // />
-        <AddCoorGroupModal
-          isOpen={openModal}
-          onClose={() => setOpenModal(false)}
-        />
-      )}
-      {accessRole === 'media' && (
-        <AddModalCoorGroupMedia
-          isOpen={openModal}
-          onClose={() => setOpenModal(false)}
-        />
-      )}
-      {accessRole === 'lembagaInternasional' && (
-        <AddModalCoorGroupINGO
-          isOpen={openModal}
-          onClose={() => setOpenModal(false)}
-        />
-      )}
+      <AddCoorGroupModal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+        accessTypeId={accessTypeId}
+      />
 
       <Table headers={headers} data={data} renderRow={renderRow} />
       <Pagination />

@@ -214,6 +214,28 @@ const ROLE_FILTERS = {
       },
     ],
   },
+  group: {
+    'LSD-SMS': [
+      {
+        label: 'Jenis Instansi',
+        options: [
+          { label: 'Universitas', value: 'universitas' },
+          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
+        ],
+      },
+    ],
+    'SCP-SMS': [
+      {
+        label: 'Jenis Instansi',
+        options: [
+          { label: 'Pemerintah Pusat', value: 'pemerintah pusat' },
+          { label: 'Pemerintah Daerah', value: 'pemerintah daerah' },
+          { label: 'Dunia Usaha', value: 'dunia usaha' },
+          { label: 'Media Massa', value: 'media massa' },
+        ],
+      },
+    ],
+  },
 };
 
 /**

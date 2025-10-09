@@ -16,12 +16,18 @@ async function addContact({ groupId, ...payload }) {
   return responseJson.data;
 }
 
+async function getContactByGroupId({ groupId }) {
+  const responseJson = await fetchWithAuth(`/groups/${groupId}/contact`);
+  return responseJson.data;
+}
+
 /**
  * Mengambil kontak berdasarkan ID grup dan ID kontak.
  * @param {string} groupId - ID grup.
  * @param {string} contactId - ID kontak.
  * @returns {Promise<object>} Data kontak.
  */
+
 async function getContactById({ groupId, contactId }) {
   const responseJson = await fetchWithAuth(
     `/groups/${groupId}/contact/${contactId}`
@@ -63,4 +69,10 @@ async function updateContactById({ groupId, contactId, payload }) {
   return responseJson.data;
 }
 
-export { addContact, getContactById, deleteContactById, updateContactById };
+export {
+  addContact,
+  getContactByGroupId,
+  getContactById,
+  deleteContactById,
+  updateContactById,
+};

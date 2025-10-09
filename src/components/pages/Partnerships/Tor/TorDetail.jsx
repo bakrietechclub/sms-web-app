@@ -36,15 +36,15 @@ export default function TorDetail() {
       <div className="grid grid-cols-2 gap-y-5 mb-5">
         <div>
           <p className="font-semibold">Nama Universitas:</p>
-          <p className="ml-2">{data?.instituteName}</p>
+          <p className="ml-2">{data?.instituteName || '-'}</p>
         </div>
         <div>
           <p className="font-semibold">Jenis Instansi:</p>
-          <p className="ml-2">{data?.instituteTypeName}</p>
+          <p className="ml-2">{data?.instituteTypeName || '-'}</p>
         </div>
         <div>
           <p className="font-semibold">Divisi Instansi:</p>
-          <p className="ml-2">{data?.institutionDivision}</p>
+          <p className="ml-2">{data?.institutionDivision || '-'}</p>
         </div>
         <div>
           <p className="font-semibold">Detail Kerjasama:</p>

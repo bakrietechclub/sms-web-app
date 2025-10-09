@@ -4,13 +4,12 @@ import { Button } from '../../../elements/Button';
 import { FreezeTable } from '../../../fragments/Table';
 import { Pagination } from '../../../fragments/Pagination';
 import { TableToolbar } from '../../../fragments/TableToolbar';
-
-import { AddModalMouUniv } from '../../../fragments/modalforms/univ/AddModalMouUniv';
-import { AddModalMouMedia } from '../../../fragments/modalforms/media/AddModalMouMedia';
-import { AddModalMouINGO } from '../../../fragments/modalforms/ingo/AddModalMouINGO';
 import { useNavigate } from 'react-router-dom';
 import { selectMous } from '../../../../states/features/partnerships/mou/mouSelectors';
-import { selectAccessRole } from '../../../../states/features/auth/authSelectors';
+import {
+  selectAccessRole,
+  selectAccessTypeInstitutionsId,
+} from '../../../../states/features/auth/authSelectors';
 import { asyncGetMou } from '../../../../states/features/partnerships/mou/mouThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
 import AddMouModal from '../../../fragments/AddMouModal';
@@ -21,6 +20,7 @@ export const Mou = () => {
 
   const data = useSelector(selectMous);
   const accessRole = useSelector(selectAccessRole);
+  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
 
   useEffect(() => {
     dispatch(asyncGetMou());
@@ -88,26 +88,11 @@ export const Mou = () => {
       />
       <Pagination />
 
-      {isModalOpen && accessRole === 'LSD-SMS' && (
-        // <AddModalMouUniv
-        //   isOpen={isModalOpen}
-        //   onClose={() => setIsModalOpen(false)}
-        // />
+      {isModalOpen && (
         <AddMouModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-        />
-      )}
-      {isModalOpen && accessRole === 'media' && (
-        <AddModalMouMedia
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
-      {isModalOpen && accessRole === 'lembagaInternasional' && (
-        <AddModalMouINGO
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          accessTypeId={accessTypeId}
         />
       )}
     </div>

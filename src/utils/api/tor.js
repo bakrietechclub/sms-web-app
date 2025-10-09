@@ -34,8 +34,10 @@ async function getTor() {
   return responseJson.data;
 }
 
-async function getTorOptions({ q }) {
-  const responseJson = await fetchWithAuth(`/partnerships/tor-options?q=${q}`);
+async function getTorOptions({ q, typeId }) {
+  const responseJson = await fetchWithAuth(
+    `/partnerships/tor-options?q=${q}&typeId=${typeId}`
+  );
   return responseJson.data;
 }
 

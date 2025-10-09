@@ -41,9 +41,9 @@ async function getImplementationAgreements() {
   return responseJson.data;
 }
 
-async function getImplementationAgreementsOptions({ q }) {
+async function getImplementationAgreementsOptions({ q, typeId }) {
   const responseJson = await fetchWithAuth(
-    `/partnerships/implementation-agreements-options?q=${q}`
+    `/partnerships/implementation-agreements-options?q=${q}&typeId=${typeId}`
   );
   return responseJson.data;
 }

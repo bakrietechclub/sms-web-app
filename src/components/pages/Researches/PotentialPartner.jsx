@@ -50,14 +50,14 @@ export const PotentialPartner = () => {
         {
           label: 'Universitas',
           onClick: () => {
-            setModalType('universitas');
+            setModalType(1);
             setOpenModal(true);
           },
         },
         {
           label: 'Lembaga Sosial',
           onClick: () => {
-            setModalType('lembaga sosial');
+            setModalType(2);
             setOpenModal(true);
           },
         },
@@ -71,7 +71,7 @@ export const PotentialPartner = () => {
         "Tombol 'Tambah' diklik untuk universitas, seharusnya menampilkan dropdown."
       );
     } else if (accessRole === 'SDI-SMS') {
-      setModalType('INGO');
+      setModalType(3);
       setOpenModal(true);
     } else {
       setOpenModal(true);
@@ -131,54 +131,17 @@ export const PotentialPartner = () => {
         searchWidth="w-1/4"
       />
 
-      {modalType === 'universitas' && (
-        <AddResearchPotentialModal
-          isOpen={openModal}
-          onClose={() => {
-            setOpenModal(false);
-            setModalType(null);
-          }}
-          partnershipResearchTypeId={1}
-        />
-        // <AddModalUniv
-        //   isOpen={openModal}
-        //   onClose={() => {
-        //     setOpenModal(false);
-        //     setModalType(null);
-        //   }}
-        // />
-      )}
-
-      {modalType === 'lembaga sosial' && (
-        // <AddModalSocialInstitution
-        //   isOpen={openModal}
-        //   onClose={() => {
-        //     setOpenModal(false);
-        //     setModalType(null);
-        //   }}
-        // />
-        <AddResearchPotentialModal
-          isOpen={openModal}
-          onClose={() => {
-            setOpenModal(false);
-            setModalType(null);
-          }}
-          partnershipResearchTypeId={2}
-        />
-      )}
-
-      {modalType === 'INGO' && (
-        <AddModalPotentialResearch
-          isOpen={openModal}
-          onClose={() => {
-            setOpenModal(false);
-            setModalType(null);
-          }}
-        />
-      )}
-
       <Table headers={headers} data={data} renderRow={renderRow} />
       <Pagination />
+
+      <AddResearchPotentialModal
+        isOpen={openModal}
+        onClose={() => {
+          setOpenModal(false);
+          setModalType(null);
+        }}
+        partnershipResearchTypeId={modalType}
+      />
     </>
   );
 };
