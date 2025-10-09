@@ -9,6 +9,7 @@ import { selectMous } from '../../../../states/features/partnerships/mou/mouSele
 import {
   selectAccessRole,
   selectAccessTypeInstitutionsId,
+  selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
 import { asyncGetMou } from '../../../../states/features/partnerships/mou/mouThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
@@ -21,12 +22,14 @@ export const Mou = () => {
   const data = useSelector(selectMous);
   const accessRole = useSelector(selectAccessRole);
   const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
+  const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
-    dispatch(asyncGetMou());
-  }, [dispatch]);
+    dispatch(asyncGetMou({ query, typeId: selectedAccessTypeId }));
+  }, [dispatch, query]);
 
-  const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -72,8 +75,8 @@ export const Mou = () => {
     <div>
       <h1 className="text-2xl font-semibold">Tabel MoU</h1>
       <TableToolbar
-        searchValue={search}
-        onSearchChange={setSearch}
+        searchValue={query}
+        onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
         filters={filterOptions}
         onFilterSet={(f) => setFilters(f)}

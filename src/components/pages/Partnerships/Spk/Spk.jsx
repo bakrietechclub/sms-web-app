@@ -13,6 +13,7 @@ import { selectAllSpk } from '../../../../states/features/partnerships/spk/spkSe
 import {
   selectAccessRole,
   selectAccessTypeInstitutionsId,
+  selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
 
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions.js';
@@ -24,15 +25,18 @@ export const Spk = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+
+  const [query, setQuery] = useState('');
+
   useEffect(() => {
-    dispatch(asyncGetSpk());
-  }, [dispatch]);
+    dispatch(asyncGetSpk({ query, typeId: selectedAccessTypeId }));
+  }, [dispatch, query]);
 
   const data = useSelector(selectAllSpk);
   const accessRole = useSelector(selectAccessRole);
   const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
 
-  const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -80,8 +84,8 @@ export const Spk = () => {
     <div>
       <h1 className="text-2xl font-semibold">Tabel Surat SPK</h1>
       <TableToolbar
-        searchValue={search}
-        onSearchChange={setSearch}
+        searchValue={query}
+        onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
         filters={filterOptions}
         onFilterSet={(f) => setFilters(f)}

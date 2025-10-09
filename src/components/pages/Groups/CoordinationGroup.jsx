@@ -12,6 +12,7 @@ import { selectGroups } from '../../../states/features/group/groupSelectors';
 import {
   selectAccessRole,
   selectAccessTypeInstitutionsId,
+  selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
 import { asyncGetGroups } from '../../../states/features/group/groupThunks';
 
@@ -25,9 +26,12 @@ export const CoordinationGroup = () => {
   const data = useSelector(selectGroups);
   const accessRole = useSelector(selectAccessRole);
   const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
+  const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
-    dispatch(asyncGetGroups());
+    dispatch(asyncGetGroups({ query, typeId: selectedAccessTypeId }));
   }, [dispatch]);
 
   const [search, setSearch] = useState('');

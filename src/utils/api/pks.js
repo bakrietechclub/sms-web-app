@@ -29,8 +29,10 @@ async function getPksById({ id }) {
  * Mengambil semua data PKS.
  * @returns {Promise<array>} Array data PKS.
  */
-async function getPks() {
-  const responseJson = await fetchWithAuth('/partnerships/pks');
+async function getPks({ q, typeId, page = 1, pageSize = 10 }) {
+  const responseJson = await fetchWithAuth(
+    `/partnerships/pks?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
+  );
   return responseJson.data;
 }
 

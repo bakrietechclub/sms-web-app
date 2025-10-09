@@ -29,8 +29,10 @@ async function getMouById({ id }) {
  * Mengambil semua data MOU.
  * @returns {Promise<array>} Array data MOU.
  */
-async function getMou() {
-  const responseJson = await fetchWithAuth('/partnerships/mou');
+async function getMou({ q, typeId, page = 1, pageSize = 10 }) {
+  const responseJson = await fetchWithAuth(
+    `/partnerships/mou?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
+  );
   return responseJson.data;
 }
 

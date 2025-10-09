@@ -15,6 +15,7 @@ import { selectAllIAs } from '../../../../states/features/partnerships/ia/iaSele
 import {
   selectAccessRole,
   selectAccessTypeInstitutionsId,
+  selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
 import AddIaModal from '../../../fragments/AddIaModal';
@@ -23,9 +24,15 @@ export const Ia = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+
+  const [query, setQuery] = useState('');
+
   useEffect(() => {
-    dispatch(asyncGetImplementationAgreements());
-  }, [dispatch]);
+    dispatch(
+      asyncGetImplementationAgreements({ query, typeId: selectedAccessTypeId })
+    );
+  }, [dispatch, query]);
 
   const data = useSelector(selectAllIAs);
   const accessRole = useSelector(selectAccessRole);
@@ -33,7 +40,6 @@ export const Ia = () => {
 
   const filterOptions = getFiltersByModuleAndRole('ia', accessRole);
 
-  const [search, setSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const headers = [
@@ -89,8 +95,8 @@ export const Ia = () => {
       <h1 className="text-2xl font-semibold">Tabel IA</h1>
 
       <TableToolbar
-        searchValue={search}
-        onSearchChange={setSearch}
+        searchValue={query}
+        onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
         filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}

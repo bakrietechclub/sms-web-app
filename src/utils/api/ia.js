@@ -34,9 +34,14 @@ async function getImplementationAgreementById({ id }) {
  * Mengambil semua data IA.
  * @returns {Promise<array>} Array data IA.
  */
-async function getImplementationAgreements() {
+async function getImplementationAgreements({
+  q,
+  typeId,
+  page = 1,
+  pageSize = 10,
+}) {
   const responseJson = await fetchWithAuth(
-    '/partnerships/implementation-agreements'
+    `/partnerships/implementation-agreements?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
   );
   return responseJson.data;
 }

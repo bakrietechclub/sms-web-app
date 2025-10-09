@@ -18,9 +18,9 @@ export const asyncAddImplementationAgreement = createAsyncThunk(
 
 export const asyncGetImplementationAgreements = createAsyncThunk(
   'ia/asyncGetImplementationAgreements',
-  async (_, { rejectWithValue }) => {
+  async ({ query, typeId }, { rejectWithValue }) => {
     try {
-      const data = await api.getImplementationAgreements();
+      const data = await api.getImplementationAgreements({ q: query, typeId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

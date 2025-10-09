@@ -5,15 +5,17 @@ import { Button } from '../../elements/Button';
 import { Table } from '../../fragments/Table';
 import { TableToolbar } from '../../fragments/TableToolbar';
 import { Pagination } from '../../fragments/Pagination';
-import { AddModalUniv } from '../../fragments/modalforms/univ/AddModalUniv';
-import { AddModalSocialInstitution } from '../../fragments/modalforms/univ/addModalSocialInstitution';
-import { AddModalPotentialResearch } from '../../fragments/modalforms/ingo/AddModalPotentialResearch';
 
 import { selectPotentials } from '../../../states/features/research/potential/potentialSelectors';
 import { asyncGetResearchPotential } from '../../../states/features/research/potential/potentialThunks';
 import { useNavigate } from 'react-router-dom';
-import { selectAccessRole } from '../../../states/features/auth/authSelectors';
+import {
+  selectAccessRole,
+  selectedAccess,
+  selectedAccessTypeInstitutionsId,
+} from '../../../states/features/auth/authSelectors';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
+
 import AddResearchPotentialModal from '../../fragments/AddResearchPotentialModal';
 
 export const PotentialPartner = () => {
@@ -26,9 +28,15 @@ export const PotentialPartner = () => {
 
   const data = useSelector(selectPotentials);
   const accessRole = useSelector(selectAccessRole);
+  const accessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+  const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
-    dispatch(asyncGetResearchPotential());
+    dispatch(
+      asyncGetResearchPotential({ query, typeId: selectedAccessTypeId })
+    );
   }, []);
 
   const headers = [

@@ -11,6 +11,7 @@ import AddPksModal from '../../../fragments/AddPksModal';
 import {
   selectAccessRole,
   selectAccessTypeInstitutionsId,
+  selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
 import { selectAllPks } from '../../../../states/features/partnerships/pks/pksSelectors';
 import { asyncGetPks } from '../../../../states/features/partnerships/pks/pksThunks';
@@ -23,12 +24,14 @@ export const Pks = () => {
   const data = useSelector(selectAllPks);
   const accessRole = useSelector(selectAccessRole);
   const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
+  const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
-    dispatch(asyncGetPks());
-  }, [dispatch]);
+    dispatch(asyncGetPks({ query, typeId: selectedAccessTypeId }));
+  }, [dispatch, query]);
 
-  const [search, setSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filterOptions = getFiltersByModuleAndRole('pks', accessRole);
@@ -75,8 +78,8 @@ export const Pks = () => {
     <div>
       <h1 className="text-2xl font-semibold">Tabel PKS</h1>
       <TableToolbar
-        searchValue={search}
-        onSearchChange={setSearch}
+        searchValue={query}
+        onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
         filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}

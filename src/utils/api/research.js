@@ -19,8 +19,10 @@ async function addResearchPotential(payload) {
  * Mengambil semua data potensi riset.
  * @returns {Promise<array>} Array data potensi riset.
  */
-async function getResearchPotential() {
-  const responseJson = await fetchWithAuth(`/research/potential`);
+async function getResearchPotential({ q, typeId, page = 1, pageSize = 10 }) {
+  const responseJson = await fetchWithAuth(
+    `/research/potential?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
+  );
   return responseJson.data;
 }
 

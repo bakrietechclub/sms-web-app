@@ -28,9 +28,9 @@ export const asyncGetGroupById = createAsyncThunk(
 
 export const asyncGetGroups = createAsyncThunk(
   'group/asyncGetGroups',
-  async (_, { rejectWithValue }) => {
+  async ({ query, typeId }, { rejectWithValue }) => {
     try {
-      const data = await api.getGroups();
+      const data = await api.getGroups({ q: query, typeId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

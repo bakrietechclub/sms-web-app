@@ -30,9 +30,9 @@ export const asyncGetSpkById = createAsyncThunk(
 
 export const asyncGetSpk = createAsyncThunk(
   'spk/asyncGetSpk',
-  async (_, { rejectWithValue }) => {
+  async ({ query, typeId }, { rejectWithValue }) => {
     try {
-      const data = await api.getSpk();
+      const data = await api.getSpk({ q: query, typeId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

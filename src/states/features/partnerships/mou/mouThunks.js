@@ -28,9 +28,9 @@ export const asyncGetMouById = createAsyncThunk(
 
 export const asyncGetMou = createAsyncThunk(
   'mou/asyncGetMou',
-  async (_, { rejectWithValue }) => {
+  async ({ query, typeId }, { rejectWithValue }) => {
     try {
-      const data = await api.getMou();
+      const data = await api.getMou({ q: query, typeId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

@@ -12,6 +12,7 @@ import { selectAllTors } from '../../../../states/features/partnerships/tor/torS
 import {
   selectAccessRole,
   selectAccessTypeInstitutionsId,
+  selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
 import { Button } from '../../../elements/Button';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
@@ -21,15 +22,18 @@ export const Tor = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+
+  const [query, setQuery] = useState('');
+
   useEffect(() => {
-    dispatch(asyncGetTor());
-  }, [dispatch]);
+    dispatch(asyncGetTor({ query, typeId: selectedAccessTypeId }));
+  }, [dispatch, query]);
 
   const data = useSelector(selectAllTors);
   const accessRole = useSelector(selectAccessRole);
   const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
 
-  const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -81,8 +85,8 @@ export const Tor = () => {
     <div>
       <h1 className="text-2xl font-semibold">Tabel Surat TOR</h1>
       <TableToolbar
-        searchValue={search}
-        onSearchChange={setSearch}
+        searchValue={query}
+        onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
         filters={filterOptions}
         onFilterSet={(f) => setFilters(f)}

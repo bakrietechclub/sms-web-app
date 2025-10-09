@@ -9,6 +9,7 @@ import { Label } from '../../elements/Label';
 import {
   selectAccessRole,
   selectAccessTypeInstitutionsId,
+  selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
 import { selectAudiences } from '../../../states/features/audience/audienceSelectors';
 import { asyncGetAudiences } from '../../../states/features/audience/audienceThunks';
@@ -22,10 +23,13 @@ export const Audiences = () => {
 
   const data = useSelector(selectAudiences);
   const accessRole = useSelector(selectAccessRole);
-  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
+  const accessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+  const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
-    dispatch(asyncGetAudiences());
+    dispatch(asyncGetAudiences({ query, typeId: selectedAccessTypeId }));
   }, []);
 
   const [search, setSearch] = useState('');

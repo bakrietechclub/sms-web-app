@@ -28,9 +28,9 @@ export const asyncGetPksById = createAsyncThunk(
 
 export const asyncGetPks = createAsyncThunk(
   'pks/asyncGetPks',
-  async (_, { rejectWithValue }) => {
+  async ({ query, typeId }, { rejectWithValue }) => {
     try {
-      const data = await api.getPks();
+      const data = await api.getPks({ q: query, typeId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

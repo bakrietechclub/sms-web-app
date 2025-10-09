@@ -11,12 +11,19 @@ export const selectIsAuthenticated = (state) => !!state.authUser.user;
 export const selectAccessRole = (state) =>
   state.authUser.user?.accessRole || null;
 
-export const selectedAccess = (state) => state.authUser.selectedAccess || null;
-
 const roleInstitutionIdMap = {
   'LSD-SMS': [1, 2],
   'SDI-SMS': [3],
   'SCL-SMS': [4, 5, 6, 7],
+};
+
+export const selectedAccess = (state) => state.authUser.selectedAccess || null;
+
+export const selectedAccessTypeInstitutionsId = (state) => {
+  const accessRole = state.authUser.selectedAccess;
+
+  // Menggunakan object lookup. Jika accessRole tidak ditemukan, akan mengembalikan null (default behavior)
+  return roleInstitutionIdMap[accessRole] || null;
 };
 
 export const selectAccessTypeInstitutionsId = (state) => {
