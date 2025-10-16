@@ -8,12 +8,14 @@ import {
   asyncGetLastLetterNumber,
 } from '../../states/features/letter/letterThunks';
 import { selectLastletterNumber } from '../../states/features/letter/letterSelectors';
+import SingleSelectDropdown from '../elements/formfields/SingleSelectDropdown';
 
 export default function AddModalLetterNumbering({
   isOpen,
   onClose,
   onSuccess,
-  partnershipLetterNumberTypeId,
+  partnershipLetterNumberTypeId = null,
+  isInheritance = true,
 }) {
   const dispatch = useDispatch();
 
@@ -24,26 +26,26 @@ export default function AddModalLetterNumbering({
   const lastLetterNumber = useSelector(selectLastletterNumber);
 
   const letterTypeOptions = [
-    { id: 1, name: 'Surat Permohonan Kerjasama' },
-    { id: 2, name: 'Surat Undangan Audiensi' },
-    { id: 3, name: 'MoU (Nota Kesepahaman)' },
-    { id: 4, name: 'PKS (Perjanjian Kerjasama)' },
-    { id: 5, name: 'IA (Implementation Agreement)' },
-    { id: 6, name: 'SPK (Surat Pernyataan Komitmen)' },
+    { id: 1, label: 'Surat Permohonan Kerjasama' },
+    { id: 2, label: 'Surat Undangan Audiensi' },
+    { id: 3, label: 'MoU (Nota Kesepahaman)' },
+    { id: 4, label: 'PKS (Perjanjian Kerjasama)' },
+    { id: 5, label: 'IA (Implementation Agreement)' },
+    { id: 6, label: 'SPK (Surat Pernyataan Komitmen)' },
   ];
 
   const getLetterTypeName = (id) => {
     const found = letterTypeOptions.find((item) => item.id === id);
-    return found ? found.name : '';
+    return found ? found.label : '';
   };
 
   const methods = useForm({
     defaultValues: {
       partnershipLetterNumberSubClassificationId: null, // Administrasi - Pemberitahuan/Undangan/Persetujuan
       partnershipLetterNumberTypeId, // Surat Permohonan Kerjasama
-      partnershipLetterNumberTypeName: getLetterTypeName(
-        partnershipLetterNumberTypeId
-      ),
+      partnershipLetterNumberTypeName: isInheritance
+        ? getLetterTypeName(partnershipLetterNumberTypeId)
+        : null,
       masterSecondTierProgramId: 1, // CLP
       letterNumber: null,
       letterNumberDate: '',
@@ -85,7 +87,7 @@ export default function AddModalLetterNumbering({
   return (
     <>
       <div
-        className="fixed inset-0 z-40 bg-black opacity-0"
+        className="fixed inset-0 z-40 bg-black opacity-40"
         onClick={onClose}
       />
       <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -109,13 +111,25 @@ export default function AddModalLetterNumbering({
               style={{ height: 'calc(900px - 92px)' }}
               ref={dropdownRef}
             >
-              <TextField
-                name="partnershipLetterNumberTypeName"
-                label="Jenis Surat"
-                disable={true}
-                className="bg-gray-200 text-gray-500"
-                register={register}
-              />
+              {isInheritance ? (
+                <TextField
+                  name="partnershipLetterNumberTypeName"
+                  label="Jenis Surat"
+                  disable={true}
+                  className="bg-gray-200 text-gray-500"
+                  register={register}
+                />
+              ) : (
+                <SingleSelectDropdown
+                  name="partnershipLetterNumberTypeId"
+                  label="Jenis Surat"
+                  isRequired={true}
+                  options={letterTypeOptions}
+                  register={register}
+                  setValue={setValue}
+                />
+              )}
+
               <LetterNumberingField />
               <TextField
                 name="letterNumberSubjectOfLetter"

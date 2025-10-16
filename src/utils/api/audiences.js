@@ -29,7 +29,7 @@ async function getAudienceById({ id }) {
  * Mengambil semua data audiens.
  * @returns {Promise<array>} Array data audiens.
  */
-async function getAudiences({ q, typeId, page = 1, pageSize = 10 }) {
+async function getAudiences({ q = '', typeId, page = 1, pageSize = 10 }) {
   const responseJson = await fetchWithAuth(
     `/audiences?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
   );

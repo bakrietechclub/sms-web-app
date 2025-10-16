@@ -7,14 +7,12 @@ import { Pagination } from '../../fragments/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Import modal untuk setiap jenis stakeholder
-import { AddModalLetterNumberingUniv } from '../../fragments/modalforms/univ/AddModalLetterNumberingUniv';
-import { AddModalLetterNumberingMedia } from '../../fragments/modalforms/media/AddModalLetterNumberingMedia';
-import { AddModalLetterNumberingINGO } from '../../fragments/modalforms/ingo/AddModalLetterNumberingINGO';
 import { useNavigate } from 'react-router-dom';
 import { selectAccessRole } from '../../../states/features/auth/authSelectors';
 import { asyncGetLetters } from '../../../states/features/letter/letterThunks';
 import { selectAllLetters } from '../../../states/features/letter/letterSelectors';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
+import AddModalLetterNumbering from '../../fragments/AddModalLetterNumbering';
 
 export const LetterNumbering = () => {
   const navigate = useNavigate();
@@ -33,16 +31,6 @@ export const LetterNumbering = () => {
   const filterOptions = getFiltersByModuleAndRole('letter', accessRole);
 
   // Tentukan data berdasarkan stakeholder
-
-  // Header tabel
-  const headers = [
-    'No',
-    'Jenis Surat',
-    'Nomor Surat',
-    'Tujuan dan Perihal',
-    'Template Surat',
-    'Aksi',
-  ];
 
   // Fungsi render baris tabel yang dibekukan (freeze)
   const renderRowFreeze = (value, index) => (
@@ -111,29 +99,30 @@ export const LetterNumbering = () => {
 
       <div>
         {/* Tabel dengan FreezeTable */}
-        <Table headers={headers} data={data} renderRow={renderRow} />
+        <Table
+          headers={[
+            'No',
+            'Jenis Surat',
+            'Nomor Surat',
+            'Tujuan dan Perihal',
+            'Template Surat',
+            'Aksi',
+          ]}
+          data={data}
+          renderRow={renderRow}
+        />
       </div>
 
       {/* Pagination */}
       <Pagination />
 
       {/* Modal berdasarkan stakeholder yang dipilih */}
-      {isModalOpen && accessRole === 'LSD-SMS' && (
-        <AddModalLetterNumberingUniv
+      {isModalOpen && (
+        <AddModalLetterNumbering
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-        />
-      )}
-      {isModalOpen && accessRole === 'LSD-SCP' && (
-        <AddModalLetterNumberingMedia
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
-      {isModalOpen && accessRole === 'LSD-SDI' && (
-        <AddModalLetterNumberingINGO
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onSuccess={(value) => console.log(value)}
+          isInheritance={false}
         />
       )}
     </div>

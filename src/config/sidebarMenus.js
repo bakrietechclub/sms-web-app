@@ -78,7 +78,7 @@ export const sidebarMenus = {
     {
       title: 'Riset Mitra',
       icon: Search,
-      path: '/dashboard/research/partner',
+      path: '/dashboard/research/potential-partner',
     },
     {
       title: 'Audiensi',

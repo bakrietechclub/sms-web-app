@@ -6,11 +6,15 @@ import {
   asyncDeleteResearchPotentialById,
   asyncUpdateResearchPotentialById,
   asyncGetResearchPotentialOptions,
+  asyncGetResearchPotentialOptionsById,
+  asyncGetDetailResearchPotentialOptionsById,
 } from './potentialThunks';
 
 const initialState = {
   potentials: [],
   potentialsOptions: [],
+  potentialsOptionsDetail: null,
+  potentialOptionDetail: null,
   potentialDetail: null,
   loading: false,
   error: null,
@@ -65,6 +69,44 @@ const potentialSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      .addCase(asyncGetResearchPotentialOptionsById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        asyncGetResearchPotentialOptionsById.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.potentialsOptionsDetail = action.payload;
+        }
+      )
+      .addCase(
+        asyncGetResearchPotentialOptionsById.rejected,
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      )
+
+      .addCase(asyncGetDetailResearchPotentialOptionsById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        asyncGetDetailResearchPotentialOptionsById.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.potentialOptionDetail = action.payload;
+        }
+      )
+      .addCase(
+        asyncGetDetailResearchPotentialOptionsById.rejected,
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      )
       // Get By Id
       .addCase(asyncGetResearchPotentialById.pending, (state) => {
         state.loading = true;

@@ -20,9 +20,9 @@ export const Card = ({ name, image, manageAccess, selectedAccess }) => {
   const handleClick = () => {
     dispatch(setSelectedAccess(selectedAccess));
     localStorage.setItem('selectedAccess', selectedAccess);
-    if (selectedAccess !== 'SCP-SMS') {
-      navigate('/dashboard/research/potential-partner');
-    } else navigate('/dashboard/research/partner');
+    navigate('/dashboard/research/potential-partner');
+    // if (selectedAccess !== 'SCP-SMS') {
+    // } else navigate('/dashboard/research/partner');
   };
 
   return (

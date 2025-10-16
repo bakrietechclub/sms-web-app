@@ -36,8 +36,10 @@ async function getMou({ q, typeId, page = 1, pageSize = 10 }) {
   return responseJson.data;
 }
 
-async function getMouOptions({ q }) {
-  const responseJson = await fetchWithAuth(`/partnerships/mou-options?q=${q}`);
+async function getMouOptions({ q, typeId }) {
+  const responseJson = await fetchWithAuth(
+    `/partnerships/mou-options?q=${q}&typeId=${typeId}`
+  );
   return responseJson.data;
 }
 

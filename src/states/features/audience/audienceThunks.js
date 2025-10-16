@@ -6,7 +6,10 @@ export const asyncAddAudience = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       await api.addAudience(payload);
-      const data = await api.getAudiences();
+      const data = await api.getAudiences({
+        q: payload.query,
+        typeId: payload.typeId,
+      });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

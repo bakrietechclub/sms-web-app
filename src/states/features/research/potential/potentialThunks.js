@@ -6,7 +6,10 @@ export const asyncAddResearchPotential = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       await api.addResearchPotential(payload);
-      const data = await api.getResearchPotential();
+      const data = await api.getResearchPotential({
+        q: payload.query,
+        typeId: payload.typeId,
+      });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -43,6 +46,30 @@ export const asyncGetResearchPotentialOptions = createAsyncThunk(
   async ({ query, typeId }, { rejectWithValue }) => {
     try {
       const data = await api.getResearchPotentialOptions({ q: query, typeId });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const asyncGetResearchPotentialOptionsById = createAsyncThunk(
+  'potential/asyncGetResearchPotentialOptionsById',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const data = await api.getResearchPotentialOptionsById({ id });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const asyncGetDetailResearchPotentialOptionsById = createAsyncThunk(
+  'potential/asyncGetDetailResearchPotentialOptionsById',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const data = await api.getDetailResearchPotentialOptionsById({ id });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

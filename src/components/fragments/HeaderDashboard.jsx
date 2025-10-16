@@ -7,6 +7,7 @@ import NotificationsModal from './NotificationsModal';
 import {
   selectAccessRole,
   selectAuthUser,
+  selectedAccess,
 } from '../../states/features/auth/authSelectors';
 import { unsetSelectedAccess } from '../../states/features/auth/authSlice';
 
@@ -14,7 +15,7 @@ export const HeaderDashboard = () => {
   const dispatch = useDispatch();
 
   const user = useSelector(selectAuthUser);
-  const accessRole = useSelector(selectAccessRole);
+  const accessRole = useSelector(selectedAccess);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 

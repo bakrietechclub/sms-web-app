@@ -32,7 +32,7 @@ export const CoordinationGroup = () => {
 
   useEffect(() => {
     dispatch(asyncGetGroups({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch]);
+  }, [dispatch, query]);
 
   const [search, setSearch] = useState('');
   const [openModal, setOpenModal] = useState(false);
@@ -84,8 +84,8 @@ export const CoordinationGroup = () => {
       <h1 className="text-2xl font-semibold">Tabel Grup Koordinasi</h1>
 
       <TableToolbar
-        searchValue={search}
-        onSearchChange={setSearch}
+        searchValue={query}
+        onSearchChange={setQuery}
         onAddClick={() => setOpenModal(true)}
         filters={filterOptions}
         onFilterSet={(selectedFilters) => {

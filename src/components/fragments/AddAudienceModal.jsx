@@ -19,7 +19,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
-    dispatch(asyncAddAudience(data))
+    dispatch(asyncAddAudience({ ...data, query, typeId: accessTypeId }))
       .unwrap()
       .then(() => onClose())
       .catch((err) => console.error(err));

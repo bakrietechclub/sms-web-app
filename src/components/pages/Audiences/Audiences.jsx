@@ -30,9 +30,8 @@ export const Audiences = () => {
 
   useEffect(() => {
     dispatch(asyncGetAudiences({ query, typeId: selectedAccessTypeId }));
-  }, []);
+  }, [dispatch, query]);
 
-  const [search, setSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filterOptions = getFiltersByModuleAndRole('audience', accessRole);
@@ -90,8 +89,8 @@ export const Audiences = () => {
     <div>
       <h1 className="text-2xl font-semibold">Tabel Data Audiensi</h1>
       <TableToolbar
-        searchValue={search}
-        onSearchChange={setSearch}
+        searchValue={query}
+        onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
         filters={filterOptions}
         onFilterSet={(f) => setFilters(f)}

@@ -11,7 +11,7 @@ import { asyncGetResearchPotential } from '../../../states/features/research/pot
 import { useNavigate } from 'react-router-dom';
 import {
   selectAccessRole,
-  selectedAccess,
+  selectAccessTypeInstitutionsId,
   selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
@@ -19,7 +19,6 @@ import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
 import AddResearchPotentialModal from '../../fragments/AddResearchPotentialModal';
 
 export const PotentialPartner = () => {
-  const [search, setSearch] = useState('');
   const [modalType, setModalType] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
@@ -28,7 +27,7 @@ export const PotentialPartner = () => {
 
   const data = useSelector(selectPotentials);
   const accessRole = useSelector(selectAccessRole);
-  const accessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
   const [query, setQuery] = useState('');
@@ -37,7 +36,7 @@ export const PotentialPartner = () => {
     dispatch(
       asyncGetResearchPotential({ query, typeId: selectedAccessTypeId })
     );
-  }, []);
+  }, [dispatch, query]);
 
   const headers = [
     'No',
@@ -91,7 +90,7 @@ export const PotentialPartner = () => {
       <td className="py-3">{index + 1}</td>
       <td>{value.instituteName}</td>
       <td>{value.partnershipResearchType}</td>
-      <td>{value.partnershipResearchProvincies}</td>
+      <td>{value.regionName}</td>
       <td>{value.partnershipResearchProgram?.join(', ')}</td>
       <td>
         <Label
@@ -121,8 +120,8 @@ export const PotentialPartner = () => {
       <h1 className="text-2xl font-semibold">Daftar Riset Potensial Mitra</h1>
 
       <TableToolbar
-        searchValue={search}
-        onSearchChange={setSearch}
+        searchValue={query}
+        onSearchChange={setQuery}
         onAddClick={handleAddClick} // Ini akan terpanggil jika addOptions TIDAK ADA
         addOptions={modalSelector} // Ini hanya akan ada jika stakeholder === "universitas"
         filters={[
@@ -148,7 +147,7 @@ export const PotentialPartner = () => {
           setOpenModal(false);
           setModalType(null);
         }}
-        partnershipResearchTypeId={modalType}
+        accessTypeId={accessTypeId}
       />
     </>
   );

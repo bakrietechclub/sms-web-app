@@ -4,9 +4,6 @@ import { FreezeTable } from '../../../fragments/Table';
 import { Pagination } from '../../../fragments/Pagination';
 import { TableToolbar } from '../../../fragments/TableToolbar';
 
-import { AddModalSpkUniv } from '../../../fragments/modalforms/univ/AddModalSpkUniv';
-import { AddModalSpkINGO } from '../../../fragments/modalforms/ingo/AddModalSpkINGO';
-
 import { useNavigate } from 'react-router-dom';
 import { asyncGetSpk } from '../../../../states/features/partnerships/spk/spkThunks';
 import { selectAllSpk } from '../../../../states/features/partnerships/spk/spkSelectors';

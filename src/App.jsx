@@ -4,7 +4,6 @@ import LandingPage from './components/pages/LandingPage';
 import DashboardPage from './components/pages/DashboardPage';
 import { PotentialPartner } from './components/pages/Researches/PotentialPartner';
 import { ColabPartner } from './components/pages/Researches/ColabPartner';
-import { Partner } from './components/pages/Researches/Partner';
 import { Audiences } from './components/pages/Audiences/Audiences';
 import { CoordinationGroup } from './components/pages/Groups/CoordinationGroup';
 import { Mou } from './components/pages/Partnerships/Mou/Mou';
@@ -36,6 +35,7 @@ import IaDetail from './components/pages/Partnerships/Ia/IaDetail';
 import TorDetail from './components/pages/Partnerships/Tor/TorDetail';
 import SpkDetail from './components/pages/Partnerships/Spk/SpkDetail';
 import LetterNumberingDetail from './components/pages/LetterNumber/LetterNumberingDetail';
+import ColabPartnerDetail from './components/pages/Researches/ColabPartnerDetail';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -64,8 +64,10 @@ const App = () => {
             <Route index element={<PotentialPartner />} />
             <Route path=":id" element={<PotentialPartnerDetail />} />
           </Route>
-          <Route path="colab-partner" element={<ColabPartner />} />
-          <Route path="partner" element={<Partner />} />
+          <Route path="colab-partner">
+            <Route index element={<ColabPartner />} />
+            <Route path=":id" element={<ColabPartnerDetail />} />
+          </Route>
         </Route>
         <Route path="audiences">
           <Route index element={<Audiences />} />

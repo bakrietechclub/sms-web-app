@@ -4,8 +4,6 @@ import { FreezeTable } from '../../../fragments/Table';
 import { Pagination } from '../../../fragments/Pagination';
 import { TableToolbar } from '../../../fragments/TableToolbar';
 
-import { AddModalTorUniv } from '../../../fragments/modalforms/univ/AddModalTorUniv';
-import { AddModalTorINGO } from '../../../fragments/modalforms/ingo/AddModalTorINGO';
 import { useNavigate } from 'react-router-dom';
 import { asyncGetTor } from '../../../../states/features/partnerships/tor/torThunks';
 import { selectAllTors } from '../../../../states/features/partnerships/tor/torSelectors';

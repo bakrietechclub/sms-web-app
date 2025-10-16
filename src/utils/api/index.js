@@ -2,7 +2,8 @@
 
 // Impor semua fungsionalitas dari modul yang terpisah
 import * as auth from './auth';
-import * as research from './research';
+import * as researchPotential from './research-potential';
+import * as researchCollab from './research-collab';
 import * as audiences from './audiences';
 import * as groups from './groups';
 import * as groupContacts from './groupContacts';
@@ -20,7 +21,8 @@ const api = {
   // USER (AUTH)
   ...auth,
   // RESEARCH
-  ...research,
+  ...researchPotential,
+  ...researchCollab,
   // AUDIENCES
   ...audiences,
   // GROUPS

@@ -10,7 +10,7 @@ const AgreementStatus = ({ register }) => {
             <label className="w-32 font-medium">Tanggal TTD</label>
             <input
               placeholder="Tanggal TTD"
-              {...register("statusMoU.tanggalTTD")}
+              {...register('MoU.signatureDate')}
               className="flex-1 border border-gray-300 px-3 py-2 rounded"
             />
           </div>
@@ -19,7 +19,7 @@ const AgreementStatus = ({ register }) => {
             <label className="w-32 font-medium">Jatuh Tempo</label>
             <input
               placeholder="Jatuh Tempo"
-              {...register("statusMoU.jatuhTempo")}
+              {...register('MoU.dueDate')}
               className="flex-1 border border-gray-300 px-3 py-2 rounded"
             />
           </div>
@@ -28,7 +28,7 @@ const AgreementStatus = ({ register }) => {
             <label className="w-32 font-medium">Link Dokumen</label>
             <input
               type="text"
-              {...register("statusMoU.linkDokumen")}
+              {...register('MoU.documentUrl')}
               placeholder="https://..."
               className="flex-1 border border-gray-300 px-3 py-2 rounded"
             />
@@ -43,7 +43,7 @@ const AgreementStatus = ({ register }) => {
             <label className="w-32 font-medium">Tanggal TTD</label>
             <input
               placeholder="Tanggal TTD"
-              {...register("statusPKS.tanggalTTD")}
+              {...register('PkS.signatureDate')}
               className="flex-1 border border-gray-300 px-3 py-2 rounded"
             />
           </div>
@@ -52,7 +52,7 @@ const AgreementStatus = ({ register }) => {
             <label className="w-32 font-medium">Jatuh Tempo</label>
             <input
               placeholder="Jatuh Tempo"
-              {...register("statusPKS.jatuhTempo")}
+              {...register('PkS.dueDate')}
               className="flex-1 border border-gray-300 px-3 py-2 rounded"
             />
           </div>
@@ -61,7 +61,7 @@ const AgreementStatus = ({ register }) => {
             <label className="w-32 font-medium">Link Dokumen</label>
             <input
               type="text"
-              {...register("statusPKS.linkDokumen")}
+              {...register('PkS.documentUrl')}
               placeholder="https://..."
               className="flex-1 border border-gray-300 px-3 py-2 rounded"
             />

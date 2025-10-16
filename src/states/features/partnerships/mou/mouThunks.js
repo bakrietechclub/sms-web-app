@@ -40,9 +40,9 @@ export const asyncGetMou = createAsyncThunk(
 
 export const asyncGetMouOptions = createAsyncThunk(
   'mou/asyncGetMouOptions',
-  async ({ query }, { rejectWithValue }) => {
+  async ({ query, typeId }, { rejectWithValue }) => {
     try {
-      const data = await api.getMouOptions({ q: query });
+      const data = await api.getMouOptions({ q: query, typeId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

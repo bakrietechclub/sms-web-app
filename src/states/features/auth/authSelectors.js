@@ -14,7 +14,7 @@ export const selectAccessRole = (state) =>
 const roleInstitutionIdMap = {
   'LSD-SMS': [1, 2],
   'SDI-SMS': [3],
-  'SCL-SMS': [4, 5, 6, 7],
+  'SCP-SMS': [4, 5, 6, 7],
 };
 
 export const selectedAccess = (state) => state.authUser.selectedAccess || null;

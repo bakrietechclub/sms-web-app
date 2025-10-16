@@ -15,7 +15,7 @@ const PROGRAM_OPTIONS = [
   { id: 1, label: 'LEAD' },
   { id: 2, label: 'CLP' },
   { id: 3, label: 'HOL' },
-  { id: 4, label: 'BCF' },
+  { id: 7, label: 'BCF' },
 ];
 
 const MONTHS = {

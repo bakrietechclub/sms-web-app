@@ -7,8 +7,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Modal
-import { AddModalIaUniv } from '../../../fragments/modalforms/univ/AddModalIaUniv';
-import { AddModalIaINGO } from '../../../fragments/modalforms/ingo/AddModalIaINGO';
 import { useNavigate } from 'react-router-dom';
 import { asyncGetImplementationAgreements } from '../../../../states/features/partnerships/ia/iaThunks';
 import { selectAllIAs } from '../../../../states/features/partnerships/ia/iaSelectors';

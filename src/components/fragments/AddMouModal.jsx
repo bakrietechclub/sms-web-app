@@ -8,7 +8,6 @@ import { selectPotentialsOptions } from '../../states/features/research/potentia
 import { asyncGetResearchPotentialOptions } from '../../states/features/research/potential/potentialThunks';
 import Select from 'react-select';
 import DatePickerField from '../elements/formfields/DatePickerField';
-import { AddLetterNumberingMou } from './modalforms/univ/letter-numbering/AddLetterNumberingMou';
 import AddModalLetterNumbering from './AddModalLetterNumbering';
 import { STATUS_OPTIONS } from '../../utils';
 import { asyncAddMou } from '../../states/features/partnerships/mou/mouThunks';
