@@ -9,6 +9,7 @@ import { Label } from '../../elements/Label';
 import {
   selectAccessRole,
   selectAccessTypeInstitutionsId,
+  selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
 import { selectAudiences } from '../../../states/features/audience/audienceSelectors';
@@ -22,30 +23,22 @@ export const Audiences = () => {
   const navigate = useNavigate();
 
   const data = useSelector(selectAudiences);
-  const accessRole = useSelector(selectAccessRole);
-  const accessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+
+  const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
   const [query, setQuery] = useState('');
 
   useEffect(() => {
     dispatch(asyncGetAudiences({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch, query]);
+  }, [dispatch, query, selectedAccessTypeId]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const filterOptions = getFiltersByModuleAndRole('audience', accessRole);
-
-  const headers = [
-    'No',
-    'Nama Instansi',
-    'Jenis Audiensi',
-    'Tanggal',
-    'Jam',
-    'Jenis',
-    'Status',
-    'Aksi',
-  ];
+  const filterOptions = getFiltersByModuleAndRole(
+    'audience',
+    seletedAccessRole
+  );
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
@@ -96,12 +89,25 @@ export const Audiences = () => {
         onFilterSet={(f) => setFilters(f)}
         searchWidth="w-1/4"
       />
-      <Table headers={headers} data={data} renderRow={renderRow} />
+      <Table
+        headers={[
+          'No',
+          'Nama Instansi',
+          'Jenis Audiensi',
+          'Tanggal',
+          'Jam',
+          'Jenis',
+          'Status',
+          'Aksi',
+        ]}
+        data={data}
+        renderRow={renderRow}
+      />
       <Pagination />
 
       {isModalOpen && (
         <AddAudienceModal
-          accessTypeId={accessTypeId}
+          accessTypeId={selectedAccessTypeId}
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />

@@ -8,8 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { asyncGetSpk } from '../../../../states/features/partnerships/spk/spkThunks';
 import { selectAllSpk } from '../../../../states/features/partnerships/spk/spkSelectors';
 import {
-  selectAccessRole,
-  selectAccessTypeInstitutionsId,
+  selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
 
@@ -22,33 +21,18 @@ export const Spk = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const data = useSelector(selectAllSpk);
+  const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+  const filterOptions = getFiltersByModuleAndRole('spk', seletedAccessRole);
 
   const [query, setQuery] = useState('');
-
-  useEffect(() => {
-    dispatch(asyncGetSpk({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch, query]);
-
-  const data = useSelector(selectAllSpk);
-  const accessRole = useSelector(selectAccessRole);
-  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
-
   const [filters, setFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const filterOptions = getFiltersByModuleAndRole('spk', accessRole);
-
-  const headers = [
-    'No.',
-    'Nama Instansi',
-    'Jenis Instansi',
-    'Divisi Instansi',
-    'Tanggal Tanda Tangan',
-    'Jangka Kerjasama',
-    'Jatuh Tempo',
-    'Aksi',
-  ];
+  useEffect(() => {
+    dispatch(asyncGetSpk({ query, typeId: selectedAccessTypeId }));
+  }, [dispatch, query, selectedAccessTypeId]);
 
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
@@ -90,7 +74,16 @@ export const Spk = () => {
       />
 
       <FreezeTable
-        headers={headers}
+        headers={[
+          'No.',
+          'Nama Instansi',
+          'Jenis Instansi',
+          'Divisi Instansi',
+          'Tanggal Tanda Tangan',
+          'Jangka Kerjasama',
+          'Jatuh Tempo',
+          'Aksi',
+        ]}
         data={data}
         renderRow={renderRow}
         renderRowFreeze={renderRowFreeze}
@@ -102,7 +95,7 @@ export const Spk = () => {
         <AddSpkModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          accessTypeId={accessTypeId}
+          accessTypeId={selectedAccessTypeId}
         />
       )}
     </div>

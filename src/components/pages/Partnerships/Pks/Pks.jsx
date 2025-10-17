@@ -9,8 +9,7 @@ import { TableToolbar } from '../../../fragments/TableToolbar';
 import AddPksModal from '../../../fragments/AddPksModal';
 
 import {
-  selectAccessRole,
-  selectAccessTypeInstitutionsId,
+  selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
 import { selectAllPks } from '../../../../states/features/partnerships/pks/pksSelectors';
@@ -22,30 +21,16 @@ export const Pks = () => {
   const dispatch = useDispatch();
 
   const data = useSelector(selectAllPks);
-  const accessRole = useSelector(selectAccessRole);
-  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
+  const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+  const filterOptions = getFiltersByModuleAndRole('pks', seletedAccessRole);
 
   const [query, setQuery] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetPks({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch, query]);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const filterOptions = getFiltersByModuleAndRole('pks', accessRole);
-
-  const headers = [
-    'No.',
-    'Nama Instansi',
-    'Jenis Instansi',
-    'Divisi Instansi',
-    'Tanggal Tanda Tangan',
-    'Jangka Kerjasama',
-    'Jatuh Tempo',
-    'Aksi',
-  ];
+  }, [dispatch, query, selectedAccessTypeId]);
 
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
@@ -87,7 +72,16 @@ export const Pks = () => {
       />
       <div className="w-full overflow-hidden h-fit">
         <FreezeTable
-          headers={headers}
+          headers={[
+            'No.',
+            'Nama Instansi',
+            'Jenis Instansi',
+            'Divisi Instansi',
+            'Tanggal Tanda Tangan',
+            'Jangka Kerjasama',
+            'Jatuh Tempo',
+            'Aksi',
+          ]}
           data={data}
           renderRow={renderRow}
           renderRowFreeze={renderRowFreeze}
@@ -100,7 +94,7 @@ export const Pks = () => {
         <AddPksModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          accessTypeId={accessTypeId}
+          accessTypeId={selectedAccessTypeId}
         />
       )}
     </div>

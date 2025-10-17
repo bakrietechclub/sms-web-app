@@ -50,6 +50,7 @@ export default function AddModalLetterNumbering({
       letterNumber: null,
       letterNumberDate: '',
       letterNumberSubjectOfLetter: '',
+      letterNumberStatus: isInheritance ? 'DRAFT' : 'USED',
     },
   });
   const { register, handleSubmit, setValue } = methods;

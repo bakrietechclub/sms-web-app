@@ -7,7 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { asyncGetResearchPotentialById } from '../../../states/features/research/potential/potentialThunks';
 import { selectPotentialDetail } from '../../../states/features/research/potential/potentialSelectors';
 import UpdateResearchPotentialModal from '../../fragments/UpdateResearchPotentialModal';
-import { selectedAccessTypeInstitutionsId } from '../../../states/features/auth/authSelectors';
+import {
+  selectedAccessTypeInstitutionsId,
+  selectHasAccess,
+} from '../../../states/features/auth/authSelectors';
+import {
+  deleteButtonClasses,
+  updateButtonClasses,
+} from '../../../utils/className';
 
 export default function PotentialPartnerDetail() {
   const { id } = useParams();
@@ -16,6 +23,8 @@ export default function PotentialPartnerDetail() {
   const [openModal, setOpenModal] = useState(false);
 
   const accessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+
+  const hasAccess = useSelector(selectHasAccess);
 
   const data = useSelector(selectPotentialDetail);
 
@@ -33,9 +42,7 @@ export default function PotentialPartnerDetail() {
       <div>
         <Button
           className={'text-[#0D4690] cursor-pointer flex'}
-          onClick={() => {
-            handleClickDetail();
-          }}
+          onClick={() => handleClickDetail()}
         >
           <ChevronLeft /> Kembali
         </Button>
@@ -46,21 +53,17 @@ export default function PotentialPartnerDetail() {
             : 'Lembaga Sosial/Komunitas'}
         </h1>
         <div className="flex justify-end space-x-4">
-          {/* Tombol Perbarui (Warna Utama) */}
           <Button
-            className={
-              'bg-[#0D4690] text-white rounded-md px-4 py-2 hover:bg-blue-800 transition'
-            }
+            disabled={!hasAccess}
+            className={updateButtonClasses}
             onClick={() => setOpenModal(true)}
           >
             Perbarui
           </Button>
 
-          {/* Tombol Hapus (Warna Merah Destruktif) */}
           <Button
-            className={
-              'bg-red-600 text-white rounded-md px-4 py-2 hover:bg-red-700 transition'
-            }
+            disabled={!hasAccess}
+            className={deleteButtonClasses}
             // onClick={}
           >
             Hapus

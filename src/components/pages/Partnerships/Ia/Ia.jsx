@@ -11,8 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { asyncGetImplementationAgreements } from '../../../../states/features/partnerships/ia/iaThunks';
 import { selectAllIAs } from '../../../../states/features/partnerships/ia/iaSelectors';
 import {
-  selectAccessRole,
-  selectAccessTypeInstitutionsId,
+  selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
@@ -22,35 +21,19 @@ export const Ia = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const data = useSelector(selectAllIAs);
+  const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+  const filterOptions = getFiltersByModuleAndRole('ia', seletedAccessRole);
 
   const [query, setQuery] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(
       asyncGetImplementationAgreements({ query, typeId: selectedAccessTypeId })
     );
-  }, [dispatch, query]);
-
-  const data = useSelector(selectAllIAs);
-  const accessRole = useSelector(selectAccessRole);
-  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
-
-  const filterOptions = getFiltersByModuleAndRole('ia', accessRole);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const headers = [
-    'No',
-    'Nama Instansi',
-    'Jenis Instansi',
-    'Divisi Instansi',
-    'Status Kerjasama',
-    'Program Implementasi',
-    'Tahun Implementasi',
-    'Batch',
-    'Aksi',
-  ];
+  }, [dispatch, query, selectedAccessTypeId]);
 
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
@@ -102,7 +85,17 @@ export const Ia = () => {
       />
 
       <FreezeTable
-        headers={headers}
+        headers={[
+          'No',
+          'Nama Instansi',
+          'Jenis Instansi',
+          'Divisi Instansi',
+          'Status Kerjasama',
+          'Program Implementasi',
+          'Tahun Implementasi',
+          'Batch',
+          'Aksi',
+        ]}
         data={data}
         renderRow={renderRow}
         renderRowFreeze={renderRowFreeze}
@@ -116,7 +109,7 @@ export const Ia = () => {
         <AddIaModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          accessTypeId={accessTypeId}
+          accessTypeId={selectedAccessTypeId}
         />
       )}
     </div>

@@ -9,7 +9,7 @@ import TextField from '../elements/formfields/TextField';
 import SingleSelectDropdown from '../elements/formfields/SingleSelectDropdown';
 import RedirectTextField from '../elements/formfields/RedirectTextField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
-import { STATUS_OPTIONS } from '../../utils';
+import { BATCH_OPTIONS, PROGRAM_OPTIONS, STATUS_OPTIONS } from '../../utils';
 import AddModalLetterNumbering from './AddModalLetterNumbering';
 
 export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
@@ -65,20 +65,6 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
   useEffect(() => {
     dispatch(asyncGetPksOptions({ query, typeId: accessTypeId }));
   }, [dispatch, query]);
-
-  const PROGRAM_OPTIONS = [
-    { id: 1, label: 'LEAD' },
-    { id: 2, label: 'CLP' },
-    { id: 3, label: 'HOL' },
-    { id: null, label: 'BCF' },
-  ];
-
-  const BATCH_OPTIONS = [
-    { id: 1, label: 'Batch 8' },
-    { id: 2, label: 'Batch 9' },
-    { id: 3, label: 'Batch 10' },
-    { id: 4, label: 'Batch 11' },
-  ];
 
   if (!isOpen) return null;
 

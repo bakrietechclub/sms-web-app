@@ -32,3 +32,11 @@ export const selectAccessTypeInstitutionsId = (state) => {
   // Menggunakan object lookup. Jika accessRole tidak ditemukan, akan mengembalikan null (default behavior)
   return roleInstitutionIdMap[accessRole] || null;
 };
+
+export const selectHasAccess = (state) => {
+  const loggedInAccess = state.authUser.user?.accessRole;
+  const selectedAccess = state.authUser.selectedAccess;
+
+  // Menggunakan object lookup. Jika accessRole tidak ditemukan, akan mengembalikan null (default behavior)
+  return loggedInAccess === selectedAccess;
+};

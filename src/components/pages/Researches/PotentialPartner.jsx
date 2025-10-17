@@ -10,8 +10,7 @@ import { selectPotentials } from '../../../states/features/research/potential/po
 import { asyncGetResearchPotential } from '../../../states/features/research/potential/potentialThunks';
 import { useNavigate } from 'react-router-dom';
 import {
-  selectAccessRole,
-  selectAccessTypeInstitutionsId,
+  selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
@@ -19,24 +18,21 @@ import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
 import AddResearchPotentialModal from '../../fragments/AddResearchPotentialModal';
 
 export const PotentialPartner = () => {
-  const [modalType, setModalType] = useState(null);
-  const [openModal, setOpenModal] = useState(false);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const data = useSelector(selectPotentials);
-  const accessRole = useSelector(selectAccessRole);
-  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
+  const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
+  const [openModal, setOpenModal] = useState(false);
   const [query, setQuery] = useState('');
 
   useEffect(() => {
     dispatch(
       asyncGetResearchPotential({ query, typeId: selectedAccessTypeId })
     );
-  }, [dispatch, query]);
+  }, [dispatch, query, selectedAccessTypeId]);
 
   const headers = [
     'No',
@@ -48,42 +44,10 @@ export const PotentialPartner = () => {
     'Aksi',
   ];
 
-  const filterOptions = getFiltersByModuleAndRole('potential', accessRole);
-
-  let modalSelector = null;
-  if (accessRole === 'LSD-SMS') {
-    modalSelector = {
-      'Jenis Instansi': [
-        {
-          label: 'Universitas',
-          onClick: () => {
-            setModalType(1);
-            setOpenModal(true);
-          },
-        },
-        {
-          label: 'Lembaga Sosial',
-          onClick: () => {
-            setModalType(2);
-            setOpenModal(true);
-          },
-        },
-      ],
-    };
-  }
-
-  const handleAddClick = () => {
-    if (accessRole === 'LSD-SMS') {
-      console.log(
-        "Tombol 'Tambah' diklik untuk universitas, seharusnya menampilkan dropdown."
-      );
-    } else if (accessRole === 'SDI-SMS') {
-      setModalType(3);
-      setOpenModal(true);
-    } else {
-      setOpenModal(true);
-    }
-  };
+  const filterOptions = getFiltersByModuleAndRole(
+    'potential',
+    seletedAccessRole
+  );
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
@@ -122,18 +86,8 @@ export const PotentialPartner = () => {
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}
-        onAddClick={handleAddClick} // Ini akan terpanggil jika addOptions TIDAK ADA
-        addOptions={modalSelector} // Ini hanya akan ada jika stakeholder === "universitas"
-        filters={[
-          filterOptions,
-          {
-            label: 'Status Kontak',
-            options: [
-              { label: 'Sudah dikontak', value: 'sudah' },
-              { label: 'Belum dikontak', value: 'belum' },
-            ],
-          },
-        ]}
+        onAddClick={() => setOpenModal(true)} // Ini akan terpanggil jika addOptions TIDAK ADA
+        filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}
         searchWidth="w-1/4"
       />
@@ -145,9 +99,8 @@ export const PotentialPartner = () => {
         isOpen={openModal}
         onClose={() => {
           setOpenModal(false);
-          setModalType(null);
         }}
-        accessTypeId={accessTypeId}
+        accessTypeId={selectedAccessTypeId}
       />
     </>
   );

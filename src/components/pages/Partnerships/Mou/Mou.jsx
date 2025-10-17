@@ -7,8 +7,7 @@ import { TableToolbar } from '../../../fragments/TableToolbar';
 import { useNavigate } from 'react-router-dom';
 import { selectMous } from '../../../../states/features/partnerships/mou/mouSelectors';
 import {
-  selectAccessRole,
-  selectAccessTypeInstitutionsId,
+  selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
 import { asyncGetMou } from '../../../../states/features/partnerships/mou/mouThunks';
@@ -20,30 +19,17 @@ export const Mou = () => {
   const navigate = useNavigate();
 
   const data = useSelector(selectMous);
-  const accessRole = useSelector(selectAccessRole);
-  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
+  const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
+  const filterOptions = getFiltersByModuleAndRole('mou', seletedAccessRole);
 
   const [query, setQuery] = useState('');
-
-  useEffect(() => {
-    dispatch(asyncGetMou({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch, query]);
-
   const [filters, setFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const filterOptions = getFiltersByModuleAndRole('mou', accessRole);
-
-  const headers = [
-    'No.',
-    'Nama Instansi',
-    'Jenis Instansi',
-    'Tanggal Tanda Tangan',
-    'Jangka Kerjasama',
-    'Jatuh Tempo',
-    'Aksi',
-  ];
+  useEffect(() => {
+    dispatch(asyncGetMou({ query, typeId: selectedAccessTypeId }));
+  }, [dispatch, query, selectedAccessTypeId]);
 
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
@@ -83,7 +69,15 @@ export const Mou = () => {
         searchWidth="w-1/4"
       />
       <FreezeTable
-        headers={headers}
+        headers={[
+          'No.',
+          'Nama Instansi',
+          'Jenis Instansi',
+          'Tanggal Tanda Tangan',
+          'Jangka Kerjasama',
+          'Jatuh Tempo',
+          'Aksi',
+        ]}
         data={data}
         renderRowFreeze={renderRowFreeze}
         renderRow={renderRow}
@@ -95,7 +89,7 @@ export const Mou = () => {
         <AddMouModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          accessTypeId={accessTypeId}
+          accessTypeId={selectedAccessTypeId}
         />
       )}
     </div>

@@ -53,4 +53,23 @@ const STATUS_OPTIONS = [
   },
 ];
 
-export { STATUS_OPTIONS };
+const PROGRAM_OPTIONS = [
+  { id: 1, label: 'LEAD' },
+  { id: 2, label: 'CLP' },
+  { id: 3, label: 'HOL' },
+  { id: 7, label: 'BCF' },
+];
+
+const BATCH_OPTIONS = [
+  { id: 1, label: 'Batch 8' },
+  { id: 2, label: 'Batch 9' },
+  { id: 3, label: 'Batch 10' },
+  { id: 4, label: 'Batch 11' },
+];
+
+const LETTER_OPTIONS = [
+  { id: 1, label: 'Administrasi' },
+  { id: 2, label: 'Finance' },
+];
+
+export { STATUS_OPTIONS, PROGRAM_OPTIONS, BATCH_OPTIONS, LETTER_OPTIONS };

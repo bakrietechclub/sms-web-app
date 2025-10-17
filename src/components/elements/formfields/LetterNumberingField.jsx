@@ -4,20 +4,9 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncGetSubClassifications } from '../../../states/features/letter/letterThunks';
 import { selectSubClassifications } from '../../../states/features/letter/letterSelectors';
+import { LETTER_OPTIONS, PROGRAM_OPTIONS } from '../../../utils';
 
 // === STATIC OPTIONS ===
-const LETTER_CLASSES = [
-  { id: 1, label: 'Administrasi' },
-  { id: 2, label: 'Finance' },
-];
-
-const PROGRAM_OPTIONS = [
-  { id: 1, label: 'LEAD' },
-  { id: 2, label: 'CLP' },
-  { id: 3, label: 'HOL' },
-  { id: 7, label: 'BCF' },
-];
-
 const MONTHS = {
   Jan: '01',
   Feb: '02',
@@ -121,7 +110,7 @@ export default function LetterNumberingField() {
         <DropdownInput
           label="Kelas"
           value={kelas}
-          options={LETTER_CLASSES}
+          options={LETTER_OPTIONS}
           isOpen={dropdown.kelas}
           onToggle={() => toggleDropdown('kelas')}
           onSelect={handleSelectClass}

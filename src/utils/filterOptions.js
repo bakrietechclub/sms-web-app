@@ -157,8 +157,50 @@ const ROLE_FILTERS = {
       {
         label: 'Jenis Instansi',
         options: [
-          { label: 'Universitas', value: 'universitas' },
-          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
+          { label: 'Universitas', value: 1 },
+          { label: 'Lembaga Sosial', value: 2 },
+        ],
+      },
+      {
+        label: 'Status Kontak',
+        options: [
+          { label: 'Sudah dikontak', value: 'sudah' },
+          { label: 'Belum dikontak', value: 'belum' },
+        ],
+      },
+    ],
+    'SDI-SMS': [
+      {
+        label: 'Cluster',
+        options: [
+          { label: 'Kesehatan', value: 'kesehatan' },
+          { label: 'Pendidikan', value: 'pendidikan' },
+          { label: 'Lingkungan', value: 'lingkungan' },
+        ],
+      },
+      {
+        label: 'Status Kontak',
+        options: [
+          { label: 'Sudah dikontak', value: 'sudah' },
+          { label: 'Belum dikontak', value: 'belum' },
+        ],
+      },
+    ],
+    'SCP-SMS': [
+      {
+        label: 'Jenis Instansi',
+        options: [
+          { label: 'Pemerintah Pusat', value: 4 },
+          { label: 'Pemerintah Daerah', value: 5 },
+          { label: 'Dunia Usaha', value: 6 },
+          { label: 'Media Masa', value: 7 },
+        ],
+      },
+      {
+        label: 'Status Kontak',
+        options: [
+          { label: 'Sudah dikontak', value: 'sudah' },
+          { label: 'Belum dikontak', value: 'belum' },
         ],
       },
     ],

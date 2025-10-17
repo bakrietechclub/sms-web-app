@@ -4,8 +4,10 @@ import {
   Plus,
   ChevronRight,
   ChevronDown,
-} from "lucide-react";
-import { useState } from "react";
+} from 'lucide-react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectHasAccess } from '../../states/features/auth/authSelectors';
 
 export const TableToolbar = ({
   searchValue,
@@ -14,7 +16,7 @@ export const TableToolbar = ({
   addOptions = null,
   filters = null,
   onFilterSet = () => {},
-  searchWidth = "w-1/4",
+  searchWidth = 'w-1/4',
 }) => {
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [expandedFields, setExpandedFields] = useState([]);
@@ -30,7 +32,9 @@ export const TableToolbar = ({
   };
 
   const isNestedAdd =
-    typeof addOptions === "object" && !Array.isArray(addOptions);
+    typeof addOptions === 'object' && !Array.isArray(addOptions);
+
+  const hasAccess = useSelector(selectHasAccess);
 
   return (
     <div className="flex items-center justify-end gap-4 mb-3 pt-4 relative">
@@ -117,7 +121,19 @@ export const TableToolbar = ({
             onClick={
               addOptions ? () => setShowAddOptions(!showAddOptions) : onAddClick
             }
-            className="flex gap-3 items-center bg-[#0D4690] text-white px-4 py-2 rounded-md mb-4 ml-2 hover:bg-[#0C3F82] duration-300 cursor-pointer"
+            disabled={!hasAccess}
+            className={`
+        flex gap-3 items-center px-4 py-2 rounded-md mb-4 ml-2 duration-300
+        
+        // Default styling (Active state)
+        ${
+          !hasAccess
+            ? // DISABLED State (hasAccess is false)
+              'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75'
+            : // ACTIVE State (hasAccess is true)
+              'bg-[#0D4690] text-white hover:bg-[#0C3F82] cursor-pointer'
+        }
+    `}
           >
             <Plus className="w-4 h-4" />
             Tambah

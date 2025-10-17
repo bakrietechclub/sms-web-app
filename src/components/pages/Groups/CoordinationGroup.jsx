@@ -12,6 +12,7 @@ import { selectGroups } from '../../../states/features/group/groupSelectors';
 import {
   selectAccessRole,
   selectAccessTypeInstitutionsId,
+  selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
 import { asyncGetGroups } from '../../../states/features/group/groupThunks';
@@ -24,29 +25,16 @@ export const CoordinationGroup = () => {
   const navigate = useNavigate();
 
   const data = useSelector(selectGroups);
-  const accessRole = useSelector(selectAccessRole);
-  const accessTypeId = useSelector(selectAccessTypeInstitutionsId);
+  const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
   const [query, setQuery] = useState('');
+  const [openModal, setOpenModal] = useState(false);
+  const filterOptions = getFiltersByModuleAndRole('group', seletedAccessRole);
 
   useEffect(() => {
     dispatch(asyncGetGroups({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch, query]);
-
-  const [search, setSearch] = useState('');
-  const [openModal, setOpenModal] = useState(false);
-
-  const filterOptions = getFiltersByModuleAndRole('group', accessRole);
-
-  const headers = [
-    'No',
-    'Nama Instansi',
-    'Jenis Instansi',
-    'Link Grup',
-    'Kontak PIC',
-    'Aksi',
-  ];
+  }, [dispatch, query, selectedAccessTypeId]);
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
@@ -98,10 +86,21 @@ export const CoordinationGroup = () => {
       <AddCoorGroupModal
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
-        accessTypeId={accessTypeId}
+        accessTypeId={selectedAccessTypeId}
       />
 
-      <Table headers={headers} data={data} renderRow={renderRow} />
+      <Table
+        headers={[
+          'No',
+          'Nama Instansi',
+          'Jenis Instansi',
+          'Link Grup',
+          'Kontak PIC',
+          'Aksi',
+        ]}
+        data={data}
+        renderRow={renderRow}
+      />
       <Pagination />
     </div>
   );
