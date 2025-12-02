@@ -26,6 +26,19 @@ async function getResearchPotential({ q, typeId, page = 1, pageSize = 10 }) {
   return responseJson.data;
 }
 
+async function getResearchPotentialRecommendations({
+  q,
+  typeId,
+  provincieId,
+  page = 1,
+  pageSize = 10,
+}) {
+  const responseJson = await fetchWithAuth(
+    `/research/potential-recommendations?q=${q}&typeId=${typeId}&provincieId=${provincieId}&page=${page}&pageSize=${pageSize}`
+  );
+  return responseJson.data;
+}
+
 async function getResearchPotentialOptions({ q, typeId }) {
   const responseJson = await fetchWithAuth(
     `/research/potential-options?q=${q}&typeId=${typeId}`
@@ -84,6 +97,7 @@ async function deleteResearchPotentialById({ id }) {
 export {
   addResearchPotential,
   getResearchPotential,
+  getResearchPotentialRecommendations,
   getResearchPotentialOptions,
   getResearchPotentialOptionsById,
   getDetailResearchPotentialOptionsById,

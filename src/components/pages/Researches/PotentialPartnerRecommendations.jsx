@@ -6,8 +6,8 @@ import { Table } from '../../fragments/Table';
 import { TableToolbar } from '../../fragments/TableToolbar';
 import { Pagination } from '../../fragments/Pagination';
 
-import { selectPotentials } from '../../../states/features/research/potential/potentialSelectors';
-import { asyncGetResearchPotential } from '../../../states/features/research/potential/potentialThunks';
+import { selectPotentialsRecommendations } from '../../../states/features/research/potential/potentialSelectors';
+import { asyncGetResearchPotentialRecommendations } from '../../../states/features/research/potential/potentialThunks';
 import { useNavigate } from 'react-router-dom';
 import {
   selectedAccess,
@@ -17,11 +17,11 @@ import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
 
 import AddResearchPotentialModal from '../../fragments/AddResearchPotentialModal';
 
-export const PotentialPartner = () => {
+export const PotentialPartnerRecommendations = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const data = useSelector(selectPotentials);
+  const data = useSelector(selectPotentialsRecommendations);
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
@@ -30,7 +30,11 @@ export const PotentialPartner = () => {
 
   useEffect(() => {
     dispatch(
-      asyncGetResearchPotential({ query, typeId: selectedAccessTypeId })
+      asyncGetResearchPotentialRecommendations({
+        query,
+        typeId: selectedAccessTypeId,
+        provincieId: [1, 2, 3, 11, 12],
+      })
     );
   }, [dispatch, query, selectedAccessTypeId]);
 
@@ -43,29 +47,11 @@ export const PotentialPartner = () => {
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
       <td className="py-3">{index + 1}</td>
       <td>{value.instituteName}</td>
-      <td>{value.partnershipResearchType}</td>
+      <td>{value.typeName}</td>
       <td>{value.regionName}</td>
-      <td>{value.partnershipResearchProgram?.join(', ')}</td>
-      <td>
-        <Label
-          label={value.contactStatus}
-          status={
-            value.contactStatus === 'Sudah dikontak' ? 'success' : 'danger'
-          }
-        />
-      </td>
-      <td>
-        <Button
-          onClick={() => {
-            navigate(
-              `/dashboard/research/potential-partner/${value.researchPotentialId}`
-            );
-          }}
-          className="text-[#0D4690] underline cursor-pointer"
-        >
-          Lihat Detail
-        </Button>
-      </td>
+      <td>{value.totalStudents}</td>
+      <td>{value.totalStudentsRegistered}</td>
+      <td>{value.totalStudentsActive}</td>
     </tr>
   );
 
@@ -76,7 +62,6 @@ export const PotentialPartner = () => {
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}
-        onAddClick={() => setOpenModal(true)} // Ini akan terpanggil jika addOptions TIDAK ADA
         filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}
         searchWidth="w-1/4"
@@ -86,11 +71,11 @@ export const PotentialPartner = () => {
         headers={[
           'No',
           'Nama',
-          'Jenis',
+          'Jenis ',
           'Region',
-          'Program LSD',
-          'Status',
-          'Aksi',
+          'Total Mahasiswa',
+          'Total Pendaftar',
+          'Total Aktif',
         ]}
         data={data}
         renderRow={renderRow}

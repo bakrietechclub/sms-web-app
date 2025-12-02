@@ -76,9 +76,9 @@ export const Spk = () => {
       <FreezeTable
         headers={[
           'No.',
-          'Nama Instansi',
-          'Jenis Instansi',
-          'Divisi Instansi',
+          'Nama',
+          'Jenis',
+          'Divisi',
           'Tanggal Tanda Tangan',
           'Jangka Kerjasama',
           'Jatuh Tempo',

@@ -87,9 +87,9 @@ export const Ia = () => {
       <FreezeTable
         headers={[
           'No',
-          'Nama Instansi',
-          'Jenis Instansi',
-          'Divisi Instansi',
+          'Nama',
+          'Jenis',
+          'Divisi',
           'Status Kerjasama',
           'Program Implementasi',
           'Tahun Implementasi',

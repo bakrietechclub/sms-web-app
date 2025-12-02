@@ -1,4 +1,6 @@
 export const selectPotentials = (state) => state.potential.potentials;
+export const selectPotentialsRecommendations = (state) =>
+  state.potential.potentialsRecommendations;
 export const selectPotentialsOptions = (state) =>
   state.potential.potentialsOptions;
 export const selectPotentialsOptionsDetail = (state) =>

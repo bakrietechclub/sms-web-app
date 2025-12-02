@@ -71,8 +71,8 @@ export const Mou = () => {
       <FreezeTable
         headers={[
           'No.',
-          'Nama Instansi',
-          'Jenis Instansi',
+          'Nama',
+          'Jenis',
           'Tanggal Tanda Tangan',
           'Jangka Kerjasama',
           'Jatuh Tempo',

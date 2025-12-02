@@ -36,6 +36,7 @@ import TorDetail from './components/pages/Partnerships/Tor/TorDetail';
 import SpkDetail from './components/pages/Partnerships/Spk/SpkDetail';
 import LetterNumberingDetail from './components/pages/LetterNumber/LetterNumberingDetail';
 import ColabPartnerDetail from './components/pages/Researches/ColabPartnerDetail';
+import { PotentialPartnerRecommendations } from './components/pages/Researches/PotentialPartnerRecommendations';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -64,6 +65,10 @@ const App = () => {
             <Route index element={<PotentialPartner />} />
             <Route path=":id" element={<PotentialPartnerDetail />} />
           </Route>
+          <Route
+            path="potential-recommendations"
+            element={<PotentialPartnerRecommendations />}
+          />
           <Route path="colab-partner">
             <Route index element={<ColabPartner />} />
             <Route path=":id" element={<ColabPartnerDetail />} />

@@ -8,10 +8,12 @@ import {
   asyncGetResearchPotentialOptions,
   asyncGetResearchPotentialOptionsById,
   asyncGetDetailResearchPotentialOptionsById,
+  asyncGetResearchPotentialRecommendations,
 } from './potentialThunks';
 
 const initialState = {
   potentials: [],
+  potentialsRecommendations: [],
   potentialsOptions: [],
   potentialsOptionsDetail: null,
   potentialOptionDetail: null,
@@ -56,6 +58,25 @@ const potentialSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      .addCase(asyncGetResearchPotentialRecommendations.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        asyncGetResearchPotentialRecommendations.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.potentialsRecommendations = action.payload;
+        }
+      )
+      .addCase(
+        asyncGetResearchPotentialRecommendations.rejected,
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      )
 
       .addCase(asyncGetResearchPotentialOptions.pending, (state) => {
         state.loading = true;

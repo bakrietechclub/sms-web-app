@@ -1,37 +1,37 @@
-import { Label } from "../../elements/Label";
-import { Button } from "../../elements/Button";
-import { FreezeTable } from "../../fragments/Table";
-import { Pagination } from "../../fragments/Pagination";
-import { TableToolbar } from "../../fragments/TableToolbar";
-import { useState } from "react";
-import { ChevronLeft, ListFilter } from "lucide-react";
+import { Label } from '../../elements/Label';
+import { Button } from '../../elements/Button';
+import { FreezeTable } from '../../fragments/Table';
+import { Pagination } from '../../fragments/Pagination';
+import { TableToolbar } from '../../fragments/TableToolbar';
+import { useState } from 'react';
+import { ChevronLeft, ListFilter } from 'lucide-react';
 
 import {
   UnivPtaRecap,
   UnivPtaRecapLEAD,
   UnivPtaRecapCLP,
-} from "../../../data/data_univ";
-import { div } from "framer-motion/client";
+} from '../../../data/data_univ';
+import { div } from 'framer-motion/client';
 
 export const Pta = () => {
   const [clp, setClp] = useState(false);
   const [lead, setLead] = useState(true);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [showDetail, setShowDetail] = useState(false);
   const [showCLPDetail, setShowCLPDetail] = useState(false);
   const [selected, setSelected] = useState({
-    name: "",
-    type: "",
-    colabStatus: "",
-    mouDue: "",
-    pksDue: "",
-    dueDate: "",
+    name: '',
+    type: '',
+    colabStatus: '',
+    mouDue: '',
+    pksDue: '',
+    dueDate: '',
     status: [],
   });
   const [selectedCLP, setSelectedCLP] = useState({
-    year: "",
-    batch: "",
-    colabDetail: "",
+    year: '',
+    batch: '',
+    colabDetail: '',
     students: [],
   });
 
@@ -51,18 +51,6 @@ export const Pta = () => {
     setLead(false);
     setClp(true);
   };
-
-  const headers = [
-    "No",
-    "Nama Instansi",
-    "Jenis Instansi",
-    "Status Kerjasama",
-    "Jatuh Tempo MoU",
-    "Jatuh Tempo PKS",
-    "Jatuh Tempo",
-    "Status",
-    "Aksi",
-  ];
 
   const renderRowFreeze = (value, index) => (
     <tr key={index} className="border-x border-r border-[#E7EDF4] h-10">
@@ -87,15 +75,15 @@ export const Pta = () => {
               key={idx}
               label={status}
               status={
-                status === "LEAD"
-                  ? "default"
-                  : status === "CLP"
-                  ? "warning"
-                  : status === "HOL"
-                  ? "success"
-                  : status === "BCF"
-                  ? "danger"
-                  : "default"
+                status === 'LEAD'
+                  ? 'default'
+                  : status === 'CLP'
+                  ? 'warning'
+                  : status === 'HOL'
+                  ? 'success'
+                  : status === 'BCF'
+                  ? 'danger'
+                  : 'default'
               }
             />
           ))
@@ -162,29 +150,39 @@ export const Pta = () => {
           onSearchChange={setSearch}
           filters={[
             {
-              label: "Jenis Instansi",
+              label: 'Jenis Instansi',
               options: [
-                { label: "Universitas", value: "universitas" },
-                { label: "Lembaga Sosial", value: "lembaga sosial" },
+                { label: 'Universitas', value: 'universitas' },
+                { label: 'Lembaga Sosial', value: 'lembaga sosial' },
               ],
             },
             {
-              label: "Tahun Kerjasama",
+              label: 'Tahun Kerjasama',
               options: [
-                { label: "2020", value: "2020" },
-                { label: "2021", value: "2021" },
-                { label: "2022", value: "2022" },
-                { label: "2023", value: "2023" },
-                { label: "2024", value: "2024" },
+                { label: '2020', value: '2020' },
+                { label: '2021', value: '2021' },
+                { label: '2022', value: '2022' },
+                { label: '2023', value: '2023' },
+                { label: '2024', value: '2024' },
               ],
             },
           ]}
-          onFilterSet={() => console.log("Filter diset")}
+          onFilterSet={() => console.log('Filter diset')}
           searchWidth="w-1/3"
         />
         <div>
           <FreezeTable
-            headers={headers}
+            headers={[
+              'No',
+              'Nama Instansi',
+              'Jenis Instansi',
+              'Status Kerjasama',
+              'Jatuh Tempo MoU',
+              'Jatuh Tempo PKS',
+              'Jatuh Tempo',
+              'Status',
+              'Aksi',
+            ]}
             data={UnivPtaRecap}
             renderRow={renderRow}
             renderRowFreeze={renderRowFreeze}
@@ -200,7 +198,7 @@ export const Pta = () => {
     return (
       <div>
         <Button
-          className={"text-[#0D4690] cursor-pointer flex"}
+          className={'text-[#0D4690] cursor-pointer flex'}
           onClick={() => {
             handleClickDetail();
           }}
@@ -224,9 +222,9 @@ export const Pta = () => {
             <Label
               label={selected.colabStatus}
               status={
-                selected.colabStatus === "Sedang Berlangsung"
-                  ? "success"
-                  : "danger"
+                selected.colabStatus === 'Sedang Berlangsung'
+                  ? 'success'
+                  : 'danger'
               }
             />
           </div>
@@ -239,15 +237,15 @@ export const Pta = () => {
                     key={idx}
                     label={status}
                     status={
-                      status === "LEAD"
-                        ? "default"
-                        : status === "CLP"
-                        ? "warning"
-                        : status === "HOL"
-                        ? "success"
-                        : status === "BCF"
-                        ? "danger"
-                        : "default"
+                      status === 'LEAD'
+                        ? 'default'
+                        : status === 'CLP'
+                        ? 'warning'
+                        : status === 'HOL'
+                        ? 'success'
+                        : status === 'BCF'
+                        ? 'danger'
+                        : 'default'
                     }
                   />
                 ))
@@ -296,9 +294,9 @@ export const Pta = () => {
             type="button"
             className={
               (lead
-                ? "text-[#0D4690] bg-[#E7EDF4]"
-                : "text-[#999999] border border-[#e6e6e6]") +
-              " py-4 px-8 rounded-xl cursor-pointer ease-in-out duration-300 w-40"
+                ? 'text-[#0D4690] bg-[#E7EDF4]'
+                : 'text-[#999999] border border-[#e6e6e6]') +
+              ' py-4 px-8 rounded-xl cursor-pointer ease-in-out duration-300 w-40'
             }
             onClick={handleLead}
           >
@@ -308,9 +306,9 @@ export const Pta = () => {
             type="button"
             className={
               (clp
-                ? "text-[#0D4690] bg-[#E7EDF4]"
-                : "text-[#999999] border border-[#e6e6e6]") +
-              " py-4 px-8 rounded-xl cursor-pointer ease-in-out duration-300 w-40"
+                ? 'text-[#0D4690] bg-[#E7EDF4]'
+                : 'text-[#999999] border border-[#e6e6e6]') +
+              ' py-4 px-8 rounded-xl cursor-pointer ease-in-out duration-300 w-40'
             }
             onClick={handleClp}
           >
@@ -380,7 +378,7 @@ export const Pta = () => {
     return (
       <div>
         <Button
-          className={"text-[#0D4690] cursor-pointer flex"}
+          className={'text-[#0D4690] cursor-pointer flex'}
           onClick={() => {
             handleClickCLPDetail();
           }}
@@ -388,7 +386,7 @@ export const Pta = () => {
           <ChevronLeft /> Kembali
         </Button>
         <h1 className="text-2xl font-semibold my-4">Data Mahasiswa</h1>
-        <Label label={"CLP Batch " + selectedCLP.batch} status="warning" />
+        <Label label={'CLP Batch ' + selectedCLP.batch} status="warning" />
         <h2 className="text-xl font-semibold my-2">Mahasiswa Magang</h2>
         <table className="table-auto text-center w-full">
           <thead className="text-[#0D4690] bg-[#E7EDF4]">

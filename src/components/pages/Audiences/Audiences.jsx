@@ -92,7 +92,7 @@ export const Audiences = () => {
       <Table
         headers={[
           'No',
-          'Nama Instansi',
+          'Nama',
           'Jenis Audiensi',
           'Tanggal',
           'Jam',

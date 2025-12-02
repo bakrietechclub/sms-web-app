@@ -10,8 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectGroups } from '../../../states/features/group/groupSelectors';
 import {
-  selectAccessRole,
-  selectAccessTypeInstitutionsId,
   selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
@@ -90,14 +88,7 @@ export const CoordinationGroup = () => {
       />
 
       <Table
-        headers={[
-          'No',
-          'Nama Instansi',
-          'Jenis Instansi',
-          'Link Grup',
-          'Kontak PIC',
-          'Aksi',
-        ]}
+        headers={['No', 'Nama', 'Jenis', 'Link Grup', 'Kontak PIC', 'Aksi']}
         data={data}
         renderRow={renderRow}
       />

@@ -38,7 +38,7 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
-    dispatch(asyncAddMou(data))
+    dispatch(asyncAddMou({ ...data, query, typeId: accessTypeId }))
       .unwrap()
       .then(() => onClose())
       .catch((err) => console.error(err));

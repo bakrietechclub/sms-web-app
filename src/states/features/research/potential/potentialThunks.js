@@ -41,6 +41,22 @@ export const asyncGetResearchPotential = createAsyncThunk(
   }
 );
 
+export const asyncGetResearchPotentialRecommendations = createAsyncThunk(
+  'potential/asyncGetResearchPotentialRecommendations',
+  async ({ query, typeId, provincieId }, { rejectWithValue }) => {
+    try {
+      const data = await api.getResearchPotentialRecommendations({
+        q: query,
+        typeId,
+        provincieId,
+      });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const asyncGetResearchPotentialOptions = createAsyncThunk(
   'potential/asyncGetResearchPotentialOptions',
   async ({ query, typeId }, { rejectWithValue }) => {

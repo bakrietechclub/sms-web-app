@@ -18,6 +18,10 @@ export const sidebarMenus = {
       icon: Search,
       submenu: [
         {
+          title: 'Riset Rekomendasi',
+          path: '/dashboard/research/potential-recommendations',
+        },
+        {
           title: 'Riset Potensial',
           path: '/dashboard/research/potential-partner',
         },

@@ -6,7 +6,10 @@ export const asyncAddMou = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       await api.addMou(payload);
-      const data = await api.getMou();
+      const data = await api.getMou({
+        q: payload.query,
+        typeId: payload.typeId,
+      });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

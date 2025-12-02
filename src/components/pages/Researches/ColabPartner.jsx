@@ -36,8 +36,8 @@ export const ColabPartner = () => {
 
   const headers = [
     'No',
-    'Nama Instansi',
-    'Jenis Instansi',
+    'Nama',
+    'Jenis ',
     'Region',
     'Program Rencana Kolaborasi',
     'Aksi',
