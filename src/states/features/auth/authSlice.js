@@ -5,7 +5,7 @@ const authSlice = createSlice({
   name: 'authUser',
   initialState: {
     user: null,
-    selectedAccess: null,
+    selectedAccess: localStorage.getItem('selectedAccess') || null,
     loading: false,
     error: null,
   },
@@ -19,9 +19,11 @@ const authSlice = createSlice({
     },
     setSelectedAccess(state, action) {
       state.selectedAccess = action.payload;
+      localStorage.setItem('selectedAccess', action.payload);
     },
     unsetSelectedAccess(state) {
       state.selectedAccess = null;
+      localStorage.removeItem('selectedAccess');
     },
   },
   extraReducers: (builder) => {

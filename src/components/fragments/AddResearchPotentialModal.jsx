@@ -16,6 +16,7 @@ import {
   selectInstitutionsOptionsDetail,
 } from '../../states/features/institution/institutionSelectors';
 import Select from 'react-select';
+import { X, Loader2 } from 'lucide-react';
 
 export default function AddResearchPotentialModal({
   isOpen,
@@ -23,6 +24,7 @@ export default function AddResearchPotentialModal({
   accessTypeId,
 }) {
   const dispatch = useDispatch();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
@@ -43,12 +45,14 @@ export default function AddResearchPotentialModal({
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
+    setIsSubmitting(true);
     dispatch(
       asyncAddResearchPotential({ ...data, query, typeId: accessTypeId })
     )
       .unwrap()
       .then(() => onClose())
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setIsSubmitting(false));
   };
 
   const [query, setQuery] = useState('');
@@ -76,7 +80,6 @@ export default function AddResearchPotentialModal({
         'institutionClusterType',
         institutionsOptionsDetail.institutionClusterType || ''
       );
-      // Jangan setValue untuk institutionId di sini!
     }
   }, [institutionsOptionsDetail, setValue]);
 
@@ -97,52 +100,70 @@ export default function AddResearchPotentialModal({
         className="fixed inset-0 z-40 bg-black opacity-40"
         onClick={onClose}
       />
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
-          className="bg-white w-[1116px] h-[900px] max-h-[90vh] rounded-2xl shadow-xl overflow-hidden flex flex-col"
+          className="bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="w-full h-[92px] px-6 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">
+          {/* Header */}
+          <div className="px-5 py-4 flex items-center justify-between border-b border-gray-200">
+            <h2 className="text-xl font-semibold text-gray-800">
               Form Tambah Mitra
               {(accessTypeId === 1 && ' Universitas') ||
                 (accessTypeId === 2 && ' Lembaga/Komunitas')}
             </h2>
-            <button onClick={onClose} className="text-2xl">
-              ×
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 hover:bg-gray-100 rounded-lg"
+              aria-label="Close"
+            >
+              <X size={24} />
             </button>
           </div>
 
+          {/* Form */}
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto"
-            style={{ height: 'calc(900px - 92px)' }}
-            // ref={dropdownRef}
+            className="px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto"
           >
-            <label className="block mb-1 font-medium">Nama Instansi</label>
-            <Select
-              name="institutionId"
-              options={selectOptions}
-              placeholder="Cari & pilih nama instansi"
-              onInputChange={setQuery} // agar search ke API
-              onChange={(option) => {
-                setSelectedInstitution(option); // simpan option di state
-                setValue('institutionId', option ? option.value : null);
-                if (option) {
-                  dispatch(
-                    asyncGetInstitutionsOptionsById({ id: option.value })
-                  );
-                }
-              }}
-              isClearable
-              isSearchable
-              value={selectedInstitution}
-            />
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Nama Instansi
+              </label>
+              <Select
+                name="institutionId"
+                options={selectOptions}
+                placeholder="Cari & pilih nama instansi"
+                onInputChange={setQuery}
+                onChange={(option) => {
+                  setSelectedInstitution(option);
+                  setValue('institutionId', option ? option.value : null);
+                  if (option) {
+                    dispatch(
+                      asyncGetInstitutionsOptionsById({ id: option.value })
+                    );
+                  }
+                }}
+                isClearable
+                isSearchable
+                value={selectedInstitution}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    minHeight: '42px',
+                    borderColor: '#d1d5db',
+                    '&:hover': {
+                      borderColor: '#9ca3af',
+                    },
+                  }),
+                }}
+              />
+            </div>
 
             {Array.isArray(watch('institutionLocations')) &&
-            watch('institutionLocations').length > 0 ? (
+              watch('institutionLocations').length > 0 ? (
               watch('institutionLocations').map((loc, idx) => (
-                <div key={idx} className="grid grid-cols-2 gap-2">
+                <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <TextField
                     name={`institutionLocations.${idx}.provincieName`}
                     label={`Provinsi ${idx + 1}`}
@@ -168,8 +189,8 @@ export default function AddResearchPotentialModal({
             {accessTypeId === 2 && (
               <>
                 {watch('institutionClusterFocus') ||
-                watch('institutionClusterType') ? (
-                  <div className="grid grid-cols-2 gap-2">
+                  watch('institutionClusterType') ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <TextField
                       name="institutionClusterFocus"
                       label="Cluster Focus"
@@ -190,20 +211,23 @@ export default function AddResearchPotentialModal({
                     Cluster Focus dan Cluster Type belum tersedia.
                   </div>
                 )}
-                <TextField
-                  name="peran"
-                  label="Peran"
-                  placeholder="Masukkan peran"
-                  register={register}
-                />
-                <TextField
-                  name="wilayah jangkauan"
-                  label="Wilayah Jangkauan"
-                  placeholder="Masukkan wilayah jangkauan"
-                  register={register}
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <TextField
+                    name="peran"
+                    label="Peran"
+                    placeholder="Masukkan peran"
+                    register={register}
+                  />
+                  <TextField
+                    name="wilayah jangkauan"
+                    label="Wilayah Jangkauan"
+                    placeholder="Masukkan wilayah jangkauan"
+                    register={register}
+                  />
+                </div>
               </>
             )}
+
             <TextField
               name="instituteProfile"
               label="Profil"
@@ -211,28 +235,33 @@ export default function AddResearchPotentialModal({
               register={register}
               disable
             />
+
             <ContactFields register={register} />
-            <MultiSelectDropdown
-              name="partnershipResearchProgramIds"
-              label="Program LSD"
-              options={[
-                { id: 1, label: 'LEAD' },
-                { id: 2, label: 'CLP' },
-                { id: 3, label: 'HOL' },
-              ]}
-              register={register}
-              setValue={setValue}
-            />
-            <SingleSelectDropdownBadge
-              name="contactStatus"
-              label="Status"
-              options={[
-                { id: 1, label: 'Sudah dikontak' },
-                { id: 0, label: 'Belum dikontak' },
-              ]}
-              register={register}
-              setValue={setValue}
-            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <MultiSelectDropdown
+                name="partnershipResearchProgramIds"
+                label="Program LSD"
+                options={[
+                  { id: 1, label: 'LEAD' },
+                  { id: 2, label: 'CLP' },
+                  { id: 3, label: 'HOL' },
+                ]}
+                register={register}
+                setValue={setValue}
+              />
+              <SingleSelectDropdownBadge
+                name="contactStatus"
+                label="Status"
+                options={[
+                  { id: 1, label: 'Sudah dikontak' },
+                  { id: 0, label: 'Belum dikontak' },
+                ]}
+                register={register}
+                setValue={setValue}
+              />
+            </div>
+
             <MultiSelectDropdown
               name="partnershipResearchNeedsIds"
               label="Kebutuhan"
@@ -243,19 +272,39 @@ export default function AddResearchPotentialModal({
               register={register}
               setValue={setValue}
             />
+
             <SwotFields label="Program Analisis" register={register} />
+
             <TextField
               name="documentUrl"
               label="Link Dokumen"
               placeholder="https://.."
               register={register}
             />
-            <div className="text-right pt-4">
+
+            {/* Footer with Buttons */}
+            <div className="flex justify-end gap-3 pt-2 border-t border-gray-200 mt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                disabled={isSubmitting}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Batal
+              </button>
               <button
                 type="submit"
-                className="bg-[#0d4690] text-white px-15 py-2 rounded-lg hover:bg-[#0c3f82]"
+                disabled={isSubmitting}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
               >
-                Simpan
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Menyimpan...
+                  </>
+                ) : (
+                  'Simpan'
+                )}
               </button>
             </div>
           </form>

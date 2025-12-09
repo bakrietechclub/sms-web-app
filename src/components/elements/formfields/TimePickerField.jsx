@@ -127,7 +127,7 @@ const TimePickerField = ({
   };
 
   return (
-    <div className={`relative w-132 ${className}`}>
+    <div className={`relative w-full ${className}`}>
       <label className="block mb-1 font-medium">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
@@ -141,9 +141,8 @@ const TimePickerField = ({
           placeholder={placeholder}
           onClick={handleInputClick}
           disabled={disabled}
-          className={`w-full border border-gray-300 px-3 py-2 rounded cursor-pointer pr-10 ${
-            disabled ? 'bg-gray-100 cursor-not-allowed' : ''
-          }`}
+          className={`w-full border border-gray-300 px-3 py-2 rounded cursor-pointer pr-10 ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
         />
         <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
           <img src={clock} alt="clock icon" className="w-5 h-5 opacity-60" />
@@ -158,9 +157,8 @@ const TimePickerField = ({
                 key={period}
                 type="button"
                 onClick={() => setAmPm(period)}
-                className={`px-3 py-1 rounded text-sm ${
-                  amPm === period ? 'text-black' : 'text-gray-400'
-                }`}
+                className={`px-3 py-1 rounded text-sm ${amPm === period ? 'text-black' : 'text-gray-400'
+                  }`}
               >
                 {period}
               </button>

@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../../../utils/api';
 
 export const asyncAddResearchCollab = createAsyncThunk(
-  'potential/asyncAddResearchCollab',
+  'collab/asyncAddResearchCollab',
   async (payload, { rejectWithValue }) => {
     try {
       await api.addResearchCollab(payload);
@@ -18,7 +18,7 @@ export const asyncAddResearchCollab = createAsyncThunk(
 );
 
 export const asyncGetResearchCollabById = createAsyncThunk(
-  'potential/asyncGetResearchCollabById',
+  'collab/asyncGetResearchCollabById',
   async ({ id }, { rejectWithValue }) => {
     try {
       const data = await api.getResearchCollabById({ id });
@@ -30,7 +30,7 @@ export const asyncGetResearchCollabById = createAsyncThunk(
 );
 
 export const asyncGetResearchCollab = createAsyncThunk(
-  'potential/asyncGetResearchCollab',
+  'collab/asyncGetResearchCollab',
   async ({ query, typeId }, { rejectWithValue }) => {
     try {
       const data = await api.getResearchCollab({ q: query, typeId });
@@ -42,7 +42,7 @@ export const asyncGetResearchCollab = createAsyncThunk(
 );
 
 export const asyncGetResearchCollabOptions = createAsyncThunk(
-  'potential/asyncGetResearchCollabOptions',
+  'collab/asyncGetResearchCollabOptions',
   async ({ query, typeId }, { rejectWithValue }) => {
     try {
       const data = await api.getResearchCollabOptions({ q: query, typeId });
@@ -54,7 +54,7 @@ export const asyncGetResearchCollabOptions = createAsyncThunk(
 );
 
 export const asyncDeleteResearchCollabById = createAsyncThunk(
-  'potential/asyncDeleteResearchCollabById',
+  'collab/asyncDeleteResearchCollabById',
   async ({ id }, { rejectWithValue }) => {
     try {
       const message = await api.deleteResearchCollabById({ id });
@@ -66,7 +66,7 @@ export const asyncDeleteResearchCollabById = createAsyncThunk(
 );
 
 export const asyncUpdateResearchCollabById = createAsyncThunk(
-  'potential/asyncUpdateResearchCollabById',
+  'collab/asyncUpdateResearchCollabById',
   async (payload, { rejectWithValue }) => {
     try {
       const data = await api.updateResearchCollabById(payload);

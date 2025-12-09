@@ -6,9 +6,13 @@ import { asyncGetResearchPotentialOptions } from '../../states/features/research
 import TextField from '../elements/formfields/TextField';
 import Select from 'react-select';
 import { asyncAddGroup } from '../../states/features/group/groupThunks';
+import { X, Loader2 } from 'lucide-react';
 
 export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [query, setQuery] = useState('');
+  const [selected, setSelected] = useState(null);
 
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
@@ -16,31 +20,7 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
       groupUrl: '',
     },
   });
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [wrapperHeight, setWrapperHeight] = useState('45vh');
 
-  const onSubmit = (data) => {
-    console.log('Form data:', data);
-    dispatch(asyncAddGroup(data))
-      .unwrap()
-      .then(() => onClose())
-      .catch((err) => console.error(err));
-  };
-
-  const handleDropdownToggle = () => {
-    setIsDropdownOpen((prev) => !prev);
-  };
-
-  useEffect(() => {
-    if (isDropdownOpen) {
-      setWrapperHeight('calc(88vh - 90px - 50px)');
-    } else {
-      setWrapperHeight('40vh');
-    }
-  }, [isDropdownOpen]);
-
-  const [query, setQuery] = useState('');
-  const [selected, setSelected] = useState(null);
   const options = useSelector(selectPotentialsOptions);
 
   const selectOptions = options.map((item) => ({
@@ -50,7 +30,20 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
 
   useEffect(() => {
     dispatch(asyncGetResearchPotentialOptions({ query, typeId: accessTypeId }));
-  }, [dispatch, query]);
+  }, [dispatch, query, accessTypeId]);
+
+  const onSubmit = async (data) => {
+    console.log('Form data:', data);
+    setIsSubmitting(true);
+    try {
+      await dispatch(asyncAddGroup(data)).unwrap();
+      onClose();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -60,38 +53,59 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
         className="fixed inset-0 z-40 bg-black opacity-40"
         onClick={onClose}
       />
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
-          className="bg-white w-[1116px] rounded-2xl shadow-xl overflow-hidden flex flex-col px-5 py-7"
+          className="bg-white w-full max-w-3xl rounded-xl shadow-xl overflow-hidden flex flex-col"
           onClick={(e) => e.stopPropagation()}
-          style={{ height: wrapperHeight }}
         >
-          <div className="w-full h-[92px] px-6 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">Tambah Grup Koordinasi</h2>
-            <button onClick={onClose} className="text-2xl">
-              ×
+          {/* Header */}
+          <div className="px-5 py-4 flex items-center justify-between border-b border-gray-200">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Tambah Grup Koordinasi
+            </h2>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 hover:bg-gray-100 rounded-lg"
+              aria-label="Close"
+            >
+              <X size={24} />
             </button>
           </div>
 
+          {/* Form */}
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="px-6 pt-2 pb-4 space-y-4"
-            style={{ height: `calc(${wrapperHeight} - 92px)` }}
+            className="px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto"
           >
-            <label className="block mb-1 font-medium">Data riset</label>
-            <Select
-              name="partnershipResearchId"
-              options={selectOptions}
-              placeholder="Cari & pilih nama instansi"
-              onInputChange={setQuery} // agar search ke API
-              onChange={(option) => {
-                setSelected(option); // simpan option di state
-                setValue('partnershipResearchId', option ? option.value : null);
-              }}
-              isClearable
-              isSearchable
-              value={selected}
-            />
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Data Riset
+              </label>
+              <Select
+                name="partnershipResearchId"
+                options={selectOptions}
+                placeholder="Cari & pilih nama instansi"
+                onInputChange={setQuery}
+                onChange={(option) => {
+                  setSelected(option);
+                  setValue('partnershipResearchId', option ? option.value : null);
+                }}
+                isClearable
+                isSearchable
+                value={selected}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    minHeight: '42px',
+                    borderColor: '#d1d5db',
+                    '&:hover': {
+                      borderColor: '#9ca3af',
+                    },
+                  }),
+                }}
+              />
+            </div>
+
             <TextField
               name="groupUrl"
               label="Link Grup"
@@ -99,12 +113,31 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
               register={register}
             />
 
-            <button
-              type="submit"
-              className="flex bg-[#0d4690] text-white px-15 py-2 rounded-lg hover:bg-[#0c3f82] ml-auto mt-4"
-            >
-              Simpan
-            </button>
+            {/* Footer with Buttons */}
+            <div className="flex justify-end gap-3 pt-2 border-t border-gray-200 mt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                disabled={isSubmitting}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Menyimpan...
+                  </>
+                ) : (
+                  'Simpan'
+                )}
+              </button>
+            </div>
           </form>
         </div>
       </div>

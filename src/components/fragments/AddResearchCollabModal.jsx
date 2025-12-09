@@ -18,6 +18,7 @@ import {
   asyncGetResearchPotentialOptionsById,
 } from '../../states/features/research/potential/potentialThunks';
 import { Link } from 'react-router-dom';
+import { X, Loader2 } from 'lucide-react';
 
 // Define initial default values outside the component
 const defaultFormValues = {
@@ -30,11 +31,11 @@ const defaultFormValues = {
   weakness: '',
   opportunities: '',
   challenge: '',
-  institutionRegion: '', // Added for useEffect cleanup
-  potentialPrograms: '', // Added for useEffect cleanup
-  statusPartnership: '', // Added for useEffect cleanup
-  MoU: '', // Added for useEffect cleanup
-  PkS: '', // Added for useEffect cleanup
+  institutionRegion: '',
+  potentialPrograms: '',
+  statusPartnership: '',
+  MoU: '',
+  PkS: '',
 };
 
 export default function AddResearchCollabModal({
@@ -43,6 +44,8 @@ export default function AddResearchCollabModal({
   accessTypeId,
 }) {
   const dispatch = useDispatch();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [query, setQuery] = useState('');
 
   // Use watch to get the current values needed for Select components
   const { register, handleSubmit, setValue, watch } = useForm({
@@ -51,9 +54,6 @@ export default function AddResearchCollabModal({
 
   const researchId = watch('researchId');
   const researchPksId = watch('researchPksId');
-
-  // Local state for search query remains to control API calls for institution options
-  const [query, setQuery] = useState('');
 
   // Redux Selectors
   const potentialOptions = useSelector(selectPotentialsOptions);
@@ -102,9 +102,7 @@ export default function AddResearchCollabModal({
 
   // 2. Update form fields when potentialOptionDetail changes (after selecting a PkS/Division)
   useEffect(() => {
-    // This effect runs whenever potentialOptionDetail is updated by Redux
     if (potentialOptionDetail) {
-      // Use a consistent way to set values. Nullish coalescing is good for fallbacks.
       setValue(
         'institutionRegion',
         potentialOptionDetail.institutionRegion ?? ''
@@ -117,7 +115,6 @@ export default function AddResearchCollabModal({
         'statusPartnership',
         potentialOptionDetail.statusPartnership ?? ''
       );
-      // --- UPDATED FOR NESTED MOU/PKS ---
       // MoU fields
       setValue(
         'MoU.signatureDate',
@@ -133,20 +130,17 @@ export default function AddResearchCollabModal({
       );
       setValue('PkS.dueDate', potentialOptionDetail.PkS?.dueDate ?? '');
       setValue('PkS.documentUrl', potentialOptionDetail.PkS?.documentUrl ?? '');
-      // ------------------------------------
     } else {
-      // Clear fields if potentialOptionDetail becomes null (e.g., on clear/new selection)
+      // Clear fields if potentialOptionDetail becomes null
       setValue('institutionRegion', '');
       setValue('potentialPrograms', '');
       setValue('statusPartnership', '');
-      // --- UPDATED FOR NESTED MOU/PKS CLEARING ---
       setValue('MoU.signatureDate', '');
       setValue('MoU.dueDate', '');
       setValue('MoU.documentUrl', '');
       setValue('PkS.signatureDate', '');
       setValue('PkS.dueDate', '');
       setValue('PkS.documentUrl', '');
-      // -------------------------------------------
     }
   }, [potentialOptionDetail, setValue]);
 
@@ -154,38 +148,35 @@ export default function AddResearchCollabModal({
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
-    // Uncomment and use the thunk once ready
-    // dispatch(asyncAddResearchCollab(data))
-    //   .unwrap()
-    //   .then(() => onClose())
-    //   .catch((err) => console.error(err));
+    setIsSubmitting(true);
+    dispatch(
+      asyncAddResearchCollab({ ...data, query, typeId: accessTypeId })
+    )
+      .unwrap()
+      .then(() => onClose())
+      .catch((err) => console.error(err))
+      .finally(() => setIsSubmitting(false));
   };
 
   const handleInstitutionChange = (option) => {
-    // 1. Set the form value for researchId
     setValue('researchId', option ? option.value : null);
-    // 2. Clear researchPksId and its related detail fields
     setValue('researchPksId', null);
     setValue('institutionRegion', '');
     setValue('potentialPrograms', '');
     setValue('statusPartnership', '');
-    // 4. **IMMEDIATELY CLEAR ALL NESTED MOU/PKS FIELDS** (Updated)
     setValue('MoU.signatureDate', '');
     setValue('MoU.dueDate', '');
     setValue('MoU.documentUrl', '');
     setValue('PkS.signatureDate', '');
     setValue('PkS.dueDate', '');
     setValue('PkS.documentUrl', '');
-    // 3. Trigger API call for detail options if an institution is selected
     if (option) {
       dispatch(asyncGetResearchPotentialOptionsById({ id: option.value }));
     }
   };
 
   const handleInstitutionDetailChange = (option) => {
-    // 1. Set the form value for researchPksId
     setValue('researchPksId', option ? option.value : null);
-    // 2. Trigger API call for detailed potential information
     if (option) {
       dispatch(
         asyncGetDetailResearchPotentialOptionsById({ id: option.value })
@@ -195,103 +186,119 @@ export default function AddResearchCollabModal({
 
   if (!isOpen) return null;
 
-  // --- Render ---
-
   return (
     <>
       <div
         className="fixed inset-0 z-40 bg-black opacity-40"
         onClick={onClose}
       />
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
-          className="bg-white w-[1116px] h-[900px] max-h-[90vh] rounded-2xl shadow-xl overflow-hidden flex flex-col"
+          className="bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="w-full h-[92px] px-6 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">
+          {/* Header */}
+          <div className="px-5 py-4 flex items-center justify-between border-b border-gray-200">
+            <h2 className="text-xl font-semibold text-gray-800">
               Tambah Data Riset Kolaborasi Mitra
             </h2>
-            <button onClick={onClose} className="text-2xl">
-              ×
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 hover:bg-gray-100 rounded-lg"
+              aria-label="Close"
+            >
+              <X size={24} />
             </button>
           </div>
 
+          {/* Form */}
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto"
-            style={{ height: 'calc(900px - 92px)' }}
+            className="px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto"
           >
-            <label className="block mb-1 font-medium">
-              Nama Instansi <span className="text-red-500">*</span>
-            </label>
-            <Select
-              name="researchId" // Keep name for accessibility/debugging, but value is controlled by form state
-              options={selectOptions}
-              placeholder="Cari & pilih nama instansi"
-              onInputChange={setQuery}
-              onChange={handleInstitutionChange}
-              isClearable
-              isSearchable
-              value={selectedInstitutionOption} // Controlled by watch('researchId')
-            />
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Nama Instansi <span className="text-red-500">*</span>
+              </label>
+              <Select
+                name="researchId"
+                options={selectOptions}
+                placeholder="Cari & pilih nama instansi"
+                onInputChange={setQuery}
+                onChange={handleInstitutionChange}
+                isClearable
+                isSearchable
+                value={selectedInstitutionOption}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    minHeight: '42px',
+                    borderColor: '#d1d5db',
+                    '&:hover': {
+                      borderColor: '#9ca3af',
+                    },
+                  }),
+                }}
+              />
+            </div>
 
-            <label className="block mb-1 font-medium">
-              Divisi Instansi <span className="text-red-500">*</span>
-            </label>
-            <Select
-              name="researchPksId"
-              options={selectOptionsDetail}
-              placeholder="Cari & pilih nama Divisi Instansi"
-              onChange={handleInstitutionDetailChange}
-              isClearable
-              isSearchable
-              value={selectedInstitutionDetailOption} // Controlled by watch('researchPksId')
-              isDisabled={!researchId} // Disable if no institution is selected
-            />
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Divisi Instansi <span className="text-red-500">*</span>
+              </label>
+              <Select
+                name="researchPksId"
+                options={selectOptionsDetail}
+                placeholder="Cari & pilih nama Divisi Instansi"
+                onChange={handleInstitutionDetailChange}
+                isClearable
+                isSearchable
+                value={selectedInstitutionDetailOption}
+                isDisabled={!researchId}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    minHeight: '42px',
+                    borderColor: '#d1d5db',
+                    '&:hover': {
+                      borderColor: '#9ca3af',
+                    },
+                  }),
+                }}
+              />
+            </div>
 
-            {/* Fields controlled by the Redux detail state */}
-            <TextField
-              name="institutionRegion"
-              label="Provinsi"
-              disable
-              placeholder="Provinsi Instansi"
-              register={register}
-            />
-            <TextField
-              name="potentialPrograms"
-              label="Program LSD"
-              disable
-              placeholder="Program yang bekerja sama"
-              register={register}
-            />
-            <TextField
-              name="statusPartnership"
-              label="Status Kerjasama"
-              disable
-              placeholder="Status Kerjasama"
-              register={register}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <TextField
+                name="institutionRegion"
+                label="Provinsi"
+                disable
+                placeholder="Provinsi Instansi"
+                register={register}
+              />
+              <TextField
+                name="potentialPrograms"
+                label="Program LSD"
+                disable
+                placeholder="Program yang bekerja sama"
+                register={register}
+              />
+              <TextField
+                name="statusPartnership"
+                label="Status Kerjasama"
+                disable
+                placeholder="Status Kerjasama"
+                register={register}
+              />
+            </div>
 
-            {/* AgreementStatus likely contains fields for MoU and PkS, which are set via useEffect */}
             <AgreementStatus register={register} />
 
-            {/* Assuming 'kontak' is not coming from the potential detail and should be manually inputted or is part of AgreementStatus */}
-            {/* <TextField
-              name="kontak"
-              label="Kontak"
-              disable
-              placeholder="kontak"
-              register={register}
-              // The 'disable' prop was present in the original, but it wasn't clear if it should be disabled like the others.
-              // I'm assuming it's an input for new contact info, so I'll leave 'disable' out.
-            /> */}
-
-            <div className="mb-4 flex items-center gap-4">
-              <label className="block mb-1 font-medium">Kontak </label>
+            <div className="flex items-center gap-3 py-2">
+              <label className="text-sm font-medium text-gray-700">Kontak</label>
               <Link
                 to={`/dashboard/groups/${researchId}`}
-                className="bg-[#0d4690] text-white px-15 py-2 rounded-lg hover:bg-[#0c3f82]"
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer"
               >
                 Lihat
               </Link>
@@ -310,6 +317,7 @@ export default function AddResearchCollabModal({
               setValue={setValue}
               isRequired={true}
             />
+
             <MultiSelectDropdown
               name="researchProgramIds"
               label="Program LSD Rencana Kolaborasi"
@@ -321,22 +329,42 @@ export default function AddResearchCollabModal({
               register={register}
               setValue={setValue}
             />
+
             <TextField
               name="detailCollab"
               label="Detail Rencana Kolaborasi"
               placeholder="Detail Rencana Kolaborasi"
               register={register}
             />
+
             <SwotFields
               label="Analisis Kolaborasi Program"
               register={register}
             />
-            <div className="text-right pt-4">
+
+            {/* Footer with Buttons */}
+            <div className="flex justify-end gap-3 pt-2 border-t border-gray-200 mt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                disabled={isSubmitting}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Batal
+              </button>
               <button
                 type="submit"
-                className="bg-[#0d4690] text-white px-15 py-2 rounded-lg hover:bg-[#0c3f82]"
+                disabled={isSubmitting}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
               >
-                Simpan
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Menyimpan...
+                  </>
+                ) : (
+                  'Simpan'
+                )}
               </button>
             </div>
           </form>
@@ -345,3 +373,4 @@ export default function AddResearchCollabModal({
     </>
   );
 }
+

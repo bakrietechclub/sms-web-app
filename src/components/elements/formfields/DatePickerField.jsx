@@ -45,7 +45,7 @@ const DatePickerField = ({
   };
 
   return (
-    <div className={`w-132 flex flex-col ${className}`}>
+    <div className={`w-full flex flex-col ${className}`}>
       <label className="block mb-1 font-medium">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
@@ -59,9 +59,8 @@ const DatePickerField = ({
           placeholder={placeholder}
           readOnly
           disabled={disabled}
-          className={`w-full border border-gray-300 px-3 py-2 rounded cursor-pointer pr-10 ${
-            disabled ? 'bg-gray-100 cursor-not-allowed' : ''
-          }`}
+          className={`w-full border border-gray-300 px-3 py-2 rounded cursor-pointer pr-10 ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
         />
         <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
           <img
