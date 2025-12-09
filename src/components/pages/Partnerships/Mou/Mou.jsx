@@ -5,7 +5,7 @@ import { FreezeTable } from '../../../fragments/Table';
 import { Pagination } from '../../../fragments/Pagination';
 import { TableToolbar } from '../../../fragments/TableToolbar';
 import { useNavigate } from 'react-router-dom';
-import { selectMous } from '../../../../states/features/partnerships/mou/mouSelectors';
+import { selectMouLoading, selectMous } from '../../../../states/features/partnerships/mou/mouSelectors';
 import {
   selectedAccess,
   selectedAccessTypeInstitutionsId,
@@ -19,6 +19,8 @@ export const Mou = () => {
   const navigate = useNavigate();
 
   const data = useSelector(selectMous);
+  const loading = useSelector(selectMouLoading);
+
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const filterOptions = getFiltersByModuleAndRole('mou', seletedAccessRole);
@@ -82,6 +84,7 @@ export const Mou = () => {
         renderRowFreeze={renderRowFreeze}
         renderRow={renderRow}
         freezeCol={3}
+        isLoading={loading}
       />
       <Pagination />
 

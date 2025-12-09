@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectAccessRole } from '../../../states/features/auth/authSelectors';
 import { asyncGetLetters } from '../../../states/features/letter/letterThunks';
-import { selectAllLetters } from '../../../states/features/letter/letterSelectors';
+import { selectAllLetters, selectLetterLoading } from '../../../states/features/letter/letterSelectors';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
 import AddModalLetterNumbering from '../../fragments/AddModalLetterNumbering';
 
@@ -23,6 +23,8 @@ export const LetterNumbering = () => {
   }, [dispatch]);
 
   const data = useSelector(selectAllLetters);
+  const loading = useSelector(selectLetterLoading);
+
   const accessRole = useSelector(selectAccessRole);
 
   const [search, setSearch] = useState('');
@@ -110,6 +112,7 @@ export const LetterNumbering = () => {
           ]}
           data={data}
           renderRow={renderRow}
+          isLoading={loading}
         />
       </div>
 

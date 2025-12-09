@@ -8,7 +8,7 @@ import { Pagination } from '../../fragments/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
-import { selectGroups } from '../../../states/features/group/groupSelectors';
+import { selectGroupLoading, selectGroups } from '../../../states/features/group/groupSelectors';
 import {
   selectedAccess,
   selectedAccessTypeInstitutionsId,
@@ -23,6 +23,8 @@ export const CoordinationGroup = () => {
   const navigate = useNavigate();
 
   const data = useSelector(selectGroups);
+  const loading = useSelector(selectGroupLoading);
+
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
@@ -91,6 +93,7 @@ export const CoordinationGroup = () => {
         headers={['No', 'Nama', 'Jenis', 'Link Grup', 'Kontak PIC', 'Aksi']}
         data={data}
         renderRow={renderRow}
+        isLoading={loading}
       />
       <Pagination />
     </div>

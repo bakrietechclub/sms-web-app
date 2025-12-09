@@ -6,7 +6,7 @@ import { TableToolbar } from '../../../fragments/TableToolbar';
 
 import { useNavigate } from 'react-router-dom';
 import { asyncGetSpk } from '../../../../states/features/partnerships/spk/spkThunks';
-import { selectAllSpk } from '../../../../states/features/partnerships/spk/spkSelectors';
+import { selectAllSpk, selectSpkLoading } from '../../../../states/features/partnerships/spk/spkSelectors';
 import {
   selectedAccess,
   selectedAccessTypeInstitutionsId,
@@ -22,6 +22,8 @@ export const Spk = () => {
   const dispatch = useDispatch();
 
   const data = useSelector(selectAllSpk);
+  const loading = useSelector(selectSpkLoading)
+
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const filterOptions = getFiltersByModuleAndRole('spk', seletedAccessRole);
@@ -88,6 +90,7 @@ export const Spk = () => {
         renderRow={renderRow}
         renderRowFreeze={renderRowFreeze}
         freezeCol={4}
+        isLoading={loading}
       />
       <Pagination />
 

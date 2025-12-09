@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // Modal
 import { useNavigate } from 'react-router-dom';
 import { asyncGetImplementationAgreements } from '../../../../states/features/partnerships/ia/iaThunks';
-import { selectAllIAs } from '../../../../states/features/partnerships/ia/iaSelectors';
+import { selectAllIAs, selectIALoading } from '../../../../states/features/partnerships/ia/iaSelectors';
 import {
   selectedAccess,
   selectedAccessTypeInstitutionsId,
@@ -22,6 +22,8 @@ export const Ia = () => {
   const dispatch = useDispatch();
 
   const data = useSelector(selectAllIAs);
+  const loading = useSelector(selectIALoading);
+
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const filterOptions = getFiltersByModuleAndRole('ia', seletedAccessRole);
@@ -100,6 +102,7 @@ export const Ia = () => {
         renderRow={renderRow}
         renderRowFreeze={renderRowFreeze}
         freezeCol={4}
+        isLoading={loading}
       />
 
       <Pagination />

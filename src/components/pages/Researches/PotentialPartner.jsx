@@ -6,7 +6,7 @@ import { Table } from '../../fragments/Table';
 import { TableToolbar } from '../../fragments/TableToolbar';
 import { Pagination } from '../../fragments/Pagination';
 
-import { selectPotentials } from '../../../states/features/research/potential/potentialSelectors';
+import { selectPotentialLoading, selectPotentials } from '../../../states/features/research/potential/potentialSelectors';
 import { asyncGetResearchPotential } from '../../../states/features/research/potential/potentialThunks';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -22,6 +22,7 @@ export const PotentialPartner = () => {
   const navigate = useNavigate();
 
   const data = useSelector(selectPotentials);
+  const loading = useSelector(selectPotentialLoading)
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
@@ -94,6 +95,7 @@ export const PotentialPartner = () => {
         ]}
         data={data}
         renderRow={renderRow}
+        isLoading={loading}
       />
       <Pagination />
 

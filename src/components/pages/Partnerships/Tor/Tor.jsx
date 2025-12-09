@@ -6,7 +6,7 @@ import { TableToolbar } from '../../../fragments/TableToolbar';
 
 import { useNavigate } from 'react-router-dom';
 import { asyncGetTor } from '../../../../states/features/partnerships/tor/torThunks';
-import { selectAllTors } from '../../../../states/features/partnerships/tor/torSelectors';
+import { selectAllTors, selectTorLoading } from '../../../../states/features/partnerships/tor/torSelectors';
 import {
   selectAccessRole,
   selectAccessTypeInstitutionsId,
@@ -22,6 +22,8 @@ export const Tor = () => {
   const dispatch = useDispatch();
 
   const data = useSelector(selectAllTors);
+  const loading = useSelector(selectTorLoading);
+
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const filterOptions = getFiltersByModuleAndRole('tor', seletedAccessRole);
@@ -92,6 +94,7 @@ export const Tor = () => {
         renderRow={renderRow}
         renderRowFreeze={renderRowFreeze}
         freezeCol={4}
+        isLoading={loading}
       />
       <Pagination />
 

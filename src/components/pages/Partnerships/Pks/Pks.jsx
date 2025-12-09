@@ -12,7 +12,7 @@ import {
   selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
-import { selectAllPks } from '../../../../states/features/partnerships/pks/pksSelectors';
+import { selectAllPks, selectPksLoading } from '../../../../states/features/partnerships/pks/pksSelectors';
 import { asyncGetPks } from '../../../../states/features/partnerships/pks/pksThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
 
@@ -21,6 +21,8 @@ export const Pks = () => {
   const dispatch = useDispatch();
 
   const data = useSelector(selectAllPks);
+  const loading = useSelector(selectPksLoading);
+
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const filterOptions = getFiltersByModuleAndRole('pks', seletedAccessRole);
@@ -86,6 +88,7 @@ export const Pks = () => {
           renderRow={renderRow}
           renderRowFreeze={renderRowFreeze}
           freezeCol={4}
+          isLoading={loading}
         />
       </div>
       <Pagination />

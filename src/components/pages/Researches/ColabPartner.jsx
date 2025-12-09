@@ -12,7 +12,7 @@ import {
 } from '../../../states/features/auth/authSelectors';
 
 import { useNavigate } from 'react-router-dom';
-import { selectCollabs } from '../../../states/features/research/collab/collabSelectors';
+import { selectCollabLoading, selectCollabs } from '../../../states/features/research/collab/collabSelectors';
 import { asyncGetResearchCollab } from '../../../states/features/research/collab/collabThunks';
 import AddResearchCollabModal from '../../fragments/AddResearchCollabModal';
 
@@ -21,6 +21,7 @@ export const ColabPartner = () => {
   const navigate = useNavigate();
 
   const data = useSelector(selectCollabs);
+  const loading = useSelector(selectCollabLoading);
   const accessRole = useSelector(selectAccessRole);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const selectAccessType = useSelector(selectAccessTypeInstitutionsId);
@@ -73,7 +74,7 @@ export const ColabPartner = () => {
         onFilterSet={() => console.log('Filter diset')}
         searchWidth="w-1/4"
       />
-      <Table headers={headers} data={data} renderRow={renderRow} />
+      <Table headers={headers} data={data} renderRow={renderRow} isLoading={loading} />
       <Pagination />
 
       {isModalOpen && (

@@ -12,7 +12,7 @@ import {
   selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
-import { selectAudiences } from '../../../states/features/audience/audienceSelectors';
+import { selectAudienceLoading, selectAudiences } from '../../../states/features/audience/audienceSelectors';
 import { asyncGetAudiences } from '../../../states/features/audience/audienceThunks';
 import { useNavigate } from 'react-router-dom';
 import AddAudienceModal from '../../fragments/AddAudienceModal';
@@ -23,6 +23,7 @@ export const Audiences = () => {
   const navigate = useNavigate();
 
   const data = useSelector(selectAudiences);
+  const loading = useSelector(selectAudienceLoading);
 
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
@@ -60,8 +61,8 @@ export const Audiences = () => {
             value.audiencesStatus === 'Re-audiensi'
               ? 'warning'
               : value.audiencesStatus === 'Selesai'
-              ? 'success'
-              : 'danger'
+                ? 'success'
+                : 'danger'
           }
         />
       </td>
@@ -102,6 +103,7 @@ export const Audiences = () => {
         ]}
         data={data}
         renderRow={renderRow}
+        isLoading={loading}
       />
       <Pagination />
 
