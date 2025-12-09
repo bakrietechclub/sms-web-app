@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncAddImplementationAgreement } from '../../states/features/partnerships/ia/iaThunks';
@@ -11,9 +11,12 @@ import RedirectTextField from '../elements/formfields/RedirectTextField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
 import { BATCH_OPTIONS, PROGRAM_OPTIONS, STATUS_OPTIONS } from '../../utils';
 import AddModalLetterNumbering from './AddModalLetterNumbering';
+import { X, Loader2 } from 'lucide-react';
 
 export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
+  const dropdownRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
@@ -35,10 +38,12 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
+    setIsSubmitting(true);
     dispatch(asyncAddImplementationAgreement(data))
       .unwrap()
       .then(() => onClose())
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setIsSubmitting(false));
   };
 
   const handleRedirectToNomorSurat = () => {
@@ -66,6 +71,16 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
     dispatch(asyncGetPksOptions({ query, typeId: accessTypeId }));
   }, [dispatch, query]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        document.activeElement.blur();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   if (!isOpen) return null;
 
   return (
@@ -74,113 +89,156 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
         className="fixed inset-0 z-40 bg-black opacity-40"
         onClick={onClose}
       />
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
-          className="bg-white w-[1116px] h-[900px] max-h-[90vh] rounded-2xl shadow-xl overflow-hidden flex flex-col"
+          className="bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="w-full h-[92px] px-6 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">Tambah Data IA</h2>
-            <button onClick={onClose} className="text-2xl">
-              ×
+          {/* Header */}
+          <div className="px-5 py-4 flex items-center justify-between border-b border-gray-200">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Tambah Data IA
+            </h2>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 hover:bg-gray-100 rounded-lg"
+              aria-label="Close"
+            >
+              <X size={24} />
             </button>
           </div>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto"
-            style={{ height: 'calc(900px - 92px)' }}
+            className="px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto"
+            ref={dropdownRef}
           >
-            <label className="block mb-1 font-medium">
-              PkS <span className="text-red-500">*</span>
-            </label>
-            <Select
-              name="partnershipPksId"
-              options={selectOptions}
-              placeholder="Cari & pilih PkS"
-              onInputChange={setQuery}
-              onChange={(option) => {
-                setSelected(option);
-                setValue('partnershipPksId', option ? option.value : null);
-              }}
-              isClearable
-              isSearchable
-              value={selected}
-            />
-            <SingleSelectDropdownBadge
-              name="partnershipStatusId"
-              label="Status SPK"
-              options={STATUS_OPTIONS}
-              register={register}
-              setValue={setValue}
-              isRequired
-            />
-            <TextField
-              name="iaYearOfImplementation"
-              label="Tahun Implementasi Kerjasama"
-              placeholder="Masukkan tahun implementasi"
-              register={register}
-              isRequired
-            />
-            <div className="flex gap-4">
-              <div className="w-1/2">
-                <SingleSelectDropdown
-                  name="programId"
-                  label="Program Kerjasama"
-                  options={PROGRAM_OPTIONS}
-                  register={register}
-                  setValue={setValue}
-                  isRequired
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  PkS <span className="text-red-500">*</span>
+                </label>
+                <Select
+                  name="partnershipPksId"
+                  options={selectOptions}
+                  placeholder="Cari & pilih PkS"
+                  onInputChange={setQuery}
+                  onChange={(option) => {
+                    setSelected(option);
+                    setValue('partnershipPksId', option ? option.value : null);
+                  }}
+                  isClearable
+                  isSearchable
+                  value={selected}
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      minHeight: '42px',
+                      borderColor: '#d1d5db',
+                      '&:hover': {
+                        borderColor: '#9ca3af',
+                      },
+                    }),
+                  }}
                 />
               </div>
-              <div className="w-1/2">
-                <SingleSelectDropdown
-                  name="batchId"
-                  label="Batch Program"
-                  options={BATCH_OPTIONS}
-                  register={register}
-                  setValue={setValue}
-                  isRequired
-                />
-              </div>
+              <TextField
+                name="iaYearOfImplementation"
+                label="Tahun Implementasi Kerjasama"
+                placeholder="Masukkan tahun implementasi"
+                register={register}
+                isRequired
+              />
             </div>
 
-            <RedirectTextField
-              label="Nomor Surat BCF"
-              value={letterReferenceNumber}
-              onRedirect={handleRedirectToNomorSurat}
-              isRequired
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <SingleSelectDropdown
+                name="programId"
+                label="Program Kerjasama"
+                options={PROGRAM_OPTIONS}
+                register={register}
+                setValue={setValue}
+                isRequired
+              />
+              <SingleSelectDropdown
+                name="batchId"
+                label="Batch Program"
+                options={BATCH_OPTIONS}
+                register={register}
+                setValue={setValue}
+                isRequired
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <SingleSelectDropdownBadge
+                name="partnershipStatusId"
+                label="Status SPK"
+                options={STATUS_OPTIONS}
+                register={register}
+                setValue={setValue}
+                isRequired
+              />
+              <RedirectTextField
+                label="Nomor Surat BCF"
+                value={letterReferenceNumber}
+                onRedirect={handleRedirectToNomorSurat}
+                isRequired
+              />
+            </div>
+
             <TextField
               name="iaLetterNumberPartner"
               label="Nomor Surat Mitra"
               placeholder="Masukkan nomor surat mitra"
               register={register}
             />
-            <TextField
-              name="iaNameOfBcf"
-              label="Nama Pihak BCF"
-              placeholder="Masukkan nama pihak BCF"
-              register={register}
-            />
-            <TextField
-              name="iaNameOfPartner"
-              label="Nama Pihak Mitra"
-              placeholder="Masukkan nama pihak mitra"
-              register={register}
-            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <TextField
+                name="iaNameOfBcf"
+                label="Nama Pihak BCF"
+                placeholder="Masukkan nama pihak BCF"
+                register={register}
+              />
+              <TextField
+                name="iaNameOfPartner"
+                label="Nama Pihak Mitra"
+                placeholder="Masukkan nama pihak mitra"
+                register={register}
+              />
+            </div>
+
             <TextField
               name="iaDocumentUrl"
               label="Link File IA"
               placeholder="https://.."
               register={register}
             />
-            <div className="text-right pt-4">
+
+            {/* Footer with Buttons */}
+            <div className="flex justify-end gap-3 pt-2 border-t border-gray-200 mt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                disabled={isSubmitting}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Batal
+              </button>
               <button
                 type="submit"
-                className="bg-[#0d4690] text-white px-6 py-2 rounded-lg hover:bg-[#0c3f82]"
+                disabled={isSubmitting}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
               >
-                Simpan
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Menyimpan...
+                  </>
+                ) : (
+                  'Simpan'
+                )}
               </button>
             </div>
           </form>

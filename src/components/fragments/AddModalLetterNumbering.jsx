@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import TextField from '../elements/formfields/TextField';
 import LetterNumberingField from '../elements/formfields/LetterNumberingField';
@@ -9,6 +9,7 @@ import {
 } from '../../states/features/letter/letterThunks';
 import { selectLastletterNumber } from '../../states/features/letter/letterSelectors';
 import SingleSelectDropdown from '../elements/formfields/SingleSelectDropdown';
+import { X, Loader2 } from 'lucide-react';
 
 export default function AddModalLetterNumbering({
   isOpen,
@@ -18,6 +19,7 @@ export default function AddModalLetterNumbering({
   isInheritance = true,
 }) {
   const dispatch = useDispatch();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetLastLetterNumber());
@@ -56,15 +58,17 @@ export default function AddModalLetterNumbering({
   const { register, handleSubmit, setValue } = methods;
   const dropdownRef = useRef(null);
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     console.log('Form data:', data);
-    try {
-      const result = await dispatch(asyncAddLetter(data)).unwrap();
-      onSuccess(result);
-      onClose();
-    } catch (error) {
-      console.error(error);
-    }
+    setIsSubmitting(true);
+    dispatch(asyncAddLetter(data))
+      .unwrap()
+      .then((result) => {
+        onSuccess(result);
+        onClose();
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setIsSubmitting(false));
   };
 
   useEffect(() => {
@@ -91,25 +95,29 @@ export default function AddModalLetterNumbering({
         className="fixed inset-0 z-40 bg-black opacity-40"
         onClick={onClose}
       />
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
-          className="bg-white w-[1116px] h-[900px] max-h-[90vh] rounded-2xl shadow-xl overflow-hidden flex flex-col"
+          className="bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="w-full h-[92px] px-6 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">
+          {/* Header */}
+          <div className="px-5 py-4 flex items-center justify-between border-b border-gray-200">
+            <h2 className="text-xl font-semibold text-gray-800">
               Tambah Data Penomoran Surat
             </h2>
-            <button onClick={onClose} className="text-2xl">
-              ×
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 hover:bg-gray-100 rounded-lg"
+              aria-label="Close"
+            >
+              <X size={24} />
             </button>
           </div>
 
           <FormProvider {...methods}>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="px-6 pt-2 pb-4 space-y-4 overflow-y-auto"
-              style={{ height: 'calc(900px - 92px)' }}
+              className="px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto"
               ref={dropdownRef}
             >
               {isInheritance ? (
@@ -139,12 +147,29 @@ export default function AddModalLetterNumbering({
                 register={register}
               />
 
-              <div className="text-right pt-4">
+              {/* Footer with Buttons */}
+              <div className="flex justify-end gap-3 pt-2 border-t border-gray-200 mt-4">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  disabled={isSubmitting}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Batal
+                </button>
                 <button
                   type="submit"
-                  className="bg-[#0d4690] text-white px-15 py-2 rounded-lg hover:bg-[#0c3f82]"
+                  disabled={isSubmitting}
+                  className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
                 >
-                  Simpan
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      Menyimpan...
+                    </>
+                  ) : (
+                    'Simpan'
+                  )}
                 </button>
               </div>
             </form>
