@@ -17,7 +17,9 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
   const [query, setQuery] = useState('');
   const [selectedOptions, setSelectedOptions] = useState(null);
 
-  const { register, handleSubmit, setValue, watch } = useForm();
+  const { register, handleSubmit, setValue, watch, formState: { isValid } } = useForm({
+    mode: 'onChange'
+  });
 
   const options = useSelector(selectPotentialsOptions);
 
@@ -29,6 +31,11 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
     value: item.id,
     label: item.label,
   }));
+
+  // Register Select field for validation
+  useEffect(() => {
+    register('partnershipResearchId', { required: true });
+  }, [register]);
 
   const onSubmit = async (data) => {
     console.log('Form data:', data);
@@ -77,7 +84,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
           >
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
-                Riset Potensial
+                Riset Potensial <span className="text-red-500">*</span>
               </label>
               <Select
                 name="partnershipResearchId"
@@ -86,7 +93,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
                 onInputChange={setQuery}
                 onChange={(option) => {
                   setSelectedOptions(option);
-                  setValue('partnershipResearchId', option ? option.value : null);
+                  setValue('partnershipResearchId', option ? option.value : null, { shouldValidate: true });
                 }}
                 isClearable
                 isSearchable
@@ -111,6 +118,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
                 register={register}
                 setValue={setValue}
                 watch={watch}
+                required={true}
               />
               <TimePickerField
                 name="audiencesTime"
@@ -118,6 +126,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
                 register={register}
                 setValue={setValue}
                 watch={watch}
+                required={true}
               />
             </div>
 
@@ -131,6 +140,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
                 ]}
                 register={register}
                 setValue={setValue}
+                isRequired={true}
               />
               <SingleSelectDropdownBadge
                 name="audiencesStatus"
@@ -142,6 +152,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
                 ]}
                 register={register}
                 setValue={setValue}
+                isRequired={true}
               />
             </div>
 
@@ -150,6 +161,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
               label="Tempat Audiensi"
               placeholder="Masukkan link/alamat"
               register={register}
+              isRequired={true}
             />
 
             <TextField
@@ -157,6 +169,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
               label="Link Dokumentasi"
               placeholder="https://.."
               register={register}
+              isRequired={true}
             />
 
             <TextField
@@ -164,6 +177,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
               label="Catatan Tambahan"
               placeholder="Masukkan catatan tambahan"
               register={register}
+              isRequired={true}
             />
 
             {/* Footer with Buttons */}
@@ -178,8 +192,8 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
+                disabled={isSubmitting || !isValid}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
               >
                 {isSubmitting ? (
                   <>

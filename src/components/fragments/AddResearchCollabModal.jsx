@@ -48,12 +48,19 @@ export default function AddResearchCollabModal({
   const [query, setQuery] = useState('');
 
   // Use watch to get the current values needed for Select components
-  const { register, handleSubmit, setValue, watch } = useForm({
+  const { register, handleSubmit, setValue, watch, formState: { isValid } } = useForm({
+    mode: 'onChange',
     defaultValues: defaultFormValues,
   });
 
   const researchId = watch('researchId');
   const researchPksId = watch('researchPksId');
+
+  // Register Select fields for validation
+  useEffect(() => {
+    register('researchId', { required: true });
+    register('researchPksId', { required: true });
+  }, [register]);
 
   // Redux Selectors
   const potentialOptions = useSelector(selectPotentialsOptions);
@@ -159,8 +166,8 @@ export default function AddResearchCollabModal({
   };
 
   const handleInstitutionChange = (option) => {
-    setValue('researchId', option ? option.value : null);
-    setValue('researchPksId', null);
+    setValue('researchId', option ? option.value : null, { shouldValidate: true });
+    setValue('researchPksId', null, { shouldValidate: true });
     setValue('institutionRegion', '');
     setValue('potentialPrograms', '');
     setValue('statusPartnership', '');
@@ -176,7 +183,7 @@ export default function AddResearchCollabModal({
   };
 
   const handleInstitutionDetailChange = (option) => {
-    setValue('researchPksId', option ? option.value : null);
+    setValue('researchPksId', option ? option.value : null, { shouldValidate: true });
     if (option) {
       dispatch(
         asyncGetDetailResearchPotentialOptionsById({ id: option.value })
@@ -292,7 +299,7 @@ export default function AddResearchCollabModal({
               />
             </div>
 
-            <AgreementStatus register={register} />
+            <AgreementStatus register={register} isRequired={true} />
 
             <div className="flex items-center gap-3 py-2">
               <label className="text-sm font-medium text-gray-700">Kontak</label>
@@ -328,6 +335,7 @@ export default function AddResearchCollabModal({
               ]}
               register={register}
               setValue={setValue}
+              isRequired={true}
             />
 
             <TextField
@@ -335,11 +343,13 @@ export default function AddResearchCollabModal({
               label="Detail Rencana Kolaborasi"
               placeholder="Detail Rencana Kolaborasi"
               register={register}
+              isRequired={true}
             />
 
             <SwotFields
               label="Analisis Kolaborasi Program"
               register={register}
+              isRequired={true}
             />
 
             {/* Footer with Buttons */}
@@ -354,8 +364,8 @@ export default function AddResearchCollabModal({
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
+                disabled={isSubmitting || !isValid}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
               >
                 {isSubmitting ? (
                   <>

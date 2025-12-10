@@ -26,7 +26,8 @@ export default function AddResearchPotentialModal({
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue, watch } = useForm({
+  const { register, handleSubmit, setValue, watch, formState: { isValid } } = useForm({
+    mode: 'onChange',
     defaultValues: {
       partnershipResearchNeedsIds: [],
       partnershipResearchProgramIds: [],
@@ -42,6 +43,11 @@ export default function AddResearchPotentialModal({
       documentUrl: '',
     },
   });
+
+  // Register Select field for validation
+  useEffect(() => {
+    register('institutionId', { required: true });
+  }, [register]);
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
@@ -128,7 +134,7 @@ export default function AddResearchPotentialModal({
           >
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
-                Nama Instansi
+                Nama Instansi <span className="text-red-500">*</span>
               </label>
               <Select
                 name="institutionId"
@@ -137,7 +143,7 @@ export default function AddResearchPotentialModal({
                 onInputChange={setQuery}
                 onChange={(option) => {
                   setSelectedInstitution(option);
-                  setValue('institutionId', option ? option.value : null);
+                  setValue('institutionId', option ? option.value : null, { shouldValidate: true });
                   if (option) {
                     dispatch(
                       asyncGetInstitutionsOptionsById({ id: option.value })
@@ -217,12 +223,14 @@ export default function AddResearchPotentialModal({
                     label="Peran"
                     placeholder="Masukkan peran"
                     register={register}
+                    isRequired={true}
                   />
                   <TextField
                     name="wilayah jangkauan"
                     label="Wilayah Jangkauan"
                     placeholder="Masukkan wilayah jangkauan"
                     register={register}
+                    isRequired={true}
                   />
                 </div>
               </>
@@ -236,7 +244,7 @@ export default function AddResearchPotentialModal({
               disable
             />
 
-            <ContactFields register={register} />
+            <ContactFields register={register} isRequired={true} />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <MultiSelectDropdown
@@ -249,6 +257,7 @@ export default function AddResearchPotentialModal({
                 ]}
                 register={register}
                 setValue={setValue}
+                isRequired={true}
               />
               <SingleSelectDropdownBadge
                 name="contactStatus"
@@ -259,6 +268,7 @@ export default function AddResearchPotentialModal({
                 ]}
                 register={register}
                 setValue={setValue}
+                isRequired={true}
               />
             </div>
 
@@ -271,15 +281,17 @@ export default function AddResearchPotentialModal({
               ]}
               register={register}
               setValue={setValue}
+              isRequired={true}
             />
 
-            <SwotFields label="Program Analisis" register={register} />
+            <SwotFields label="Program Analisis" register={register} isRequired={true} />
 
             <TextField
               name="documentUrl"
               label="Link Dokumen"
               placeholder="https://.."
               register={register}
+              isRequired={true}
             />
 
             {/* Footer with Buttons */}
@@ -294,8 +306,8 @@ export default function AddResearchPotentialModal({
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
+                disabled={isSubmitting || !isValid}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
               >
                 {isSubmitting ? (
                   <>

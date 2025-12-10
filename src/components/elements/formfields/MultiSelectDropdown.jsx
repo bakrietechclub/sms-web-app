@@ -58,7 +58,7 @@ const MultiSelectDropdown = ({
             .map((option) => option.label)
             .join(', ')}
           placeholder={`Pilih ${label.toLowerCase()}`}
-          {...register(name)}
+          {...register(name, { required: isRequired })}
           onClick={toggleDropdown}
           className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
@@ -101,10 +101,9 @@ const MultiSelectDropdown = ({
                 <div
                   className={`
                     flex items-center justify-center w-5 h-5 rounded-md border-2 transition-all duration-200 ease-in-out flex-shrink-0
-                    ${
-                      tempSelected.includes(option.id)
-                        ? 'bg-[#E89229] border-[#E89229]'
-                        : 'bg-white border-gray-300'
+                    ${tempSelected.includes(option.id)
+                      ? 'bg-[#E89229] border-[#E89229]'
+                      : 'bg-white border-gray-300'
                     }
                   `}
                 >

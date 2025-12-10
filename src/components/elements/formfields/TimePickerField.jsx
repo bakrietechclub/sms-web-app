@@ -110,7 +110,7 @@ const TimePickerField = ({
       const formatted = `${String(h).padStart(2, '0')}:${minute}:00`;
       setLocalValue(formatted);
       if (setValue) {
-        setValue(name, formatted); // update react-hook-form value
+        setValue(name, formatted, { shouldValidate: true }); // update react-hook-form value
       }
       if (onChange) {
         onChange(formatted);
@@ -136,7 +136,7 @@ const TimePickerField = ({
         <input
           name={name}
           readOnly
-          {...register(name)}
+          {...register(name, { required: required })}
           value={localValue}
           placeholder={placeholder}
           onClick={handleInputClick}

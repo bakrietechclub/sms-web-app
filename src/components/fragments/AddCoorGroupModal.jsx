@@ -14,7 +14,8 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState(null);
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue, formState: { isValid } } = useForm({
+    mode: 'onChange',
     defaultValues: {
       partnershipResearchId: null,
       groupUrl: '',
@@ -27,6 +28,11 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
     value: item.id,
     label: item.label,
   }));
+
+  // Register Select field for validation
+  useEffect(() => {
+    register('partnershipResearchId', { required: true });
+  }, [register]);
 
   useEffect(() => {
     dispatch(asyncGetResearchPotentialOptions({ query, typeId: accessTypeId }));
@@ -76,7 +82,7 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
           >
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
-                Data Riset
+                Data Riset <span className="text-red-500">*</span>
               </label>
               <Select
                 name="partnershipResearchId"
@@ -85,7 +91,7 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
                 onInputChange={setQuery}
                 onChange={(option) => {
                   setSelected(option);
-                  setValue('partnershipResearchId', option ? option.value : null);
+                  setValue('partnershipResearchId', option ? option.value : null, { shouldValidate: true });
                 }}
                 isClearable
                 isSearchable
@@ -108,6 +114,7 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
               label="Link Grup"
               placeholder="https://.."
               register={register}
+              isRequired={true}
             />
 
             {/* Footer with Buttons */}
@@ -122,8 +129,8 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
+                disabled={isSubmitting || !isValid}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
               >
                 {isSubmitting ? (
                   <>
