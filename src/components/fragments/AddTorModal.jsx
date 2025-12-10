@@ -18,7 +18,8 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
   const dropdownRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue, formState: { isValid } } = useForm({
+    mode: 'onChange',
     defaultValues: {
       partnershipIaId: null, // Optional
       partnershipPksId: null, // Optional
@@ -33,10 +34,16 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
     },
   });
 
+  // Register optional Select fields
+  useEffect(() => {
+    register('partnershipIaId');
+    register('partnershipPksId');
+  }, [register]);
+
   const onSubmit = (data) => {
     console.log('Form data:', data);
     setIsSubmitting(true);
-    dispatch(asyncAddTor(data))
+    dispatch(asyncAddTor({ ...data, typeId: accessTypeId }))
       .unwrap()
       .then(() => onClose())
       .catch((err) => console.error(err))
@@ -128,7 +135,7 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
                   }
                   onChange={(option) => {
                     setSelectedIA(option);
-                    setValue('partnershipIaId', option ? option.value : null);
+                    setValue('partnershipIaId', option ? option.value : null, { shouldValidate: true });
                   }}
                   isClearable
                   isSearchable
@@ -158,7 +165,7 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
                   }
                   onChange={(option) => {
                     setSelectedPkS(option);
-                    setValue('partnershipPksId', option ? option.value : null);
+                    setValue('partnershipPksId', option ? option.value : null, { shouldValidate: true });
                   }}
                   isClearable
                   isSearchable
@@ -182,6 +189,7 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
               label="Detail Kerjasama"
               placeholder="Masukkan detail kerjasama"
               register={register}
+              isRequired={true}
             />
 
             <SingleSelectDropdownBadge
@@ -190,7 +198,7 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
               options={STATUS_OPTIONS}
               register={register}
               setValue={setValue}
-              isRequired
+              isRequired={true}
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -199,12 +207,14 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
                 label="Nama Pihak BCF"
                 placeholder="Masukkan nama pihak BCF"
                 register={register}
+                isRequired={true}
               />
               <TextField
                 name="torNameOfPartner"
                 label="Nama Pihak Mitra"
                 placeholder="Masukkan nama pihak mitra"
                 register={register}
+                isRequired={true}
               />
             </div>
 
@@ -216,12 +226,14 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
                 placeholder="Masukkan tanggal"
                 register={register}
                 setValue={setValue}
+                isRequired={true}
               />
               <TextField
                 name="torTimePeriod"
                 label="Jangka Waktu"
                 placeholder="Masukkan jangka waktu"
                 register={register}
+                isRequired={true}
               />
               <DatePickerField
                 name="torDueDate"
@@ -230,6 +242,7 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
                 placeholder="Masukkan jatuh tempo"
                 register={register}
                 setValue={setValue}
+                isRequired={true}
               />
             </div>
 
@@ -238,6 +251,7 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
               label="Link File TOR"
               placeholder="https://.."
               register={register}
+              isRequired={true}
             />
 
             {/* Footer with Buttons */}
@@ -252,8 +266,8 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
+                disabled={isSubmitting || !isValid}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
               >
                 {isSubmitting ? (
                   <>

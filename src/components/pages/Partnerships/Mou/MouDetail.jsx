@@ -59,7 +59,7 @@ export default function MouDetail() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InfoItem label="Nama Instansi" value={data?.instituteName} />
-              <InfoItem label="Jenis Instansi" value={data?.jenis} />
+              <InfoItem label="Jenis Instansi" value={data?.instituteTypeName} />
               <InfoItem label="Divisi Instansi" value={data?.division} />
               <div className="mb-4">
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Status Kemitraan</p>
@@ -79,7 +79,7 @@ export default function MouDetail() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InfoItem label="Nama Pihak BCF" value={data?.mouBcfName} />
               <InfoItem label="Nama Pihak Mitra" value={data?.mouPartnerName} />
-              <InfoItem label="Nomor Surat BCF" value={'-'} />
+              <InfoItem label="Nomor Surat BCF" value={data?.mouLetterNumberReference} />
               <InfoItem label="Nomor Surat Mitra" value={data?.mouPartnerLetterNumber} />
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function MouDetail() {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jenis Kerjasama</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Divisi</th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tgl Tanda Tangan</th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Durasi</th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jatuh Tempo</th>
@@ -105,7 +105,7 @@ export default function MouDetail() {
                   <tbody className="bg-white divide-y divide-gray-200">
                     {data.referencePks.map((pks, index) => (
                       <tr key={index} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-4 py-3 text-sm text-gray-900 font-medium">{pks.typePartnership}</td>
+                        <td className="px-4 py-3 text-sm text-gray-900 font-medium">{pks.institutionDivision}</td>
                         <td className="px-4 py-3 text-sm text-gray-500">{pks.pksSignatureDate}</td>
                         <td className="px-4 py-3 text-sm text-gray-500">{pks.pksTimePeriod}</td>
                         <td className="px-4 py-3 text-sm text-gray-500">{pks.pksDueDate}</td>

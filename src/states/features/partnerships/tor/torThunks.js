@@ -8,7 +8,7 @@ export const asyncAddTor = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       await api.addTor(payload);
-      const data = await api.getTor();
+      const data = await api.getTor({ q: '', typeId: payload.typeId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

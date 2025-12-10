@@ -29,7 +29,7 @@ async function getTorById({ id }) {
  * Mengambil semua data TOR.
  * @returns {Promise<array>} Array data TOR.
  */
-async function getTor({ q, typeId, page = 1, pageSize = 10 }) {
+async function getTor({ q = '', typeId, page = 1, pageSize = 10 }) {
   const responseJson = await fetchWithAuth(
     `/partnerships/tor?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
   );

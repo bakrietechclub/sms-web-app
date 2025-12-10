@@ -44,31 +44,47 @@ export default function LetterNumberingField() {
     program: false,
   });
 
+  // === EFFECTS ===
+  // Register fields for validation
+  useEffect(() => {
+    register('kelas', { required: true });
+    register('subKlasifikasi', { required: true });
+    register('program', { required: true });
+    register('bulan', { required: true });
+    register('tahun', { required: true });
+  }, [register]);
+
+  // Reset subclassifications when class changes
+  useEffect(() => {
+    setValue('subKlasifikasi', '', { shouldValidate: true });
+    setValue('partnershipLetterNumberSubClassificationId', '');
+  }, [kelas, setValue]);
+
   // === HANDLERS ===
   const toggleDropdown = (key) =>
     setDropdown((prev) => ({ ...prev, [key]: !prev[key] }));
 
   const handleSelectClass = (opt) => {
-    setValue('kelas', opt.label);
-    setValue('subKlasifikasi', '');
+    setValue('kelas', opt.label, { shouldValidate: true });
+    // Reset handled by useEffect
     toggleDropdown('kelas');
     dispatch(asyncGetSubClassifications({ id: opt.id }));
   };
 
   const handleSelectSubClass = (opt) => {
-    setValue('subKlasifikasi', opt.label);
+    setValue('subKlasifikasi', opt.label, { shouldValidate: true });
     setValue('partnershipLetterNumberSubClassificationId', opt.id);
     toggleDropdown('subKlasifikasi');
   };
 
   const handleSelectProgram = (opt) => {
-    setValue('program', opt.label);
+    setValue('program', opt.label, { shouldValidate: true });
     setValue('masterSecondTierProgramId', opt.id);
     toggleDropdown('program');
   };
 
   const handleSelectMonth = (month) => {
-    setValue('bulan', month);
+    setValue('bulan', month, { shouldValidate: true });
     toggleDropdown('bulan');
     const date = getLetterNumberDate(month, tahun);
     if (date) setValue('letterNumberDate', date);
@@ -76,17 +92,10 @@ export default function LetterNumberingField() {
 
   const handleChangeYear = (e) => {
     const y = e.target.value;
-    setValue('tahun', y);
+    setValue('tahun', y, { shouldValidate: true });
     const date = getLetterNumberDate(bulan, y);
     if (date) setValue('letterNumberDate', date);
   };
-
-  // === EFFECTS ===
-  // Reset subclassifications when class changes
-  useEffect(() => {
-    setValue('subKlasifikasi', '');
-    setValue('partnershipLetterNumberSubClassificationId', '');
-  }, [kelas]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -157,11 +166,10 @@ export default function LetterNumberingField() {
                 <div
                   key={m}
                   onClick={() => handleSelectMonth(m)}
-                  className={`text-center text-sm py-1 rounded cursor-pointer ${
-                    bulan === m
-                      ? 'bg-blue-900 text-white'
-                      : 'hover:bg-gray-200 text-gray-700'
-                  }`}
+                  className={`text-center text-sm py-1 rounded cursor-pointer ${bulan === m
+                    ? 'bg-blue-900 text-white'
+                    : 'hover:bg-gray-200 text-gray-700'
+                    }`}
                 >
                   {m}
                 </div>
@@ -201,11 +209,10 @@ function DropdownInput({
           disabled={disabled}
           value={value || ''}
           onClick={!disabled ? onToggle : undefined}
-          className={`w-full border px-3 py-2 rounded pr-8 ${
-            disabled
-              ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-              : 'border-gray-300 cursor-pointer'
-          }`}
+          className={`w-full border px-3 py-2 rounded pr-8 ${disabled
+            ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+            : 'border-gray-300 cursor-pointer'
+            }`}
         />
         <ChevronIcon open={isOpen} />
       </div>

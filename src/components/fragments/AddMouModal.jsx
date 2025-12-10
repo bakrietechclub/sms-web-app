@@ -18,10 +18,11 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
   const dropdownRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue, formState: { isValid } } = useForm({
+    mode: 'onChange',
     defaultValues: {
       partnershipLetterNumberId: 1,
-      partnershipResearchId: 8,
+      partnershipResearchId: null, // Initial must be null/empty to trigger required validation
       partnershipStatusId: 1,
       mouPartnershipDetail: '',
       mouPartnerLetterNumber: '',
@@ -37,6 +38,11 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
 
   const [letterReferenceNumber, setLetterReferenceNumber] = useState('');
   const [openLetterModal, setOpenLetterModal] = useState(false);
+
+  // Register Select field for validation
+  useEffect(() => {
+    register('partnershipResearchId', { required: true });
+  }, [register]);
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
@@ -57,7 +63,7 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
     letterReferenceNumber,
   }) => {
     setLetterReferenceNumber(letterReferenceNumber);
-    setValue('partnershipLetterNumberId', letterNumberId);
+    setValue('partnershipLetterNumberId', letterNumberId, { shouldValidate: true });
   };
 
   useEffect(() => {
@@ -118,7 +124,7 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
           >
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
-                Data Riset Potensial
+                Data Riset Potensial <span className="text-red-500">*</span>
               </label>
               <Select
                 name="partnershipResearchId"
@@ -127,7 +133,7 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
                 onInputChange={setQuery}
                 onChange={(option) => {
                   setSelected(option);
-                  setValue('partnershipResearchId', option ? option.value : null);
+                  setValue('partnershipResearchId', option ? option.value : null, { shouldValidate: true });
                 }}
                 isClearable
                 isSearchable
@@ -150,6 +156,7 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
               label="Detail Kerjasama"
               placeholder="Masukkan detail kerjasama"
               register={register}
+              isRequired={true}
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -174,6 +181,7 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
               label="Nomor Surat Mitra"
               placeholder="Masukkan nomor surat mitra"
               register={register}
+              isRequired={true}
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -182,12 +190,14 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
                 label="Nama Pihak BCF"
                 placeholder="Masukkan nama pihak BCF"
                 register={register}
+                isRequired={true}
               />
               <TextField
                 name="mouPartnerName"
                 label="Nama Pihak Mitra"
                 placeholder="Masukkan nama pihak mitra"
                 register={register}
+                isRequired={true}
               />
             </div>
 
@@ -199,12 +209,14 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
                 placeholder="Masukkan tanggal"
                 register={register}
                 setValue={setValue}
+                isRequired={true}
               />
               <TextField
                 name="mouTimePeriod"
                 label="Jangka Waktu"
                 placeholder="Masukkan jangka waktu"
                 register={register}
+                isRequired={true}
               />
               <DatePickerField
                 name="mouDueDate"
@@ -213,6 +225,7 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
                 placeholder="Masukkan jatuh tempo"
                 register={register}
                 setValue={setValue}
+                isRequired={true}
               />
             </div>
 
@@ -221,6 +234,7 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
               label="Link File MoU"
               placeholder="https://.."
               register={register}
+              isRequired={true}
             />
 
             <TextField
@@ -228,6 +242,7 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
               label="Catatan Tambahan"
               placeholder="Masukkan catatan tambahan"
               register={register}
+              isRequired={true}
             />
 
             {/* Footer with Buttons */}
@@ -242,8 +257,8 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
+                disabled={isSubmitting || !isValid}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
               >
                 {isSubmitting ? (
                   <>

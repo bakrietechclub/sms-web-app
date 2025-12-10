@@ -8,7 +8,7 @@ export const asyncAddImplementationAgreement = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       await api.addImplementationAgreement(payload);
-      const data = await api.getImplementationAgreements();
+      const data = await api.getImplementationAgreements({ q: '', typeId: payload.typeId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

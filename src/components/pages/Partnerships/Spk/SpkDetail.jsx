@@ -80,7 +80,7 @@ export default function SpkDetail() {
               <Users size={20} className="text-[#0D4690]" /> Pihak Terkait
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <InfoItem label="Nama Pihak BCF" value={data?.spkNameofBcf} />
+              <InfoItem label="Nama Pihak BCF" value={data?.spkNameOfBcf} />
               <InfoItem label="Nama Pihak Mitra" value={data?.spkNameOfPartner} />
             </div>
           </div>

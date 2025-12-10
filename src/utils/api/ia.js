@@ -35,7 +35,7 @@ async function getImplementationAgreementById({ id }) {
  * @returns {Promise<array>} Array data IA.
  */
 async function getImplementationAgreements({
-  q,
+  q = '',
   typeId,
   page = 1,
   pageSize = 10,

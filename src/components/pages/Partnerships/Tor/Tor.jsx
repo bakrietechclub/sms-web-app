@@ -8,8 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { asyncGetTor } from '../../../../states/features/partnerships/tor/torThunks';
 import { selectAllTors, selectTorLoading } from '../../../../states/features/partnerships/tor/torSelectors';
 import {
-  selectAccessRole,
-  selectAccessTypeInstitutionsId,
   selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
@@ -68,7 +66,7 @@ export const Tor = () => {
   );
 
   return (
-    <div>
+    <>
       <h1 className="text-2xl font-semibold">Tabel Surat TOR</h1>
       <TableToolbar
         searchValue={query}
@@ -106,6 +104,6 @@ export const Tor = () => {
           accessTypeId={selectedAccessTypeId}
         />
       )}
-    </div>
+    </>
   );
 };

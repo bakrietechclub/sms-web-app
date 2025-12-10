@@ -59,8 +59,8 @@ export default function PksDetail() {
               <Building2 size={20} className="text-[#0D4690]" /> Informasi Instansi & Kerjasama
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <InfoItem label="Nama Instansi" value={data?.name} />
-              <InfoItem label="Jenis Instansi" value={data?.jenis} />
+              <InfoItem label="Nama Instansi" value={data?.instituteName} />
+              <InfoItem label="Jenis Instansi" value={data?.instituteTypeName} />
               <InfoItem label="Divisi Instansi" value={data?.pksInstituteDivision} />
               <div className="mb-4">
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Status Kemitraan</p>

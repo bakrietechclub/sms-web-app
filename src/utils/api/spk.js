@@ -29,7 +29,7 @@ async function getSpkById({ id }) {
  * Mengambil semua data SPK.
  * @returns {Promise<array>} Array data SPK.
  */
-async function getSpk({ q, typeId, page = 1, pageSize = 10 }) {
+async function getSpk({ q = '', typeId, page = 1, pageSize = 10 }) {
   const responseJson = await fetchWithAuth(
     `/partnerships/spk?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
   );

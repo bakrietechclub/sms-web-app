@@ -32,7 +32,7 @@ const SingleSelectDropdownBadge = ({
 
   const handleSelect = (option) => {
     setSelected(option);
-    setValue(name, option.id);
+    setValue(name, option.id, { shouldValidate: true });
     setOpen(false);
   };
 
@@ -46,7 +46,7 @@ const SingleSelectDropdownBadge = ({
           readOnly
           value={selected ? selected.label : ''}
           placeholder={`Pilih ${label.toLowerCase()}`}
-          {...register(name)}
+          {...register(name, { required: isRequired })}
           onClick={toggleDropdown}
           className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer text-base"
         />

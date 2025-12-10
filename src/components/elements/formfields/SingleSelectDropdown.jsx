@@ -20,7 +20,7 @@ const SingleSelectDropdown = ({
 
   const handleSelect = (value) => {
     setSelected(value.label);
-    setValue(name, value.id);
+    setValue(name, value.id, { shouldValidate: true });
     setOpen(false);
   };
 
@@ -34,7 +34,7 @@ const SingleSelectDropdown = ({
           readOnly
           value={selected}
           placeholder={`Pilih ${label.toLowerCase()}`}
-          {...register(name)}
+          {...register(name, { required: isRequired })}
           onClick={toggleDropdown}
           className="w-full border border-gray-300 font-normal px-3 py-2 rounded pr-8 cursor-pointer"
         />

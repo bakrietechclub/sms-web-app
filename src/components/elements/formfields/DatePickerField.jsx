@@ -30,7 +30,7 @@ const DatePickerField = ({
     setLocalValue(date);
     const formatted = date ? format(date, 'yyyy-MM-dd') : '';
     if (setValue) {
-      setValue(name, formatted);
+      setValue(name, formatted, { shouldValidate: true });
     }
     if (onChange && date) {
       onChange(formatted);
@@ -53,7 +53,7 @@ const DatePickerField = ({
       <div className="relative">
         <input
           name={name}
-          {...register(name)}
+          {...register(name, { required: required })}
           value={localValue ? format(localValue, 'yyyy-MM-dd') : ''}
           onClick={handleInputClick}
           placeholder={placeholder}

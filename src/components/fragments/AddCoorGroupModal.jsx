@@ -35,14 +35,11 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
   const onSubmit = async (data) => {
     console.log('Form data:', data);
     setIsSubmitting(true);
-    try {
-      await dispatch(asyncAddGroup(data)).unwrap();
-      onClose();
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsSubmitting(false);
-    }
+    dispatch(asyncAddGroup({ ...data, typeId: accessTypeId }))
+      .unwrap()
+      .then(() => onClose())
+      .catch((err) => console.error(err))
+      .finally(() => setIsSubmitting(false));
   };
 
   if (!isOpen) return null;

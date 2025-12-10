@@ -29,7 +29,7 @@ async function getGroupById({ id }) {
  * Mengambil semua data grup.
  * @returns {Promise<array>} Array data grup.
  */
-async function getGroups({ q, typeId, page = 1, pageSize = 10 }) {
+async function getGroups({ q = '', typeId, page = 1, pageSize = 10 }) {
   const responseJson = await fetchWithAuth(
     `/groups?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
   );

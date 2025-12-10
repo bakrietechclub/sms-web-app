@@ -6,7 +6,7 @@ export const asyncAddGroup = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       await api.addGroup(payload);
-      const data = await api.getGroups();
+      const data = await api.getGroups({ q: '', typeId: payload.typeId });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
