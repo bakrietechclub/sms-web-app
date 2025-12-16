@@ -4,10 +4,10 @@ import { ChevronLeft, Building2, Link as LinkIcon, Users, Phone, Mail, Edit } fr
 import { Label } from '../../elements/Label';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectGroupDetail } from '../../../states/features/group/groupSelectors';
+import { selectGroupDetail, selectGroupLoading } from '../../../states/features/group/groupSelectors';
 import { asyncGetGroupById } from '../../../states/features/group/groupThunks';
 import AddCoorGroupContactModal from '../../fragments/AddCoorGroupContactModal';
-import { selectContacts } from '../../../states/features/group/contact/contactSelectors';
+import { selectContacts, selectContactLoading } from '../../../states/features/group/contact/contactSelectors';
 import { asyncGetContactByGroupId } from '../../../states/features/group/contact/contactThunks';
 
 export default function CoordinationGroupDetail() {
@@ -24,6 +24,58 @@ export default function CoordinationGroupDetail() {
     dispatch(asyncGetGroupById({ id }));
     dispatch(asyncGetContactByGroupId({ groupId: id }));
   }, [dispatch, id]);
+
+  const groupLoading = useSelector(selectGroupLoading);
+  const contactLoading = useSelector(selectContactLoading);
+  const loading = groupLoading || contactLoading;
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto animate-pulse">
+        {/* Header */}
+        <div className="mb-4">
+          <div className="h-6 w-24 bg-gray-200 rounded mb-3" />
+          <div className="flex justify-between items-center">
+            <div className="h-8 w-48 bg-gray-200 rounded" />
+            <div className="h-9 w-24 bg-gray-200 rounded" />
+          </div>
+        </div>
+
+        {/* Main Information Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+            {[1, 2].map((i) => (
+              <div key={i}>
+                <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
+                <div className="h-5 w-3/4 bg-gray-200 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Group Link Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="h-5 w-32 bg-gray-200 rounded mb-2" />
+          <div className="h-4 w-1/2 bg-gray-200 rounded" />
+        </div>
+
+        {/* Contacts Section */}
+        <div className="bg-white rounded-xl p-5 shadow-sm">
+          <div className="flex justify-between mb-4">
+            <div className="h-6 w-32 bg-gray-200 rounded" />
+            <div className="h-9 w-32 bg-gray-200 rounded" />
+          </div>
+          {/* Table Skeleton */}
+          <div className="space-y-4">
+            <div className="h-10 bg-gray-200 rounded w-full" /> {/* Header */}
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-12 bg-gray-200 rounded w-full" />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const updateButtonClasses = `
     rounded-md px-4 py-2 text-sm font-medium transition duration-200 shadow-sm

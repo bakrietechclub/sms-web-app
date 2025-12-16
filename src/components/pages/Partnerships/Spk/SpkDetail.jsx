@@ -4,7 +4,7 @@ import { ChevronLeft, Building2, FileText, Calendar, Users, Briefcase, ExternalL
 import { Label } from '../../../elements/Label';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSpkDetail } from '../../../../states/features/partnerships/spk/spkSelectors';
+import { selectSpkDetail, selectSpkLoading } from '../../../../states/features/partnerships/spk/spkSelectors';
 import { asyncGetSpkById } from '../../../../states/features/partnerships/spk/spkThunks';
 
 export default function SpkDetail() {
@@ -18,6 +18,75 @@ export default function SpkDetail() {
   }, [dispatch, id]);
 
   const data = useSelector(selectSpkDetail);
+  const loading = useSelector(selectSpkLoading);
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto pb-10 animate-pulse">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <div className="h-6 w-24 bg-gray-200 rounded mb-2" />
+            <div className="h-8 w-48 bg-gray-200 rounded" />
+          </div>
+          <div className="h-10 w-32 bg-gray-200 rounded" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Information - Left Column (2 cols wide) */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* General Info Card */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-48 bg-gray-200 rounded mb-4" /> {/* Title */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i}>
+                    <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
+                    <div className="h-5 w-3/4 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Parties Info Card */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-32 bg-gray-200 rounded mb-4" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i}>
+                    <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
+                    <div className="h-5 w-3/4 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar - Dates & Docs */}
+          <div className="space-y-6">
+            {/* Timeline Card */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-32 bg-gray-200 rounded mb-4" />
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i}>
+                    <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
+                    <div className="h-5 w-3/4 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Documents Card */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-32 bg-gray-200 rounded mb-4" />
+              <div className="h-16 bg-blue-50 rounded-lg" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const InfoItem = ({ icon: Icon, label, value }) => (
     <div className="mb-4 last:mb-0">

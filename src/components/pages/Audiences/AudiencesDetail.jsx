@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '../../elements/Button';
 import { ChevronLeft, Building2, Calendar, Clock, MapPin, FileText, ExternalLink, StickyNote } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAudienceDetail } from '../../../states/features/audience/audienceSelectors';
+import { selectAudienceDetail, selectAudienceLoading } from '../../../states/features/audience/audienceSelectors';
 import { asyncGetAudienceById } from '../../../states/features/audience/audienceThunks';
 import { Label } from '../../elements/Label';
 
@@ -19,6 +19,51 @@ export default function AudiencesDetail() {
   useEffect(() => {
     dispatch(asyncGetAudienceById({ id }));
   }, [id]);
+
+  const loading = useSelector(selectAudienceLoading);
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto animate-pulse">
+        {/* Header */}
+        <div className="mb-4">
+          <div className="h-6 w-24 bg-gray-200 rounded mb-3" />
+          <div className="h-8 w-48 bg-gray-200 rounded" />
+        </div>
+
+        {/* Main Information Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i}>
+                <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
+                <div className="h-5 w-3/4 bg-gray-200 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Location Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="h-6 w-48 bg-gray-200 rounded mb-3" />
+          <div className="h-5 w-full bg-gray-200 rounded" />
+        </div>
+
+        {/* Link Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="h-5 w-32 bg-gray-200 rounded mb-2" />
+          <div className="h-4 w-1/2 bg-gray-200 rounded" />
+        </div>
+
+        {/* Notes Card */}
+        <div className="bg-white rounded-xl p-5 shadow-sm">
+          <div className="h-6 w-48 bg-gray-200 rounded mb-3" />
+          <div className="h-4 w-full bg-gray-200 rounded mb-2" />
+          <div className="h-4 w-3/4 bg-gray-200 rounded" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto">

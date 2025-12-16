@@ -5,7 +5,7 @@ import { Button } from '../../../elements/Button';
 import { Label } from '../../../elements/Label';
 import { ChevronLeft, Building2, FileText, Calendar, Users, StickyNote, ExternalLink, Link as LinkIcon, Edit, ScrollText } from 'lucide-react';
 import { asyncGetPksById } from '../../../../states/features/partnerships/pks/pksThunks';
-import { selectPksDetail } from '../../../../states/features/partnerships/pks/pksSelectors';
+import { selectPksDetail, selectPksLoading } from '../../../../states/features/partnerships/pks/pksSelectors';
 
 export default function PksDetail() {
   const navigate = useNavigate();
@@ -18,6 +18,87 @@ export default function PksDetail() {
   }, [dispatch, id]);
 
   const data = useSelector(selectPksDetail);
+  const loading = useSelector(selectPksLoading);
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto pb-10 animate-pulse">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <div className="h-6 w-24 bg-gray-200 rounded mb-2" />
+            <div className="h-8 w-48 bg-gray-200 rounded" />
+          </div>
+          <div className="h-10 w-32 bg-gray-200 rounded" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Information - Left Column (2 cols wide) */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* General Info Card */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-48 bg-gray-200 rounded mb-4" /> {/* Title */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i}>
+                    <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
+                    <div className="h-5 w-3/4 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Letter & Party Info Card */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-32 bg-gray-200 rounded mb-4" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i}>
+                    <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
+                    <div className="h-5 w-3/4 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* IA Reference Section */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-48 bg-gray-200 rounded mb-4" />
+              <div className="h-32 bg-gray-200 rounded border border-gray-200" /> {/* Table placeholder */}
+            </div>
+          </div>
+
+          {/* Sidebar - Dates & Docs */}
+          <div className="space-y-6">
+            {/* Timeline Card */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-32 bg-gray-200 rounded mb-4" />
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i}>
+                    <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
+                    <div className="h-5 w-3/4 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Documents Card */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-32 bg-gray-200 rounded mb-4" />
+              <div className="h-16 bg-blue-50 rounded-lg" />
+            </div>
+
+            {/* Notes Card */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-32 bg-gray-200 rounded mb-4" />
+              <div className="h-16 bg-amber-50 rounded-lg" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const InfoItem = ({ icon: Icon, label, value }) => (
     <div className="mb-4 last:mb-0">

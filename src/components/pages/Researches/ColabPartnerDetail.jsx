@@ -5,7 +5,7 @@ import { ChevronLeft, MapPin, FileText, Calendar, ExternalLink, Users } from 'lu
 import { Label } from '../../elements/Label';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncGetResearchCollabById } from '../../../states/features/research/collab/collabThunks';
-import { selectCollabDetail } from '../../../states/features/research/collab/collabSelectors';
+import { selectCollabDetail, selectCollabLoading } from '../../../states/features/research/collab/collabSelectors';
 
 export default function ColabPartnerDetail() {
   const { id } = useParams();
@@ -13,10 +13,86 @@ export default function ColabPartnerDetail() {
   const dispatch = useDispatch();
 
   const data = useSelector(selectCollabDetail);
+  const loading = useSelector(selectCollabLoading);
 
   useEffect(() => {
     dispatch(asyncGetResearchCollabById({ id }));
   }, [dispatch, id]);
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto animate-pulse">
+        {/* Header */}
+        <div className="mb-4">
+          <div className="h-6 w-24 bg-gray-200 rounded mb-3" />
+          <div className="flex items-center justify-between">
+            <div className="h-8 w-1/3 bg-gray-200 rounded" />
+            <div className="h-9 w-24 bg-gray-200 rounded" />
+          </div>
+        </div>
+
+        {/* Main Information Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i}>
+                <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
+                <div className="h-5 w-3/4 bg-gray-200 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* MoU and PKS Status Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          {[1, 2].map((card) => (
+            <div key={card} className="bg-white rounded-xl p-5 shadow-sm">
+              <div className="h-6 w-32 bg-gray-200 rounded mb-4" /> {/* Title */}
+              <div className="space-y-3">
+                {[1, 2, 3].map((row) => (
+                  <div key={row} className="flex gap-4">
+                    <div className="h-3 w-24 bg-gray-200 rounded" />
+                    <div className="h-3 w-full bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Contact Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="h-6 w-24 bg-gray-200 rounded mb-3" />
+          <div className="h-4 w-48 bg-gray-200 rounded" />
+        </div>
+
+        {/* Collab Details Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="h-6 w-48 bg-gray-200 rounded mb-4" />
+          <div className="space-y-4">
+            <div>
+              <div className="h-3 w-48 bg-gray-200 rounded mb-1" />
+              <div className="h-5 w-full bg-gray-200 rounded" />
+            </div>
+            <div>
+              <div className="h-3 w-48 bg-gray-200 rounded mb-1" />
+              <div className="h-5 w-full bg-gray-200 rounded" />
+            </div>
+          </div>
+        </div>
+
+        {/* SWOT Analysis Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="h-6 w-32 bg-gray-200 rounded mb-4" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-32 bg-gray-200 rounded-lg" />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const updateButtonClasses = `
     rounded-md px-4 py-2 text-sm font-medium transition duration-200 shadow-sm

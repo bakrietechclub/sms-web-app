@@ -5,13 +5,9 @@ import { ChevronLeft, MapPin, Phone, Mail, FileText, ExternalLink } from 'lucide
 import { Label } from '../../elements/Label';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncGetResearchPotentialById } from '../../../states/features/research/potential/potentialThunks';
-import { selectPotentialDetail } from '../../../states/features/research/potential/potentialSelectors';
+import { selectPotentialDetail, selectPotentialLoading } from '../../../states/features/research/potential/potentialSelectors';
 import UpdateResearchPotentialModal from '../../fragments/UpdateResearchPotentialModal';
-import {
-  selectedAccessTypeInstitutionsId,
-  selectHasAccess,
-} from '../../../states/features/auth/authSelectors';
-
+import { selectedAccessTypeInstitutionsId, selectHasAccess } from '../../../states/features/auth/authSelectors';
 export default function PotentialPartnerDetail() {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -22,10 +18,79 @@ export default function PotentialPartnerDetail() {
   const accessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const hasAccess = useSelector(selectHasAccess);
   const data = useSelector(selectPotentialDetail);
+  const loading = useSelector(selectPotentialLoading);
 
   useEffect(() => {
     dispatch(asyncGetResearchPotentialById({ id }));
   }, [dispatch, id]);
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto animate-pulse">
+        {/* Header */}
+        <div className="mb-4">
+          <div className="h-6 w-24 bg-gray-200 rounded mb-3" />
+          <div className="flex items-center justify-between">
+            <div className="h-8 w-1/3 bg-gray-200 rounded" />
+            <div className="flex gap-2">
+              <div className="h-9 w-24 bg-gray-200 rounded" />
+              <div className="h-9 w-24 bg-gray-200 rounded" />
+            </div>
+          </div>
+        </div>
+
+        {/* Main Information Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i}>
+                <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
+                <div className="h-5 w-3/4 bg-gray-200 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Contact Information Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="h-6 w-48 bg-gray-200 rounded mb-4" /> {/* Title: Informasi Kontak */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i}>
+                <div className="h-3 w-24 bg-gray-200 rounded mb-2" />
+                <div className="h-4 w-full bg-gray-200 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Needs Section */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="h-6 w-32 bg-gray-200 rounded mb-3" /> {/* Title: Kebutuhan */}
+          <div className="h-4 w-full bg-gray-200 rounded mb-2" />
+          <div className="h-4 w-2/3 bg-gray-200 rounded" />
+        </div>
+
+        {/* SWOT Analysis Card */}
+        <div className="bg-white rounded-xl p-5 mb-4 shadow-sm">
+          <div className="h-6 w-38 bg-gray-200 rounded mb-4" /> {/* Title: Analisis SWOT */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-32 bg-gray-200 rounded-lg" />
+            ))}
+          </div>
+        </div>
+
+        {/* Document Link */}
+        <div className="bg-white rounded-xl p-5 shadow-sm">
+          <div className="h-5 w-32 bg-gray-200 rounded mb-2" /> {/* Title: Link Dokumen */}
+          <div className="h-4 w-1/2 bg-gray-200 rounded" />
+        </div>
+      </div>
+    );
+  }
+
+
 
   const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75';
 
