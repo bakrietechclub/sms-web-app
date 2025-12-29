@@ -12,7 +12,13 @@ export default function AddCoorGroupContactModal({ isOpen, onClose }) {
   const { id } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { isValid },
+  } = useForm({
+    mode: 'onChange',
     defaultValues: {
       groupId: id,
       contactFullName: '',
@@ -74,6 +80,7 @@ export default function AddCoorGroupContactModal({ isOpen, onClose }) {
               label="Nama"
               placeholder="Masukkan Nama"
               register={register}
+              isRequired={true}
             />
 
             <TextField
@@ -81,6 +88,7 @@ export default function AddCoorGroupContactModal({ isOpen, onClose }) {
               label="Jabatan"
               placeholder="Masukkan Jabatan"
               register={register}
+              isRequired={true}
             />
 
             <TextField
@@ -88,6 +96,7 @@ export default function AddCoorGroupContactModal({ isOpen, onClose }) {
               label="No. Handphone"
               placeholder="Masukkan No. Handphone"
               register={register}
+              isRequired={true}
             />
 
             <TextField
@@ -95,6 +104,7 @@ export default function AddCoorGroupContactModal({ isOpen, onClose }) {
               label="Email"
               placeholder="Masukkan Email"
               register={register}
+              isRequired={true}
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -107,6 +117,7 @@ export default function AddCoorGroupContactModal({ isOpen, onClose }) {
                 ]}
                 register={register}
                 setValue={setValue}
+                isRequired={true}
               />
 
               <SingleSelectDropdownBadge
@@ -118,6 +129,7 @@ export default function AddCoorGroupContactModal({ isOpen, onClose }) {
                 ]}
                 register={register}
                 setValue={setValue}
+                isRequired={true}
               />
             </div>
 
@@ -133,8 +145,8 @@ export default function AddCoorGroupContactModal({ isOpen, onClose }) {
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
+                disabled={isSubmitting || !isValid}
+                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
               >
                 {isSubmitting ? (
                   <>

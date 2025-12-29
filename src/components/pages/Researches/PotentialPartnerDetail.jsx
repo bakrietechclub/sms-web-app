@@ -4,9 +4,10 @@ import { Button } from '../../elements/Button';
 import { ChevronLeft, MapPin, Phone, Mail, FileText, ExternalLink } from 'lucide-react';
 import { Label } from '../../elements/Label';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncGetResearchPotentialById } from '../../../states/features/research/potential/potentialThunks';
+import { asyncDeleteResearchPotentialById, asyncGetResearchPotentialById } from '../../../states/features/research/potential/potentialThunks';
 import { selectPotentialDetail, selectPotentialLoading } from '../../../states/features/research/potential/potentialSelectors';
 import UpdateResearchPotentialModal from '../../fragments/UpdateResearchPotentialModal';
+import ConfirmationModal from '../../fragments/ConfirmationModal';
 import { selectedAccessTypeInstitutionsId, selectHasAccess } from '../../../states/features/auth/authSelectors';
 export default function PotentialPartnerDetail() {
   const { id } = useParams();
@@ -14,6 +15,7 @@ export default function PotentialPartnerDetail() {
   const navigate = useNavigate();
 
   const [openModal, setOpenModal] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const accessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const hasAccess = useSelector(selectHasAccess);
@@ -133,6 +135,7 @@ export default function PotentialPartnerDetail() {
               <Button
                 disabled={!hasAccess}
                 className={deleteButtonClasses}
+                onClick={() => setIsDeleteModalOpen(true)}
               >
                 Hapus
               </Button>
@@ -293,7 +296,7 @@ export default function PotentialPartnerDetail() {
             </a>
           </div>
         )}
-      </div>
+      </div >
 
       <UpdateResearchPotentialModal
         isOpen={openModal}
@@ -301,6 +304,19 @@ export default function PotentialPartnerDetail() {
         accessTypeId={accessTypeId}
         researchPotentialId={id}
         initialData={data}
+      />
+
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={() => {
+          dispatch(asyncDeleteResearchPotentialById({ id }));
+          navigate('/researches/potential-partner');
+        }}
+        title="Hapus Mitra Potensial"
+        message={`Apakah Anda yakin ingin menghapus data "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}
+        confirmLabel="Hapus"
+        isDanger={true}
       />
     </>
   );

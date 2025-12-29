@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '../../elements/Button';
 import { ChevronLeft, Building2, Calendar, Clock, MapPin, FileText, ExternalLink, StickyNote } from 'lucide-react';
@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAudienceDetail, selectAudienceLoading } from '../../../states/features/audience/audienceSelectors';
 import { asyncGetAudienceById } from '../../../states/features/audience/audienceThunks';
 import { Label } from '../../elements/Label';
+import ConfirmationModal from '../../fragments/ConfirmationModal';
+import { asyncDeleteAudienceById } from '../../../states/features/audience/audienceThunks';
+import { selectHasAccess } from '../../../states/features/auth/authSelectors';
 
 export default function AudiencesDetail() {
   const dispatch = useDispatch();
@@ -13,8 +16,8 @@ export default function AudiencesDetail() {
 
   const { id } = useParams();
   const data = useSelector(selectAudienceDetail);
-
-  console.log(data);
+  const hasAccess = useSelector(selectHasAccess);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetAudienceById({ id }));
@@ -65,6 +68,13 @@ export default function AudiencesDetail() {
     );
   }
 
+  const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75';
+
+  const deleteButtonClasses = `
+    rounded-md px-4 py-2 text-sm font-medium transition duration-200 shadow-sm
+    ${!hasAccess ? disabledClasses : 'bg-red-600 text-white hover:bg-red-700 cursor-pointer'}
+  `;
+
   return (
     <div className="max-w-7xl mx-auto">
       {/* Header with Back Button */}
@@ -76,9 +86,20 @@ export default function AudiencesDetail() {
           <ChevronLeft size={20} /> Kembali
         </Button>
 
-        <h1 className="text-2xl font-bold text-gray-800">
-          Detail Audiensi
-        </h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-gray-800">
+            Detail Audiensi
+          </h1>
+          <div className="flex gap-2">
+            <Button
+              disabled={!hasAccess}
+              className={deleteButtonClasses}
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
+              Hapus
+            </Button>
+          </div>
+        </div>
       </div>
 
       {/* Main Information Card */}
@@ -168,6 +189,19 @@ export default function AudiencesDetail() {
           <p className="text-sm text-gray-700 leading-relaxed">{data.audiencesNote}</p>
         </div>
       )}
+
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={() => {
+          dispatch(asyncDeleteAudienceById({ id }));
+          navigate('/dashboard/audiences');
+        }}
+        title="Hapus Audiensi"
+        message={`Apakah Anda yakin ingin menghapus data audiensi dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}
+        confirmLabel="Hapus"
+        isDanger={true}
+      />
     </div>
   );
 }

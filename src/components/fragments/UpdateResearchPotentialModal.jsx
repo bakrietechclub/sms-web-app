@@ -116,12 +116,12 @@ export default function UpdateResearchPotentialModal({
         'contactStatus',
         formData.contact_status !== undefined
           ? {
-              id: formData.contact_status,
-              label:
-                formData.contact_status === 1
-                  ? 'Sudah dikontak'
-                  : 'Belum dikontak',
-            }
+            id: formData.contact_status,
+            label:
+              formData.contact_status === 1
+                ? 'Sudah dikontak'
+                : 'Belum dikontak',
+          }
           : null
       );
 
@@ -227,7 +227,7 @@ export default function UpdateResearchPotentialModal({
             />
 
             {Array.isArray(watch('institutionLocations')) &&
-            watch('institutionLocations').length > 0 ? (
+              watch('institutionLocations').length > 0 ? (
               watch('institutionLocations').map((loc, idx) => (
                 <div key={idx} className="grid grid-cols-2 gap-2">
                   <TextField
@@ -255,7 +255,7 @@ export default function UpdateResearchPotentialModal({
             {accessTypeId === 2 && (
               <>
                 {watch('institutionClusterFocus') ||
-                watch('institutionClusterType') ? (
+                  watch('institutionClusterType') ? (
                   <div className="grid grid-cols-2 gap-2">
                     <TextField
                       name="institutionClusterFocus"
@@ -282,14 +282,14 @@ export default function UpdateResearchPotentialModal({
                   label="Peran"
                   placeholder="Masukkan peran"
                   register={register}
-                  // Perlu set value untuk kolom ini
+                // Perlu set value untuk kolom ini
                 />
                 <TextField
                   name="wilayah jangkauan"
                   label="Wilayah Jangkauan"
                   placeholder="Masukkan wilayah jangkauan"
                   register={register}
-                  // Perlu set value untuk kolom ini
+                // Perlu set value untuk kolom ini
                 />
               </>
             )}

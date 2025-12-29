@@ -9,6 +9,9 @@ import { asyncGetGroupById } from '../../../states/features/group/groupThunks';
 import AddCoorGroupContactModal from '../../fragments/AddCoorGroupContactModal';
 import { selectContacts, selectContactLoading } from '../../../states/features/group/contact/contactSelectors';
 import { asyncGetContactByGroupId } from '../../../states/features/group/contact/contactThunks';
+import { asyncDeleteGroupById } from '../../../states/features/group/groupThunks';
+import ConfirmationModal from '../../fragments/ConfirmationModal';
+import { selectHasAccess } from '../../../states/features/auth/authSelectors';
 
 export default function CoordinationGroupDetail() {
   const dispatch = useDispatch();
@@ -19,6 +22,8 @@ export default function CoordinationGroupDetail() {
   const contacts = useSelector(selectContacts);
 
   const [openModal, setOpenModal] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const hasAccess = useSelector(selectHasAccess);
 
   useEffect(() => {
     dispatch(asyncGetGroupById({ id }));
@@ -82,6 +87,13 @@ export default function CoordinationGroupDetail() {
     bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer
   `;
 
+  const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75';
+
+  const deleteButtonClasses = `
+    rounded-md px-4 py-2 text-sm font-medium transition duration-200 shadow-sm
+    ${!hasAccess ? disabledClasses : 'bg-red-600 text-white hover:bg-red-700 cursor-pointer'}
+  `;
+
   return (
     <div className="max-w-7xl mx-auto">
       {/* Header with Back Button and Actions */}
@@ -97,9 +109,18 @@ export default function CoordinationGroupDetail() {
           <h1 className="text-2xl font-bold text-gray-800">
             Grup Koordinasi
           </h1>
-          <Button className={updateButtonClasses}>
-            Perbarui
-          </Button>
+          <div className="flex gap-2">
+            <Button className={updateButtonClasses}>
+              Perbarui
+            </Button>
+            <Button
+              disabled={!hasAccess}
+              className={deleteButtonClasses}
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
+              Hapus
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -233,6 +254,19 @@ export default function CoordinationGroupDetail() {
       <AddCoorGroupContactModal
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
+      />
+
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={() => {
+          dispatch(asyncDeleteGroupById({ id }));
+          navigate('/dashboard/groups');
+        }}
+        title="Hapus Grup Koordinasi"
+        message={`Apakah Anda yakin ingin menghapus grup koordinasi "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}
+        confirmLabel="Hapus"
+        isDanger={true}
       />
     </div>
   );

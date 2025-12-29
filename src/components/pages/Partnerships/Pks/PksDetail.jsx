@@ -1,17 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '../../../elements/Button';
 import { Label } from '../../../elements/Label';
 import { ChevronLeft, Building2, FileText, Calendar, Users, StickyNote, ExternalLink, Link as LinkIcon, Edit, ScrollText } from 'lucide-react';
-import { asyncGetPksById } from '../../../../states/features/partnerships/pks/pksThunks';
+import { asyncDeletePksById, asyncGetPksById } from '../../../../states/features/partnerships/pks/pksThunks';
 import { selectPksDetail, selectPksLoading } from '../../../../states/features/partnerships/pks/pksSelectors';
+import ConfirmationModal from '../../../fragments/ConfirmationModal';
+import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
 
 export default function PksDetail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { id } = useParams();
+  const hasAccess = useSelector(selectHasAccess);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetPksById({ id }));
@@ -109,6 +113,18 @@ export default function PksDetail() {
     </div>
   );
 
+  const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75';
+
+  const updateButtonClasses = `
+    bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
+    ${!hasAccess ? disabledClasses : ''}
+  `;
+
+  const deleteButtonClasses = `
+    bg-red-600 text-white hover:bg-red-700 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
+    ${!hasAccess ? disabledClasses : ''}
+  `;
+
   return (
     <div className="max-w-7xl mx-auto pb-10">
       {/* Header */}
@@ -124,11 +140,21 @@ export default function PksDetail() {
             Detail PKS
           </h1>
         </div>
-        <Button
-          className="bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit"
-        >
-          <Edit size={16} /> Perbarui Data
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            disabled={!hasAccess}
+            className={updateButtonClasses}
+          >
+            <Edit size={16} /> Perbarui Data
+          </Button>
+          <Button
+            disabled={!hasAccess}
+            className={deleteButtonClasses}
+            onClick={() => setIsDeleteModalOpen(true)}
+          >
+            Hapus
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -307,6 +333,18 @@ export default function PksDetail() {
           )}
         </div>
       </div>
-    </div>
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={() => {
+          dispatch(asyncDeletePksById({ id }));
+          navigate('/dashboard/partnerships/pks');
+        }}
+        title="Hapus PKS"
+        message={`Apakah Anda yakin ingin menghapus data PKS dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}
+        confirmLabel="Hapus"
+        isDanger={true}
+      />
+    </div >
   );
 }

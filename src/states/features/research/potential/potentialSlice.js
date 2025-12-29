@@ -149,7 +149,7 @@ const potentialSlice = createSlice({
       .addCase(asyncDeleteResearchPotentialById.fulfilled, (state, action) => {
         state.loading = false;
         state.potentials = state.potentials.filter(
-          (item) => item.id !== action.payload.id
+          (item) => item.researchPotentialId !== action.payload.id
         );
       })
       .addCase(asyncDeleteResearchPotentialById.rejected, (state, action) => {
