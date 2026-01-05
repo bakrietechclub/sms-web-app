@@ -144,7 +144,7 @@ export default function AddModalLetterNumbering({
               <TextField
                 name="letterNumberSubjectOfLetter"
                 label="Tujuan dan Perihal Surat"
-                placeholder="Masukkan Nama Pihak BCF"
+                placeholder="Masukkan Tujuan dan Perihal Surat"
                 register={register}
                 isRequired={true}
               />

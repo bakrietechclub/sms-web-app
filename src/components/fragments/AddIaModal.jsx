@@ -154,6 +154,12 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
                 placeholder="Masukkan tahun implementasi"
                 register={register}
                 isRequired={true}
+                rules={{
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: "Harus berupa angka",
+                  },
+                }}
               />
             </div>
 

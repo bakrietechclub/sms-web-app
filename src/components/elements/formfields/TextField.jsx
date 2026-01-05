@@ -6,6 +6,7 @@ const TextField = ({
   register,
   placeholder,
   isRequired,
+  rules = {},
   className = '',
   disable = false,
 }) => {
@@ -29,7 +30,7 @@ const TextField = ({
         {label} {isRequired && <span className="text-red-500">*</span>}
       </label>
       <textarea
-        {...register(name, { required: isRequired })}
+        {...register(name, { required: isRequired, ...rules })}
         // ref={textareaRef}
         placeholder={placeholder}
         disabled={disable}

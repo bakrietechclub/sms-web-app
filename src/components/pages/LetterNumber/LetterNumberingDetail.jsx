@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { asyncGetLetterById } from '../../../states/features/letter/letterThunks';
+import { asyncGetLetterById, asyncDeleteLetterById } from '../../../states/features/letter/letterThunks';
 import { selectLetterDetail } from '../../../states/features/letter/letterSelectors';
+import { selectHasAccess } from '../../../states/features/auth/authSelectors';
+import ConfirmationModal from '../../fragments/ConfirmationModal';
 import { Button } from '../../elements/Button';
 import { ChevronLeft, Mail, Calendar, FileText, Link as LinkIcon, Edit } from 'lucide-react';
 
@@ -11,6 +13,8 @@ export default function LetterNumberingDetail() {
   const dispatch = useDispatch();
 
   const { id } = useParams();
+  const hasAccess = useSelector(selectHasAccess);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetLetterById({ id }));
@@ -46,6 +50,18 @@ export default function LetterNumberingDetail() {
     </div>
   );
 
+  const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75';
+
+  const updateButtonClasses = `
+    bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
+    ${!hasAccess ? disabledClasses : ''}
+  `;
+
+  const deleteButtonClasses = `
+    bg-red-600 text-white hover:bg-red-700 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
+    ${!hasAccess ? disabledClasses : ''}
+  `;
+
   return (
     <div className="max-w-7xl mx-auto pb-10">
       {/* Header */}
@@ -61,11 +77,22 @@ export default function LetterNumberingDetail() {
             Detail Nomor Surat
           </h1>
         </div>
-        <Button
-          className="bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit"
-        >
-          <Edit size={16} /> Perbarui Data
-        </Button>
+
+        <div className="flex gap-2">
+          <Button
+            disabled={!hasAccess}
+            className={updateButtonClasses}
+          >
+            <Edit size={16} /> Perbarui Data
+          </Button>
+          <Button
+            disabled={!hasAccess}
+            className={deleteButtonClasses}
+            onClick={() => setIsDeleteModalOpen(true)}
+          >
+            Hapus
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -136,6 +163,18 @@ export default function LetterNumberingDetail() {
               For now keeping it matching the layout structure. */}
         </div>
       </div>
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={() => {
+          dispatch(asyncDeleteLetterById({ id }));
+          navigate('/dashboard/letter-numbers');
+        }}
+        title="Hapus Nomor Surat"
+        message={`Apakah Anda yakin ingin menghapus Nomor Surat "${data?.letterReferenceNumber}"? Tindakan ini tidak dapat dibatalkan.`}
+        confirmLabel="Hapus"
+        isDanger={true}
+      />
     </div>
   );
 }

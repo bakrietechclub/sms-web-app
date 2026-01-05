@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '../../elements/Button';
-import { ChevronLeft, Building2, Calendar, Clock, MapPin, FileText, ExternalLink, StickyNote } from 'lucide-react';
+import { ChevronLeft, Building2, Calendar, Clock, MapPin, FileText, ExternalLink, StickyNote, Edit } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAudienceDetail, selectAudienceLoading } from '../../../states/features/audience/audienceSelectors';
 import { asyncGetAudienceById } from '../../../states/features/audience/audienceThunks';
 import { Label } from '../../elements/Label';
 import ConfirmationModal from '../../fragments/ConfirmationModal';
+import UpdateAudienceModal from '../../fragments/UpdateAudienceModal';
 import { asyncDeleteAudienceById } from '../../../states/features/audience/audienceThunks';
 import { selectHasAccess } from '../../../states/features/auth/authSelectors';
 
@@ -18,6 +19,7 @@ export default function AudiencesDetail() {
   const data = useSelector(selectAudienceDetail);
   const hasAccess = useSelector(selectHasAccess);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetAudienceById({ id }));
@@ -75,6 +77,15 @@ export default function AudiencesDetail() {
     ${!hasAccess ? disabledClasses : 'bg-red-600 text-white hover:bg-red-700 cursor-pointer'}
   `;
 
+  const updateButtonClasses = `
+    rounded-md px-4 py-2 text-sm font-medium transition duration-200 shadow-sm flex items-center gap-2
+    ${!hasAccess ? disabledClasses : 'bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer'}
+  `;
+
+  const handleUpdateSuccess = () => {
+    dispatch(asyncGetAudienceById({ id }));
+  };
+
   return (
     <div className="max-w-7xl mx-auto">
       {/* Header with Back Button */}
@@ -91,6 +102,13 @@ export default function AudiencesDetail() {
             Detail Audiensi
           </h1>
           <div className="flex gap-2">
+            <Button
+              disabled={!hasAccess}
+              className={updateButtonClasses}
+              onClick={() => setIsUpdateModalOpen(true)}
+            >
+              <Edit size={16} /> Perbarui Data
+            </Button>
             <Button
               disabled={!hasAccess}
               className={deleteButtonClasses}
@@ -201,6 +219,13 @@ export default function AudiencesDetail() {
         message={`Apakah Anda yakin ingin menghapus data audiensi dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}
         confirmLabel="Hapus"
         isDanger={true}
+      />
+      <UpdateAudienceModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        id={id}
+        initialData={data}
+        onSuccess={handleUpdateSuccess}
       />
     </div>
   );

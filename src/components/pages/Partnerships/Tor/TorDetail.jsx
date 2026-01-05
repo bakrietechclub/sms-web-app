@@ -1,17 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '../../../elements/Button';
 import { ChevronLeft, Building2, FileText, Calendar, Users, Briefcase, ExternalLink, Link as LinkIcon, Edit, ScrollText } from 'lucide-react';
 import { Label } from '../../../elements/Label';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncGetTorById } from '../../../../states/features/partnerships/tor/torThunks';
+import { asyncGetTorById, asyncDeleteTorById } from '../../../../states/features/partnerships/tor/torThunks';
 import { selectTorDetail, selectTorLoading } from '../../../../states/features/partnerships/tor/torSelectors';
+import ConfirmationModal from '../../../fragments/ConfirmationModal';
+import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
 
 export default function TorDetail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { id } = useParams();
+  const hasAccess = useSelector(selectHasAccess);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetTorById({ id }));
@@ -103,6 +107,18 @@ export default function TorDetail() {
     </div>
   );
 
+  const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75';
+
+  const updateButtonClasses = `
+    bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
+    ${!hasAccess ? disabledClasses : ''}
+  `;
+
+  const deleteButtonClasses = `
+    bg-red-600 text-white hover:bg-red-700 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
+    ${!hasAccess ? disabledClasses : ''}
+  `;
+
   return (
     <div className="max-w-7xl mx-auto pb-10">
       {/* Header */}
@@ -118,11 +134,21 @@ export default function TorDetail() {
             Detail Terms of Reference (ToR)
           </h1>
         </div>
-        <Button
-          className="bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit"
-        >
-          <Edit size={16} /> Perbarui Data
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            disabled={!hasAccess}
+            className={updateButtonClasses}
+          >
+            <Edit size={16} /> Perbarui Data
+          </Button>
+          <Button
+            disabled={!hasAccess}
+            className={deleteButtonClasses}
+            onClick={() => setIsDeleteModalOpen(true)}
+          >
+            Hapus
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -248,6 +274,18 @@ export default function TorDetail() {
           </div>
         </div>
       </div>
-    </div>
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={() => {
+          dispatch(asyncDeleteTorById({ id }));
+          navigate('/dashboard/partnerships/tor');
+        }}
+        title="Hapus ToR"
+        message={`Apakah Anda yakin ingin menghapus data ToR dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}
+        confirmLabel="Hapus"
+        isDanger={true}
+      />
+    </div >
   );
 }
