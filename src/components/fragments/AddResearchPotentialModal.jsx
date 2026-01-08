@@ -236,13 +236,22 @@ export default function AddResearchPotentialModal({
               </>
             )}
 
-            <TextField
-              name="instituteProfile"
-              label="Profil"
-              placeholder="Masukkan profil"
-              register={register}
-              disable
-            />
+            {watch('instituteProfile') ? (
+              <TextField
+                name="instituteProfile"
+                label="Profil"
+                placeholder="Masukkan profil"
+                register={register}
+                disable
+              />
+            ) : (
+              <div>
+                <label className="block mb-1 font-medium">Profil</label>
+                <div className="w-full border border-gray-200 bg-gray-50 px-3 py-2 rounded text-sm text-gray-500 italic cursor-not-allowed">
+                  Profil belum terisi
+                </div>
+              </div>
+            )}
 
             <ContactFields register={register} isRequired={true} />
 

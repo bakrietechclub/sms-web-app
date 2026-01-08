@@ -107,7 +107,7 @@ export default function AudiencesDetail() {
               className={updateButtonClasses}
               onClick={() => setIsUpdateModalOpen(true)}
             >
-              <Edit size={16} /> Perbarui Data
+              <Edit size={16} /> Perbarui
             </Button>
             <Button
               disabled={!hasAccess}

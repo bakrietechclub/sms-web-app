@@ -52,7 +52,7 @@ export const CoordinationGroup = () => {
           </div>
         </Button>
       </td>
-      <td>{value.contact}</td>
+      <td>{value.picName === null ? 'Belum ada PIC' : value.picName}</td>
       <td>
         <Button
           className="text-[#0D4690] underline cursor-pointer"

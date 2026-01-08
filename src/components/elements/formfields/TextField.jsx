@@ -36,8 +36,8 @@ const TextField = ({
         disabled={disable}
         // onInput={handleResize}
         className={
-          'w-full border border-gray-300 px-3 py-2 rounded resize-none overflow-hidden ' +
-          className
+          `w-full border border-gray-300 px-3 py-2 rounded resize-none overflow-hidden ${disable ? 'cursor-not-allowed bg-gray-100' : ''
+          } ` + className
         }
         rows={1}
       />

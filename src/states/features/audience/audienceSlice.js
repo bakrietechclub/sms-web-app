@@ -85,9 +85,7 @@ const audienceSlice = createSlice({
       })
       .addCase(asyncUpdateAudienceById.fulfilled, (state, action) => {
         state.loading = false;
-        state.audiences = state.audiences.map((item) =>
-          item.id === action.payload.id ? action.payload : item
-        );
+        state.audienceDetail = action.payload;
       })
       .addCase(asyncUpdateAudienceById.rejected, (state, action) => {
         state.loading = false;

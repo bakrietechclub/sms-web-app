@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 
 const badgeColorMap = {
@@ -24,9 +24,21 @@ const SingleSelectDropdownBadge = ({
   register,
   setValue,
   isRequired,
+  defaultValue,
 }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState('');
+
+  useEffect(() => {
+    if (defaultValue !== undefined && defaultValue !== null) {
+      // Find option by ID
+      const option = options.find((o) => o.id === defaultValue);
+      if (option) {
+        setSelected(option);
+        setValue(name, option.id);
+      }
+    }
+  }, [defaultValue, options, name, setValue]);
 
   const toggleDropdown = () => setOpen((prev) => !prev);
 

@@ -304,6 +304,7 @@ export default function PotentialPartnerDetail() {
         accessTypeId={accessTypeId}
         researchPotentialId={id}
         initialData={data}
+        onSuccess={() => dispatch(asyncGetResearchPotentialById({ id }))}
       />
 
       <ConfirmationModal

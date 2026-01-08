@@ -56,7 +56,7 @@ async function deleteAudienceById({ id }) {
  */
 async function updateAudienceById({ id, payload }) {
   const responseJson = await fetchWithAuth(`/audiences/${id}`, {
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify(payload),
   });
   return responseJson.data;

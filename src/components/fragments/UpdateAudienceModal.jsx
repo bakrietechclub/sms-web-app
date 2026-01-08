@@ -4,70 +4,38 @@ import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdo
 import DatePickerField from '../elements/formfields/DatePickerField';
 import TimePickerField from '../elements/formfields/TimePickerField';
 import TextField from '../elements/formfields/TextField';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectPotentialsOptions } from '../../states/features/research/potential/potentialSelectors';
-import { asyncGetResearchPotentialOptions } from '../../states/features/research/potential/potentialThunks';
-import Select from 'react-select';
+import { useDispatch } from 'react-redux';
 import { asyncUpdateAudienceById } from '../../states/features/audience/audienceThunks';
 import { X, Loader2 } from 'lucide-react';
 
 export default function UpdateAudienceModal({ isOpen, onClose, initialData, id, onSuccess }) {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [query, setQuery] = useState('');
-  const [selectedOptions, setSelectedOptions] = useState(null);
 
   const { register, handleSubmit, setValue, watch, formState: { isValid } } = useForm({
     mode: 'onChange',
   });
 
-  const options = useSelector(selectPotentialsOptions);
-
-  useEffect(() => {
-    // Determine typeId based on initialData or default to 1 (Assuming 1 is for Research/Potential related)
-    // The previous Add modal used a prop `accessTypeId`. Here we might need to derive it or pass it.
-    // For now, I'll assume we fetch options generally or pass typeId if needed.
-    // However, for updates, usually the backend handles the association.
-    // But to show the dropdown correctly, we need options.
-    // Let's assume generic options or based on initialData context if available.
-    // Defaults to typeId 1 for now if not passed.
-    dispatch(asyncGetResearchPotentialOptions({ query, typeId: 1 }));
-  }, [dispatch, query]);
-
-  const selectOptions = options.map((item) => ({
-    value: item.id,
-    label: item.label,
-  }));
-
   // Populate form with initialData
   useEffect(() => {
     if (initialData) {
+      // Convert date from DD/MM/YYYY to YYYY-MM-DD format
+      let formattedDate = initialData.audiencesDate;
+      if (initialData.audiencesDate && initialData.audiencesDate.includes('/')) {
+        const [day, month, year] = initialData.audiencesDate.split('/');
+        formattedDate = `${year}-${month}-${day}`;
+      }
+
       // Set simple fields
-      setValue('audiencesDate', initialData.audiencesDate);
+      setValue('audiencesDate', formattedDate);
       setValue('audiencesTime', initialData.audiencesTime);
       setValue('audiencesType', initialData.audiencesType);
       setValue('audiencesStatus', initialData.audiencesStatus);
       setValue('audiencesLocation', initialData.audiencesLocation);
       setValue('documentUrl', initialData.documentUrl);
       setValue('audiencesNote', initialData.audiencesNote);
-      setValue('partnershipResearchId', initialData.partnershipResearchId);
-
-      // Set select field
-      if (initialData.partnershipResearchId && initialData.instituteName) {
-        setSelectedOptions({
-          value: initialData.partnershipResearchId,
-          label: initialData.instituteName
-        });
-        // Also set the query so options can be fetched if needed
-        setQuery(initialData.instituteName);
-      }
     }
   }, [initialData, setValue]);
-
-  // Register Select field for validation
-  useEffect(() => {
-    register('partnershipResearchId', { required: true });
-  }, [register]);
 
   const onSubmit = async (data) => {
     console.log('Update Form data:', data);
@@ -115,35 +83,6 @@ export default function UpdateAudienceModal({ isOpen, onClose, initialData, id, 
             onSubmit={handleSubmit(onSubmit)}
             className="px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto"
           >
-            <div>
-              <label className="block mb-2 text-sm font-medium text-gray-700">
-                Riset Potensial <span className="text-red-500">*</span>
-              </label>
-              <Select
-                name="partnershipResearchId"
-                options={selectOptions}
-                placeholder="Cari & pilih nama Riset Potensial"
-                onInputChange={setQuery}
-                onChange={(option) => {
-                  setSelectedOptions(option);
-                  setValue('partnershipResearchId', option ? option.value : null, { shouldValidate: true });
-                }}
-                isClearable
-                isSearchable
-                value={selectedOptions}
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    minHeight: '42px',
-                    borderColor: '#d1d5db',
-                    '&:hover': {
-                      borderColor: '#9ca3af',
-                    },
-                  }),
-                }}
-              />
-            </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <DatePickerField
                 name="audiencesDate"
@@ -210,7 +149,7 @@ export default function UpdateAudienceModal({ isOpen, onClose, initialData, id, 
               label="Catatan Tambahan"
               placeholder="Masukkan catatan tambahan"
               register={register}
-              isRequired={true}
+              isRequired={false}
             />
 
             {/* Footer with Buttons */}

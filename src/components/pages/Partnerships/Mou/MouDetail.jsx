@@ -115,13 +115,13 @@ export default function MouDetail() {
   const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75';
 
   const updateButtonClasses = `
-    bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
-    ${!hasAccess ? disabledClasses : ''}
+    rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
+    ${!hasAccess ? disabledClasses : 'bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer'}
   `;
 
   const deleteButtonClasses = `
-    bg-red-600 text-white hover:bg-red-700 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
-    ${!hasAccess ? disabledClasses : ''}
+    rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
+    ${!hasAccess ? disabledClasses : 'bg-red-600 text-white hover:bg-red-700 cursor-pointer'}
   `;
 
   return (

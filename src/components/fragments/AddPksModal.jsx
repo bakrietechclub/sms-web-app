@@ -250,7 +250,7 @@ export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
               label="Catatan Tambahan"
               placeholder="Masukkan catatan tambahan"
               register={register}
-              isRequired={true}
+              isRequired={false}
             />
 
             {/* Footer with Buttons */}

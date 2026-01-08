@@ -146,7 +146,7 @@ export default function AddModalLetterNumbering({
                 label="Tujuan dan Perihal Surat"
                 placeholder="Masukkan Tujuan dan Perihal Surat"
                 register={register}
-                isRequired={true}
+                isRequired={false}
               />
 
               {/* Footer with Buttons */}

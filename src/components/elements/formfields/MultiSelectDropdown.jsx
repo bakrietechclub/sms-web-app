@@ -8,21 +8,32 @@ const MultiSelectDropdown = ({
   register,
   setValue,
   isRequired = false,
+  ...props
 }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState([]);
   const [tempSelected, setTempSelected] = useState([]);
 
   useEffect(() => {
-    const initialValue = register(name).value;
-    if (initialValue && typeof initialValue === 'string') {
-      const initialSelected = initialValue
-        .split(', ')
-        .filter((item) => item !== '');
-      setSelected(initialSelected);
-      setTempSelected(initialSelected);
+    if (register(name).value) {
+      // Fallback for whatever logic was intended, but prefer defaultValue
+      // This part is likely dead code if register returns standard object
     }
   }, [name, register]);
+
+  useEffect(() => {
+    if (props.defaultValue) {
+      let initialSelected = [];
+      if (Array.isArray(props.defaultValue)) {
+        // If defaultValue is array of IDs or Strings
+        initialSelected = props.defaultValue;
+      }
+      setSelected(initialSelected);
+      setTempSelected(initialSelected);
+      // Ensure the form is synced if not already
+      setValue(name, initialSelected);
+    }
+  }, [props.defaultValue, name, setValue]);
 
   const toggleDropdown = () => {
     if (!open) {

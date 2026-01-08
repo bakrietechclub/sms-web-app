@@ -177,7 +177,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
               label="Catatan Tambahan"
               placeholder="Masukkan catatan tambahan"
               register={register}
-              isRequired={true}
+              isRequired={false}
             />
 
             {/* Footer with Buttons */}
