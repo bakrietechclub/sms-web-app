@@ -37,6 +37,7 @@ import SpkDetail from './components/pages/Partnerships/Spk/SpkDetail';
 import LetterNumberingDetail from './components/pages/LetterNumber/LetterNumberingDetail';
 import ColabPartnerDetail from './components/pages/Researches/ColabPartnerDetail';
 import { PotentialPartnerRecommendations } from './components/pages/Researches/PotentialPartnerRecommendations';
+import CoordinationGroupContactUpdate from './components/pages/Groups/CoordinationGroupContactUpdate';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -83,7 +84,7 @@ const App = () => {
           <Route path="groups">
             <Route index element={<CoordinationGroup />} />
             <Route path=":id" element={<CoordinationGroupDetail />} />
-            <Route path="contact" element={<h1>Kontak Grup</h1>} />
+            <Route path=":id/contact/:contactId/edit" element={<CoordinationGroupContactUpdate />} />
           </Route>
           <Route path="partnerships">
             <Route path="mou">

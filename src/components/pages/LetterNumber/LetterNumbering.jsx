@@ -61,7 +61,7 @@ export const LetterNumbering = () => {
         {value.letterReferenceNumber}
       </td>
       <td className="border-b border-gray-200" title={value.letterSubject}>
-        {value.letterSubject}
+        {value.letterSubject === "" ? "-" : value.letterSubject}
       </td>
       <td className="mt-2 px-4 border-b border-gray-200">
         <Button

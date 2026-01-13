@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '../../elements/Button';
 import { ChevronLeft, Building2, Link as LinkIcon, Users, Phone, Mail, Edit } from 'lucide-react';
 import { Label } from '../../elements/Label';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectGroupDetail, selectGroupLoading } from '../../../states/features/group/groupSelectors';
 import { asyncGetGroupById } from '../../../states/features/group/groupThunks';
 import AddCoorGroupContactModal from '../../fragments/AddCoorGroupContactModal';
+import UpdateCoorGroupModal from '../../fragments/UpdateCoorGroupModal';
 import { selectContacts, selectContactLoading } from '../../../states/features/group/contact/contactSelectors';
 import { asyncGetContactByGroupId } from '../../../states/features/group/contact/contactThunks';
 import { asyncDeleteGroupById } from '../../../states/features/group/groupThunks';
@@ -22,6 +23,7 @@ export default function CoordinationGroupDetail() {
   const contacts = useSelector(selectContacts);
 
   const [openModal, setOpenModal] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const hasAccess = useSelector(selectHasAccess);
 
@@ -110,7 +112,7 @@ export default function CoordinationGroupDetail() {
             Grup Koordinasi
           </h1>
           <div className="flex gap-2">
-            <Button className={updateButtonClasses}>
+            <Button className={updateButtonClasses} onClick={() => setIsUpdateModalOpen(true)}>
               Perbarui
             </Button>
             <Button
@@ -233,9 +235,9 @@ export default function CoordinationGroupDetail() {
                       />
                     </td>
                     <td className="px-4 py-3 text-center">
-                      <button className="text-[#0D4690] hover:text-blue-800 font-medium inline-flex items-center gap-1 transition-colors">
+                      <Link to={`/dashboard/groups/${id}/contact/${item.contactId}/edit`} className="text-[#0D4690] hover:text-blue-800 font-medium inline-flex items-center gap-1 transition-colors">
                         <Edit size={14} /> Edit
-                      </button>
+                      </Link>
                     </td>
                   </tr>
                 ))
@@ -254,6 +256,13 @@ export default function CoordinationGroupDetail() {
       <AddCoorGroupContactModal
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
+      />
+
+      <UpdateCoorGroupModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        initialData={data}
+        onSuccess={() => dispatch(asyncGetGroupById({ id }))}
       />
 
       <ConfirmationModal

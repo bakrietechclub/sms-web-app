@@ -56,7 +56,7 @@ async function deleteGroupById({ id }) {
  */
 async function updateGroupById({ id, ...payload }) {
   const responseJson = await fetchWithAuth(`/groups/${id}`, {
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify(payload),
   });
   return responseJson.data;
