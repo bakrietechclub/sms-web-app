@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { asyncDeleteMouById, asyncGetMouById } from '../../../../states/features/partnerships/mou/mouThunks';
 import { selectMouDetail, selectMouLoading } from '../../../../states/features/partnerships/mou/mouSelectors';
 import ConfirmationModal from '../../../fragments/ConfirmationModal';
+import UpdateMouModal from '../../../fragments/UpdateMouModal';
 import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
 
 export default function MouDetail() {
@@ -18,6 +19,7 @@ export default function MouDetail() {
   const loading = useSelector(selectMouLoading);
   const hasAccess = useSelector(selectHasAccess);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetMouById({ id }));
@@ -143,6 +145,7 @@ export default function MouDetail() {
           <Button
             disabled={!hasAccess}
             className={updateButtonClasses}
+            onClick={() => setIsUpdateModalOpen(true)}
           >
             <Edit size={16} /> Perbarui Data
           </Button>
@@ -302,6 +305,12 @@ export default function MouDetail() {
         message={`Apakah Anda yakin ingin menghapus data MoU dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}
         confirmLabel="Hapus"
         isDanger={true}
+      />
+      <UpdateMouModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        initialData={data}
+        onSuccess={() => dispatch(asyncGetMouById({ id }))}
       />
     </div>
   );

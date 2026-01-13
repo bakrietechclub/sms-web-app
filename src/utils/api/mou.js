@@ -62,6 +62,7 @@ async function deleteMouById({ id }) {
  * @returns {Promise<object>} Data MOU yang diperbarui.
  */
 async function updateMouById({ id, payload }) {
+  console.log(id, payload);
   const responseJson = await fetchWithAuth(`/partnerships/mou/${id}`, {
     method: 'PUT',
     body: JSON.stringify(payload),

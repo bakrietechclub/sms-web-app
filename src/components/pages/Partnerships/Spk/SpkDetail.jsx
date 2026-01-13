@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectSpkDetail, selectSpkLoading } from '../../../../states/features/partnerships/spk/spkSelectors';
 import { asyncGetSpkById, asyncDeleteSpkById } from '../../../../states/features/partnerships/spk/spkThunks';
 import ConfirmationModal from '../../../fragments/ConfirmationModal';
+import UpdateSpkModal from '../../../fragments/UpdateSpkModal';
 import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
 
 export default function SpkDetail() {
@@ -16,6 +17,7 @@ export default function SpkDetail() {
   const { id } = useParams();
   const hasAccess = useSelector(selectHasAccess);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetSpkById({ id }));
@@ -132,6 +134,7 @@ export default function SpkDetail() {
           <Button
             disabled={!hasAccess}
             className={updateButtonClasses}
+            onClick={() => setIsUpdateModalOpen(true)}
           >
             <Edit size={16} /> Perbarui Data
           </Button>
@@ -231,9 +234,14 @@ export default function SpkDetail() {
           navigate('/dashboard/partnerships/spk');
         }}
         title="Hapus SPK"
-        message={`Apakah Anda yakin ingin menghapus data SPK dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}
         confirmLabel="Hapus"
         isDanger={true}
+      />
+      <UpdateSpkModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        initialData={data}
+        onSuccess={() => dispatch(asyncGetSpkById({ id }))}
       />
     </div >
   );

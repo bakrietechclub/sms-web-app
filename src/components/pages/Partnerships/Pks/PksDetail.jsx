@@ -7,6 +7,7 @@ import { ChevronLeft, Building2, FileText, Calendar, Users, StickyNote, External
 import { asyncDeletePksById, asyncGetPksById } from '../../../../states/features/partnerships/pks/pksThunks';
 import { selectPksDetail, selectPksLoading } from '../../../../states/features/partnerships/pks/pksSelectors';
 import ConfirmationModal from '../../../fragments/ConfirmationModal';
+import UpdatePksModal from '../../../fragments/UpdatePksModal';
 import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
 
 export default function PksDetail() {
@@ -16,6 +17,7 @@ export default function PksDetail() {
   const { id } = useParams();
   const hasAccess = useSelector(selectHasAccess);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetPksById({ id }));
@@ -144,6 +146,7 @@ export default function PksDetail() {
           <Button
             disabled={!hasAccess}
             className={updateButtonClasses}
+            onClick={() => setIsUpdateModalOpen(true)}
           >
             <Edit size={16} /> Perbarui Data
           </Button>
@@ -171,7 +174,7 @@ export default function PksDetail() {
               <InfoItem label="Divisi Instansi" value={data?.pksInstituteDivision} />
               <div className="mb-4">
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Status Kemitraan</p>
-                <Label label={'Sudah Diperiksa oleh Mitra'} status="success" />
+                <Label label={data?.statusPartnership} status="success" />
               </div>
               <div className="col-span-full">
                 <InfoItem icon={FileText} label="Detail Kerjasama" value={data?.pksDetailPartnership} />
@@ -344,6 +347,12 @@ export default function PksDetail() {
         message={`Apakah Anda yakin ingin menghapus data PKS dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}
         confirmLabel="Hapus"
         isDanger={true}
+      />
+      <UpdatePksModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        initialData={data}
+        onSuccess={() => dispatch(asyncGetPksById({ id }))}
       />
     </div >
   );

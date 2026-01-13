@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { asyncGetTorById, asyncDeleteTorById } from '../../../../states/features/partnerships/tor/torThunks';
 import { selectTorDetail, selectTorLoading } from '../../../../states/features/partnerships/tor/torSelectors';
 import ConfirmationModal from '../../../fragments/ConfirmationModal';
+import UpdateTorModal from '../../../fragments/UpdateTorModal';
 import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
 
 export default function TorDetail() {
@@ -16,6 +17,7 @@ export default function TorDetail() {
   const { id } = useParams();
   const hasAccess = useSelector(selectHasAccess);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetTorById({ id }));
@@ -138,6 +140,7 @@ export default function TorDetail() {
           <Button
             disabled={!hasAccess}
             className={updateButtonClasses}
+            onClick={() => setIsUpdateModalOpen(true)}
           >
             <Edit size={16} /> Perbarui Data
           </Button>
@@ -282,9 +285,14 @@ export default function TorDetail() {
           navigate('/dashboard/partnerships/tor');
         }}
         title="Hapus ToR"
-        message={`Apakah Anda yakin ingin menghapus data ToR dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}
         confirmLabel="Hapus"
         isDanger={true}
+      />
+      <UpdateTorModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        initialData={data}
+        onSuccess={() => dispatch(asyncGetTorById({ id }))}
       />
     </div >
   );

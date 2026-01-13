@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { asyncGetImplementationAgreementById, asyncDeleteImplementationAgreementById } from '../../../../states/features/partnerships/ia/iaThunks';
 import { selectIADetail, selectIALoading } from '../../../../states/features/partnerships/ia/iaSelectors';
 import ConfirmationModal from '../../../fragments/ConfirmationModal';
+import UpdateIaModal from '../../../fragments/UpdateIaModal';
 import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
 
 export default function IaDetail() {
@@ -16,6 +17,7 @@ export default function IaDetail() {
   const { id } = useParams();
   const hasAccess = useSelector(selectHasAccess);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetImplementationAgreementById({ id }));
@@ -119,6 +121,7 @@ export default function IaDetail() {
           <Button
             disabled={!hasAccess}
             className={updateButtonClasses}
+            onClick={() => setIsUpdateModalOpen(true)}
           >
             <Edit size={16} /> Perbarui Data
           </Button>
@@ -213,6 +216,12 @@ export default function IaDetail() {
         message={`Apakah Anda yakin ingin menghapus data IA dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}
         confirmLabel="Hapus"
         isDanger={true}
+      />
+      <UpdateIaModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        initialData={data}
+        onSuccess={() => dispatch(asyncGetImplementationAgreementById({ id }))}
       />
     </div>
   );
