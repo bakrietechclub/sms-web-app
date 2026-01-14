@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 
 const SingleSelectDropdown = ({
@@ -9,9 +9,22 @@ const SingleSelectDropdown = ({
   setValue,
   isRequired = false,
   onClick,
+  defaultValue,
 }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState('');
+
+  useEffect(() => {
+    if (defaultValue && options) {
+      const option = options.find((opt) => opt.id === defaultValue);
+      if (option) {
+        setSelected(option.label);
+        // Ensure form value is also set if it hasn't been touched yet (optional but good practice)
+        // setValue(name, option.id); 
+        // Note: parent usually sets form defaultValues, so we primarily need to update the visual 'selected' label here.
+      }
+    }
+  }, [defaultValue, options]);
 
   const toggleDropdown = () => {
     setOpen((prev) => !prev);

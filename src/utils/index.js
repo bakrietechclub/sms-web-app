@@ -72,4 +72,14 @@ const LETTER_OPTIONS = [
   { id: 2, label: 'Finance' },
 ];
 
-export { STATUS_OPTIONS, PROGRAM_OPTIONS, BATCH_OPTIONS, LETTER_OPTIONS };
+const formatDateInput = (dateString) => {
+  if (!dateString) return '';
+  // Check if matches DD/MM/YYYY
+  if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateString)) {
+    const [day, month, year] = dateString.split('/');
+    return `${year}-${month}-${day}`;
+  }
+  return dateString;
+};
+
+export { STATUS_OPTIONS, PROGRAM_OPTIONS, BATCH_OPTIONS, LETTER_OPTIONS, formatDateInput };

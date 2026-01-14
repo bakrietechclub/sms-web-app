@@ -7,7 +7,7 @@ import TextField from '../elements/formfields/TextField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
 import DatePickerField from '../elements/formfields/DatePickerField';
 import { Button } from '../elements/Button';
-import { STATUS_OPTIONS } from '../../utils';
+import { STATUS_OPTIONS, formatDateInput } from '../../utils';
 import { asyncUpdateTorById } from '../../states/features/partnerships/tor/torThunks';
 
 export default function UpdateTorModal({ isOpen, onClose, initialData, onSuccess }) {
@@ -17,16 +17,6 @@ export default function UpdateTorModal({ isOpen, onClose, initialData, onSuccess
   const { register, handleSubmit, setValue, formState: { isValid }, reset } = useForm({
     mode: 'onChange',
   });
-
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    // Check if matches DD/MM/YYYY
-    if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateString)) {
-      const [day, month, year] = dateString.split('/');
-      return `${year}-${month}-${day}`;
-    }
-    return dateString;
-  };
 
   useEffect(() => {
     if (initialData) {
@@ -38,9 +28,9 @@ export default function UpdateTorModal({ isOpen, onClose, initialData, onSuccess
         torDetailPartnership: initialData.torDetailPartnership || '',
         torNameOfPartner: initialData.torNameOfPartner || '',
         torNameofBcf: initialData.torNameofBcf || '',
-        torSignatureDate: formatDate(initialData.torSignatureDate) || '',
+        torSignatureDate: formatDateInput(initialData.torSignatureDate) || '',
         torTimePeriod: initialData.torTimePeriod || 5, // Default
-        torDueDate: formatDate(initialData.torDueDate) || '',
+        torDueDate: formatDateInput(initialData.torDueDate) || '',
         torDocumentUrl: initialData.torDocumentUrl || '',
       });
     }

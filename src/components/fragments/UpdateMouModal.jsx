@@ -7,7 +7,7 @@ import TextField from '../elements/formfields/TextField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
 import DatePickerField from '../elements/formfields/DatePickerField';
 import { Button } from '../elements/Button';
-import { STATUS_OPTIONS } from '../../utils';
+import { STATUS_OPTIONS, formatDateInput } from '../../utils';
 import { asyncUpdateMouById } from '../../states/features/partnerships/mou/mouThunks';
 
 export default function UpdateMouModal({ isOpen, onClose, initialData, onSuccess }) {
@@ -17,16 +17,6 @@ export default function UpdateMouModal({ isOpen, onClose, initialData, onSuccess
   const { register, handleSubmit, setValue, formState: { isValid }, reset } = useForm({
     mode: 'onChange',
   });
-
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    // Check if matches DD/MM/YYYY
-    if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateString)) {
-      const [day, month, year] = dateString.split('/');
-      return `${year}-${month}-${day}`;
-    }
-    return dateString;
-  };
 
   useEffect(() => {
     if (initialData) {
@@ -39,9 +29,9 @@ export default function UpdateMouModal({ isOpen, onClose, initialData, onSuccess
         mouPartnerLetterNumber: initialData.mouPartnerLetterNumber || '',
         mouPartnerName: initialData.mouPartnerName || '',
         mouBcfName: initialData.mouBcfName || '',
-        mouSignatureDate: formatDate(initialData.mouSignatureDate) || '',
+        mouSignatureDate: formatDateInput(initialData.mouSignatureDate) || '',
         mouTimePeriod: initialData.mouTimePeriod || 5, // Default to 5 if missing?
-        mouDueDate: formatDate(initialData.mouDueDate) || '',
+        mouDueDate: formatDateInput(initialData.mouDueDate) || '',
         mouDocumentUrl: initialData.mouDocumentUrl || '',
         mouNote: initialData.mouNote || '',
       });

@@ -7,7 +7,7 @@ import TextField from '../elements/formfields/TextField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
 import DatePickerField from '../elements/formfields/DatePickerField';
 import { Button } from '../elements/Button';
-import { STATUS_OPTIONS } from '../../utils';
+import { STATUS_OPTIONS, formatDateInput } from '../../utils';
 import { asyncUpdatePksById } from '../../states/features/partnerships/pks/pksThunks';
 
 export default function UpdatePksModal({ isOpen, onClose, initialData, onSuccess }) {
@@ -17,16 +17,6 @@ export default function UpdatePksModal({ isOpen, onClose, initialData, onSuccess
   const { register, handleSubmit, setValue, formState: { isValid }, reset } = useForm({
     mode: 'onChange',
   });
-
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    // Check if matches DD/MM/YYYY
-    if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateString)) {
-      const [day, month, year] = dateString.split('/');
-      return `${year}-${month}-${day}`;
-    }
-    return dateString;
-  };
 
   useEffect(() => {
     if (initialData) {
@@ -40,9 +30,9 @@ export default function UpdatePksModal({ isOpen, onClose, initialData, onSuccess
         pksPartnerLetterNumber: initialData.pksPartnerLetterNumber || '',
         pksNameOfPartner: initialData.pksNameOfPartner || '',
         pksNameofBcf: initialData.pksNameofBcf || '',
-        pksSignatureDate: formatDate(initialData.pksSignatureDate) || '',
+        pksSignatureDate: formatDateInput(initialData.pksSignatureDate) || '',
         pksTimePeriod: initialData.pksTimePeriod || 5, // Default
-        pksDueDate: formatDate(initialData.pksDueDate) || '',
+        pksDueDate: formatDateInput(initialData.pksDueDate) || '',
         pksDocumentUrl: initialData.pksDocumentUrl || '',
         pksNote: initialData.pksNote || '',
       });

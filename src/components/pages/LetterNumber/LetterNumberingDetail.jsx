@@ -5,6 +5,7 @@ import { asyncGetLetterById, asyncDeleteLetterById } from '../../../states/featu
 import { selectLetterDetail } from '../../../states/features/letter/letterSelectors';
 import { selectHasAccess } from '../../../states/features/auth/authSelectors';
 import ConfirmationModal from '../../fragments/ConfirmationModal';
+import UpdateLetterModal from '../../fragments/UpdateLetterModal';
 import { Button } from '../../elements/Button';
 import { ChevronLeft, Mail, Calendar, FileText, Link as LinkIcon, Edit } from 'lucide-react';
 
@@ -15,6 +16,7 @@ export default function LetterNumberingDetail() {
   const { id } = useParams();
   const hasAccess = useSelector(selectHasAccess);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(asyncGetLetterById({ id }));
@@ -82,6 +84,7 @@ export default function LetterNumberingDetail() {
           <Button
             disabled={!hasAccess}
             className={updateButtonClasses}
+            onClick={() => setIsUpdateModalOpen(true)}
           >
             <Edit size={16} /> Perbarui Data
           </Button>
@@ -171,9 +174,14 @@ export default function LetterNumberingDetail() {
           navigate('/dashboard/letter-numbers');
         }}
         title="Hapus Nomor Surat"
-        message={`Apakah Anda yakin ingin menghapus Nomor Surat "${data?.letterReferenceNumber}"? Tindakan ini tidak dapat dibatalkan.`}
         confirmLabel="Hapus"
         isDanger={true}
+      />
+      <UpdateLetterModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        initialData={data}
+        onSuccess={() => dispatch(asyncGetLetterById({ id }))}
       />
     </div>
   );
