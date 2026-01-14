@@ -82,4 +82,15 @@ const formatDateInput = (dateString) => {
   return dateString;
 };
 
-export { STATUS_OPTIONS, PROGRAM_OPTIONS, BATCH_OPTIONS, LETTER_OPTIONS, formatDateInput };
+/**
+ * Creates an array of numbers from start to end (inclusive)
+ * @param {number} start - Starting number
+ * @param {number} end - Ending number
+ * @returns {number[]} Array of numbers
+ */
+const range = (start, end) => {
+  const length = end - start + 1;
+  return Array.from({ length }, (_, idx) => idx + start);
+};
+
+export { STATUS_OPTIONS, PROGRAM_OPTIONS, BATCH_OPTIONS, LETTER_OPTIONS, formatDateInput, range };

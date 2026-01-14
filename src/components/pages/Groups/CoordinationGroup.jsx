@@ -3,10 +3,7 @@ import { Table } from '../../fragments/Table';
 import { useState, useEffect, useMemo } from 'react';
 import { TableToolbar } from '../../fragments/TableToolbar';
 import { Pagination } from '../../fragments/Pagination';
-// import WAIcon from '../../assets/icons/whatsappIcon.png';t';
-
 import { useDispatch, useSelector } from 'react-redux';
-
 import { useNavigate } from 'react-router-dom';
 import { selectGroupLoading, selectGroups } from '../../../states/features/group/groupSelectors';
 import {

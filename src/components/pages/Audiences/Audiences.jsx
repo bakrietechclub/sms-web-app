@@ -7,8 +7,6 @@ import { Pagination } from '../../fragments/Pagination';
 import { Button } from '../../elements/Button';
 import { Label } from '../../elements/Label';
 import {
-  selectAccessRole,
-  selectAccessTypeInstitutionsId,
   selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
@@ -105,7 +103,11 @@ export const Audiences = () => {
         renderRow={renderRow}
         isLoading={loading}
       />
-      <Pagination />
+      <Pagination
+        currentPage={15}
+        totalPages={20}
+        onPageChange={(page) => console.log(page)}
+      />
 
       {isModalOpen && (
         <AddAudienceModal

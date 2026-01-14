@@ -17,7 +17,6 @@ import { asyncGetContactById, asyncUpdateContactById } from '../../../states/fea
 import { selectContactDetail, selectContactLoading } from '../../../states/features/group/contact/contactSelectors';
 import { clearContactDetail } from '../../../states/features/group/contact/contactSlice';
 import { Button } from '../../elements/Button';
-import { Label } from '../../elements/Label';
 import TextField from '../../elements/formfields/TextField';
 
 export default function CoordinationGroupContactUpdate() {
