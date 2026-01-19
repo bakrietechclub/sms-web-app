@@ -193,7 +193,7 @@ export default function SpkDetail() {
             </h2>
             <div className="space-y-4">
               <InfoItem label="Tanggal Tanda Tangan" value={data?.spkSignatureDate} />
-              <InfoItem label="Jangka Waktu" value={data?.spkTimePeriod ? `${data.spkTimePeriod} Tahun` : '-'} />
+              <InfoItem label="Jangka Waktu (Tahun)" value={data?.spkTimePeriod ? `${data.spkTimePeriod} Tahun` : '-'} />
               <InfoItem label="Tanggal Jatuh Tempo" value={data?.spkDueDate} />
             </div>
           </div>

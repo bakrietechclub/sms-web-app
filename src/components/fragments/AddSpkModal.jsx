@@ -201,7 +201,7 @@ export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
               />
               <TextField
                 name="spkTimePeriod"
-                label="Jangka Waktu"
+                label="Jangka Waktu (Tahun)"
                 placeholder="Masukkan jangka waktu"
                 register={register}
                 isRequired={true}

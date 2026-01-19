@@ -8,13 +8,14 @@ import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdo
 import DatePickerField from '../elements/formfields/DatePickerField';
 import { Button } from '../elements/Button';
 import { STATUS_OPTIONS, formatDateInput } from '../../utils';
+import { calculateDueDate } from '../../utils/dateHelpers';
 import { asyncUpdateTorById } from '../../states/features/partnerships/tor/torThunks';
 
 export default function UpdateTorModal({ isOpen, onClose, initialData, onSuccess }) {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue, formState: { isValid }, reset } = useForm({
+  const { register, handleSubmit, setValue, watch, formState: { isValid }, reset } = useForm({
     mode: 'onChange',
   });
 
@@ -35,6 +36,19 @@ export default function UpdateTorModal({ isOpen, onClose, initialData, onSuccess
       });
     }
   }, [initialData, reset]);
+
+  // Auto-calculate torDueDate based on torSignatureDate + torTimePeriod (in years)
+  const torSignatureDate = watch('torSignatureDate');
+  const torTimePeriod = watch('torTimePeriod');
+
+  useEffect(() => {
+    if (torSignatureDate && torTimePeriod) {
+      const dueDate = calculateDueDate(torSignatureDate, torTimePeriod);
+      if (dueDate) {
+        setValue('torDueDate', formatDateInput(dueDate), { shouldValidate: true });
+      }
+    }
+  }, [torSignatureDate, torTimePeriod, setValue]);
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
@@ -131,7 +145,7 @@ export default function UpdateTorModal({ isOpen, onClose, initialData, onSuccess
               />
               <TextField
                 name="torTimePeriod"
-                label="Jangka Waktu"
+                label="Jangka Waktu (Tahun)"
                 placeholder="Masukkan jangka waktu"
                 register={register}
                 isRequired={true}

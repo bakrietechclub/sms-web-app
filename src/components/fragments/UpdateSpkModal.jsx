@@ -8,13 +8,14 @@ import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdo
 import DatePickerField from '../elements/formfields/DatePickerField';
 import { Button } from '../elements/Button';
 import { STATUS_OPTIONS, formatDateInput } from '../../utils';
+import { calculateDueDate } from '../../utils/dateHelpers';
 import { asyncUpdateSpkById } from '../../states/features/partnerships/spk/spkThunks';
 
 export default function UpdateSpkModal({ isOpen, onClose, initialData, onSuccess }) {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue, formState: { isValid }, reset } = useForm({
+  const { register, handleSubmit, setValue, watch, formState: { isValid }, reset } = useForm({
     mode: 'onChange',
   });
 
@@ -35,6 +36,19 @@ export default function UpdateSpkModal({ isOpen, onClose, initialData, onSuccess
       });
     }
   }, [initialData, reset]);
+
+  // Auto-calculate spkDueDate based on spkSignatureDate + spkTimePeriod (in years)
+  const spkSignatureDate = watch('spkSignatureDate');
+  const spkTimePeriod = watch('spkTimePeriod');
+
+  useEffect(() => {
+    if (spkSignatureDate && spkTimePeriod) {
+      const dueDate = calculateDueDate(spkSignatureDate, spkTimePeriod);
+      if (dueDate) {
+        setValue('spkDueDate', formatDateInput(dueDate), { shouldValidate: true });
+      }
+    }
+  }, [spkSignatureDate, spkTimePeriod, setValue]);
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
@@ -131,7 +145,7 @@ export default function UpdateSpkModal({ isOpen, onClose, initialData, onSuccess
               />
               <TextField
                 name="spkTimePeriod"
-                label="Jangka Waktu"
+                label="Jangka Waktu (Tahun)"
                 placeholder="Masukkan jangka waktu"
                 register={register}
                 isRequired={true}

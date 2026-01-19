@@ -12,13 +12,14 @@ import AddModalLetterNumbering from './AddModalLetterNumbering';
 import { STATUS_OPTIONS } from '../../utils';
 import { asyncAddMou } from '../../states/features/partnerships/mou/mouThunks';
 import { X, Loader2 } from 'lucide-react';
+import { calculateDueDate } from '../../utils/dateHelpers';
 
 export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue, formState: { isValid } } = useForm({
+  const { register, handleSubmit, setValue, watch, formState: { isValid } } = useForm({
     mode: 'onChange',
     defaultValues: {
       partnershipLetterNumberId: 1,
@@ -43,6 +44,17 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
   useEffect(() => {
     register('partnershipResearchId', { required: true });
   }, [register]);
+
+  // Auto-calculate mouDueDate based on mouSignatureDate + mouTimePeriod (in years)
+  const mouSignatureDate = watch('mouSignatureDate');
+  const mouTimePeriod = watch('mouTimePeriod');
+
+  useEffect(() => {
+    const dueDate = calculateDueDate(mouSignatureDate, mouTimePeriod);
+    if (dueDate) {
+      setValue('mouDueDate', dueDate, { shouldValidate: true });
+    }
+  }, [mouSignatureDate, mouTimePeriod, setValue]);
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
@@ -213,8 +225,8 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
               />
               <TextField
                 name="mouTimePeriod"
-                label="Jangka Waktu"
-                placeholder="Masukkan jangka waktu"
+                label="Jangka Waktu (Tahun)"
+                placeholder="Masukkan jangka waktu (tahun)"
                 register={register}
                 isRequired={true}
               />

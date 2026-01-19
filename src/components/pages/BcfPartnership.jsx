@@ -285,7 +285,7 @@ export const BcfPartnership = () => {
             <p className="">{selected.signYear}</p>
           </div>
           <div className="">
-            <p className="font-semibold">Jangka Waktu:</p>
+            <p className="font-semibold">Jangka Waktu (Tahun):</p>
             <p className="">{selected.duration}</p>
           </div>
           <div className="">
@@ -370,7 +370,7 @@ export const BcfPartnership = () => {
             <p>{selected.signYear}</p>
           </div>
           <div>
-            <p className="font-semibold">Jangka Waktu:</p>
+            <p className="font-semibold">Jangka Waktu (Tahun):</p>
             <p>{selected.duration}</p>
           </div>
           <div>

@@ -249,7 +249,7 @@ export default function MouDetail() {
             </h2>
             <div className="space-y-4">
               <InfoItem label="Tanggal Tanda Tangan" value={data?.mouSignatureDate} />
-              <InfoItem label="Jangka Waktu" value={data?.mouTimePeriod ? `${data.mouTimePeriod} Tahun` : '-'} />
+              <InfoItem label="Jangka Waktu (Tahun)" value={data?.mouTimePeriod ? `${data.mouTimePeriod} Tahun` : '-'} />
               <InfoItem label="Tanggal Jatuh Tempo" value={data?.mouDueDate} />
             </div>
           </div>

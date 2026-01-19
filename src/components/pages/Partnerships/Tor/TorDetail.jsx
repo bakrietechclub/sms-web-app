@@ -244,7 +244,7 @@ export default function TorDetail() {
             </h2>
             <div className="space-y-4">
               <InfoItem label="Tanggal Tanda Tangan" value={data?.torSignatureDate} />
-              <InfoItem label="Jangka Waktu" value={data?.torTimePeriod ? `${data.torTimePeriod} Tahun` : '-'} />
+              <InfoItem label="Jangka Waktu (Tahun)" value={data?.torTimePeriod ? `${data.torTimePeriod} Tahun` : '-'} />
               <InfoItem label="Tanggal Jatuh Tempo" value={data?.torDueDate} />
             </div>
           </div>

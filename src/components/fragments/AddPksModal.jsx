@@ -12,13 +12,14 @@ import Select from 'react-select';
 import { asyncAddPks } from '../../states/features/partnerships/pks/pksThunks';
 import { STATUS_OPTIONS } from '../../utils';
 import { X, Loader2 } from 'lucide-react';
+import { calculateDueDate } from '../../utils/dateHelpers';
 
 export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue, formState: { isValid } } = useForm({
+  const { register, handleSubmit, setValue, watch, formState: { isValid } } = useForm({
     mode: 'onChange',
     defaultValues: {
       partnershipMouId: null,
@@ -44,6 +45,17 @@ export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
   useEffect(() => {
     register('partnershipMouId', { required: true });
   }, [register]);
+
+  // Auto-calculate pksDueDate based on pksSignatureDate + pksTimePeriod (in years)
+  const pksSignatureDate = watch('pksSignatureDate');
+  const pksTimePeriod = watch('pksTimePeriod');
+
+  useEffect(() => {
+    const dueDate = calculateDueDate(pksSignatureDate, pksTimePeriod);
+    if (dueDate) {
+      setValue('pksDueDate', dueDate, { shouldValidate: true });
+    }
+  }, [pksSignatureDate, pksTimePeriod, setValue]);
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
@@ -222,7 +234,7 @@ export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
               />
               <TextField
                 name="pksTimePeriod"
-                label="Jangka Waktu"
+                label="Jangka Waktu (Tahun)"
                 placeholder="Masukkan jangka waktu"
                 register={register}
                 isRequired={true}

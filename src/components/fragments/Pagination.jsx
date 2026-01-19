@@ -66,7 +66,7 @@ export const Pagination = ({ currentPage = 2, totalPages = 10, onPageChange }) =
 
   return (
     <div className="mt-2 flex gap-2 items-center justify-center">
-      <Button onClick={onPrevious} disabled={currentPage === 1}>
+      <Button onClick={onPrevious} disabled={currentPage === 1} className="cursor-pointer">
         <img
           src={ChevronLeft}
           className={currentPage === 1 ? 'opacity-50' : ''}
@@ -93,7 +93,7 @@ export const Pagination = ({ currentPage = 2, totalPages = 10, onPageChange }) =
           <Button
             key={pageNumber}
             onClick={() => onPageChange(pageNumber)}
-            className={`w-9 h-9 rounded-full ${pageNumber === currentPage
+            className={`w-9 h-9 rounded-full cursor-pointer ${pageNumber === currentPage
               ? 'bg-[#E89229] text-white'
               : 'bg-white text-black hover:bg-gray-100'
               }`}
@@ -103,7 +103,7 @@ export const Pagination = ({ currentPage = 2, totalPages = 10, onPageChange }) =
         );
       })}
 
-      <Button onClick={onNext} disabled={currentPage === totalPages}>
+      <Button onClick={onNext} disabled={currentPage === totalPages} className="cursor-pointer">
         <img
           src={ChevronRight}
           className={currentPage === totalPages ? 'opacity-50' : ''}

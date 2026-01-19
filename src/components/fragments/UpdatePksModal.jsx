@@ -8,13 +8,14 @@ import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdo
 import DatePickerField from '../elements/formfields/DatePickerField';
 import { Button } from '../elements/Button';
 import { STATUS_OPTIONS, formatDateInput } from '../../utils';
+import { calculateDueDate } from '../../utils/dateHelpers';
 import { asyncUpdatePksById } from '../../states/features/partnerships/pks/pksThunks';
 
 export default function UpdatePksModal({ isOpen, onClose, initialData, onSuccess }) {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue, formState: { isValid }, reset } = useForm({
+  const { register, handleSubmit, setValue, watch, formState: { isValid }, reset } = useForm({
     mode: 'onChange',
   });
 
@@ -38,6 +39,19 @@ export default function UpdatePksModal({ isOpen, onClose, initialData, onSuccess
       });
     }
   }, [initialData, reset]);
+
+  // Auto-calculate pksDueDate based on pksSignatureDate + pksTimePeriod (in years)
+  const pksSignatureDate = watch('pksSignatureDate');
+  const pksTimePeriod = watch('pksTimePeriod');
+
+  useEffect(() => {
+    if (pksSignatureDate && pksTimePeriod) {
+      const dueDate = calculateDueDate(pksSignatureDate, pksTimePeriod);
+      if (dueDate) {
+        setValue('pksDueDate', formatDateInput(dueDate), { shouldValidate: true });
+      }
+    }
+  }, [pksSignatureDate, pksTimePeriod, setValue]);
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
@@ -152,7 +166,7 @@ export default function UpdatePksModal({ isOpen, onClose, initialData, onSuccess
               />
               <TextField
                 name="pksTimePeriod"
-                label="Jangka Waktu"
+                label="Jangka Waktu (Tahun)"
                 placeholder="Masukkan jangka waktu"
                 register={register}
                 isRequired={true}

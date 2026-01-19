@@ -291,7 +291,7 @@ export default function PksDetail() {
             </h2>
             <div className="space-y-4">
               <InfoItem label="Tanggal Tanda Tangan" value={data?.pksSignatureDate} />
-              <InfoItem label="Jangka Waktu" value={data?.pksTimePeriod} />
+              <InfoItem label="Jangka Waktu (Tahun)" value={data?.pksTimePeriod} />
               <InfoItem label="Tanggal Jatuh Tempo" value={data?.pksDueDate} />
             </div>
           </div>

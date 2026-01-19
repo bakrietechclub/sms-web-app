@@ -69,27 +69,27 @@ const DatePickerField = ({
             className="w-5 h-5 opacity-60"
           />
         </div>
-      </div>
 
-      {isOpen && !disabled && (
-        <div className="mt-2 bg-white border border-gray-200 rounded-lg shadow-lg">
-          <DayPicker
-            mode="single"
-            selected={localValue}
-            onSelect={handleSelect}
-            locale={id}
-            className="p-3 text-base"
-            modifiersClassNames={{
-              caption_label: 'text-base text-gray-600 font-normal',
-              selected: 'bg-blue-900 text-white rounded-full',
-              today: 'font-bold',
-              nav_button: 'text-black',
-              day: 'rounded-full hover:bg-blue-100',
-              weekday: 'text-blue-600 font-medium text-xs',
-            }}
-          />
-        </div>
-      )}
+        {isOpen && !disabled && (
+          <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 w-max">
+            <DayPicker
+              mode="single"
+              selected={localValue}
+              onSelect={handleSelect}
+              locale={id}
+              className="p-3 text-base"
+              modifiersClassNames={{
+                caption_label: 'text-base text-gray-600 font-normal',
+                selected: 'bg-blue-900 text-white rounded-full',
+                today: 'font-bold',
+                nav_button: 'text-black',
+                day: 'rounded-full hover:bg-blue-100',
+                weekday: 'text-blue-600 font-medium text-xs',
+              }}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -147,112 +147,112 @@ const TimePickerField = ({
         <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
           <img src={clock} alt="clock icon" className="w-5 h-5 opacity-60" />
         </div>
-      </div>
 
-      {isOpen && !disabled && (
-        <div className="mt-2 p-4 bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center gap-3">
-          <div className="flex gap-2 mb-2">
-            {['AM', 'PM'].map((period) => (
-              <button
-                key={period}
-                type="button"
-                onClick={() => setAmPm(period)}
-                className={`px-3 py-1 rounded text-sm ${amPm === period ? 'text-black' : 'text-gray-400'
-                  }`}
-              >
-                {period}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex items-center justify-center gap-2 text-5xl font-normal mb-4">
-            <span
-              className={
-                step === 'hour'
-                  ? 'text-black cursor-pointer'
-                  : 'text-gray-400 cursor-pointer'
-              }
-              onClick={() => setStep('hour')}
-            >
-              {String(hour).padStart(2, '0')}
-            </span>
-            <span className="text-gray-400">:</span>
-            <span
-              className={
-                step === 'minute'
-                  ? 'text-black cursor-pointer'
-                  : 'text-gray-400 cursor-pointer'
-              }
-              onClick={() => setStep('minute')}
-            >
-              {minute}
-            </span>
-          </div>
-
-          <svg
-            width="240"
-            height="240"
-            viewBox="0 0 240 240"
-            onMouseMove={handleHover}
-            onClick={handleClick}
-            className="cursor-pointer rounded-full bg-blue-50"
-          >
-            <circle cx={center} cy={center} r="5" fill="#0d4690" />
-            <motion.line
-              x1={center}
-              y1={center}
-              style={{ x2, y2 }}
-              stroke="#0d4690"
-              strokeWidth="2"
-            />
-            {numbers.map((num) => {
-              const isSelected =
-                step === 'hour'
-                  ? parseInt(num) === hour
-                  : parseInt(num) === parseInt(minute);
-              if (isSelected) return null;
-
-              let angleValue;
-              if (step === 'hour') {
-                angleValue =
-                  (parseInt(num) % 12 === 0 ? 0 : parseInt(num)) * 30;
-              } else {
-                angleValue = parseInt(num) * 6;
-              }
-              const pos = polarToCartesian(radius, angleValue);
-
-              return (
-                <text
-                  key={num}
-                  x={pos.x}
-                  y={pos.y + 5}
-                  textAnchor="middle"
-                  fontSize="14"
-                  className="select-none pointer-events-none fill-gray-700"
+        {isOpen && !disabled && (
+          <div className="absolute top-full left-0 mt-2 p-4 bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center gap-3 z-50">
+            <div className="flex gap-2 mb-2">
+              {['AM', 'PM'].map((period) => (
+                <button
+                  key={period}
+                  type="button"
+                  onClick={() => setAmPm(period)}
+                  className={`px-3 py-1 rounded text-sm ${amPm === period ? 'text-black' : 'text-gray-400'
+                    }`}
                 >
-                  {num}
-                </text>
-              );
-            })}
-            <motion.circle
-              style={{ cx: circleX, cy: circleY }}
-              r="18"
-              fill="#0d4690"
-              className="pointer-events-none"
-            />
-            <motion.text
-              style={{ x: circleX, y: circleY }}
-              dy="5"
-              textAnchor="middle"
-              fill="white"
-              fontSize="14"
-              className="select-none pointer-events-none font-bold"
+                  {period}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center justify-center gap-2 text-5xl font-normal mb-4">
+              <span
+                className={
+                  step === 'hour'
+                    ? 'text-black cursor-pointer'
+                    : 'text-gray-400 cursor-pointer'
+                }
+                onClick={() => setStep('hour')}
+              >
+                {String(hour).padStart(2, '0')}
+              </span>
+              <span className="text-gray-400">:</span>
+              <span
+                className={
+                  step === 'minute'
+                    ? 'text-black cursor-pointer'
+                    : 'text-gray-400 cursor-pointer'
+                }
+                onClick={() => setStep('minute')}
+              >
+                {minute}
+              </span>
+            </div>
+
+            <svg
+              width="240"
+              height="240"
+              viewBox="0 0 240 240"
+              onMouseMove={handleHover}
+              onClick={handleClick}
+              className="cursor-pointer rounded-full bg-blue-50"
             >
-              {step === 'hour' ? hour : minute}
-            </motion.text>
-          </svg>
-        </div>
-      )}
+              <circle cx={center} cy={center} r="5" fill="#0d4690" />
+              <motion.line
+                x1={center}
+                y1={center}
+                style={{ x2, y2 }}
+                stroke="#0d4690"
+                strokeWidth="2"
+              />
+              {numbers.map((num) => {
+                const isSelected =
+                  step === 'hour'
+                    ? parseInt(num) === hour
+                    : parseInt(num) === parseInt(minute);
+                if (isSelected) return null;
+
+                let angleValue;
+                if (step === 'hour') {
+                  angleValue =
+                    (parseInt(num) % 12 === 0 ? 0 : parseInt(num)) * 30;
+                } else {
+                  angleValue = parseInt(num) * 6;
+                }
+                const pos = polarToCartesian(radius, angleValue);
+
+                return (
+                  <text
+                    key={num}
+                    x={pos.x}
+                    y={pos.y + 5}
+                    textAnchor="middle"
+                    fontSize="14"
+                    className="select-none pointer-events-none fill-gray-700"
+                  >
+                    {num}
+                  </text>
+                );
+              })}
+              <motion.circle
+                style={{ cx: circleX, cy: circleY }}
+                r="18"
+                fill="#0d4690"
+                className="pointer-events-none"
+              />
+              <motion.text
+                style={{ x: circleX, y: circleY }}
+                dy="5"
+                textAnchor="middle"
+                fill="white"
+                fontSize="14"
+                className="select-none pointer-events-none font-bold"
+              >
+                {step === 'hour' ? hour : minute}
+              </motion.text>
+            </svg>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

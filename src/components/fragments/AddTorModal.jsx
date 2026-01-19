@@ -12,13 +12,14 @@ import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdo
 import { STATUS_OPTIONS } from '../../utils';
 import DatePickerField from '../elements/formfields/DatePickerField';
 import { X, Loader2 } from 'lucide-react';
+import { calculateDueDate } from '../../utils/dateHelpers';
 
 export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue, formState: { isValid } } = useForm({
+  const { register, handleSubmit, setValue, watch, formState: { isValid } } = useForm({
     mode: 'onChange',
     defaultValues: {
       partnershipIaId: null, // Optional
@@ -39,6 +40,17 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
     register('partnershipIaId');
     register('partnershipPksId');
   }, [register]);
+
+  // Auto-calculate torDueDate based on torSignatureDate + torTimePeriod (in years)
+  const torSignatureDate = watch('torSignatureDate');
+  const torTimePeriod = watch('torTimePeriod');
+
+  useEffect(() => {
+    const dueDate = calculateDueDate(torSignatureDate, torTimePeriod);
+    if (dueDate) {
+      setValue('torDueDate', dueDate, { shouldValidate: true });
+    }
+  }, [torSignatureDate, torTimePeriod, setValue]);
 
   const onSubmit = (data) => {
     console.log('Form data:', data);
@@ -230,7 +242,7 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
               />
               <TextField
                 name="torTimePeriod"
-                label="Jangka Waktu"
+                label="Jangka Waktu (Tahun)"
                 placeholder="Masukkan jangka waktu"
                 register={register}
                 isRequired={true}
