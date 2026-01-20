@@ -60,22 +60,22 @@ export const sidebarMenus = {
       icon: MailPlus,
       path: '/dashboard/letter-numbers',
     },
-    { title: 'Rekap PTA', icon: Clipboard, path: '/dashboard/recap/pta' },
-    {
-      title: 'Satisfaction Survey',
-      icon: FileCheck,
-      path: '/dashboard/satisfaction-survey',
-    },
-    {
-      title: 'Partnership BCF',
-      icon: Sheet,
-      path: '/dashboard/bcf-partner',
-    },
-    {
-      title: 'Partnership Awards',
-      icon: Trophy,
-      path: '/dashboard/partner-awards',
-    },
+    // { title: 'Rekap PTA', icon: Clipboard, path: '/dashboard/recap/pta' },
+    // {
+    //   title: 'Satisfaction Survey',
+    //   icon: FileCheck,
+    //   path: '/dashboard/satisfaction-survey',
+    // },
+    // {
+    //   title: 'Partnership BCF',
+    //   icon: Sheet,
+    //   path: '/dashboard/bcf-partner',
+    // },
+    // {
+    //   title: 'Partnership Awards',
+    //   icon: Trophy,
+    //   path: '/dashboard/partner-awards',
+    // },
   ],
 
   'SCP-SMS': [
@@ -108,24 +108,24 @@ export const sidebarMenus = {
       icon: MailPlus,
       path: '/dashboard/letter-numbers',
     },
-    {
-      title: 'Pemberitaan BCF',
-      icon: FileText,
-      submenu: [
-        { title: 'Rekap Media', path: '/dashboard/recap/media' },
-        { title: 'Rekap Program', path: '/dashboard/recap/program' },
-      ],
-    },
-    {
-      title: 'Rekap Kerjasama',
-      icon: Clipboard,
-      path: '/dashboard/recap/colab',
-    },
-    {
-      title: 'Partnership BCF',
-      icon: Sheet,
-      path: '/dashboard/bcf-partner',
-    },
+    // {
+    //   title: 'Pemberitaan BCF',
+    //   icon: FileText,
+    //   submenu: [
+    //     { title: 'Rekap Media', path: '/dashboard/recap/media' },
+    //     { title: 'Rekap Program', path: '/dashboard/recap/program' },
+    //   ],
+    // },
+    // {
+    //   title: 'Rekap Kerjasama',
+    //   icon: Clipboard,
+    //   path: '/dashboard/recap/colab',
+    // },
+    // {
+    //   title: 'Partnership BCF',
+    //   icon: Sheet,
+    //   path: '/dashboard/bcf-partner',
+    // },
   ],
 
   'SDI-SMS': [
@@ -165,7 +165,7 @@ export const sidebarMenus = {
           title: 'IA',
           path: '/dashboard/partnerships/implementation-agreements',
         },
-        { title: 'Tanda Kerjasama', path: '/dashboard/partnerships/coop-sign' },
+        // { title: 'Tanda Kerjasama', path: '/dashboard/partnerships/coop-sign' },
       ],
     },
     {
@@ -173,25 +173,25 @@ export const sidebarMenus = {
       icon: MailPlus,
       path: '/dashboard/letter-numbers',
     },
-    {
-      title: 'Rekap Kerjasama',
-      icon: Clipboard,
-      path: '/dashboard/recap/colab',
-    },
-    {
-      title: 'Satisfaction Survey',
-      icon: FileCheck,
-      path: '/dashboard/satisfaction-survey',
-    },
-    {
-      title: 'Partnership BCF',
-      icon: Sheet,
-      path: '/dashboard/bcf-partner',
-    },
-    {
-      title: 'Partnership Awards',
-      icon: Trophy,
-      path: '/dashboard/partner-awards',
-    },
+    // {
+    //   title: 'Rekap Kerjasama',
+    //   icon: Clipboard,
+    //   path: '/dashboard/recap/colab',
+    // },
+    // {
+    //   title: 'Satisfaction Survey',
+    //   icon: FileCheck,
+    //   path: '/dashboard/satisfaction-survey',
+    // },
+    // {
+    //   title: 'Partnership BCF',
+    //   icon: Sheet,
+    //   path: '/dashboard/bcf-partner',
+    // },
+    // {
+    //   title: 'Partnership Awards',
+    //   icon: Trophy,
+    //   path: '/dashboard/partner-awards',
+    // },
   ],
 };

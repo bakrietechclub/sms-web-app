@@ -93,12 +93,12 @@ export default function AddModalLetterNumbering({
   return (
     <>
       <div
-        className="fixed inset-0 z-40 bg-black opacity-40"
+        className={`fixed inset-0 z-[60] bg-black ${isInheritance ? 'opacity-70' : 'opacity-40'}`}
         onClick={onClose}
       />
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
         <div
-          className="bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden flex flex-col"
+          className={`bg-white w-full max-w-4xl rounded-xl ${isInheritance ? 'shadow-2xl' : 'shadow-xl'} overflow-hidden flex flex-col`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
