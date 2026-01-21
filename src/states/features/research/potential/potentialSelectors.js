@@ -8,5 +8,6 @@ export const selectPotentialsOptionsDetail = (state) =>
 export const selectPotentialOptionDetail = (state) =>
   state.potential.potentialOptionDetail;
 export const selectPotentialDetail = (state) => state.potential.potentialDetail;
+export const selectPotentialMeta = (state) => state.potential.meta;
 export const selectPotentialLoading = (state) => state.potential.loading;
 export const selectPotentialError = (state) => state.potential.error;

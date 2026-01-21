@@ -18,6 +18,7 @@ const initialState = {
   potentialsOptionsDetail: null,
   potentialOptionDetail: null,
   potentialDetail: null,
+  meta: null,
   loading: false,
   error: null,
 };
@@ -35,12 +36,14 @@ const potentialSlice = createSlice({
       // Add
       .addCase(asyncAddResearchPotential.fulfilled, (state, action) => {
         state.loading = false;
-        state.potentials = action.payload;
+        // state.potentials = action.payload;
+        state.potentials = action.payload.result || action.payload;
       })
       // Get All
       .addCase(asyncGetResearchPotential.fulfilled, (state, action) => {
         state.loading = false;
-        state.potentials = action.payload;
+        state.potentials = action.payload.result || action.payload;
+        state.meta = action.payload.meta || null;
       })
       .addCase(
         asyncGetResearchPotentialRecommendations.fulfilled,

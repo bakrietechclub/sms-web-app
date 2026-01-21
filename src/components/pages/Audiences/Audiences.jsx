@@ -111,7 +111,7 @@ export const Audiences = () => {
       />
       <Pagination
         currentPage={1}
-        totalPages={20}
+        totalPages={2}
         onPageChange={(page) => console.log(page)}
       />
 

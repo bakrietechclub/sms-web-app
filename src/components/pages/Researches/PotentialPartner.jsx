@@ -9,6 +9,7 @@ import { Pagination } from '../../fragments/Pagination';
 import {
   selectPotentialLoading,
   selectPotentials,
+  selectPotentialMeta,
 } from '../../../states/features/research/potential/potentialSelectors';
 import { asyncGetResearchPotential } from '../../../states/features/research/potential/potentialThunks';
 import { useNavigate } from 'react-router-dom';
@@ -26,17 +27,23 @@ export const PotentialPartner = () => {
 
   const data = useSelector(selectPotentials);
   const loading = useSelector(selectPotentialLoading);
+  const meta = useSelector(selectPotentialMeta);
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
   const [openModal, setOpenModal] = useState(false);
   const [query, setQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     dispatch(
-      asyncGetResearchPotential({ query, typeId: selectedAccessTypeId }),
+      asyncGetResearchPotential({
+        query,
+        typeId: selectedAccessTypeId,
+        page: currentPage,
+      }),
     );
-  }, [dispatch, query, selectedAccessTypeId]);
+  }, [dispatch, query, selectedAccessTypeId, currentPage]);
 
   const filterOptions = getFiltersByModuleAndRole(
     'potential',
@@ -103,7 +110,11 @@ export const PotentialPartner = () => {
         renderRow={renderRow}
         isLoading={loading}
       />
-      <Pagination />
+      <Pagination
+        currentPage={meta?.page || 1}
+        totalPages={meta?.totalPages || 1}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
 
       <AddResearchPotentialModal
         isOpen={openModal}
