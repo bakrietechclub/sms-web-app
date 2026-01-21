@@ -24,14 +24,15 @@ export default function UpdateCoorGroupModal({ isOpen, onClose, initialData, onS
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
-    dispatch(asyncUpdateGroupById({ id: initialData.groupId, groupUrl: data.groupUrl }))
-      .unwrap()
-      .then(() => {
-        onSuccess?.();
-        onClose();
-      })
-      .catch((err) => console.error(err))
-      .finally(() => setIsSubmitting(false));
+    try {
+      await dispatch(asyncUpdateGroupById({ id: initialData.groupId, groupUrl: data.groupUrl })).unwrap()
+      if (onSuccess) onSuccess();
+      onClose();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isOpen) return null;

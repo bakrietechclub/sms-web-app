@@ -49,19 +49,20 @@ const groupSlice = createSlice({
       // Update
       .addCase(asyncUpdateGroupById.fulfilled, (state, action) => {
         state.loading = false;
-        state.groups = state.groups.map((item) =>
-          item.id === action.payload.id ? action.payload : item
-        );
+        state.groupDetail = action.payload;
+        // state.groups = state.groups.map((item) =>
+        //   item.id === action.payload.id ? action.payload : item
+        // );
       })
       .addMatcher(
-        (action) => action.type.endsWith('/pending'),
+        (action) => action.type.startsWith('group/') && action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
           state.error = null;
         }
       )
       .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
+        (action) => action.type.startsWith('group/') && action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
