@@ -12,7 +12,7 @@ import ContactFields from '../elements/formfields/ContactFields';
 import { X, Loader2 } from 'lucide-react';
 
 const PROGRAM_OPTIONS = [
-  { id: 1, label: 'LEAD', name: 'Lead Indonesia' },
+  { id: 1, label: 'LEAD', name: 'LEAD Indonesia' },
   { id: 2, label: 'CLP', name: 'Campus Leaders Program' },
   { id: 3, label: 'HOL', name: 'Home of Leaders' },
 ];
@@ -38,7 +38,7 @@ export default function UpdateResearchPotentialModal({
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue, reset, watch, formState: { isValid } } = useForm({
+  const { register, handleSubmit, setValue, reset, formState: { isValid } } = useForm({
     mode: 'onChange',
     defaultValues: {
       partnershipResearchNeedsIds: [],

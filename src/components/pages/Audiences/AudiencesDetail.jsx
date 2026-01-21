@@ -144,7 +144,7 @@ export default function AudiencesDetail() {
           <div>
             <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Jenis Audiensi</p>
             <Label
-              label={data?.audiencesType ? 'Online' : 'Offline'}
+              label={data?.audiencesType}
               status={data?.audiencesType === 'Online' ? 'info' : 'white'}
             />
           </div>

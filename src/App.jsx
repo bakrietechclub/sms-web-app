@@ -38,6 +38,7 @@ import LetterNumberingDetail from './components/pages/LetterNumber/LetterNumberi
 import ColabPartnerDetail from './components/pages/Researches/ColabPartnerDetail';
 import { PotentialPartnerRecommendations } from './components/pages/Researches/PotentialPartnerRecommendations';
 import CoordinationGroupContactUpdate from './components/pages/Groups/CoordinationGroupContactUpdate';
+import NotFoundPage from './components/pages/NotFoundPage';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -124,10 +125,7 @@ const App = () => {
           <Route path="partner-awards" element={<PartnershipAwards />} />
         </Route>
       </Route>
-      <Route
-        path="/*"
-        element={<h1>Page return into nothing you expect.</h1>}
-      />
+      <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );
 };

@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from 'react';
 // const useLocation = () => ({ pathname: '/' });
 
 // Komponen Table yang sudah ada
-export const Table = ({ headers, data, renderRow, isLoading = false }) => (
+export const Table = ({ headers = [], data = [], renderRow, isLoading = false }) => (
   <table className="table-auto text-center w-full border-separate border-spacing-0">
     {/* Header Section Styling */}
     <thead className="text-[#0D4690] bg-[#E7EDF4]">
@@ -91,8 +91,8 @@ const TableSkeleton = ({ colCount, rowCount = 5 }) => {
 
 // Komponen FreezeTable yang disesuaikan
 export const FreezeTable = ({
-  headers,
-  data,
+  headers = [],
+  data = [],
   renderRow,
   renderRowFreeze,
   freezeCol = 4,
@@ -119,15 +119,6 @@ export const FreezeTable = ({
       synchronizeRowHeights(leftTableRef, rightTableRef, data.length);
     }
   }, [data, isLoading]); // Dependensi data dan isLoading memastikan sinkronisasi berjalan saat data dimuat
-
-  // Tentukan konten Body tabel
-  const tableBody = isLoading ? (
-    <TableSkeleton colCount={headers.length} rowCount={data.length || 5} />
-  ) : (
-    data.map((item, index) => (
-      <React.Fragment key={index}>{renderRow(item, index)}</React.Fragment>
-    ))
-  );
 
   return (
     <div className="w-full overflow-hidden">

@@ -32,18 +32,6 @@ export const LetterNumbering = () => {
 
   const filterOptions = getFiltersByModuleAndRole('letter', accessRole);
 
-  // Tentukan data berdasarkan stakeholder
-
-  // Fungsi render baris tabel yang dibekukan (freeze)
-  const renderRowFreeze = (value, index) => (
-    <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
-      <td className="py-3 border-b border-gray-200">{index + 1}</td>
-      <td className="border-b border-gray-200">{value.name}</td>
-      <td className="border-b border-gray-200">{value.jenis}</td>
-      <td className="border-b border-gray-200">{value.division}</td>
-    </tr>
-  );
-
   // Fungsi render baris tabel utama
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">

@@ -48,8 +48,8 @@ export const Audiences = () => {
       <td>{value.audiencesDate}</td>
       <td>
         <Label
-          label={value.audiencesType ? 'Online' : 'Offline'}
-          status={value.audiencesType === 'Online' ? 'info' : 'white'}
+          label={value?.audiencesType}
+          status={value?.audiencesType === 'Online' ? 'info' : 'white'}
         />
       </td>
       <td>
@@ -104,7 +104,7 @@ export const Audiences = () => {
         isLoading={loading}
       />
       <Pagination
-        currentPage={15}
+        currentPage={1}
         totalPages={20}
         onPageChange={(page) => console.log(page)}
       />

@@ -4,7 +4,7 @@ import ChevronLeft from '../../assets/icons/ChevronLeft.png';
 import ChevronRight from '../../assets/icons/ChevronRight.png';
 import { range } from '../../utils';
 
-export const Pagination = ({ currentPage = 2, totalPages = 10, onPageChange }) => {
+export const Pagination = ({ currentPage = 1, totalPages = 10, onPageChange }) => {
   // Generate pagination range with ellipses logic
   const paginationRange = useMemo(() => {
     const totalPageNumbers = 7; // Maximum page numbers to show

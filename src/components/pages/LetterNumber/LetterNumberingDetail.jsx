@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { asyncGetLetterById, asyncDeleteLetterById } from '../../../states/features/letter/letterThunks';
-import { selectLetterDetail } from '../../../states/features/letter/letterSelectors';
+import { selectLetterDetail, selectLetterLoading } from '../../../states/features/letter/letterSelectors';
 import { selectHasAccess } from '../../../states/features/auth/authSelectors';
 import ConfirmationModal from '../../fragments/ConfirmationModal';
 import UpdateLetterModal from '../../fragments/UpdateLetterModal';
@@ -24,6 +24,48 @@ export default function LetterNumberingDetail() {
   }, [dispatch, id]);
 
   const data = useSelector(selectLetterDetail);
+  const loading = useSelector(selectLetterLoading);
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto pb-10 animate-pulse">
+        {/* Header Skeleton */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <div className="h-6 w-24 bg-gray-200 rounded mb-2" />
+            <div className="h-8 w-64 bg-gray-200 rounded" />
+          </div>
+          <div className="flex gap-2">
+            <div className="h-10 w-32 bg-gray-200 rounded" />
+            <div className="h-10 w-24 bg-gray-200 rounded" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            {/* Info Card Skeleton */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-48 bg-gray-200 rounded mb-4" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i}>
+                    <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
+                    <div className="h-5 w-3/4 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Reference Doc Skeleton */}
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="h-6 w-56 bg-gray-200 rounded mb-4" />
+              <div className="h-32 bg-gray-200 rounded" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleNavigate = (doc) => {
     if (!doc?.documentTypeName || !doc?.documentId) return;
