@@ -25,72 +25,46 @@ const audienceSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Add
-      .addCase(asyncAddAudience.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
       .addCase(asyncAddAudience.fulfilled, (state, action) => {
         state.loading = false;
         state.audiences = action.payload;
       })
-      .addCase(asyncAddAudience.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
       // Get All
-      .addCase(asyncGetAudiences.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
       .addCase(asyncGetAudiences.fulfilled, (state, action) => {
         state.loading = false;
         state.audiences = action.payload;
       })
-      .addCase(asyncGetAudiences.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
       // Get By Id
-      .addCase(asyncGetAudienceById.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
       .addCase(asyncGetAudienceById.fulfilled, (state, action) => {
         state.loading = false;
         state.audienceDetail = action.payload;
       })
-      .addCase(asyncGetAudienceById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
       // Delete
-      .addCase(asyncDeleteAudienceById.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
       .addCase(asyncDeleteAudienceById.fulfilled, (state, action) => {
         state.loading = false;
         state.audiences = state.audiences.filter(
           (item) => item.id !== action.payload.id
         );
       })
-      .addCase(asyncDeleteAudienceById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
       // Update
-      .addCase(asyncUpdateAudienceById.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
       .addCase(asyncUpdateAudienceById.fulfilled, (state, action) => {
         state.loading = false;
         state.audienceDetail = action.payload;
       })
-      .addCase(asyncUpdateAudienceById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
+      .addMatcher(
+        (action) => action.type.endsWith('/pending'),
+        (state) => {
+          state.loading = true;
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith('/rejected'),
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      );
   },
 });
 

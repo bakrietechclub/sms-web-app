@@ -64,9 +64,10 @@ const pksSlice = createSlice({
       // Update
       .addCase(asyncUpdatePksById.fulfilled, (state, action) => {
         state.loading = false;
-        state.pks = state.pks.map((item) =>
-          item.id === action.payload.id ? action.payload : item
-        );
+        state.pks = action.payload;
+        // state.pks = state.pks.map((item) =>
+        //   item.id === action.payload.id ? action.payload : item
+        // );
       })
       // Matcher untuk menangani status pending dan rejected secara umum
       .addMatcher((action) => action.type.endsWith('/pending'), handlePending)

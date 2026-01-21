@@ -159,12 +159,12 @@ export const sidebarMenus = {
       submenu: [
         { title: 'MoU', path: '/dashboard/partnerships/mou' },
         { title: 'PKS', path: '/dashboard/partnerships/pks' },
-        { title: 'SPK', path: '/dashboard/partnerships/spk' },
-        { title: 'TOR', path: '/dashboard/partnerships/tor' },
         {
           title: 'IA',
           path: '/dashboard/partnerships/implementation-agreements',
         },
+        { title: 'TOR', path: '/dashboard/partnerships/tor' },
+        { title: 'SPK', path: '/dashboard/partnerships/spk' },
         // { title: 'Tanda Kerjasama', path: '/dashboard/partnerships/coop-sign' },
       ],
     },

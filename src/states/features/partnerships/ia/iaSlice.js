@@ -61,9 +61,10 @@ const iaSlice = createSlice({
         asyncUpdateImplementationAgreementById.fulfilled,
         (state, action) => {
           state.loading = false;
-          state.ia = state.ia.map((item) =>
-            item.id === action.payload.id ? action.payload : item
-          );
+          state.ia = action.payload;
+          // state.ia = state.ia.map((item) =>
+          //   item.id === action.payload.id ? action.payload : item
+          // );
         }
       )
       .addMatcher(
