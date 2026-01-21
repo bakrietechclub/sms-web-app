@@ -9,6 +9,7 @@ import { selectMouDetail, selectMouLoading } from '../../../../states/features/p
 import ConfirmationModal from '../../../fragments/ConfirmationModal';
 import UpdateMouModal from '../../../fragments/UpdateMouModal';
 import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
+import { getButtonClasses } from '../../../../utils/styleConstants';
 
 export default function MouDetail() {
   const navigate = useNavigate();
@@ -114,17 +115,8 @@ export default function MouDetail() {
     </div>
   );
 
-  const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75';
-
-  const updateButtonClasses = `
-    rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
-    ${!hasAccess ? disabledClasses : 'bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer'}
-  `;
-
-  const deleteButtonClasses = `
-    rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
-    ${!hasAccess ? disabledClasses : 'bg-red-600 text-white hover:bg-red-700 cursor-pointer'}
-  `;
+  const updateButtonClasses = `${getButtonClasses('primary', !hasAccess)} w-fit`;
+  const deleteButtonClasses = `${getButtonClasses('danger', !hasAccess)} w-fit flex items-center gap-2`;
 
   return (
     <div className="max-w-7xl mx-auto pb-10">

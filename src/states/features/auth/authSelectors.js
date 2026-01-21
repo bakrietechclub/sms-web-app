@@ -1,5 +1,4 @@
 // Selectors for authUser slice
-
 export const selectAuthUser = (state) => state.authUser.user;
 export const selectAuthLoading = (state) => state.authUser.loading;
 export const selectAuthError = (state) => state.authUser.error;

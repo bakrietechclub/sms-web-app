@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { DoorOpenIcon, ChevronDown } from 'lucide-react';
+
+import { asyncUnsetAuthUser } from '../../states/features/auth/authThunks';
 import logoBCF from '../../assets/img/logoBCF.png';
 import avatar from '../../assets/img/userAvatar.png';
-import { asyncUnsetAuthUser } from '../../states/features/auth/authThunks';
 
-export const HeaderLandingPg = (props) => {
+export const HeaderLandingPg = ({ username, role, isLoading }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,13 +24,25 @@ export const HeaderLandingPg = (props) => {
     <header className="justify-between py-4 px-[10dvw] h-20 w-full border-b border-gray-200 flex mb-11.5">
       <img src={logoBCF} alt="Logo" className="w-32 h-12" />
       <div className="flex items-center justify-between space-x-4">
-        <img src={avatar} alt="Avatar" className="w-10 h-10" />
-        <div className="inline-grid">
-          <strong className="font-semibold text-base w-32 h-6">
-            {props.username}
-          </strong>
-          <span className="text-xs w-32 h-5">{props.role}</span>
-        </div>
+        {isLoading ? (
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse" />
+            <div className="inline-grid gap-1">
+              <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
+              <div className="h-3 w-24 bg-gray-200 rounded animate-pulse" />
+            </div>
+          </div>
+        ) : (
+          <>
+            <img src={avatar} alt="Avatar" className="w-10 h-10" />
+            <div className="inline-grid">
+              <strong className="font-semibold text-base w-32 h-6">
+                {username}
+              </strong>
+              <span className="text-xs w-32 h-5">{role}</span>
+            </div>
+          </>
+        )}
 
         <div className="relative">
           <button

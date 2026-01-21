@@ -10,6 +10,7 @@ import ConfirmationModal from '../../fragments/ConfirmationModal';
 import UpdateAudienceModal from '../../fragments/UpdateAudienceModal';
 import { asyncDeleteAudienceById } from '../../../states/features/audience/audienceThunks';
 import { selectHasAccess } from '../../../states/features/auth/authSelectors';
+import { getButtonClasses } from '../../../utils/styleConstants';
 
 export default function AudiencesDetail() {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ export default function AudiencesDetail() {
 
   useEffect(() => {
     dispatch(asyncGetAudienceById({ id }));
-  }, [id]);
+  }, [dispatch, id]);
 
   const loading = useSelector(selectAudienceLoading);
 
@@ -70,17 +71,8 @@ export default function AudiencesDetail() {
     );
   }
 
-  const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75';
-
-  const deleteButtonClasses = `
-    rounded-md px-4 py-2 text-sm font-medium transition duration-200 shadow-sm
-    ${!hasAccess ? disabledClasses : 'bg-red-600 text-white hover:bg-red-700 cursor-pointer'}
-  `;
-
-  const updateButtonClasses = `
-    rounded-md px-4 py-2 text-sm font-medium transition duration-200 shadow-sm flex items-center gap-2
-    ${!hasAccess ? disabledClasses : 'bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer'}
-  `;
+  const updateButtonClasses = getButtonClasses('primary', !hasAccess);
+  const deleteButtonClasses = getButtonClasses('danger', !hasAccess);
 
   const handleUpdateSuccess = () => {
     dispatch(asyncGetAudienceById({ id }));

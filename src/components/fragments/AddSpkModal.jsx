@@ -12,13 +12,14 @@ import TextField from '../elements/formfields/TextField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
 import DatePickerField from '../elements/formfields/DatePickerField';
 import { X, Loader2 } from 'lucide-react';
+import { calculateDueDate } from '../../utils/dateHelpers';
 
 export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue, formState: { isValid } } = useForm({
+  const { register, handleSubmit, setValue, watch, formState: { isValid } } = useForm({
     mode: 'onChange',
     defaultValues: {
       partnershipTorId: null, // Optional = NULL
@@ -40,6 +41,16 @@ export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
   useEffect(() => {
     register('partnershipTorId', { required: true });
   }, [register]);
+
+  const spkSignatureDate = watch('spkSignatureDate');
+  const spkTimePeriod = watch('spkTimePeriod');
+
+  useEffect(() => {
+    const dueDate = calculateDueDate(spkSignatureDate, spkTimePeriod);
+    if (dueDate) {
+      setValue('spkDueDate', dueDate, { shouldValidate: true });
+    }
+  }, [spkSignatureDate, spkTimePeriod, setValue]);
 
   const onSubmit = (data) => {
     console.log('Form data:', data);

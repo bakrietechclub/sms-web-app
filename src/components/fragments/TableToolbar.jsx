@@ -8,6 +8,7 @@ import {
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectHasAccess } from '../../states/features/auth/authSelectors';
+import { getButtonClasses } from '../../utils/styleConstants';
 
 export const TableToolbar = ({
   searchValue,
@@ -31,8 +32,7 @@ export const TableToolbar = ({
     );
   };
 
-  const isNestedAdd =
-    typeof addOptions === 'object' && !Array.isArray(addOptions);
+  const isNestedAdd = typeof addOptions === 'object' && !Array.isArray(addOptions);
 
   const hasAccess = useSelector(selectHasAccess);
 
@@ -122,18 +122,10 @@ export const TableToolbar = ({
               addOptions ? () => setShowAddOptions(!showAddOptions) : onAddClick
             }
             disabled={!hasAccess}
-            className={`
-        flex gap-3 items-center px-4 py-2 rounded-md mb-4 ml-2 duration-300
-        
-        // Default styling (Active state)
-        ${
-          !hasAccess
-            ? // DISABLED State (hasAccess is false)
-              'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75'
-            : // ACTIVE State (hasAccess is true)
-              'bg-[#0D4690] text-white hover:bg-[#0C3F82] cursor-pointer'
-        }
-    `}
+            className={`${getButtonClasses(
+              'primary',
+              !hasAccess
+            )} mb-4 ml-2`}
           >
             <Plus className="w-4 h-4" />
             Tambah

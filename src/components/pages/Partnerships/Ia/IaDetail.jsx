@@ -9,6 +9,7 @@ import { selectIADetail, selectIALoading } from '../../../../states/features/par
 import ConfirmationModal from '../../../fragments/ConfirmationModal';
 import UpdateIaModal from '../../../fragments/UpdateIaModal';
 import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
+import { getButtonClasses } from '../../../../utils/styleConstants';
 
 export default function IaDetail() {
   const dispatch = useDispatch();
@@ -90,17 +91,8 @@ export default function IaDetail() {
     </div>
   );
 
-  const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75';
-
-  const updateButtonClasses = `
-    bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
-    ${!hasAccess ? disabledClasses : ''}
-  `;
-
-  const deleteButtonClasses = `
-    bg-red-600 text-white hover:bg-red-700 cursor-pointer rounded-lg px-4 py-2 flex items-center gap-2 transition-colors w-fit
-    ${!hasAccess ? disabledClasses : ''}
-  `;
+  const updateButtonClasses = `${getButtonClasses('primary', !hasAccess)} w-fit`;
+  const deleteButtonClasses = `${getButtonClasses('danger', !hasAccess)} w-fit flex items-center gap-2`;
 
   return (
     <div className="max-w-7xl mx-auto pb-10">

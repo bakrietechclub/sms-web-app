@@ -1,11 +1,11 @@
 import { DoorOpenIcon, BellIcon, ChevronDown, HomeIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import avatar from '../../assets/img/userAvatar.png';
 import NotificationsModal from './NotificationsModal';
 import {
-  selectAccessRole,
+  selectAuthLoading,
   selectAuthUser,
   selectedAccess,
 } from '../../states/features/auth/authSelectors';
@@ -15,6 +15,9 @@ export const HeaderDashboard = () => {
   const dispatch = useDispatch();
 
   const user = useSelector(selectAuthUser);
+  const userLoading = useSelector(selectAuthLoading)
+  const isPreload = useSelector((state) => state.isPreload);
+  const isLoading = userLoading || isPreload;
   const accessRole = useSelector(selectedAccess);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -58,7 +61,7 @@ export const HeaderDashboard = () => {
       <header className="bg-white py-4 flex justify-between items-end">
         <h1 className="text-xl font-medium text-[#E89229]">{headerTitle}</h1>
         <div className="flex items-center justify-between space-x-4">
-          <button
+          {/* <button
             className="relative flex items-center justify-center w-10 h-10 rounded-full border border-[#E6E6E6] text-black cursor-pointer hover:bg-gray-50 transition-colors"
             onClick={handleBellClick}
           >
@@ -66,16 +69,29 @@ export const HeaderDashboard = () => {
             {unreadCount > 0 && (
               <span className="absolute top-0 right-0 w-2 h-2 bg-yellow-400 rounded-full" />
             )}
-          </button>
-          <img src={avatar} alt="Avatar" className="h-9" />
-          <div className="inline-grid text-[#1f1f1f]">
-            <strong>{user?.fullName}</strong>
-            <div className="flex gap-2">
-              <span className="text-sm text-[#28A745]">{user?.accessRole}</span>
-              <span className="text-sm">|</span>
-              {/* <span className="text-sm">{user?.division}</span> */}
-            </div>
-          </div>
+          </button> */}
+
+          {isLoading ? (
+            <>
+              <div className="h-9 w-9 rounded-full bg-gray-200 animate-pulse" />
+              <div className="inline-grid gap-1 animate-pulse">
+                <div className="h-4 w-24 rounded bg-gray-200" />
+                <div className="h-3 w-32 rounded bg-gray-200" />
+              </div>
+            </>
+          ) : (
+            <>
+              <img src={avatar} alt="Avatar" className="h-9" />
+              <div className="inline-grid text-[#1f1f1f]">
+                <strong>{user?.fullName}</strong>
+                <div className="flex gap-2">
+                  <span className="text-sm text-[#28A745]">{user?.accessRole}</span>
+                  <span className="text-sm">|</span>
+                </div>
+              </div>
+            </>
+          )}
+
           <div className="relative">
             <button
               className="py-2 rounded-md focus:outline-none cursor-pointer"

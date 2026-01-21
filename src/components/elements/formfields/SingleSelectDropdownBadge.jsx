@@ -65,22 +65,22 @@ const SingleSelectDropdownBadge = ({
         <div className="absolute top-1/2 right-2 -translate-y-1/2 pointer-events-none">
           {open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
         </div>
+        {open && (
+          <div className="absolute top-full left-0 w-full mt-1 border border-gray-300 rounded max-h-64 overflow-y-auto bg-white shadow-lg z-50 flex flex-col gap-2 p-2">
+            {options.map((option) => (
+              <div
+                key={option.id}
+                onClick={() => handleSelect(option)}
+                className={`text-sm px-3 py-1 rounded-full cursor-pointer w-fit
+            ${badgeColorMap[option.label] || 'bg-gray-200 text-gray-800'}
+            hover:ring-2 hover:ring-offset-1 hover:ring-blue-400`}
+              >
+                {option.label}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-      {open && (
-        <div className="mt-2 border border-gray-300 rounded max-h-64 overflow-y-auto bg-white shadow-sm z-10 relative flex flex-col gap-2 p-2">
-          {options.map((option) => (
-            <div
-              key={option.id}
-              onClick={() => handleSelect(option)}
-              className={`text-sm px-3 py-1 rounded-full cursor-pointer w-fit
-          ${badgeColorMap[option.label] || 'bg-gray-200 text-gray-800'}
-          hover:ring-2 hover:ring-offset-1 hover:ring-blue-400`}
-            >
-              {option.label}
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };

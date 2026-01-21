@@ -54,7 +54,7 @@ const App = () => {
     if (!authUser.user && !isPreload) {
       navigate('/');
     }
-  }, [authUser.user, isPreload]);
+  }, [authUser.user, isPreload, navigate]);
 
   return (
     <Routes>

@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  selectAccessRole,
   selectAccessTypeInstitutionsId,
   selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
@@ -22,11 +21,9 @@ export const ColabPartner = () => {
 
   const data = useSelector(selectCollabs);
   const loading = useSelector(selectCollabLoading);
-  const accessRole = useSelector(selectAccessRole);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const selectAccessType = useSelector(selectAccessTypeInstitutionsId);
 
-  const [modalType, setModalType] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [query, setQuery] = useState('');
@@ -34,15 +31,6 @@ export const ColabPartner = () => {
   useEffect(() => {
     dispatch(asyncGetResearchCollab({ query, typeId: selectedAccessTypeId }));
   }, [dispatch, query, selectedAccessTypeId]);
-
-  const headers = [
-    'No',
-    'Nama',
-    'Jenis ',
-    'Region',
-    'Program Rencana Kolaborasi',
-    'Aksi',
-  ];
 
   const renderRow = (value, index) => (
     <tr key={index} className="border-b border-[#E7EDF4] h-10">
@@ -74,7 +62,14 @@ export const ColabPartner = () => {
         onFilterSet={() => console.log('Filter diset')}
         searchWidth="w-1/4"
       />
-      <Table headers={headers} data={data} renderRow={renderRow} isLoading={loading} />
+      <Table headers={[
+        'No',
+        'Nama',
+        'Jenis ',
+        'Region',
+        'Program Rencana Kolaborasi',
+        'Aksi',
+      ]} data={data} renderRow={renderRow} isLoading={loading} />
       <Pagination />
 
       {isModalOpen && (

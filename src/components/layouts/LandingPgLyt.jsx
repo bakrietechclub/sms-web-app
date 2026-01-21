@@ -6,7 +6,7 @@ import { Card } from '../fragments/Card';
 import { HeaderLandingPg } from '../fragments/HeaderLandingPg';
 import { HeroLandingPg } from '../fragments/HeroLandingPg';
 
-export const LandingPgLyt = ({ username, role }) => {
+export const LandingPgLyt = ({ username, role, isLoading }) => {
   const cardsData = [
     {
       name: 'Universitas, Lembaga (NGO) & Komunitas',
@@ -27,8 +27,8 @@ export const LandingPgLyt = ({ username, role }) => {
 
   return (
     <>
-      <HeaderLandingPg username={username} role={role} />
-      <HeroLandingPg username={username} />
+      <HeaderLandingPg username={username} role={role} isLoading={isLoading} />
+      <HeroLandingPg username={username} isLoading={isLoading} />
       <div className="my-8 mx-[10dvw]">
         <p className="font-semibold text-2xl">Dashboard Stakeholder</p>
       </div>

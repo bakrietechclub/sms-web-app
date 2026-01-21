@@ -85,11 +85,11 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
         typeId: accessTypeId,
       })
     );
-  }, [dispatch, query.ia]);
+  }, [accessTypeId, dispatch, query.ia]);
 
   useEffect(() => {
     dispatch(asyncGetPksOptions({ query: query.pks, typeId: accessTypeId }));
-  }, [dispatch, query.pks]);
+  }, [accessTypeId, dispatch, query.pks]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {

@@ -13,6 +13,7 @@ import { asyncGetContactByGroupId } from '../../../states/features/group/contact
 import { asyncDeleteGroupById } from '../../../states/features/group/groupThunks';
 import ConfirmationModal from '../../fragments/ConfirmationModal';
 import { selectHasAccess } from '../../../states/features/auth/authSelectors';
+import { getButtonClasses } from '../../../utils/styleConstants';
 
 export default function CoordinationGroupDetail() {
   const dispatch = useDispatch();
@@ -84,17 +85,8 @@ export default function CoordinationGroupDetail() {
     );
   }
 
-  const updateButtonClasses = `
-    rounded-md px-4 py-2 text-sm font-medium transition duration-200 shadow-sm
-    bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer
-  `;
-
-  const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-75';
-
-  const deleteButtonClasses = `
-    rounded-md px-4 py-2 text-sm font-medium transition duration-200 shadow-sm
-    ${!hasAccess ? disabledClasses : 'bg-red-600 text-white hover:bg-red-700 cursor-pointer'}
-  `;
+  const updateButtonClasses = getButtonClasses('primary', !hasAccess);
+  const deleteButtonClasses = getButtonClasses('danger', !hasAccess);
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -112,7 +104,11 @@ export default function CoordinationGroupDetail() {
             Grup Koordinasi
           </h1>
           <div className="flex gap-2">
-            <Button className={updateButtonClasses} onClick={() => setIsUpdateModalOpen(true)}>
+            <Button 
+              disabled={!hasAccess}
+              className={updateButtonClasses}
+              onClick={() => setIsUpdateModalOpen(true)}
+            >
               Perbarui
             </Button>
             <Button
