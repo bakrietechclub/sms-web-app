@@ -50,14 +50,21 @@ export const SidebarMenu = () => {
   };
 
   return (
-    <aside className="w-64 h-screen bg-white border-r border-gray-300 fixed flex flex-col">
-      <div className="flex items-center justify-center h-auto my-4">
-        <img src={LogoBCF} alt="Logo BCF" className="h-12 w-28" />
+    <aside className='w-64 h-screen bg-white border-r border-gray-300 fixed flex flex-col'>
+      <div className='flex items-center justify-center h-auto my-4'>
+        <img
+          src={LogoBCF}
+          alt='Logo BCF'
+          className='h-12 w-28'
+        />
       </div>
       {/* SIDEBAR MENU */}
       <nav>
         {menus?.map((menu, idx) => (
-          <div key={idx} className="text-[#999999]">
+          <div
+            key={idx}
+            className='text-[#999999]'
+          >
             {!menu.submenu ? ( // MENU TANPA SUBMENU
               <NavLink
                 to={menu.path}
@@ -69,9 +76,9 @@ export const SidebarMenu = () => {
                 // NavLink DIKLIK SEMUA MENU AKAN TERTUTUP
                 onClick={() => setOpenMenus([])}
               >
-                <div className="flex items-center gap-3">
+                <div className='flex items-center gap-3'>
                   {menu.icon && <menu.icon size={20} />}
-                  <span className="text-base font-medium">{menu.title}</span>
+                  <span className='text-base font-medium'>{menu.title}</span>
                 </div>
               </NavLink>
             ) : (
@@ -83,7 +90,7 @@ export const SidebarMenu = () => {
                     (prev) =>
                       prev.includes(menu.title)
                         ? prev.filter((title) => title !== menu.title) // TUTUP MENU JIKA SUDAH TERBUKA
-                        : [menu.title] // KALAU BELUM, HANYA BUKA MENU INI
+                        : [menu.title], // KALAU BELUM, HANYA BUKA MENU INI
                   );
                 }}
                 className={`flex items-center justify-between p-3 cursor-pointer hover:bg-[#E7EDF4] hover:text-[#0D4690] rounded-md transition-all duration-200 ${
@@ -92,9 +99,9 @@ export const SidebarMenu = () => {
                     : ''
                 }`}
               >
-                <div className="flex items-center gap-3">
+                <div className='flex items-center gap-3'>
                   {menu.icon && <menu.icon size={20} />}
-                  <span className="text-base font-medium">{menu.title}</span>
+                  <span className='text-base font-medium'>{menu.title}</span>
                 </div>
                 {menu.submenu &&
                   (openMenus.includes(menu.title) ? (
@@ -106,7 +113,7 @@ export const SidebarMenu = () => {
             )}
 
             {menu.submenu && openMenus.includes(menu.title) && (
-              <div className="flex flex-col px-11 gap-4 my-3">
+              <div className='flex flex-col px-11 gap-4 my-3'>
                 {menu.submenu.map((sub, subIdx) => (
                   <NavLink
                     key={subIdx}

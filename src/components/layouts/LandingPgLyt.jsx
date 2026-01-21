@@ -27,13 +27,20 @@ export const LandingPgLyt = ({ username, role, isLoading }) => {
 
   return (
     <>
-      <HeaderLandingPg username={username} role={role} isLoading={isLoading} />
-      <HeroLandingPg username={username} isLoading={isLoading} />
-      <div className="my-8 mx-[10dvw]">
-        <p className="font-semibold text-2xl">Dashboard Stakeholder</p>
+      <HeaderLandingPg
+        username={username}
+        role={role}
+        isLoading={isLoading}
+      />
+      <HeroLandingPg
+        username={username}
+        isLoading={isLoading}
+      />
+      <div className='my-8 mx-[10dvw]'>
+        <p className='font-semibold text-2xl'>Dashboard Stakeholder</p>
       </div>
-      <div className="flex flex-col items-center justify-center h-auto">
-        <div className="flex grid-cols-3 items-center justify-between gap-4 w-[80dvw] mb-0">
+      <div className='flex flex-col items-center justify-center h-auto'>
+        <div className='flex grid-cols-3 items-center justify-between gap-4 w-[80dvw] mb-0'>
           {cardsData.map((card, index) => (
             <Card
               key={index}

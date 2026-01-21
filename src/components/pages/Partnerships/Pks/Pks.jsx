@@ -12,7 +12,10 @@ import {
   selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
-import { selectAllPks, selectPksLoading } from '../../../../states/features/partnerships/pks/pksSelectors';
+import {
+  selectAllPks,
+  selectPksLoading,
+} from '../../../../states/features/partnerships/pks/pksSelectors';
 import { asyncGetPks } from '../../../../states/features/partnerships/pks/pksThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
 
@@ -35,22 +38,28 @@ export const Pks = () => {
   }, [dispatch, query, selectedAccessTypeId]);
 
   const renderRowFreeze = (value, index) => (
-    <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
-      <td className="py-3 border-b border-gray-200">{index + 1}</td>
-      <td className="border-b border-gray-200">{value.instituteName}</td>
-      <td className="border-b border-gray-200">{value.instituteTypeName}</td>
-      <td className="border-b border-gray-200">{value.institutionDivision}</td>
+    <tr
+      key={index}
+      className='border-b border-r border-[#E7EDF4] h-10'
+    >
+      <td className='py-3 border-b border-gray-200'>{index + 1}</td>
+      <td className='border-b border-gray-200'>{value.instituteName}</td>
+      <td className='border-b border-gray-200'>{value.instituteTypeName}</td>
+      <td className='border-b border-gray-200'>{value.institutionDivision}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
-    <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="border-b border-gray-200">{value.pksSignatureDate}</td>
-      <td className="border-b border-gray-200">{value.pksTimePeriod}</td>
-      <td className="border-b border-gray-200">{value.pksDueDate}</td>
-      <td className="px-6 py-3 border-b border-gray-200">
+    <tr
+      key={index}
+      className='border-b border-[#E7EDF4] h-10'
+    >
+      <td className='border-b border-gray-200'>{value.pksSignatureDate}</td>
+      <td className='border-b border-gray-200'>{value.pksTimePeriod}</td>
+      <td className='border-b border-gray-200'>{value.pksDueDate}</td>
+      <td className='px-6 py-3 border-b border-gray-200'>
         <Button
-          className="text-[#0D4690] underline cursor-pointer"
+          className='text-[#0D4690] underline cursor-pointer'
           onClick={() => {
             nagigate(`/dashboard/partnerships/pks/${value.pksId}`);
           }}
@@ -63,16 +72,16 @@ export const Pks = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold">Tabel PKS</h1>
+      <h1 className='text-2xl font-semibold'>Tabel PKS</h1>
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
         filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}
-        searchWidth="w-1/4"
+        searchWidth='w-1/4'
       />
-      <div className="w-full overflow-hidden h-fit">
+      <div className='w-full overflow-hidden h-fit'>
         <FreezeTable
           headers={[
             'No.',

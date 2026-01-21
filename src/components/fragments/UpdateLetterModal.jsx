@@ -18,7 +18,12 @@ const LETTER_TYPE_OPTIONS = [
   { id: 6, label: 'SPK (Surat Pernyataan Komitmen)' },
 ];
 
-export default function UpdateLetterModal({ isOpen, onClose, initialData, onSuccess }) {
+export default function UpdateLetterModal({
+  isOpen,
+  onClose,
+  initialData,
+  onSuccess,
+}) {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dropdownRef = useRef(null);
@@ -27,18 +32,26 @@ export default function UpdateLetterModal({ isOpen, onClose, initialData, onSucc
     mode: 'onChange',
   });
 
-  const { register, handleSubmit, setValue, formState: { isValid }, reset } = methods;
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { isValid },
+    reset,
+  } = methods;
 
   useEffect(() => {
     if (initialData) {
       // Find the type ID by name if possible (or default to something safe, though existing data should have it)
-      const typeOption = LETTER_TYPE_OPTIONS.find(opt => opt.label === initialData.letterNumberType);
+      const typeOption = LETTER_TYPE_OPTIONS.find(
+        (opt) => opt.label === initialData.letterNumberType,
+      );
 
       reset({
         // Extract IDs if available in extended data or rely on UI to provide them or default
-        // The prompt only gives display strings in initialData, assuming standard defaults or parsing 
-        // Logic to parse "letterReferenceNumber" for some fields if needed, 
-        // but typically update endpoint might need new values or existing ones. 
+        // The prompt only gives display strings in initialData, assuming standard defaults or parsing
+        // Logic to parse "letterReferenceNumber" for some fields if needed,
+        // but typically update endpoint might need new values or existing ones.
         // Initializing with what we have:
 
         partnershipLetterNumberSubClassificationId: 2, // Defaulting as per payload prompt requirement for now or needs to be selected
@@ -47,7 +60,8 @@ export default function UpdateLetterModal({ isOpen, onClose, initialData, onSucc
 
         letterNumber: initialData.letterNumber,
         letterNumberDate: formatDateInput(initialData.letterNumberDate),
-        letterNumberSubjectOfLetter: initialData.letterNumberSubjectOfLetter || '',
+        letterNumberSubjectOfLetter:
+          initialData.letterNumberSubjectOfLetter || '',
 
         // For LetterNumberingField to work, it might need specific field names
         // It seems LetterNumberingField manages its own internal state or expects specific form fields
@@ -64,14 +78,20 @@ export default function UpdateLetterModal({ isOpen, onClose, initialData, onSucc
 
     // Construct payload as requested
     const payload = {
-      partnershipLetterNumberSubClassificationId: data.partnershipLetterNumberSubClassificationId,
+      partnershipLetterNumberSubClassificationId:
+        data.partnershipLetterNumberSubClassificationId,
       partnershipLetterNumberTypeId: data.partnershipLetterNumberTypeId,
       masterSecondTierProgramId: data.masterSecondTierProgramId,
       letterNumberDate: data.letterNumberDate,
-      letterNumberSubjectOfLetter: data.letterNumberSubjectOfLetter
+      letterNumberSubjectOfLetter: data.letterNumberSubjectOfLetter,
     };
 
-    dispatch(asyncUpdateLetterById({ id: initialData.letterNumberId || initialData.id, payload }))
+    dispatch(
+      asyncUpdateLetterById({
+        id: initialData.letterNumberId || initialData.id,
+        payload,
+      }),
+    )
       .unwrap()
       .then(() => {
         onSuccess?.();
@@ -86,23 +106,23 @@ export default function UpdateLetterModal({ isOpen, onClose, initialData, onSucc
   return (
     <>
       <div
-        className="fixed inset-0 z-40 bg-black opacity-40"
+        className='fixed inset-0 z-40 bg-black opacity-40'
         onClick={onClose}
       />
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className='fixed inset-0 z-50 flex items-center justify-center p-4'>
         <div
-          className="bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden flex flex-col"
+          className='bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden flex flex-col'
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="px-5 py-4 flex items-center justify-between border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-800">
+          <div className='px-5 py-4 flex items-center justify-between border-b border-gray-200'>
+            <h2 className='text-xl font-semibold text-gray-800'>
               Perbarui Data Nomor Surat
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 hover:bg-gray-100 rounded-lg"
-              aria-label="Close"
+              className='text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 hover:bg-gray-100 rounded-lg'
+              aria-label='Close'
             >
               <X size={24} />
             </button>
@@ -111,17 +131,22 @@ export default function UpdateLetterModal({ isOpen, onClose, initialData, onSucc
           <FormProvider {...methods}>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto"
+              className='px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto'
               ref={dropdownRef}
             >
               <SingleSelectDropdown
-                name="partnershipLetterNumberTypeId"
-                label="Jenis Surat"
+                name='partnershipLetterNumberTypeId'
+                label='Jenis Surat'
                 isRequired={true}
                 options={LETTER_TYPE_OPTIONS}
                 register={register}
                 setValue={setValue}
-                defaultValue={initialData?.partnershipLetterNumberTypeId || LETTER_TYPE_OPTIONS.find(opt => opt.label === initialData?.letterNumberType)?.id}
+                defaultValue={
+                  initialData?.partnershipLetterNumberTypeId ||
+                  LETTER_TYPE_OPTIONS.find(
+                    (opt) => opt.label === initialData?.letterNumberType,
+                  )?.id
+                }
               />
 
               {/* Using LetterNumberingField might be tricky if it expects to generate a NEW number. 
@@ -135,31 +160,31 @@ export default function UpdateLetterModal({ isOpen, onClose, initialData, onSucc
               <LetterNumberingField />
 
               <TextField
-                name="letterNumberSubjectOfLetter"
-                label="Tujuan dan Perihal Surat"
-                placeholder="Masukkan Tujuan dan Perihal Surat"
+                name='letterNumberSubjectOfLetter'
+                label='Tujuan dan Perihal Surat'
+                placeholder='Masukkan Tujuan dan Perihal Surat'
                 register={register}
                 isRequired={false}
               />
 
               {/* Footer with Buttons */}
-              <div className="flex justify-end gap-3 pt-2 border-t border-gray-200 mt-4">
+              <div className='flex justify-end gap-3 pt-2 border-t border-gray-200 mt-4'>
                 <button
-                  type="button"
+                  type='button'
                   onClick={onClose}
                   disabled={isSubmitting}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  className='px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
                 >
                   Batal
                 </button>
                 <button
-                  type="submit"
+                  type='submit'
                   disabled={isSubmitting || !isValid}
-                  className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
+                  className='px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center'
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 size={16} className="animate-spin" />
+                      <Loader2 size={16} className='animate-spin' />
                       Menyimpan...
                     </>
                   ) : (

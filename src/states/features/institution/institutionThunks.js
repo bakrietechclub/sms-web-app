@@ -10,7 +10,7 @@ export const asyncAddInstitutions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetInstitutionsById = createAsyncThunk(
@@ -22,7 +22,7 @@ export const asyncGetInstitutionsById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetInstitutions = createAsyncThunk(
@@ -34,7 +34,7 @@ export const asyncGetInstitutions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeleteInstitutionsById = createAsyncThunk(
@@ -46,7 +46,7 @@ export const asyncDeleteInstitutionsById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdateInstitutionsById = createAsyncThunk(
@@ -58,7 +58,7 @@ export const asyncUpdateInstitutionsById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetInstitutionsOptions = createAsyncThunk(
@@ -70,7 +70,7 @@ export const asyncGetInstitutionsOptions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetInstitutionsOptionsById = createAsyncThunk(
@@ -82,5 +82,5 @@ export const asyncGetInstitutionsOptionsById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

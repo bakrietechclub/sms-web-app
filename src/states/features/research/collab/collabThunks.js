@@ -14,7 +14,7 @@ export const asyncAddResearchCollab = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetResearchCollabById = createAsyncThunk(
@@ -26,7 +26,7 @@ export const asyncGetResearchCollabById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetResearchCollab = createAsyncThunk(
@@ -38,7 +38,7 @@ export const asyncGetResearchCollab = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetResearchCollabOptions = createAsyncThunk(
@@ -50,7 +50,7 @@ export const asyncGetResearchCollabOptions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeleteResearchCollabById = createAsyncThunk(
@@ -62,7 +62,7 @@ export const asyncDeleteResearchCollabById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdateResearchCollabById = createAsyncThunk(
@@ -74,5 +74,5 @@ export const asyncUpdateResearchCollabById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

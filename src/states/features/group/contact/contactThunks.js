@@ -11,7 +11,7 @@ export const asyncAddContact = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetContactByGroupId = createAsyncThunk(
@@ -23,7 +23,7 @@ export const asyncGetContactByGroupId = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetContactById = createAsyncThunk(
@@ -35,7 +35,7 @@ export const asyncGetContactById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeleteContactById = createAsyncThunk(
@@ -47,7 +47,7 @@ export const asyncDeleteContactById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdateContactById = createAsyncThunk(
@@ -59,5 +59,5 @@ export const asyncUpdateContactById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

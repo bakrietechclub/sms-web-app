@@ -14,7 +14,7 @@ export const asyncAddAudience = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetAudienceById = createAsyncThunk(
@@ -26,7 +26,7 @@ export const asyncGetAudienceById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetAudiences = createAsyncThunk(
@@ -38,7 +38,7 @@ export const asyncGetAudiences = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeleteAudienceById = createAsyncThunk(
@@ -50,7 +50,7 @@ export const asyncDeleteAudienceById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdateAudienceById = createAsyncThunk(
@@ -62,5 +62,5 @@ export const asyncUpdateAudienceById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

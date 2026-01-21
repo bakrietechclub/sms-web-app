@@ -1,13 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { asyncGetLetterById, asyncDeleteLetterById } from '../../../states/features/letter/letterThunks';
-import { selectLetterDetail, selectLetterLoading } from '../../../states/features/letter/letterSelectors';
+import {
+  asyncGetLetterById,
+  asyncDeleteLetterById,
+} from '../../../states/features/letter/letterThunks';
+import {
+  selectLetterDetail,
+  selectLetterLoading,
+} from '../../../states/features/letter/letterSelectors';
 import { selectHasAccess } from '../../../states/features/auth/authSelectors';
 import ConfirmationModal from '../../fragments/ConfirmationModal';
 import UpdateLetterModal from '../../fragments/UpdateLetterModal';
 import { Button } from '../../elements/Button';
-import { ChevronLeft, Mail, Calendar, FileText, Link as LinkIcon, Edit } from 'lucide-react';
+import {
+  ChevronLeft,
+  Mail,
+  Calendar,
+  FileText,
+  Link as LinkIcon,
+  Edit,
+} from 'lucide-react';
 import { getButtonClasses } from '../../../utils/styleConstants';
 
 export default function LetterNumberingDetail() {
@@ -28,38 +41,38 @@ export default function LetterNumberingDetail() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto pb-10 animate-pulse">
+      <div className='max-w-7xl mx-auto pb-10 animate-pulse'>
         {/* Header Skeleton */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6'>
           <div>
-            <div className="h-6 w-24 bg-gray-200 rounded mb-2" />
-            <div className="h-8 w-64 bg-gray-200 rounded" />
+            <div className='h-6 w-24 bg-gray-200 rounded mb-2' />
+            <div className='h-8 w-64 bg-gray-200 rounded' />
           </div>
-          <div className="flex gap-2">
-            <div className="h-10 w-32 bg-gray-200 rounded" />
-            <div className="h-10 w-24 bg-gray-200 rounded" />
+          <div className='flex gap-2'>
+            <div className='h-10 w-32 bg-gray-200 rounded' />
+            <div className='h-10 w-24 bg-gray-200 rounded' />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-6">
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+          <div className='lg:col-span-2 space-y-6'>
             {/* Info Card Skeleton */}
-            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-              <div className="h-6 w-48 bg-gray-200 rounded mb-4" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className='bg-white rounded-xl shadow-sm p-6 border border-gray-100'>
+              <div className='h-6 w-48 bg-gray-200 rounded mb-4' />
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i}>
-                    <div className="h-3 w-32 bg-gray-200 rounded mb-2" />
-                    <div className="h-5 w-3/4 bg-gray-200 rounded" />
+                    <div className='h-3 w-32 bg-gray-200 rounded mb-2' />
+                    <div className='h-5 w-3/4 bg-gray-200 rounded' />
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Reference Doc Skeleton */}
-            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-              <div className="h-6 w-56 bg-gray-200 rounded mb-4" />
-              <div className="h-32 bg-gray-200 rounded" />
+            <div className='bg-white rounded-xl shadow-sm p-6 border border-gray-100'>
+              <div className='h-6 w-56 bg-gray-200 rounded mb-4' />
+              <div className='h-32 bg-gray-200 rounded' />
             </div>
           </div>
         </div>
@@ -87,11 +100,13 @@ export default function LetterNumberingDetail() {
   };
 
   const InfoItem = ({ icon: Icon, label, value }) => (
-    <div className="mb-4 last:mb-0">
-      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 flex items-center gap-1">
+    <div className='mb-4 last:mb-0'>
+      <p className='text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 flex items-center gap-1'>
         {Icon && <Icon size={14} />} {label}
       </p>
-      <p className="text-sm font-medium text-gray-900 break-words">{value || '-'}</p>
+      <p className='text-sm font-medium text-gray-900 break-words'>
+        {value || '-'}
+      </p>
     </div>
   );
 
@@ -99,22 +114,22 @@ export default function LetterNumberingDetail() {
   const deleteButtonClasses = `${getButtonClasses('danger', !hasAccess)} w-fit flex items-center gap-2`;
 
   return (
-    <div className="max-w-7xl mx-auto pb-10">
+    <div className='max-w-7xl mx-auto pb-10'>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6'>
         <div>
           <Button
-            className="text-[#0D4690] hover:text-blue-800 cursor-pointer flex items-center gap-1 mb-2 transition-colors pl-0"
+            className='text-[#0D4690] hover:text-blue-800 cursor-pointer flex items-center gap-1 mb-2 transition-colors pl-0'
             onClick={() => navigate(-1)}
           >
             <ChevronLeft size={20} /> Kembali
           </Button>
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className='text-2xl font-bold text-gray-800'>
             Detail Nomor Surat
           </h1>
         </div>
 
-        <div className="flex gap-2">
+        <div className='flex gap-2'>
           <Button
             disabled={!hasAccess}
             className={updateButtonClasses}
@@ -132,52 +147,94 @@ export default function LetterNumberingDetail() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
         {/* Main Information - Left Column (2 cols wide) */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className='lg:col-span-2 space-y-6'>
           {/* General Info Card */}
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 border-b border-gray-100 pb-2">
-              <Mail size={20} className="text-[#0D4690]" /> Informasi Surat
+          <div className='bg-white rounded-xl shadow-sm p-6 border border-gray-100'>
+            <h2 className='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 border-b border-gray-100 pb-2'>
+              <Mail
+                size={20}
+                className='text-[#0D4690]'
+              />{' '}
+              Informasi Surat
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <InfoItem label="Nomor Surat" value={data?.letterReferenceNumber} />
-              <InfoItem label="Tipe Surat" value={data?.letterNumberType} />
-              <InfoItem icon={Calendar} label="Tanggal Nomor Surat" value={data?.letterNumberDate} />
-              <div className="col-span-full">
-                <InfoItem icon={FileText} label="Perihal / Tujuan" value={data?.letterNumberSubjectOfLetter} />
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+              <InfoItem
+                label='Nomor Surat'
+                value={data?.letterReferenceNumber}
+              />
+              <InfoItem
+                label='Tipe Surat'
+                value={data?.letterNumberType}
+              />
+              <InfoItem
+                icon={Calendar}
+                label='Tanggal Nomor Surat'
+                value={data?.letterNumberDate}
+              />
+              <div className='col-span-full'>
+                <InfoItem
+                  icon={FileText}
+                  label='Perihal / Tujuan'
+                  value={data?.letterNumberSubjectOfLetter}
+                />
               </div>
             </div>
           </div>
 
           {/* Reference Document Section */}
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 border-b border-gray-100 pb-2">
-              <LinkIcon size={20} className="text-[#0D4690]" /> Referensi Dokumen Terkait
+          <div className='bg-white rounded-xl shadow-sm p-6 border border-gray-100'>
+            <h2 className='text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 border-b border-gray-100 pb-2'>
+              <LinkIcon
+                size={20}
+                className='text-[#0D4690]'
+              />{' '}
+              Referensi Dokumen Terkait
             </h2>
 
             {data?.referenceDocument ? (
-              <div className="overflow-hidden rounded-lg border border-gray-200">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+              <div className='overflow-hidden rounded-lg border border-gray-200'>
+                <table className='min-w-full divide-y divide-gray-200'>
+                  <thead className='bg-gray-50'>
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jenis Kerjasama</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tgl Tanda Tangan</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jangka Waktu (Tahun)</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jatuh Tempo</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                      <th className='px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                        Jenis Kerjasama
+                      </th>
+                      <th className='px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                        Tgl Tanda Tangan
+                      </th>
+                      <th className='px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                        Jangka Waktu (Tahun)
+                      </th>
+                      <th className='px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                        Jatuh Tempo
+                      </th>
+                      <th className='px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                        Aksi
+                      </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    <tr className="hover:bg-gray-50 transition-colors">
-                      <td className="px-4 py-3 text-sm text-gray-900 font-medium">{data?.referenceDocument?.documentTypeName || '-'}</td>
-                      <td className="px-4 py-3 text-sm text-gray-500">{data?.referenceDocument?.documentSignatureDate || '-'}</td>
-                      <td className="px-4 py-3 text-sm text-gray-500">{data?.referenceDocument?.docuemntTimePeriod || '-'}</td>
-                      <td className="px-4 py-3 text-sm text-gray-500">{data?.referenceDocument?.documentDueDate || '-'}</td>
-                      <td className="px-4 py-3 text-right">
+                  <tbody className='bg-white divide-y divide-gray-200'>
+                    <tr className='hover:bg-gray-50 transition-colors'>
+                      <td className='px-4 py-3 text-sm text-gray-900 font-medium'>
+                        {data?.referenceDocument?.documentTypeName || '-'}
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-500'>
+                        {data?.referenceDocument?.documentSignatureDate || '-'}
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-500'>
+                        {data?.referenceDocument?.docuemntTimePeriod || '-'}
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-500'>
+                        {data?.referenceDocument?.documentDueDate || '-'}
+                      </td>
+                      <td className='px-4 py-3 text-right'>
                         <Button
-                          className="text-[#0D4690] hover:text-blue-800 text-sm font-medium transition-colors cursor-pointer"
-                          onClick={() => handleNavigate(data?.referenceDocument)}
+                          className='text-[#0D4690] hover:text-blue-800 text-sm font-medium transition-colors cursor-pointer'
+                          onClick={() =>
+                            handleNavigate(data?.referenceDocument)
+                          }
                         >
                           Lihat Detail
                         </Button>
@@ -187,15 +244,17 @@ export default function LetterNumberingDetail() {
                 </table>
               </div>
             ) : (
-              <div className="text-center py-6 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-                <p className="text-gray-500 text-sm">Tidak ada Dokumen yang terhubung dengan Nomor Surat ini.</p>
+              <div className='text-center py-6 bg-gray-50 rounded-lg border border-dashed border-gray-300'>
+                <p className='text-gray-500 text-sm'>
+                  Tidak ada Dokumen yang terhubung dengan Nomor Surat ini.
+                </p>
               </div>
             )}
           </div>
         </div>
 
         {/* Sidebar Space - Can be used for future metadata, or kept for grid consistency */}
-        <div className="space-y-6">
+        <div className='space-y-6'>
           {/* Example of empty sidebar or relevant helpful info could go here if needed. 
               For now keeping it matching the layout structure. */}
         </div>
@@ -207,8 +266,8 @@ export default function LetterNumberingDetail() {
           dispatch(asyncDeleteLetterById({ id }));
           navigate('/dashboard/letter-numbers');
         }}
-        title="Hapus Nomor Surat"
-        confirmLabel="Hapus"
+        title='Hapus Nomor Surat'
+        confirmLabel='Hapus'
         isDanger={true}
       />
       <UpdateLetterModal

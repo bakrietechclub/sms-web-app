@@ -48,7 +48,13 @@ export default function AddResearchCollabModal({
   const [query, setQuery] = useState('');
 
   // Use watch to get the current values needed for Select components
-  const { register, handleSubmit, setValue, watch, formState: { isValid } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { isValid },
+  } = useForm({
     mode: 'onChange',
     defaultValues: defaultFormValues,
   });
@@ -102,7 +108,7 @@ export default function AddResearchCollabModal({
   useEffect(() => {
     if (isOpen) {
       dispatch(
-        asyncGetResearchPotentialOptions({ query, typeId: accessTypeId })
+        asyncGetResearchPotentialOptions({ query, typeId: accessTypeId }),
       );
     }
   }, [dispatch, query, isOpen, accessTypeId]);
@@ -112,20 +118,20 @@ export default function AddResearchCollabModal({
     if (potentialOptionDetail) {
       setValue(
         'institutionRegion',
-        potentialOptionDetail.institutionRegion ?? ''
+        potentialOptionDetail.institutionRegion ?? '',
       );
       setValue(
         'potentialPrograms',
-        potentialOptionDetail.potentialPrograms ?? ''
+        potentialOptionDetail.potentialPrograms ?? '',
       );
       setValue(
         'statusPartnership',
-        potentialOptionDetail.statusPartnership ?? ''
+        potentialOptionDetail.statusPartnership ?? '',
       );
       // MoU fields
       setValue(
         'MoU.signatureDate',
-        potentialOptionDetail.MoU?.signatureDate ?? ''
+        potentialOptionDetail.MoU?.signatureDate ?? '',
       );
       setValue('MoU.dueDate', potentialOptionDetail.MoU?.dueDate ?? '');
       setValue('MoU.documentUrl', potentialOptionDetail.MoU?.documentUrl ?? '');
@@ -133,7 +139,7 @@ export default function AddResearchCollabModal({
       // PkS fields
       setValue(
         'PkS.signatureDate',
-        potentialOptionDetail.PkS?.signatureDate ?? ''
+        potentialOptionDetail.PkS?.signatureDate ?? '',
       );
       setValue('PkS.dueDate', potentialOptionDetail.PkS?.dueDate ?? '');
       setValue('PkS.documentUrl', potentialOptionDetail.PkS?.documentUrl ?? '');
@@ -156,9 +162,7 @@ export default function AddResearchCollabModal({
   const onSubmit = (data) => {
     console.log('Form data:', data);
     setIsSubmitting(true);
-    dispatch(
-      asyncAddResearchCollab({ ...data, query, typeId: accessTypeId })
-    )
+    dispatch(asyncAddResearchCollab({ ...data, query, typeId: accessTypeId }))
       .unwrap()
       .then(() => onClose())
       .catch((err) => console.error(err))
@@ -166,7 +170,9 @@ export default function AddResearchCollabModal({
   };
 
   const handleInstitutionChange = (option) => {
-    setValue('researchId', option ? option.value : null, { shouldValidate: true });
+    setValue('researchId', option ? option.value : null, {
+      shouldValidate: true,
+    });
     setValue('researchPksId', null, { shouldValidate: true });
     setValue('institutionRegion', '');
     setValue('potentialPrograms', '');
@@ -183,10 +189,12 @@ export default function AddResearchCollabModal({
   };
 
   const handleInstitutionDetailChange = (option) => {
-    setValue('researchPksId', option ? option.value : null, { shouldValidate: true });
+    setValue('researchPksId', option ? option.value : null, {
+      shouldValidate: true,
+    });
     if (option) {
       dispatch(
-        asyncGetDetailResearchPotentialOptionsById({ id: option.value })
+        asyncGetDetailResearchPotentialOptionsById({ id: option.value }),
       );
     }
   };
@@ -196,23 +204,23 @@ export default function AddResearchCollabModal({
   return (
     <>
       <div
-        className="fixed inset-0 z-40 bg-black opacity-40"
+        className='fixed inset-0 z-40 bg-black opacity-40'
         onClick={onClose}
       />
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className='fixed inset-0 z-50 flex items-center justify-center p-4'>
         <div
-          className="bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden flex flex-col"
+          className='bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden flex flex-col'
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="px-5 py-4 flex items-center justify-between border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-800">
+          <div className='px-5 py-4 flex items-center justify-between border-b border-gray-200'>
+            <h2 className='text-xl font-semibold text-gray-800'>
               Tambah Data Riset Kolaborasi Mitra
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 hover:bg-gray-100 rounded-lg"
-              aria-label="Close"
+              className='text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 hover:bg-gray-100 rounded-lg'
+              aria-label='Close'
             >
               <X size={24} />
             </button>
@@ -221,16 +229,16 @@ export default function AddResearchCollabModal({
           {/* Form */}
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto"
+            className='px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto'
           >
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-700">
-                Nama Instansi <span className="text-red-500">*</span>
+              <label className='block mb-2 text-sm font-medium text-gray-700'>
+                Nama Instansi <span className='text-red-500'>*</span>
               </label>
               <Select
-                name="researchId"
+                name='researchId'
                 options={selectOptions}
-                placeholder="Cari & pilih nama instansi"
+                placeholder='Cari & pilih nama instansi'
                 onInputChange={setQuery}
                 onChange={handleInstitutionChange}
                 isClearable
@@ -250,13 +258,13 @@ export default function AddResearchCollabModal({
             </div>
 
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-700">
-                Divisi Instansi <span className="text-red-500">*</span>
+              <label className='block mb-2 text-sm font-medium text-gray-700'>
+                Divisi Instansi <span className='text-red-500'>*</span>
               </label>
               <Select
-                name="researchPksId"
+                name='researchPksId'
                 options={selectOptionsDetail}
-                placeholder="Cari & pilih nama Divisi Instansi"
+                placeholder='Cari & pilih nama Divisi Instansi'
                 onChange={handleInstitutionDetailChange}
                 isClearable
                 isSearchable
@@ -275,45 +283,50 @@ export default function AddResearchCollabModal({
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
               <TextField
-                name="institutionRegion"
-                label="Provinsi"
+                name='institutionRegion'
+                label='Provinsi'
                 disable
-                placeholder="Provinsi Instansi"
+                placeholder='Provinsi Instansi'
                 register={register}
               />
               <TextField
-                name="potentialPrograms"
-                label="Program LSD"
+                name='potentialPrograms'
+                label='Program LSD'
                 disable
-                placeholder="Program yang bekerja sama"
+                placeholder='Program yang bekerja sama'
                 register={register}
               />
               <TextField
-                name="statusPartnership"
-                label="Status Kerjasama"
+                name='statusPartnership'
+                label='Status Kerjasama'
                 disable
-                placeholder="Status Kerjasama"
+                placeholder='Status Kerjasama'
                 register={register}
               />
             </div>
 
-            <AgreementStatus register={register} isRequired={true} />
+            <AgreementStatus
+              register={register}
+              isRequired={true}
+            />
 
-            <div className="flex items-center gap-3 py-2">
-              <label className="text-sm font-medium text-gray-700">Kontak</label>
+            <div className='flex items-center gap-3 py-2'>
+              <label className='text-sm font-medium text-gray-700'>
+                Kontak
+              </label>
               <Link
                 to={`/dashboard/groups/${researchId}`}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer"
+                className='px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer'
               >
                 Lihat
               </Link>
             </div>
 
             <MultiSelectDropdown
-              name="researchNeedsIds"
-              label="Kebutuhan"
+              name='researchNeedsIds'
+              label='Kebutuhan'
               options={[
                 { id: 1, label: 'Surat Undangan Audiensi' },
                 { id: 2, label: 'Surat Permohonan Kerjasama' },
@@ -326,8 +339,8 @@ export default function AddResearchCollabModal({
             />
 
             <MultiSelectDropdown
-              name="researchProgramIds"
-              label="Program LSD Rencana Kolaborasi"
+              name='researchProgramIds'
+              label='Program LSD Rencana Kolaborasi'
               options={[
                 { id: 1, label: 'LEAD' },
                 { id: 2, label: 'CLP' },
@@ -339,37 +352,40 @@ export default function AddResearchCollabModal({
             />
 
             <TextField
-              name="detailCollab"
-              label="Detail Rencana Kolaborasi"
-              placeholder="Detail Rencana Kolaborasi"
+              name='detailCollab'
+              label='Detail Rencana Kolaborasi'
+              placeholder='Detail Rencana Kolaborasi'
               register={register}
               isRequired={true}
             />
 
             <SwotFields
-              label="Analisis Kolaborasi Program"
+              label='Analisis Kolaborasi Program'
               register={register}
               isRequired={true}
             />
 
             {/* Footer with Buttons */}
-            <div className="flex justify-end gap-3 pt-2 border-t border-gray-200 mt-4">
+            <div className='flex justify-end gap-3 pt-2 border-t border-gray-200 mt-4'>
               <button
-                type="button"
+                type='button'
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className='px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
               >
                 Batal
               </button>
               <button
-                type="submit"
+                type='submit'
                 disabled={isSubmitting || !isValid}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
+                className='px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center'
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 size={16} className="animate-spin" />
+                    <Loader2
+                      size={16}
+                      className='animate-spin'
+                    />
                     Menyimpan...
                   </>
                 ) : (
@@ -383,4 +399,3 @@ export default function AddResearchCollabModal({
     </>
   );
 }
-

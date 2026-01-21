@@ -6,7 +6,10 @@ import { Table } from '../../fragments/Table';
 import { TableToolbar } from '../../fragments/TableToolbar';
 import { Pagination } from '../../fragments/Pagination';
 
-import { selectPotentialLoading, selectPotentials } from '../../../states/features/research/potential/potentialSelectors';
+import {
+  selectPotentialLoading,
+  selectPotentials,
+} from '../../../states/features/research/potential/potentialSelectors';
 import { asyncGetResearchPotential } from '../../../states/features/research/potential/potentialThunks';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -22,7 +25,7 @@ export const PotentialPartner = () => {
   const navigate = useNavigate();
 
   const data = useSelector(selectPotentials);
-  const loading = useSelector(selectPotentialLoading)
+  const loading = useSelector(selectPotentialLoading);
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
@@ -31,18 +34,21 @@ export const PotentialPartner = () => {
 
   useEffect(() => {
     dispatch(
-      asyncGetResearchPotential({ query, typeId: selectedAccessTypeId })
+      asyncGetResearchPotential({ query, typeId: selectedAccessTypeId }),
     );
   }, [dispatch, query, selectedAccessTypeId]);
 
   const filterOptions = getFiltersByModuleAndRole(
     'potential',
-    seletedAccessRole
+    seletedAccessRole,
   );
 
   const renderRow = (value, index) => (
-    <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3">{index + 1}</td>
+    <tr
+      key={index}
+      className='border-b border-[#E7EDF4] h-10'
+    >
+      <td className='py-3'>{index + 1}</td>
       <td>{value.instituteName}</td>
       <td>{value.partnershipResearchType}</td>
       <td>{value.regionName}</td>
@@ -59,10 +65,10 @@ export const PotentialPartner = () => {
         <Button
           onClick={() => {
             navigate(
-              `/dashboard/research/potential-partner/${value.researchPotentialId}`
+              `/dashboard/research/potential-partner/${value.researchPotentialId}`,
             );
           }}
-          className="text-[#0D4690] underline cursor-pointer"
+          className='text-[#0D4690] underline cursor-pointer'
         >
           Lihat Detail
         </Button>
@@ -72,7 +78,7 @@ export const PotentialPartner = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold">Daftar Riset Potensial Mitra</h1>
+      <h1 className='text-2xl font-semibold'>Daftar Riset Potensial Mitra</h1>
 
       <TableToolbar
         searchValue={query}
@@ -80,7 +86,7 @@ export const PotentialPartner = () => {
         onAddClick={() => setOpenModal(true)} // Ini akan terpanggil jika addOptions TIDAK ADA
         filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}
-        searchWidth="w-1/4"
+        searchWidth='w-1/4'
       />
 
       <Table

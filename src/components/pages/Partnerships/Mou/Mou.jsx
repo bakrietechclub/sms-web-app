@@ -5,7 +5,10 @@ import { FreezeTable } from '../../../fragments/Table';
 import { Pagination } from '../../../fragments/Pagination';
 import { TableToolbar } from '../../../fragments/TableToolbar';
 import { useNavigate } from 'react-router-dom';
-import { selectMouLoading, selectMous } from '../../../../states/features/partnerships/mou/mouSelectors';
+import {
+  selectMouLoading,
+  selectMous,
+} from '../../../../states/features/partnerships/mou/mouSelectors';
 import {
   selectedAccess,
   selectedAccessTypeInstitutionsId,
@@ -34,21 +37,27 @@ export const Mou = () => {
   }, [dispatch, query, selectedAccessTypeId]);
 
   const renderRowFreeze = (value, index) => (
-    <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
-      <td className="py-3">{index + 1}</td>
+    <tr
+      key={index}
+      className='border-b border-r border-[#E7EDF4] h-10'
+    >
+      <td className='py-3'>{index + 1}</td>
       <td>{value.instituteName}</td>
       <td>{value.instituteTypeName}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
-    <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="border-b border-gray-200">{value.mouSignatureDate}</td>
-      <td className="border-b border-gray-200">{value.mouTimePeriod}</td>
-      <td className="border-b border-gray-200">{value.mouDueDate}</td>
-      <td className="px-6 py-3 border-b border-gray-200">
+    <tr
+      key={index}
+      className='border-b border-[#E7EDF4] h-10'
+    >
+      <td className='border-b border-gray-200'>{value.mouSignatureDate}</td>
+      <td className='border-b border-gray-200'>{value.mouTimePeriod}</td>
+      <td className='border-b border-gray-200'>{value.mouDueDate}</td>
+      <td className='px-6 py-3 border-b border-gray-200'>
         <Button
-          className="text-[#0D4690] underline cursor-pointer"
+          className='text-[#0D4690] underline cursor-pointer'
           onClick={() => {
             navigate(`/dashboard/partnerships/mou/${value.mouId}`);
           }}
@@ -61,14 +70,14 @@ export const Mou = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold">Tabel MoU</h1>
+      <h1 className='text-2xl font-semibold'>Tabel MoU</h1>
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
         filters={filterOptions}
         onFilterSet={(f) => setFilters(f)}
-        searchWidth="w-1/4"
+        searchWidth='w-1/4'
       />
       <FreezeTable
         headers={[

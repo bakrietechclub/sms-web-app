@@ -6,7 +6,10 @@ import { Table } from '../../fragments/Table';
 import { TableToolbar } from '../../fragments/TableToolbar';
 import { Pagination } from '../../fragments/Pagination';
 
-import { selectPotentialLoading, selectPotentialsRecommendations } from '../../../states/features/research/potential/potentialSelectors';
+import {
+  selectPotentialLoading,
+  selectPotentialsRecommendations,
+} from '../../../states/features/research/potential/potentialSelectors';
 import { asyncGetResearchPotentialRecommendations } from '../../../states/features/research/potential/potentialThunks';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -22,7 +25,7 @@ export const PotentialPartnerRecommendations = () => {
   const navigate = useNavigate();
 
   const data = useSelector(selectPotentialsRecommendations);
-  const loading = useSelector(selectPotentialLoading)
+  const loading = useSelector(selectPotentialLoading);
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
@@ -35,18 +38,21 @@ export const PotentialPartnerRecommendations = () => {
         query,
         typeId: selectedAccessTypeId,
         provincieId: [1, 2, 3, 11, 12],
-      })
+      }),
     );
   }, [dispatch, query, selectedAccessTypeId]);
 
   const filterOptions = getFiltersByModuleAndRole(
     'potential',
-    seletedAccessRole
+    seletedAccessRole,
   );
 
   const renderRow = (value, index) => (
-    <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3">{index + 1}</td>
+    <tr
+      key={index}
+      className='border-b border-[#E7EDF4] h-10'
+    >
+      <td className='py-3'>{index + 1}</td>
       <td>{value.instituteName}</td>
       <td>{value.typeName}</td>
       <td>{value.regionName}</td>
@@ -58,14 +64,14 @@ export const PotentialPartnerRecommendations = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold">Daftar Riset Potensial Mitra</h1>
+      <h1 className='text-2xl font-semibold'>Daftar Riset Potensial Mitra</h1>
 
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}
         filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}
-        searchWidth="w-1/4"
+        searchWidth='w-1/4'
       />
 
       <Table

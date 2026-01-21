@@ -10,7 +10,7 @@ export const asyncAddLetter = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetLetterById = createAsyncThunk(
@@ -22,7 +22,7 @@ export const asyncGetLetterById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetLastLetterNumber = createAsyncThunk(
@@ -34,7 +34,7 @@ export const asyncGetLastLetterNumber = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetSubClassifications = createAsyncThunk(
@@ -46,7 +46,7 @@ export const asyncGetSubClassifications = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetLetters = createAsyncThunk(
@@ -58,7 +58,7 @@ export const asyncGetLetters = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeleteLetterById = createAsyncThunk(
@@ -70,7 +70,7 @@ export const asyncDeleteLetterById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdateLetterById = createAsyncThunk(
@@ -82,5 +82,5 @@ export const asyncUpdateLetterById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

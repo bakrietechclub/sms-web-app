@@ -43,7 +43,7 @@ const audienceSlice = createSlice({
       .addCase(asyncDeleteAudienceById.fulfilled, (state, action) => {
         state.loading = false;
         state.audiences = state.audiences.filter(
-          (item) => item.id !== action.payload.id
+          (item) => item.id !== action.payload.id,
         );
       })
       // Update
@@ -52,18 +52,22 @@ const audienceSlice = createSlice({
         state.audienceDetail = action.payload;
       })
       .addMatcher(
-        (action) => action.type.startsWith('audience/') && action.type.endsWith('/pending'),
+        (action) =>
+          action.type.startsWith('audience/') &&
+          action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
           state.error = null;
-        }
+        },
       )
       .addMatcher(
-        (action) => action.type.startsWith('audience/') && action.type.endsWith('/rejected'),
+        (action) =>
+          action.type.startsWith('audience/') &&
+          action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        }
+        },
       );
   },
 });

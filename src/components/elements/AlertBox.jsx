@@ -16,14 +16,14 @@ export const AlertBox = ({ alertType, onClose }) => {
         <>
           Email dan kata sandi tidak cocok. Hubungi{' '}
           <strong>Super Admin.</strong>
-        </>
+        </>,
       );
     } else if (alertType === 'successCreate') {
       setAlertMessages(
         <>
           Selamat! Data baru yang kamu buat telah{' '}
           <strong>berhasil ditambahkan.</strong>
-        </>
+        </>,
       );
     } else if (alertType === 'successCopyLink') {
       setAlertMessages('Tautan berhasil disalin!');
@@ -32,7 +32,7 @@ export const AlertBox = ({ alertType, onClose }) => {
         <>
           Selamat! Data baru yang telah kamu perbarui{' '}
           <strong>berhasil disimpan.</strong>
-        </>
+        </>,
       );
     }
 
@@ -50,7 +50,7 @@ export const AlertBox = ({ alertType, onClose }) => {
   }, [alertType, onClose]);
 
   return (
-    <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+    <div className='fixed top-4 left-1/2 transform -translate-x-1/2 z-50'>
       <div
         className={`inline-flex items-center justify-between border ${
           alertType === 'errorLogin'
@@ -59,13 +59,13 @@ export const AlertBox = ({ alertType, onClose }) => {
         } px-4 py-2 rounded-lg shadow-md transition-all duration-500 ease-out
         ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3'}`}
       >
-        <div className="flex items-center gap-2">
+        <div className='flex items-center gap-2'>
           {alertType === 'errorLogin' ? (
-            <AlertTriangle className="w-5 h-5 text-red-500" />
+            <AlertTriangle className='w-5 h-5 text-red-500' />
           ) : (
-            <CheckCircle2 className="w-5 h-5 text-[#28a745]" />
+            <CheckCircle2 className='w-5 h-5 text-[#28a745]' />
           )}
-          <p className="text-xs">{alertMessages}</p>
+          <p className='text-xs'>{alertMessages}</p>
         </div>
         <button
           onClick={handleClose}
@@ -75,7 +75,7 @@ export const AlertBox = ({ alertType, onClose }) => {
               : 'text-[#28a745] hover:text-[#24963e]'
           } cursor-pointer`}
         >
-          <X className="w-4 h-4" />
+          <X className='w-4 h-4' />
         </button>
       </div>
     </div>

@@ -46,13 +46,13 @@ const institutionSlice = createSlice({
       .addCase(asyncDeleteInstitutionsById.fulfilled, (state, action) => {
         state.loading = false;
         state.institutions = state.institutions.filter(
-          (item) => item.id !== action.payload.id
+          (item) => item.id !== action.payload.id,
         );
       })
       .addCase(asyncUpdateInstitutionsById.fulfilled, (state, action) => {
         state.loading = false;
         state.institutions = state.institutions.map((item) =>
-          item.id === action.payload.id ? action.payload : item
+          item.id === action.payload.id ? action.payload : item,
         );
       })
       .addCase(asyncGetInstitutionsOptions.fulfilled, (state, action) => {
@@ -64,18 +64,22 @@ const institutionSlice = createSlice({
         state.institutionsOptionsDetail = action.payload;
       })
       .addMatcher(
-        (action) => action.type.startsWith('institutions/') && action.type.endsWith('/pending'),
+        (action) =>
+          action.type.startsWith('institutions/') &&
+          action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
           state.error = null;
-        }
+        },
       )
       .addMatcher(
-        (action) => action.type.startsWith('institutions/') && action.type.endsWith('/rejected'),
+        (action) =>
+          action.type.startsWith('institutions/') &&
+          action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        }
+        },
       );
   },
 });

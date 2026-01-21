@@ -11,7 +11,7 @@ export const asyncAddGroup = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetGroupById = createAsyncThunk(
@@ -23,7 +23,7 @@ export const asyncGetGroupById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetGroups = createAsyncThunk(
@@ -35,7 +35,7 @@ export const asyncGetGroups = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeleteGroupById = createAsyncThunk(
@@ -47,7 +47,7 @@ export const asyncDeleteGroupById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdateGroupById = createAsyncThunk(
@@ -59,5 +59,5 @@ export const asyncUpdateGroupById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

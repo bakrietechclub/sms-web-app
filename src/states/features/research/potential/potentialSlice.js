@@ -47,7 +47,7 @@ const potentialSlice = createSlice({
         (state, action) => {
           state.loading = false;
           state.potentialsRecommendations = action.payload;
-        }
+        },
       )
       .addCase(asyncGetResearchPotentialOptions.fulfilled, (state, action) => {
         state.loading = false;
@@ -58,14 +58,14 @@ const potentialSlice = createSlice({
         (state, action) => {
           state.loading = false;
           state.potentialsOptionsDetail = action.payload;
-        }
+        },
       )
       .addCase(
         asyncGetDetailResearchPotentialOptionsById.fulfilled,
         (state, action) => {
           state.loading = false;
           state.potentialOptionDetail = action.payload;
-        }
+        },
       )
       // Get By Id
       .addCase(asyncGetResearchPotentialById.fulfilled, (state, action) => {
@@ -76,7 +76,7 @@ const potentialSlice = createSlice({
       .addCase(asyncDeleteResearchPotentialById.fulfilled, (state, action) => {
         state.loading = false;
         state.potentials = state.potentials.filter(
-          (item) => item.researchPotentialId !== action.payload.id
+          (item) => item.researchPotentialId !== action.payload.id,
         );
       })
       // Update
@@ -88,18 +88,22 @@ const potentialSlice = createSlice({
         // );
       })
       .addMatcher(
-        (action) => action.type.startsWith('potential/') && action.type.endsWith('/pending'),
+        (action) =>
+          action.type.startsWith('potential/') &&
+          action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
           state.error = null;
-        }
+        },
       )
       .addMatcher(
-        (action) => action.type.startsWith('potential/') && action.type.endsWith('/rejected'),
+        (action) =>
+          action.type.startsWith('potential/') &&
+          action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        }
+        },
       );
   },
 });

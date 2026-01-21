@@ -43,7 +43,7 @@ const groupSlice = createSlice({
       .addCase(asyncDeleteGroupById.fulfilled, (state, action) => {
         state.loading = false;
         state.groups = state.groups.filter(
-          (item) => item.id !== action.payload.id
+          (item) => item.id !== action.payload.id,
         );
       })
       // Update
@@ -55,18 +55,20 @@ const groupSlice = createSlice({
         // );
       })
       .addMatcher(
-        (action) => action.type.startsWith('group/') && action.type.endsWith('/pending'),
+        (action) =>
+          action.type.startsWith('group/') && action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
           state.error = null;
-        }
+        },
       )
       .addMatcher(
-        (action) => action.type.startsWith('group/') && action.type.endsWith('/rejected'),
+        (action) =>
+          action.type.startsWith('group/') && action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        }
+        },
       );
   },
 });

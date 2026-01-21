@@ -14,7 +14,7 @@ export const asyncAddResearchPotential = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetResearchPotentialById = createAsyncThunk(
@@ -26,7 +26,7 @@ export const asyncGetResearchPotentialById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetResearchPotential = createAsyncThunk(
@@ -38,7 +38,7 @@ export const asyncGetResearchPotential = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetResearchPotentialRecommendations = createAsyncThunk(
@@ -54,7 +54,7 @@ export const asyncGetResearchPotentialRecommendations = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetResearchPotentialOptions = createAsyncThunk(
@@ -66,7 +66,7 @@ export const asyncGetResearchPotentialOptions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetResearchPotentialOptionsById = createAsyncThunk(
@@ -78,7 +78,7 @@ export const asyncGetResearchPotentialOptionsById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetDetailResearchPotentialOptionsById = createAsyncThunk(
@@ -90,7 +90,7 @@ export const asyncGetDetailResearchPotentialOptionsById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeleteResearchPotentialById = createAsyncThunk(
@@ -102,7 +102,7 @@ export const asyncDeleteResearchPotentialById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdateResearchPotentialById = createAsyncThunk(
@@ -114,5 +114,5 @@ export const asyncUpdateResearchPotentialById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

@@ -1,5 +1,5 @@
-import { AuthLayout } from "../Layouts/AuthLayout";
-import { LoginForm } from "../fragments/LoginForm";
+import { AuthLayout } from '../Layouts/AuthLayout';
+import { LoginForm } from '../fragments/LoginForm';
 
 const LoginPage = () => {
   return (

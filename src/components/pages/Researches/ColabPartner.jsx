@@ -11,7 +11,10 @@ import {
 } from '../../../states/features/auth/authSelectors';
 
 import { useNavigate } from 'react-router-dom';
-import { selectCollabLoading, selectCollabs } from '../../../states/features/research/collab/collabSelectors';
+import {
+  selectCollabLoading,
+  selectCollabs,
+} from '../../../states/features/research/collab/collabSelectors';
 import { asyncGetResearchCollab } from '../../../states/features/research/collab/collabThunks';
 import AddResearchCollabModal from '../../fragments/AddResearchCollabModal';
 
@@ -33,8 +36,11 @@ export const ColabPartner = () => {
   }, [dispatch, query, selectedAccessTypeId]);
 
   const renderRow = (value, index) => (
-    <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3">{index + 1}</td>
+    <tr
+      key={index}
+      className='border-b border-[#E7EDF4] h-10'
+    >
+      <td className='py-3'>{index + 1}</td>
       <td>{value.institutionName}</td>
       <td>{value.institutiontype}</td>
       <td>{value.institutionRegion}</td>
@@ -44,7 +50,7 @@ export const ColabPartner = () => {
           onClick={() => {
             navigate(`/dashboard/research/colab-partner/${value.id}`);
           }}
-          className="text-[#0D4690] underline cursor-pointer"
+          className='text-[#0D4690] underline cursor-pointer'
         >
           Lihat Detail
         </Button>
@@ -54,22 +60,27 @@ export const ColabPartner = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold">Daftar Riset Kolaborasi Mitra</h1>
+      <h1 className='text-2xl font-semibold'>Daftar Riset Kolaborasi Mitra</h1>
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
         onFilterSet={() => console.log('Filter diset')}
-        searchWidth="w-1/4"
+        searchWidth='w-1/4'
       />
-      <Table headers={[
-        'No',
-        'Nama',
-        'Jenis ',
-        'Region',
-        'Program Rencana Kolaborasi',
-        'Aksi',
-      ]} data={data} renderRow={renderRow} isLoading={loading} />
+      <Table
+        headers={[
+          'No',
+          'Nama',
+          'Jenis ',
+          'Region',
+          'Program Rencana Kolaborasi',
+          'Aksi',
+        ]}
+        data={data}
+        renderRow={renderRow}
+        isLoading={loading}
+      />
       <Pagination />
 
       {isModalOpen && (

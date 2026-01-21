@@ -1,9 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import {
-  asyncUpdateResearchPotentialById,
-} from '../../states/features/research/potential/potentialThunks';
+import { asyncUpdateResearchPotentialById } from '../../states/features/research/potential/potentialThunks';
 import TextField from '../elements/formfields/TextField';
 import MultiSelectDropdown from '../elements/formfields/MultiSelectDropdown';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
@@ -38,7 +36,13 @@ export default function UpdateResearchPotentialModal({
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, setValue, reset, formState: { isValid } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { isValid },
+  } = useForm({
     mode: 'onChange',
     defaultValues: {
       partnershipResearchNeedsIds: [],
@@ -63,8 +67,7 @@ export default function UpdateResearchPotentialModal({
     const programIds =
       initialData.partnershipResearchProgram
         ?.map(
-          (p) =>
-            PROGRAM_OPTIONS.find((o) => o.label === p || o.name === p)?.id
+          (p) => PROGRAM_OPTIONS.find((o) => o.label === p || o.name === p)?.id,
         )
         .filter(Boolean) || [];
 
@@ -74,7 +77,7 @@ export default function UpdateResearchPotentialModal({
         .filter(Boolean) || [];
 
     const statusOption = STATUS_OPTIONS.find(
-      (o) => o.label === initialData.contactStatus
+      (o) => o.label === initialData.contactStatus,
     );
     const statusId = statusOption ? statusOption.id : null;
 
@@ -115,7 +118,9 @@ export default function UpdateResearchPotentialModal({
   const onSubmit = (data) => {
     setIsSubmitting(true);
 
-    dispatch(asyncUpdateResearchPotentialById({ id: researchPotentialId, ...data }))
+    dispatch(
+      asyncUpdateResearchPotentialById({ id: researchPotentialId, ...data }),
+    )
       .unwrap()
       .then(() => {
         if (onSuccess) onSuccess();
@@ -130,25 +135,25 @@ export default function UpdateResearchPotentialModal({
   return (
     <>
       <div
-        className="fixed inset-0 z-40 bg-black opacity-40 transition-opacity"
+        className='fixed inset-0 z-40 bg-black opacity-40 transition-opacity'
         onClick={onClose}
       />
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className='fixed inset-0 z-50 flex items-center justify-center p-4'>
         <div
-          className="bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden flex flex-col"
+          className='bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden flex flex-col'
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="px-5 py-4 flex items-center justify-between border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-800">
+          <div className='px-5 py-4 flex items-center justify-between border-b border-gray-200'>
+            <h2 className='text-xl font-semibold text-gray-800'>
               Perbarui Mitra
               {(accessTypeId === 1 && ' Universitas') ||
                 (accessTypeId === 2 && ' Lembaga/Komunitas')}
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 hover:bg-gray-100 rounded-lg"
-              aria-label="Close"
+              className='text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 hover:bg-gray-100 rounded-lg'
+              aria-label='Close'
             >
               <X size={24} />
             </button>
@@ -157,16 +162,16 @@ export default function UpdateResearchPotentialModal({
           {/* Form */}
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto"
+            className='px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto'
           >
             {/* Contact Fields */}
             <ContactFields register={register} isRequired={true} />
 
             {/* Program & Status */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
               <MultiSelectDropdown
-                name="partnershipResearchProgramIds"
-                label="Program LSD"
+                name='partnershipResearchProgramIds'
+                label='Program LSD'
                 options={PROGRAM_OPTIONS}
                 register={register}
                 setValue={setValue}
@@ -174,8 +179,8 @@ export default function UpdateResearchPotentialModal({
                 isRequired={true}
               />
               <SingleSelectDropdownBadge
-                name="contactStatus"
-                label="Status"
+                name='contactStatus'
+                label='Status'
                 options={STATUS_OPTIONS}
                 register={register}
                 setValue={setValue}
@@ -186,8 +191,8 @@ export default function UpdateResearchPotentialModal({
 
             {/* Needs */}
             <MultiSelectDropdown
-              name="partnershipResearchNeedsIds"
-              label="Kebutuhan"
+              name='partnershipResearchNeedsIds'
+              label='Kebutuhan'
               options={NEEDS_OPTIONS}
               register={register}
               setValue={setValue}
@@ -196,35 +201,39 @@ export default function UpdateResearchPotentialModal({
             />
 
             {/* SWOT */}
-            <SwotFields label="Program Analisis" register={register} isRequired={true} />
+            <SwotFields
+              label='Program Analisis'
+              register={register}
+              isRequired={true}
+            />
 
             {/* Document */}
             <TextField
-              name="documentUrl"
-              label="Link Dokumen"
-              placeholder="https://..."
+              name='documentUrl'
+              label='Link Dokumen'
+              placeholder='https://...'
               register={register}
               isRequired={true}
             />
 
             {/* Footer Buttons */}
-            <div className="flex justify-end gap-3 pt-2 border-t border-gray-200 mt-4">
+            <div className='flex justify-end gap-3 pt-2 border-t border-gray-200 mt-4'>
               <button
-                type="button"
+                type='button'
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className='px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
               >
                 Batal
               </button>
               <button
-                type="submit"
+                type='submit'
                 disabled={isSubmitting || !isValid}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
+                className='px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center'
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 size={16} className="animate-spin" />
+                    <Loader2 size={16} className='animate-spin' />
                     Menyimpan...
                   </>
                 ) : (

@@ -4,7 +4,11 @@ import ChevronLeft from '../../assets/icons/ChevronLeft.png';
 import ChevronRight from '../../assets/icons/ChevronRight.png';
 import { range } from '../../utils';
 
-export const Pagination = ({ currentPage = 1, totalPages = 10, onPageChange }) => {
+export const Pagination = ({
+  currentPage = 1,
+  totalPages = 10,
+  onPageChange,
+}) => {
   // Generate pagination range with ellipses logic
   const paginationRange = useMemo(() => {
     const totalPageNumbers = 7; // Maximum page numbers to show
@@ -65,12 +69,16 @@ export const Pagination = ({ currentPage = 1, totalPages = 10, onPageChange }) =
   }
 
   return (
-    <div className="mt-2 flex gap-2 items-center justify-center">
-      <Button onClick={onPrevious} disabled={currentPage === 1} className="cursor-pointer">
+    <div className='mt-2 flex gap-2 items-center justify-center'>
+      <Button
+        onClick={onPrevious}
+        disabled={currentPage === 1}
+        className='cursor-pointer'
+      >
         <img
           src={ChevronLeft}
           className={currentPage === 1 ? 'opacity-50' : ''}
-          alt="Previous"
+          alt='Previous'
         />
       </Button>
 
@@ -80,7 +88,7 @@ export const Pagination = ({ currentPage = 1, totalPages = 10, onPageChange }) =
           return (
             <Button
               key={`ellipsis-${index}`}
-              className="w-9 h-9 rounded-full bg-white text-black cursor-default"
+              className='w-9 h-9 rounded-full bg-white text-black cursor-default'
               disabled
             >
               &#8230;
@@ -93,21 +101,26 @@ export const Pagination = ({ currentPage = 1, totalPages = 10, onPageChange }) =
           <Button
             key={pageNumber}
             onClick={() => onPageChange(pageNumber)}
-            className={`w-9 h-9 rounded-full cursor-pointer ${pageNumber === currentPage
-              ? 'bg-[#E89229] text-white'
-              : 'bg-white text-black hover:bg-gray-100'
-              }`}
+            className={`w-9 h-9 rounded-full cursor-pointer ${
+              pageNumber === currentPage
+                ? 'bg-[#E89229] text-white'
+                : 'bg-white text-black hover:bg-gray-100'
+            }`}
           >
             {pageNumber}
           </Button>
         );
       })}
 
-      <Button onClick={onNext} disabled={currentPage === totalPages} className="cursor-pointer">
+      <Button
+        onClick={onNext}
+        disabled={currentPage === totalPages}
+        className='cursor-pointer'
+      >
         <img
           src={ChevronRight}
           className={currentPage === totalPages ? 'opacity-50' : ''}
-          alt="Next"
+          alt='Next'
         />
       </Button>
     </div>

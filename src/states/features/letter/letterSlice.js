@@ -48,13 +48,13 @@ const letterSlice = createSlice({
       .addCase(asyncDeleteLetterById.fulfilled, (state, action) => {
         state.loading = false;
         state.letters = state.letters.filter(
-          (item) => item.id !== action.payload.id
+          (item) => item.id !== action.payload.id,
         );
       })
       .addCase(asyncUpdateLetterById.fulfilled, (state, action) => {
         state.loading = false;
         state.letters = state.letters.map((item) =>
-          item.id === action.payload.id ? action.payload : item
+          item.id === action.payload.id ? action.payload : item,
         );
       })
       .addMatcher(
@@ -62,14 +62,14 @@ const letterSlice = createSlice({
         (state) => {
           state.loading = true;
           state.error = null;
-        }
+        },
       )
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        }
+        },
       );
   },
 });

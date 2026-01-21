@@ -45,18 +45,22 @@ const contactSlice = createSlice({
         state.contactDetail = action.payload;
       })
       .addMatcher(
-        (action) => action.type.startsWith('contact/') && action.type.endsWith('/pending'),
+        (action) =>
+          action.type.startsWith('contact/') &&
+          action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
           state.error = null;
-        }
+        },
       )
       .addMatcher(
-        (action) => action.type.startsWith('contact/') && action.type.endsWith('/rejected'),
+        (action) =>
+          action.type.startsWith('contact/') &&
+          action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        }
+        },
       );
   },
 });

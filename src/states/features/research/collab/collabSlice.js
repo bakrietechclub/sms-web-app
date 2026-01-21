@@ -49,29 +49,32 @@ const potentialSlice = createSlice({
       .addCase(asyncDeleteResearchCollabById.fulfilled, (state, action) => {
         state.loading = false;
         state.potentials = state.potentials.filter(
-          (item) => item.id !== action.payload.id
+          (item) => item.id !== action.payload.id,
         );
       })
       // Update
       .addCase(asyncUpdateResearchCollabById.fulfilled, (state, action) => {
         state.loading = false;
         state.potentials = state.potentials.map((item) =>
-          item.id === action.payload.id ? action.payload : item
+          item.id === action.payload.id ? action.payload : item,
         );
       })
       .addMatcher(
-        (action) => action.type.startsWith('collab/') && action.type.endsWith('/pending'),
+        (action) =>
+          action.type.startsWith('collab/') && action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
           state.error = null;
-        }
+        },
       )
       .addMatcher(
-        (action) => action.type.startsWith('collab/') && action.type.endsWith('/rejected'),
+        (action) =>
+          action.type.startsWith('collab/') &&
+          action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        }
+        },
       );
   },
 });

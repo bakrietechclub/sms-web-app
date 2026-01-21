@@ -3,11 +3,16 @@ import React, { useRef, useEffect } from 'react';
 // const useLocation = () => ({ pathname: '/' });
 
 // Komponen Table yang sudah ada
-export const Table = ({ headers = [], data = [], renderRow, isLoading = false }) => (
-  <table className="table-auto text-center w-full border-separate border-spacing-0">
+export const Table = ({
+  headers = [],
+  data = [],
+  renderRow,
+  isLoading = false,
+}) => (
+  <table className='table-auto text-center w-full border-separate border-spacing-0'>
     {/* Header Section Styling */}
-    <thead className="text-[#0D4690] bg-[#E7EDF4]">
-      <tr className="h-12">
+    <thead className='text-[#0D4690] bg-[#E7EDF4]'>
+      <tr className='h-12'>
         {headers.map((header, index) => (
           <th
             key={index}
@@ -25,9 +30,12 @@ export const Table = ({ headers = [], data = [], renderRow, isLoading = false })
     </thead>
 
     {/* Body Section Styling */}
-    <tbody className="text-sm font-normal text-gray-700">
+    <tbody className='text-sm font-normal text-gray-700'>
       {isLoading ? (
-        <TableSkeleton colCount={headers.length} rowCount={data.length || 5} />
+        <TableSkeleton
+          colCount={headers.length}
+          rowCount={data.length || 5}
+        />
       ) : (
         data?.map((item, index) => (
           // Menggunakan renderRow untuk mengembalikan baris (<tr>) lengkap
@@ -77,10 +85,16 @@ const TableSkeleton = ({ colCount, rowCount = 5 }) => {
   return (
     <React.Fragment>
       {rows.map((_, rowIndex) => (
-        <tr key={rowIndex} className="h-12">
+        <tr
+          key={rowIndex}
+          className='h-12'
+        >
           {cols.map((_, colIndex) => (
-            <td key={colIndex} className="p-4 border-b border-gray-200">
-              <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+            <td
+              key={colIndex}
+              className='p-4 border-b border-gray-200'
+            >
+              <div className='h-4 bg-gray-200 rounded animate-pulse'></div>
             </td>
           ))}
         </tr>
@@ -121,18 +135,21 @@ export const FreezeTable = ({
   }, [data, isLoading]); // Dependensi data dan isLoading memastikan sinkronisasi berjalan saat data dimuat
 
   return (
-    <div className="w-full overflow-hidden">
-      <div className="flex w-full">
+    <div className='w-full overflow-hidden'>
+      <div className='flex w-full'>
         {/* Fixed Column */}
-        <div className="w-[40%] overflow-hidden mr-[1px]" ref={leftTableRef}>
+        <div
+          className='w-[40%] overflow-hidden mr-[1px]'
+          ref={leftTableRef}
+        >
           <table
             className={`border-separate border-spacing-0 table-auto text-center w-full border-r-1 border-gray-200`}
           >
-            <thead className="bg-[#E7EDF4] text-[#0D4690]">
+            <thead className='bg-[#E7EDF4] text-[#0D4690]'>
               {customHeaderLeft ? (
                 customHeaderLeft
               ) : (
-                <tr className="h-12">
+                <tr className='h-12'>
                   {frozenHeaders.map((header, index) => (
                     <th
                       key={index}
@@ -154,7 +171,7 @@ export const FreezeTable = ({
                 </tr>
               )}
             </thead>
-            <tbody className="bg-white text-sm font-normal border-gray-200 text-gray-700">
+            <tbody className='bg-white text-sm font-normal border-gray-200 text-gray-700'>
               {isLoading ? (
                 // Skeleton untuk kolom beku (kiri)
                 <TableSkeleton
@@ -174,16 +191,16 @@ export const FreezeTable = ({
 
         {/* Scrollable Column */}
         <div
-          className="w-[60%] overflow-x-auto custom-scrollbar scroll-area scrollbar-thin"
+          className='w-[60%] overflow-x-auto custom-scrollbar scroll-area scrollbar-thin'
           ref={rightTableRef}
         >
-          <div className="min-w-max">
-            <table className="border-separate border-spacing-0 table-auto text-center w-full">
-              <thead className="bg-[#E7EDF4] text-[#0D4690]">
+          <div className='min-w-max'>
+            <table className='border-separate border-spacing-0 table-auto text-center w-full'>
+              <thead className='bg-[#E7EDF4] text-[#0D4690]'>
                 {customHeaderRight ? (
                   customHeaderRight
                 ) : (
-                  <tr className="h-12">
+                  <tr className='h-12'>
                     {unfrozenHeaders.map((header, index) => (
                       <th
                         key={index}
@@ -207,7 +224,7 @@ export const FreezeTable = ({
                   </tr>
                 )}
               </thead>
-              <tbody className="bg-white text-sm font-normal text-gray-700">
+              <tbody className='bg-white text-sm font-normal text-gray-700'>
                 {isLoading ? (
                   // Skeleton untuk kolom yang dapat digulir (kanan)
                   <TableSkeleton

@@ -10,7 +10,10 @@ import {
   selectedAccess,
   selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
-import { selectAudienceLoading, selectAudiences } from '../../../states/features/audience/audienceSelectors';
+import {
+  selectAudienceLoading,
+  selectAudiences,
+} from '../../../states/features/audience/audienceSelectors';
 import { asyncGetAudiences } from '../../../states/features/audience/audienceThunks';
 import { useNavigate } from 'react-router-dom';
 import AddAudienceModal from '../../fragments/AddAudienceModal';
@@ -36,12 +39,15 @@ export const Audiences = () => {
 
   const filterOptions = getFiltersByModuleAndRole(
     'audience',
-    seletedAccessRole
+    seletedAccessRole,
   );
 
   const renderRow = (value, index) => (
-    <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3">{index + 1}</td>
+    <tr
+      key={index}
+      className='border-b border-[#E7EDF4] h-10'
+    >
+      <td className='py-3'>{index + 1}</td>
       <td>{value.instituteName}</td>
       <td>{value.audiencesType}</td>
       <td>{value.audiencesTime}</td>
@@ -69,7 +75,7 @@ export const Audiences = () => {
           onClick={() => {
             navigate(`/dashboard/audiences/${value.audiencesId}`);
           }}
-          className="text-[#0D4690] underline cursor-pointer"
+          className='text-[#0D4690] underline cursor-pointer'
         >
           Lihat Detail
         </Button>
@@ -79,14 +85,14 @@ export const Audiences = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold">Tabel Data Audiensi</h1>
+      <h1 className='text-2xl font-semibold'>Tabel Data Audiensi</h1>
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
         filters={filterOptions}
         onFilterSet={(f) => setFilters(f)}
-        searchWidth="w-1/4"
+        searchWidth='w-1/4'
       />
       <Table
         headers={[

@@ -9,7 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 // Modal
 import { useNavigate } from 'react-router-dom';
 import { asyncGetImplementationAgreements } from '../../../../states/features/partnerships/ia/iaThunks';
-import { selectAllIAs, selectIALoading } from '../../../../states/features/partnerships/ia/iaSelectors';
+import {
+  selectAllIAs,
+  selectIALoading,
+} from '../../../../states/features/partnerships/ia/iaSelectors';
 import {
   selectedAccess,
   selectedAccessTypeInstitutionsId,
@@ -33,39 +36,51 @@ export const Ia = () => {
 
   useEffect(() => {
     dispatch(
-      asyncGetImplementationAgreements({ query, typeId: selectedAccessTypeId })
+      asyncGetImplementationAgreements({ query, typeId: selectedAccessTypeId }),
     );
   }, [dispatch, query, selectedAccessTypeId]);
 
   const renderRowFreeze = (value, index) => (
-    <tr key={index} className="border-b border-r border-[#E7EDF4] h-10">
-      <td className="py-3 border-b border-gray-200">{index + 1}</td>
-      <td className="border-b border-gray-200">{value.instituteName}</td>
-      <td className="border-b border-gray-200">{value.instituteTypeName}</td>
-      <td className="border-b border-gray-200">{value.institutionDivision}</td>
+    <tr
+      key={index}
+      className='border-b border-r border-[#E7EDF4] h-10'
+    >
+      <td className='py-3 border-b border-gray-200'>{index + 1}</td>
+      <td className='border-b border-gray-200'>{value.instituteName}</td>
+      <td className='border-b border-gray-200'>{value.instituteTypeName}</td>
+      <td className='border-b border-gray-200'>{value.institutionDivision}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
-    <tr key={index} className="border-b border-[#E7EDF4] h-10">
-      <td className="py-3 px-4 border-b border-gray-200">
-        <Label label={value.iaPartnershipStatusName} status="success" />
+    <tr
+      key={index}
+      className='border-b border-[#E7EDF4] h-10'
+    >
+      <td className='py-3 px-4 border-b border-gray-200'>
+        <Label
+          label={value.iaPartnershipStatusName}
+          status='success'
+        />
       </td>
-      <td className="px-4 border-b border-gray-200">
-        <Label label={value.programName} status="warning" />
+      <td className='px-4 border-b border-gray-200'>
+        <Label
+          label={value.programName}
+          status='warning'
+        />
       </td>
-      <td className="px-4 border-b border-gray-200">
+      <td className='px-4 border-b border-gray-200'>
         {value.iaYearOfImplementations}
       </td>
-      <td className="px-4 border-b border-gray-200">{value.batchName}</td>
-      <td className="px-4 border-b border-gray-200">
+      <td className='px-4 border-b border-gray-200'>{value.batchName}</td>
+      <td className='px-4 border-b border-gray-200'>
         <Button
           onClick={() => {
             navigate(
-              `/dashboard/partnerships/implementation-agreements/${value.iaId}`
+              `/dashboard/partnerships/implementation-agreements/${value.iaId}`,
             );
           }}
-          className="text-[#0D4690] underline cursor-pointer"
+          className='text-[#0D4690] underline cursor-pointer'
         >
           Lihat Detail
         </Button>
@@ -75,7 +90,7 @@ export const Ia = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold">Tabel IA</h1>
+      <h1 className='text-2xl font-semibold'>Tabel IA</h1>
 
       <TableToolbar
         searchValue={query}
@@ -83,7 +98,7 @@ export const Ia = () => {
         onAddClick={() => setIsModalOpen(true)}
         filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}
-        searchWidth="w-1/4"
+        searchWidth='w-1/4'
       />
 
       <FreezeTable
