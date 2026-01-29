@@ -26,8 +26,8 @@ const TextField = ({
 
   return (
     <div>
-      <label className="block mb-1 font-medium">
-        {label} {isRequired && <span className="text-red-500">*</span>}
+      <label className='block mb-2 font-medium text-gray-700'>
+        {label} {isRequired && <span className='text-red-500'>*</span>}
       </label>
       <textarea
         {...register(name, { required: isRequired, ...rules })}
@@ -36,7 +36,8 @@ const TextField = ({
         disabled={disable}
         // onInput={handleResize}
         className={
-          `w-full border border-gray-300 px-3 py-2 rounded resize-none overflow-hidden ${disable ? 'cursor-not-allowed bg-gray-100' : ''
+          `w-full border border-gray-300 px-3 py-2 rounded resize-none overflow-hidden ${
+            disable ? 'cursor-not-allowed bg-gray-100' : ''
           } ` + className
         }
         rows={1}

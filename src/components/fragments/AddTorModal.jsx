@@ -141,7 +141,7 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
           >
             <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
               <div>
-                <label className='block mb-2 text-sm font-medium text-gray-700'>
+                <label className='block mb-2 font-medium text-gray-700'>
                   IA (Opsional)
                 </label>
                 <Select
@@ -173,7 +173,7 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
                 />
               </div>
               <div>
-                <label className='block mb-2 text-sm font-medium text-gray-700'>
+                <label className='block mb-2 font-medium text-gray-700'>
                   PkS (Opsional)
                 </label>
                 <Select

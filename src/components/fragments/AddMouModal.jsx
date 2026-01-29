@@ -143,7 +143,7 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
             ref={dropdownRef}
           >
             <div>
-              <label className='block mb-2 text-sm font-medium text-gray-700'>
+              <label className='block mb-2 font-medium text-gray-700'>
                 Data Riset Potensial <span className='text-red-500'>*</span>
               </label>
               <Select

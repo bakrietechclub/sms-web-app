@@ -91,7 +91,7 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
             className='px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto'
           >
             <div>
-              <label className='block mb-2 text-sm font-medium text-gray-700'>
+              <label className='block mb-2 font-medium text-gray-700'>
                 Riset Potensial <span className='text-red-500'>*</span>
               </label>
               <Select

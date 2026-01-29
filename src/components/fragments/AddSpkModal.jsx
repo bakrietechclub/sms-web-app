@@ -139,7 +139,7 @@ export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
           >
             <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
               <div>
-                <label className='block mb-2 text-sm font-medium text-gray-700'>
+                <label className='block mb-2 font-medium text-gray-700'>
                   ToR <span className='text-red-500'>*</span>
                 </label>
                 <Select
