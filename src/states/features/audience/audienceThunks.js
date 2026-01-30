@@ -31,9 +31,9 @@ export const asyncGetAudienceById = createAsyncThunk(
 
 export const asyncGetAudiences = createAsyncThunk(
   'audience/asyncGetAudiences',
-  async ({ query, typeId }, { rejectWithValue }) => {
+  async ({ query, typeId, page = 1 }, { rejectWithValue }) => {
     try {
-      const data = await api.getAudiences({ q: query, typeId });
+      const data = await api.getAudiences({ q: query, typeId, page });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

@@ -7,8 +7,9 @@ export const selectAllTorsOptions = (state) => state.tor.torOptions;
 export const selectTorDetail = (state) => state.tor.torDetail;
 export const selectTorLoading = (state) => state.tor.loading;
 export const selectTorError = (state) => state.tor.error;
+export const selectTorMeta = (state) => state.tor.meta;
 
 export const selectTorById = createSelector(
   [selectAllTors, (state, torId) => torId],
-  (tors, torId) => tors.find((item) => item.id === torId)
+  (tors, torId) => tors.find((item) => item.id === torId),
 );

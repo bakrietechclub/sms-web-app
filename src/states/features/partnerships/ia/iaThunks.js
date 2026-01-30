@@ -8,24 +8,31 @@ export const asyncAddImplementationAgreement = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       await api.addImplementationAgreement(payload);
-      const data = await api.getImplementationAgreements({ q: '', typeId: payload.typeId });
+      const data = await api.getImplementationAgreements({
+        q: '',
+        typeId: payload.typeId,
+      });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetImplementationAgreements = createAsyncThunk(
   'ia/asyncGetImplementationAgreements',
-  async ({ query, typeId }, { rejectWithValue }) => {
+  async ({ query, typeId, page = 1 }, { rejectWithValue }) => {
     try {
-      const data = await api.getImplementationAgreements({ q: query, typeId });
+      const data = await api.getImplementationAgreements({
+        q: query,
+        typeId,
+        page,
+      });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetImplementationAgreementsOptions = createAsyncThunk(
@@ -40,7 +47,7 @@ export const asyncGetImplementationAgreementsOptions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetImplementationAgreementById = createAsyncThunk(
@@ -52,7 +59,7 @@ export const asyncGetImplementationAgreementById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeleteImplementationAgreementById = createAsyncThunk(
@@ -64,7 +71,7 @@ export const asyncDeleteImplementationAgreementById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdateImplementationAgreementById = createAsyncThunk(
@@ -76,5 +83,5 @@ export const asyncUpdateImplementationAgreementById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

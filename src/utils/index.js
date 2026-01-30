@@ -56,7 +56,7 @@ const STATUS_OPTIONS = [
 const PROGRAM_OPTIONS = [
   { id: 1, label: 'LEAD' },
   { id: 2, label: 'CLP' },
-  { id: 3, label: 'HOL' },
+  { id: 5, label: 'HOL' },
   { id: 7, label: 'BCF' },
 ];
 
@@ -93,4 +93,11 @@ const range = (start, end) => {
   return Array.from({ length }, (_, idx) => idx + start);
 };
 
-export { STATUS_OPTIONS, PROGRAM_OPTIONS, BATCH_OPTIONS, LETTER_OPTIONS, formatDateInput, range };
+export {
+  STATUS_OPTIONS,
+  PROGRAM_OPTIONS,
+  BATCH_OPTIONS,
+  LETTER_OPTIONS,
+  formatDateInput,
+  range,
+};

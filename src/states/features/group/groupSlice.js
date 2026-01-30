@@ -10,6 +10,7 @@ import {
 const initialState = {
   groups: [],
   groupDetail: null,
+  meta: null,
   loading: false,
   error: null,
 };
@@ -32,7 +33,8 @@ const groupSlice = createSlice({
       // Get All
       .addCase(asyncGetGroups.fulfilled, (state, action) => {
         state.loading = false;
-        state.groups = action.payload;
+        state.groups = action.payload.result || action.payload;
+        state.meta = action.payload.meta || null;
       })
       // Get By Id
       .addCase(asyncGetGroupById.fulfilled, (state, action) => {

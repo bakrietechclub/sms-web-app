@@ -59,73 +59,172 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
-      <Route path="/home" element={<LandingPage />} />
+      <Route
+        path='/'
+        element={<LoginPage />}
+      />
+      <Route
+        path='/home'
+        element={<LandingPage />}
+      />
       <Route element={<DashboardPage />}>
-        <Route path="dashboard">
-          <Route index element={<PotentialPartner />} />
-          <Route path="research">
-            <Route path="potential-partner">
-              <Route index element={<PotentialPartner />} />
-              <Route path=":id" element={<PotentialPartnerDetail />} />
+        <Route path='dashboard'>
+          <Route
+            index
+            element={<PotentialPartner />}
+          />
+          <Route path='research'>
+            <Route path='potential-partner'>
+              <Route
+                index
+                element={<PotentialPartner />}
+              />
+              <Route
+                path=':id'
+                element={<PotentialPartnerDetail />}
+              />
             </Route>
             <Route
-              path="potential-recommendations"
+              path='potential-recommendations'
               element={<PotentialPartnerRecommendations />}
             />
-            <Route path="colab-partner">
-              <Route index element={<ColabPartner />} />
-              <Route path=":id" element={<ColabPartnerDetail />} />
+            <Route path='colab-partner'>
+              <Route
+                index
+                element={<ColabPartner />}
+              />
+              <Route
+                path=':id'
+                element={<ColabPartnerDetail />}
+              />
             </Route>
           </Route>
-          <Route path="audiences">
-            <Route index element={<Audiences />} />
-            <Route path=":id" element={<AudiencesDetail />} />
+          <Route path='audiences'>
+            <Route
+              index
+              element={<Audiences />}
+            />
+            <Route
+              path=':id'
+              element={<AudiencesDetail />}
+            />
           </Route>
-          <Route path="groups">
-            <Route index element={<CoordinationGroup />} />
-            <Route path=":id" element={<CoordinationGroupDetail />} />
-            <Route path=":id/contact/:contactId/edit" element={<CoordinationGroupContactUpdate />} />
+          <Route path='groups'>
+            <Route
+              index
+              element={<CoordinationGroup />}
+            />
+            <Route
+              path=':id'
+              element={<CoordinationGroupDetail />}
+            />
+            <Route
+              path=':id/contact/:contactId/edit'
+              element={<CoordinationGroupContactUpdate />}
+            />
           </Route>
-          <Route path="partnerships">
-            <Route path="mou">
-              <Route index element={<Mou />} />
-              <Route path=":id" element={<MouDetail />} />
+          <Route path='partnerships'>
+            <Route path='mou'>
+              <Route
+                index
+                element={<Mou />}
+              />
+              <Route
+                path=':id'
+                element={<MouDetail />}
+              />
             </Route>
-            <Route path="pks">
-              <Route index element={<Pks />} />
-              <Route path=":id" element={<PksDetail />} />
+            <Route path='pks'>
+              <Route
+                index
+                element={<Pks />}
+              />
+              <Route
+                path=':id'
+                element={<PksDetail />}
+              />
             </Route>
-            <Route path="implementation-agreements">
-              <Route index element={<Ia />} />
-              <Route path=":id" element={<IaDetail />} />
+            <Route path='implementation-agreements'>
+              <Route
+                index
+                element={<Ia />}
+              />
+              <Route
+                path=':id'
+                element={<IaDetail />}
+              />
             </Route>
-            <Route path="tor">
-              <Route index element={<Tor />} />
-              <Route path=":id" element={<TorDetail />} />
+            <Route path='tor'>
+              <Route
+                index
+                element={<Tor />}
+              />
+              <Route
+                path=':id'
+                element={<TorDetail />}
+              />
             </Route>
-            <Route path="spk">
-              <Route index element={<Spk />} />
-              <Route path=":id" element={<SpkDetail />} />
+            <Route path='spk'>
+              <Route
+                index
+                element={<Spk />}
+              />
+              <Route
+                path=':id'
+                element={<SpkDetail />}
+              />
             </Route>
-            <Route path="coop-sign" element={<CooperationSign />} />
+            <Route
+              path='coop-sign'
+              element={<CooperationSign />}
+            />
           </Route>
-          <Route path="letter-numbers">
-            <Route index element={<LetterNumbering />} />
-            <Route path=":id" element={<LetterNumberingDetail />} />
+          <Route path='letter-numbers'>
+            <Route
+              index
+              element={<LetterNumbering />}
+            />
+            <Route
+              path=':id'
+              element={<LetterNumberingDetail />}
+            />
           </Route>
-          <Route path="recap">
-            <Route path="pta" element={<Pta />} />
-            <Route path="media" element={<Media />} />
-            <Route path="program" element={<Program />} />
-            <Route path="colab" element={<Colab />} />
+          <Route path='recap'>
+            <Route
+              path='pta'
+              element={<Pta />}
+            />
+            <Route
+              path='media'
+              element={<Media />}
+            />
+            <Route
+              path='program'
+              element={<Program />}
+            />
+            <Route
+              path='colab'
+              element={<Colab />}
+            />
           </Route>
-          <Route path="satisfaction-survey" element={<SatisfactionSurvey />} />
-          <Route path="bcf-partner" element={<BcfPartnership />} />
-          <Route path="partner-awards" element={<PartnershipAwards />} />
+          <Route
+            path='satisfaction-survey'
+            element={<SatisfactionSurvey />}
+          />
+          <Route
+            path='bcf-partner'
+            element={<BcfPartnership />}
+          />
+          <Route
+            path='partner-awards'
+            element={<PartnershipAwards />}
+          />
         </Route>
       </Route>
-      <Route path="/*" element={<NotFoundPage />} />
+      <Route
+        path='/*'
+        element={<NotFoundPage />}
+      />
     </Routes>
   );
 };

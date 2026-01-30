@@ -12,6 +12,7 @@ const initialState = {
   collabs: [],
   collabsOptions: [],
   collabDetail: null,
+  meta: null,
   loading: false,
   error: null,
 };
@@ -34,7 +35,8 @@ const potentialSlice = createSlice({
       // Get All
       .addCase(asyncGetResearchCollab.fulfilled, (state, action) => {
         state.loading = false;
-        state.collabs = action.payload;
+        state.collabs = action.payload.result || action.payload;
+        state.meta = action.payload.meta || null;
       })
       .addCase(asyncGetResearchCollabOptions.fulfilled, (state, action) => {
         state.loading = false;

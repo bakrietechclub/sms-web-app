@@ -14,7 +14,7 @@ export const asyncAddMou = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetMouById = createAsyncThunk(
@@ -26,19 +26,19 @@ export const asyncGetMouById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetMou = createAsyncThunk(
   'mou/asyncGetMou',
-  async ({ query, typeId }, { rejectWithValue }) => {
+  async ({ query, typeId, page = 1 }, { rejectWithValue }) => {
     try {
-      const data = await api.getMou({ q: query, typeId });
+      const data = await api.getMou({ q: query, typeId, page });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetMouOptions = createAsyncThunk(
@@ -50,7 +50,7 @@ export const asyncGetMouOptions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeleteMouById = createAsyncThunk(
@@ -62,7 +62,7 @@ export const asyncDeleteMouById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdateMouById = createAsyncThunk(
@@ -74,5 +74,5 @@ export const asyncUpdateMouById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

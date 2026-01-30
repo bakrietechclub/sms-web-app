@@ -11,7 +11,7 @@ export const asyncAddPks = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetPksById = createAsyncThunk(
@@ -23,19 +23,19 @@ export const asyncGetPksById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetPks = createAsyncThunk(
   'pks/asyncGetPks',
-  async ({ query, typeId }, { rejectWithValue }) => {
+  async ({ query, typeId, page = 1 }, { rejectWithValue }) => {
     try {
-      const data = await api.getPks({ q: query, typeId });
+      const data = await api.getPks({ q: query, typeId, page });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetPksOptions = createAsyncThunk(
@@ -47,7 +47,7 @@ export const asyncGetPksOptions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeletePksById = createAsyncThunk(
@@ -59,7 +59,7 @@ export const asyncDeletePksById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdatePksById = createAsyncThunk(
@@ -71,5 +71,5 @@ export const asyncUpdatePksById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

@@ -276,7 +276,7 @@ export default function AddResearchPotentialModal({
                 options={[
                   { id: 1, label: 'LEAD' },
                   { id: 2, label: 'CLP' },
-                  { id: 3, label: 'HOL' },
+                  { id: 5, label: 'HOL' },
                 ]}
                 register={register}
                 setValue={setValue}

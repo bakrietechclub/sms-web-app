@@ -14,6 +14,7 @@ const initialState = {
   tor: [],
   torOptions: [],
   torDetail: null,
+  meta: null,
   loading: false,
   error: null,
 };
@@ -34,7 +35,8 @@ const torSlice = createSlice({
       })
       .addCase(asyncGetTor.fulfilled, (state, action) => {
         state.loading = false;
-        state.tor = action.payload;
+        state.tor = action.payload.result || action.payload;
+        state.meta = action.payload.meta || null;
       })
       .addCase(asyncGetTorOptions.fulfilled, (state, action) => {
         state.loading = false;
@@ -51,7 +53,7 @@ const torSlice = createSlice({
       .addCase(asyncUpdateTorById.fulfilled, (state, action) => {
         state.loading = false;
         state.tor = state.tor.map((item) =>
-          item.id === action.payload.id ? action.payload : item
+          item.id === action.payload.id ? action.payload : item,
         );
       })
       .addMatcher(
@@ -59,14 +61,14 @@ const torSlice = createSlice({
         (state) => {
           state.loading = true;
           state.error = null;
-        }
+        },
       )
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        }
+        },
       );
   },
 });

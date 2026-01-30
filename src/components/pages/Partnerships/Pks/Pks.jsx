@@ -15,6 +15,7 @@ import {
 import {
   selectAllPks,
   selectPksLoading,
+  selectPksMeta,
 } from '../../../../states/features/partnerships/pks/pksSelectors';
 import { asyncGetPks } from '../../../../states/features/partnerships/pks/pksThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
@@ -25,6 +26,7 @@ export const Pks = () => {
 
   const data = useSelector(selectAllPks);
   const loading = useSelector(selectPksLoading);
+  const meta = useSelector(selectPksMeta);
 
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
@@ -32,17 +34,22 @@ export const Pks = () => {
 
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(asyncGetPks({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch, query, selectedAccessTypeId]);
+    dispatch(
+      asyncGetPks({ query, typeId: selectedAccessTypeId, page: currentPage }),
+    );
+  }, [dispatch, query, selectedAccessTypeId, currentPage]);
 
   const renderRowFreeze = (value, index) => (
     <tr
       key={index}
       className='border-b border-r border-[#E7EDF4] h-10'
     >
-      <td className='py-3 border-b border-gray-200'>{index + 1}</td>
+      <td className='py-3 border-b border-gray-200'>
+        {(currentPage - 1) * (meta?.limit || 10) + index + 1}
+      </td>
       <td className='border-b border-gray-200'>{value.instituteName}</td>
       <td className='border-b border-gray-200'>{value.instituteTypeName}</td>
       <td className='border-b border-gray-200'>{value.institutionDivision}</td>
@@ -100,7 +107,11 @@ export const Pks = () => {
           isLoading={loading}
         />
       </div>
-      <Pagination />
+      <Pagination
+        currentPage={meta?.page || 1}
+        totalPages={meta?.totalPages || 1}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
 
       {isModalOpen && (
         <AddPksModal

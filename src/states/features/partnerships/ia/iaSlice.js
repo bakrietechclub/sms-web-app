@@ -14,6 +14,7 @@ const initialState = {
   ia: [],
   iaOptions: [],
   iaDetail: null,
+  meta: null,
   loading: false,
   error: null,
 };
@@ -34,28 +35,29 @@ const iaSlice = createSlice({
       })
       .addCase(asyncGetImplementationAgreements.fulfilled, (state, action) => {
         state.loading = false;
-        state.ia = action.payload;
+        state.ia = action.payload.result || action.payload;
+        state.meta = action.payload.meta || null;
       })
       .addCase(
         asyncGetImplementationAgreementsOptions.fulfilled,
         (state, action) => {
           state.loading = false;
           state.iaOptions = action.payload;
-        }
+        },
       )
       .addCase(
         asyncGetImplementationAgreementById.fulfilled,
         (state, action) => {
           state.loading = false;
           state.iaDetail = action.payload;
-        }
+        },
       )
       .addCase(
         asyncDeleteImplementationAgreementById.fulfilled,
         (state, action) => {
           state.loading = false;
           state.ia = state.ia.filter((item) => item.id !== action.payload.id);
-        }
+        },
       )
       .addCase(
         asyncUpdateImplementationAgreementById.fulfilled,
@@ -65,21 +67,21 @@ const iaSlice = createSlice({
           // state.ia = state.ia.map((item) =>
           //   item.id === action.payload.id ? action.payload : item
           // );
-        }
+        },
       )
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
           state.error = null;
-        }
+        },
       )
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        }
+        },
       );
   },
 });

@@ -7,8 +7,9 @@ export const selectAllIAsOptions = (state) => state.ia.iaOptions;
 export const selectIADetail = (state) => state.ia.iaDetail;
 export const selectIALoading = (state) => state.ia.loading;
 export const selectIAError = (state) => state.ia.error;
+export const selectIaMeta = (state) => state.ia.meta;
 
 export const selectIAById = createSelector(
   [selectAllIAs, (state, iaId) => iaId],
-  (ias, iaId) => ias.find((item) => item.id === iaId)
+  (ias, iaId) => ias.find((item) => item.id === iaId),
 );

@@ -9,6 +9,7 @@ import { asyncGetSpk } from '../../../../states/features/partnerships/spk/spkThu
 import {
   selectAllSpk,
   selectSpkLoading,
+  selectSpkMeta,
 } from '../../../../states/features/partnerships/spk/spkSelectors';
 import {
   selectedAccess,
@@ -26,6 +27,7 @@ export const Spk = () => {
 
   const data = useSelector(selectAllSpk);
   const loading = useSelector(selectSpkLoading);
+  const meta = useSelector(selectSpkMeta);
 
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
@@ -34,17 +36,22 @@ export const Spk = () => {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(asyncGetSpk({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch, query, selectedAccessTypeId]);
+    dispatch(
+      asyncGetSpk({ query, typeId: selectedAccessTypeId, page: currentPage }),
+    );
+  }, [dispatch, query, selectedAccessTypeId, currentPage]);
 
   const renderRowFreeze = (value, index) => (
     <tr
       key={index}
       className='border-b border-r border-[#E7EDF4] h-10'
     >
-      <td className='py-3 border-b border-gray-200'>{index + 1}</td>
+      <td className='py-3 border-b border-gray-200'>
+        {(currentPage - 1) * (meta?.limit || 10) + index + 1}
+      </td>
       <td className='border-b border-gray-200'>{value.instituteName}</td>
       <td className='border-b border-gray-200'>{value.instituteTypeName}</td>
       <td className='border-b border-gray-200'>{value.institutionDivision}</td>
@@ -101,7 +108,11 @@ export const Spk = () => {
         freezeCol={4}
         isLoading={loading}
       />
-      <Pagination />
+      <Pagination
+        currentPage={meta?.page || 1}
+        totalPages={meta?.totalPages || 1}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
 
       {isModalOpen && (
         <AddSpkModal

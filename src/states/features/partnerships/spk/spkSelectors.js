@@ -6,8 +6,9 @@ export const selectAllSpk = (state) => state.spk.spk;
 export const selectSpkDetail = (state) => state.spk.spkDetail;
 export const selectSpkLoading = (state) => state.spk.loading;
 export const selectSpkError = (state) => state.spk.error;
+export const selectSpkMeta = (state) => state.spk.meta;
 
 export const selectSpkById = createSelector(
   [selectAllSpk, (state, spkId) => spkId],
-  (spks, spkId) => spks.find((item) => item.id === spkId)
+  (spks, spkId) => spks.find((item) => item.id === spkId),
 );

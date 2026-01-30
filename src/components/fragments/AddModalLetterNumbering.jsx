@@ -23,7 +23,7 @@ export default function AddModalLetterNumbering({
 
   useEffect(() => {
     dispatch(asyncGetLastLetterNumber());
-  }, []);
+  }, [dispatch]);
 
   const lastLetterNumber = useSelector(selectLastletterNumber);
 

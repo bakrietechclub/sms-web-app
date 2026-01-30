@@ -12,6 +12,7 @@ import { asyncGetImplementationAgreements } from '../../../../states/features/pa
 import {
   selectAllIAs,
   selectIALoading,
+  selectIaMeta,
 } from '../../../../states/features/partnerships/ia/iaSelectors';
 import {
   selectedAccess,
@@ -26,6 +27,7 @@ export const Ia = () => {
 
   const data = useSelector(selectAllIAs);
   const loading = useSelector(selectIALoading);
+  const meta = useSelector(selectIaMeta);
 
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
@@ -33,19 +35,26 @@ export const Ia = () => {
 
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     dispatch(
-      asyncGetImplementationAgreements({ query, typeId: selectedAccessTypeId }),
+      asyncGetImplementationAgreements({
+        query,
+        typeId: selectedAccessTypeId,
+        page: currentPage,
+      }),
     );
-  }, [dispatch, query, selectedAccessTypeId]);
+  }, [dispatch, query, selectedAccessTypeId, currentPage]);
 
   const renderRowFreeze = (value, index) => (
     <tr
       key={index}
       className='border-b border-r border-[#E7EDF4] h-10'
     >
-      <td className='py-3 border-b border-gray-200'>{index + 1}</td>
+      <td className='py-3 border-b border-gray-200'>
+        {(currentPage - 1) * (meta?.limit || 10) + index + 1}
+      </td>
       <td className='border-b border-gray-200'>{value.instituteName}</td>
       <td className='border-b border-gray-200'>{value.instituteTypeName}</td>
       <td className='border-b border-gray-200'>{value.institutionDivision}</td>
@@ -120,7 +129,11 @@ export const Ia = () => {
         isLoading={loading}
       />
 
-      <Pagination />
+      <Pagination
+        currentPage={meta?.page || 1}
+        totalPages={meta?.totalPages || 1}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
 
       {/* Modal */}
       {isModalOpen && (

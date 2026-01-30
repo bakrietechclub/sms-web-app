@@ -13,7 +13,7 @@ export const asyncAddTor = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetTorById = createAsyncThunk(
@@ -25,19 +25,19 @@ export const asyncGetTorById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetTor = createAsyncThunk(
   'tor/asyncGetTor',
-  async ({ query, typeId }, { rejectWithValue }) => {
+  async ({ query, typeId, page = 1 }, { rejectWithValue }) => {
     try {
-      const data = await api.getTor({ q: query, typeId });
+      const data = await api.getTor({ q: query, typeId, page });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetTorOptions = createAsyncThunk(
@@ -49,7 +49,7 @@ export const asyncGetTorOptions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeleteTorById = createAsyncThunk(
@@ -61,7 +61,7 @@ export const asyncDeleteTorById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdateTorById = createAsyncThunk(
@@ -73,5 +73,5 @@ export const asyncUpdateTorById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

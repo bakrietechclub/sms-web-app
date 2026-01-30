@@ -13,6 +13,7 @@ import {
 import {
   selectAudienceLoading,
   selectAudiences,
+  selectAudienceMeta,
 } from '../../../states/features/audience/audienceSelectors';
 import { asyncGetAudiences } from '../../../states/features/audience/audienceThunks';
 import { useNavigate } from 'react-router-dom';
@@ -25,15 +26,23 @@ export const Audiences = () => {
 
   const data = useSelector(selectAudiences);
   const loading = useSelector(selectAudienceLoading);
+  const meta = useSelector(selectAudienceMeta);
 
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
   const [query, setQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(asyncGetAudiences({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch, query, selectedAccessTypeId]);
+    dispatch(
+      asyncGetAudiences({
+        query,
+        typeId: selectedAccessTypeId,
+        page: currentPage,
+      }),
+    );
+  }, [dispatch, query, selectedAccessTypeId, currentPage]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -47,7 +56,9 @@ export const Audiences = () => {
       key={index}
       className='border-b border-[#E7EDF4] h-10'
     >
-      <td className='py-3'>{index + 1}</td>
+      <td className='py-3'>
+        {(currentPage - 1) * (meta?.limit || 10) + index + 1}
+      </td>
       <td>{value.instituteName}</td>
       <td>{value.audiencesType}</td>
       <td>{value.audiencesTime}</td>
@@ -91,7 +102,7 @@ export const Audiences = () => {
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
         filters={filterOptions}
-        onFilterSet={(f) => setFilters(f)}
+        onFilterSet={() => console.log('Filter diset')}
         searchWidth='w-1/4'
       />
       <Table
@@ -110,9 +121,9 @@ export const Audiences = () => {
         isLoading={loading}
       />
       <Pagination
-        currentPage={1}
-        totalPages={2}
-        onPageChange={(page) => console.log(page)}
+        currentPage={meta?.page || 1}
+        totalPages={meta?.totalPages || 1}
+        onPageChange={(page) => setCurrentPage(page)}
       />
 
       {isModalOpen && (

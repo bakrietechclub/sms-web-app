@@ -10,6 +10,7 @@ import {
 const initialState = {
   audiences: [],
   audienceDetail: null,
+  meta: null,
   loading: false,
   error: null,
 };
@@ -32,7 +33,8 @@ const audienceSlice = createSlice({
       // Get All
       .addCase(asyncGetAudiences.fulfilled, (state, action) => {
         state.loading = false;
-        state.audiences = action.payload;
+        state.audiences = action.payload.result || action.payload;
+        state.meta = action.payload.meta || null;
       })
       // Get By Id
       .addCase(asyncGetAudienceById.fulfilled, (state, action) => {

@@ -26,8 +26,8 @@ export const PotentialPartner = () => {
   const navigate = useNavigate();
 
   const data = useSelector(selectPotentials);
-  const loading = useSelector(selectPotentialLoading);
   const meta = useSelector(selectPotentialMeta);
+  const loading = useSelector(selectPotentialLoading);
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
@@ -55,7 +55,9 @@ export const PotentialPartner = () => {
       key={index}
       className='border-b border-[#E7EDF4] h-10'
     >
-      <td className='py-3'>{index + 1}</td>
+      <td className='py-3'>
+        {(currentPage - 1) * (meta?.limit || 10) + index + 1}
+      </td>
       <td>{value.instituteName}</td>
       <td>{value.partnershipResearchType}</td>
       <td>{value.regionName}</td>

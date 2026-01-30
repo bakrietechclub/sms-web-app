@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   selectCollabLoading,
   selectCollabs,
+  selectCollabMeta,
 } from '../../../states/features/research/collab/collabSelectors';
 import { asyncGetResearchCollab } from '../../../states/features/research/collab/collabThunks';
 import AddResearchCollabModal from '../../fragments/AddResearchCollabModal';
@@ -24,23 +25,32 @@ export const ColabPartner = () => {
 
   const data = useSelector(selectCollabs);
   const loading = useSelector(selectCollabLoading);
+  const meta = useSelector(selectCollabMeta);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const selectAccessType = useSelector(selectAccessTypeInstitutionsId);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [query, setQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(asyncGetResearchCollab({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch, query, selectedAccessTypeId]);
+    dispatch(
+      asyncGetResearchCollab({
+        query,
+        typeId: selectedAccessTypeId,
+        page: currentPage,
+      }),
+    );
+  }, [dispatch, query, selectedAccessTypeId, currentPage]);
 
   const renderRow = (value, index) => (
     <tr
       key={index}
       className='border-b border-[#E7EDF4] h-10'
     >
-      <td className='py-3'>{index + 1}</td>
+      <td className='py-3'>
+        {(currentPage - 1) * (meta?.limit || 10) + index + 1}
+      </td>
       <td>{value.institutionName}</td>
       <td>{value.institutiontype}</td>
       <td>{value.institutionRegion}</td>
@@ -81,7 +91,11 @@ export const ColabPartner = () => {
         renderRow={renderRow}
         isLoading={loading}
       />
-      <Pagination />
+      <Pagination
+        currentPage={meta?.page || 1}
+        totalPages={meta?.totalPages || 1}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
 
       {isModalOpen && (
         <AddResearchCollabModal

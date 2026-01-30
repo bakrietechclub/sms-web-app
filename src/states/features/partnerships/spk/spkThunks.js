@@ -13,7 +13,7 @@ export const asyncAddSpk = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetSpkById = createAsyncThunk(
@@ -25,19 +25,19 @@ export const asyncGetSpkById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncGetSpk = createAsyncThunk(
   'spk/asyncGetSpk',
-  async ({ query, typeId }, { rejectWithValue }) => {
+  async ({ query, typeId, page = 1 }, { rejectWithValue }) => {
     try {
-      const data = await api.getSpk({ q: query, typeId });
+      const data = await api.getSpk({ q: query, typeId, page });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncDeleteSpkById = createAsyncThunk(
@@ -49,7 +49,7 @@ export const asyncDeleteSpkById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const asyncUpdateSpkById = createAsyncThunk(
@@ -61,5 +61,5 @@ export const asyncUpdateSpkById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

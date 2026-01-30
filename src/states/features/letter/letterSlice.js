@@ -15,6 +15,7 @@ const initialState = {
   letterDetail: null,
   lastLetterNumber: null,
   subClassifications: null,
+  meta: null,
   loading: false,
   error: null,
 };
@@ -35,7 +36,8 @@ const letterSlice = createSlice({
       })
       .addCase(asyncGetLetters.fulfilled, (state, action) => {
         state.loading = false;
-        state.letters = action.payload;
+        state.letters = action.payload.result || action.payload;
+        state.meta = action.payload.meta || null;
       })
       .addCase(asyncGetLastLetterNumber.fulfilled, (state, action) => {
         state.loading = false;

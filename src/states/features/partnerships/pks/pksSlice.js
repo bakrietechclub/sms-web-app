@@ -12,6 +12,7 @@ const initialState = {
   pks: [],
   pksOptions: [],
   pksDetail: null,
+  meta: null,
   loading: false,
   error: null,
 };
@@ -44,7 +45,8 @@ const pksSlice = createSlice({
       // Get All
       .addCase(asyncGetPks.fulfilled, (state, action) => {
         state.loading = false;
-        state.pks = action.payload;
+        state.pks = action.payload.result || action.payload;
+        state.meta = action.payload.meta || null;
       })
 
       .addCase(asyncGetPksOptions.fulfilled, (state, action) => {
@@ -73,7 +75,7 @@ const pksSlice = createSlice({
       .addMatcher((action) => action.type.endsWith('/pending'), handlePending)
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
-        handleRejected
+        handleRejected,
       );
   },
 });

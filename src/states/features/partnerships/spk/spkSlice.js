@@ -12,6 +12,7 @@ import {
 const initialState = {
   spk: [],
   spkDetail: null,
+  meta: null,
   loading: false,
   error: null,
 };
@@ -32,7 +33,8 @@ const spkSlice = createSlice({
       })
       .addCase(asyncGetSpk.fulfilled, (state, action) => {
         state.loading = false;
-        state.spk = action.payload;
+        state.spk = action.payload.result || action.payload;
+        state.meta = action.payload.meta || null;
       })
       .addCase(asyncGetSpkById.fulfilled, (state, action) => {
         state.loading = false;
@@ -45,7 +47,7 @@ const spkSlice = createSlice({
       .addCase(asyncUpdateSpkById.fulfilled, (state, action) => {
         state.loading = false;
         state.spk = state.spk.map((item) =>
-          item.id === action.payload.id ? action.payload : item
+          item.id === action.payload.id ? action.payload : item,
         );
       })
       .addMatcher(
@@ -53,14 +55,14 @@ const spkSlice = createSlice({
         (state) => {
           state.loading = true;
           state.error = null;
-        }
+        },
       )
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        }
+        },
       );
   },
 });

@@ -21,7 +21,7 @@ async function addResearchPotential(payload) {
  */
 async function getResearchPotential({ q, typeId, page = 1, pageSize = 10 }) {
   const responseJson = await fetchWithAuth(
-    `/research/potential?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
+    `/research/potential?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`,
   );
   return responseJson.data;
 }
@@ -34,14 +34,14 @@ async function getResearchPotentialRecommendations({
   pageSize = 10,
 }) {
   const responseJson = await fetchWithAuth(
-    `/research/potential-recommendations?q=${q}&typeId=${typeId}&provincieId=${provincieId}&page=${page}&pageSize=${pageSize}`
+    `/research/potential-recommendations?q=${q}&typeId=${typeId}&provincieId=${provincieId}&page=${page}&pageSize=${pageSize}`,
   );
   return responseJson.data;
 }
 
 async function getResearchPotentialOptions({ q, typeId }) {
   const responseJson = await fetchWithAuth(
-    `/research/potential-options?q=${q}&typeId=${typeId}`
+    `/research/potential-options?q=${q}&typeId=${typeId}`,
   );
   return responseJson.data;
 }
@@ -53,7 +53,7 @@ async function getResearchPotentialOptionsById({ id }) {
 
 async function getDetailResearchPotentialOptionsById({ id }) {
   const responseJson = await fetchWithAuth(
-    `/research/potential-options/${id}/detail`
+    `/research/potential-options/${id}/detail`,
   );
   return responseJson.data;
 }

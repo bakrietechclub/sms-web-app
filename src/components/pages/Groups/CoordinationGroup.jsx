@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   selectGroupLoading,
   selectGroups,
+  selectGroupMeta,
 } from '../../../states/features/group/groupSelectors';
 import {
   selectedAccess,
@@ -24,24 +25,34 @@ export const CoordinationGroup = () => {
 
   const data = useSelector(selectGroups);
   const loading = useSelector(selectGroupLoading);
+  const meta = useSelector(selectGroupMeta);
 
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
 
   const [query, setQuery] = useState('');
   const [openModal, setOpenModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const filterOptions = getFiltersByModuleAndRole('group', seletedAccessRole);
 
   useEffect(() => {
-    dispatch(asyncGetGroups({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch, query, selectedAccessTypeId]);
+    dispatch(
+      asyncGetGroups({
+        query,
+        typeId: selectedAccessTypeId,
+        page: currentPage,
+      }),
+    );
+  }, [dispatch, query, selectedAccessTypeId, currentPage]);
 
   const renderRow = (value, index) => (
     <tr
       key={index}
       className='border-b border-[#E7EDF4] h-10'
     >
-      <td className='py-3'>{index + 1}</td>
+      <td className='py-3'>
+        {(currentPage - 1) * (meta?.limit || 10) + index + 1}
+      </td>
       <td>{value.instituteName}</td>
       <td>{value.parnershipResearchType}</td>
       <td>
@@ -94,7 +105,11 @@ export const CoordinationGroup = () => {
         renderRow={renderRow}
         isLoading={loading}
       />
-      <Pagination />
+      <Pagination
+        currentPage={meta?.page || 1}
+        totalPages={meta?.totalPages || 1}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
     </div>
   );
 };

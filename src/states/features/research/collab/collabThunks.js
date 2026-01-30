@@ -31,9 +31,9 @@ export const asyncGetResearchCollabById = createAsyncThunk(
 
 export const asyncGetResearchCollab = createAsyncThunk(
   'collab/asyncGetResearchCollab',
-  async ({ query, typeId }, { rejectWithValue }) => {
+  async ({ query, typeId, page = 1 }, { rejectWithValue }) => {
     try {
-      const data = await api.getResearchCollab({ q: query, typeId });
+      const data = await api.getResearchCollab({ q: query, typeId, page });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

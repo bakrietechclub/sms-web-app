@@ -13,6 +13,7 @@ import { asyncGetLetters } from '../../../states/features/letter/letterThunks';
 import {
   selectAllLetters,
   selectLetterLoading,
+  selectLetterMeta,
 } from '../../../states/features/letter/letterSelectors';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
 import AddModalLetterNumbering from '../../fragments/AddModalLetterNumbering';
@@ -20,13 +21,15 @@ import AddModalLetterNumbering from '../../fragments/AddModalLetterNumbering';
 export const LetterNumbering = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(asyncGetLetters());
-  }, [dispatch]);
+    dispatch(asyncGetLetters({ page: currentPage }));
+  }, [dispatch, currentPage]);
 
   const data = useSelector(selectAllLetters);
   const loading = useSelector(selectLetterLoading);
+  const meta = useSelector(selectLetterMeta);
 
   const accessRole = useSelector(selectAccessRole);
 
@@ -41,7 +44,9 @@ export const LetterNumbering = () => {
       key={index}
       className='border-b border-[#E7EDF4] h-10'
     >
-      <td className='py-3 border-b border-gray-200'>{index + 1}</td>
+      <td className='py-3 border-b border-gray-200'>
+        {(currentPage - 1) * (meta?.limit || 10) + index + 1}
+      </td>
       <td
         className='p-3 max-w-3 truncate border-b border-gray-200'
         title={value.letterNumberType}
@@ -114,7 +119,11 @@ export const LetterNumbering = () => {
       </div>
 
       {/* Pagination */}
-      <Pagination />
+      <Pagination
+        currentPage={meta?.page || 1}
+        totalPages={meta?.totalPages || 1}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
 
       {/* Modal berdasarkan stakeholder yang dipilih */}
       {isModalOpen && (

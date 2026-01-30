@@ -100,7 +100,7 @@ export const sidebarMenus = {
       submenu: [
         { title: 'MoU', path: '/dashboard/partnerships/mou' },
         { title: 'PKS', path: '/dashboard/partnerships/pks' },
-        { title: 'Tanda Kerjasama', path: '/dashboard/partnerships/coop-sign' },
+        // { title: 'Tanda Kerjasama', path: '/dashboard/partnerships/coop-sign' },
       ],
     },
     {

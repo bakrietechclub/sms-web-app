@@ -49,7 +49,9 @@ const potentialSlice = createSlice({
         asyncGetResearchPotentialRecommendations.fulfilled,
         (state, action) => {
           state.loading = false;
-          state.potentialsRecommendations = action.payload;
+          state.potentialsRecommendations =
+            action.payload.result || action.payload;
+          state.meta = action.payload.meta || null;
         },
       )
       .addCase(asyncGetResearchPotentialOptions.fulfilled, (state, action) => {

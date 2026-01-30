@@ -12,6 +12,7 @@ const initialState = {
   mous: [],
   mousOptions: [],
   mouDetail: null,
+  meta: null,
   loading: false,
   error: null,
 };
@@ -34,7 +35,8 @@ const mouSlice = createSlice({
       // Get All
       .addCase(asyncGetMou.fulfilled, (state, action) => {
         state.loading = false;
-        state.mous = action.payload;
+        state.mous = action.payload.result || action.payload;
+        state.meta = action.payload.meta || null;
       })
       .addCase(asyncGetMouOptions.fulfilled, (state, action) => {
         state.loading = false;
@@ -59,18 +61,20 @@ const mouSlice = createSlice({
         // );
       })
       .addMatcher(
-        (action) => action.type.startsWith('mou/') && action.type.endsWith('/pending'),
+        (action) =>
+          action.type.startsWith('mou/') && action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
           state.error = null;
-        }
+        },
       )
       .addMatcher(
-        (action) => action.type.startsWith('mou/') && action.type.endsWith('/rejected'),
+        (action) =>
+          action.type.startsWith('mou/') && action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-        }
+        },
       );
   },
 });

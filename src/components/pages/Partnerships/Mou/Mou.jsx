@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   selectMouLoading,
   selectMous,
+  selectMouMeta,
 } from '../../../../states/features/partnerships/mou/mouSelectors';
 import {
   selectedAccess,
@@ -23,6 +24,7 @@ export const Mou = () => {
 
   const data = useSelector(selectMous);
   const loading = useSelector(selectMouLoading);
+  const meta = useSelector(selectMouMeta);
 
   const seletedAccessRole = useSelector(selectedAccess);
   const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
@@ -31,17 +33,22 @@ export const Mou = () => {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(asyncGetMou({ query, typeId: selectedAccessTypeId }));
-  }, [dispatch, query, selectedAccessTypeId]);
+    dispatch(
+      asyncGetMou({ query, typeId: selectedAccessTypeId, page: currentPage }),
+    );
+  }, [dispatch, query, selectedAccessTypeId, currentPage]);
 
   const renderRowFreeze = (value, index) => (
     <tr
       key={index}
       className='border-b border-r border-[#E7EDF4] h-10'
     >
-      <td className='py-3'>{index + 1}</td>
+      <td className='py-3'>
+        {(currentPage - 1) * (meta?.limit || 10) + index + 1}
+      </td>
       <td>{value.instituteName}</td>
       <td>{value.instituteTypeName}</td>
     </tr>
@@ -95,7 +102,11 @@ export const Mou = () => {
         freezeCol={3}
         isLoading={loading}
       />
-      <Pagination />
+      <Pagination
+        currentPage={meta?.page || 1}
+        totalPages={meta?.totalPages || 1}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
 
       {isModalOpen && (
         <AddMouModal
