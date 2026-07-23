@@ -9,6 +9,7 @@ import {
   Sheet,
   FileCheck,
   Trophy,
+  Settings2,
 } from 'lucide-react';
 
 export const sidebarMenus = {
@@ -60,6 +61,11 @@ export const sidebarMenus = {
       icon: MailPlus,
       path: '/dashboard/letter-numbers',
     },
+    {
+      title: 'Klasifikasi Surat',
+      icon: Settings2,
+      path: '/dashboard/letter-classifications',
+    },
     // { title: 'Rekap PTA', icon: Clipboard, path: '/dashboard/recap/pta' },
     // {
     //   title: 'Satisfaction Survey',
@@ -107,6 +113,11 @@ export const sidebarMenus = {
       title: 'Penomoran Surat',
       icon: MailPlus,
       path: '/dashboard/letter-numbers',
+    },
+    {
+      title: 'Klasifikasi Surat',
+      icon: Settings2,
+      path: '/dashboard/letter-classifications',
     },
     // {
     //   title: 'Pemberitaan BCF',
@@ -172,6 +183,11 @@ export const sidebarMenus = {
       title: 'Penomoran Surat',
       icon: MailPlus,
       path: '/dashboard/letter-numbers',
+    },
+    {
+      title: 'Klasifikasi Surat',
+      icon: Settings2,
+      path: '/dashboard/letter-classifications',
     },
     // {
     //   title: 'Rekap Kerjasama',

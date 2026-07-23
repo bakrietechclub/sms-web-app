@@ -14,6 +14,7 @@ import * as tor from './tor';
 import * as spk from './spk';
 import * as letter from './letter';
 import * as institutions from './institutions';
+import * as classifications from './classifications';
 // Anda dapat menambahkan modul lain di sini
 
 // Gabungkan semua fungsionalitas ke dalam satu objek API tunggal
@@ -38,6 +39,7 @@ const api = {
   ...spk,
   ...letter,
   ...institutions,
+  ...classifications,
 };
 
 export default api;

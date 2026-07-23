@@ -118,9 +118,11 @@ export const LetterNumbering = () => {
         />
       </div>
 
-      {/* Pagination */}
+      {/* Pagination — currentPage pakai state lokal (bukan meta.page dari
+          server) supaya highlight halaman aktif langsung berubah saat
+          diklik, tidak menunggu round-trip request selesai */}
       <Pagination
-        currentPage={meta?.page || 1}
+        currentPage={currentPage}
         totalPages={meta?.totalPages || 1}
         onPageChange={(page) => setCurrentPage(page)}
       />

@@ -13,6 +13,8 @@ import { Tor } from './components/pages/Partnerships/Tor/Tor';
 import { Ia } from './components/pages/Partnerships/Ia/Ia';
 import { CooperationSign } from './components/pages/Partnerships/CooperationSign';
 import { LetterNumbering } from './components/pages/LetterNumber/LetterNumbering';
+import { LetterClassifications } from './components/pages/LetterClassification/LetterClassifications';
+import { LetterClassificationDetail } from './components/pages/LetterClassification/LetterClassificationDetail';
 import { Pta } from './components/pages/Recap/Pta';
 import { Colab } from './components/pages/Recap/Colab';
 import { Media } from './components/pages/Recap/Media';
@@ -187,6 +189,16 @@ const App = () => {
             <Route
               path=':id'
               element={<LetterNumberingDetail />}
+            />
+          </Route>
+          <Route path='letter-classifications'>
+            <Route
+              index
+              element={<LetterClassifications />}
+            />
+            <Route
+              path=':id'
+              element={<LetterClassificationDetail />}
             />
           </Route>
           <Route path='recap'>

@@ -10,6 +10,8 @@ import {
 import { selectLastletterNumber } from '../../states/features/letter/letterSelectors';
 import SingleSelectDropdown from '../elements/formfields/SingleSelectDropdown';
 import { X, Loader2 } from 'lucide-react';
+import { asyncGetLetterTypes } from '../../states/features/classification/classificationThunks';
+import { selectLetterTypes } from '../../states/features/classification/classificationSelectors';
 
 export default function AddModalLetterNumbering({
   isOpen,
@@ -23,18 +25,19 @@ export default function AddModalLetterNumbering({
 
   useEffect(() => {
     dispatch(asyncGetLastLetterNumber());
+    // Jenis Surat diambil dinamis dari master data (dikelola di halaman
+    // Klasifikasi Penomoran Surat), bukan daftar tetap — supaya jenis baru
+    // (mis. Surat Rekomendasi, Sertifikat) langsung muncul tanpa ubah kode.
+    dispatch(asyncGetLetterTypes());
   }, [dispatch]);
 
   const lastLetterNumber = useSelector(selectLastletterNumber);
+  const rawLetterTypes = useSelector(selectLetterTypes);
 
-  const letterTypeOptions = [
-    { id: 1, label: 'Surat Permohonan Kerjasama' },
-    { id: 2, label: 'Surat Undangan Audiensi' },
-    { id: 3, label: 'MoU (Nota Kesepahaman)' },
-    { id: 4, label: 'PKS (Perjanjian Kerjasama)' },
-    { id: 5, label: 'IA (Implementation Agreement)' },
-    { id: 6, label: 'SPK (Surat Pernyataan Komitmen)' },
-  ];
+  const letterTypeOptions = rawLetterTypes.map((item) => ({
+    id: item.id,
+    label: item.name,
+  }));
 
   const getLetterTypeName = (id) => {
     const found = letterTypeOptions.find((item) => item.id === id);
@@ -82,6 +85,19 @@ export default function AddModalLetterNumbering({
       setValue('letterNumber', lastLetterNumber.nextNumber);
     }
   }, [lastLetterNumber, setValue]);
+
+  // Nama Jenis Surat (mode isInheritance) dihitung dari daftar dinamis, yang
+  // saat form pertama kali dibuat mungkin belum selesai di-fetch — isi ulang
+  // begitu datanya tersedia supaya tidak tampil kosong.
+  useEffect(() => {
+    if (isInheritance && partnershipLetterNumberTypeId && rawLetterTypes.length > 0) {
+      setValue(
+        'partnershipLetterNumberTypeName',
+        getLetterTypeName(partnershipLetterNumberTypeId),
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rawLetterTypes, isInheritance, partnershipLetterNumberTypeId, setValue]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {

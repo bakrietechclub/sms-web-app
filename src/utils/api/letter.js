@@ -13,8 +13,10 @@ async function getLetterById({ id }) {
   return responseJson.data;
 }
 
-async function getLetter() {
-  const responseJson = await fetchWithAuth('/letter-numbers');
+async function getLetter({ page = 1, pageSize = 10 } = {}) {
+  const responseJson = await fetchWithAuth(
+    `/letter-numbers?page=${page}&pageSize=${pageSize}`,
+  );
   return responseJson.data;
 }
 
