@@ -20,4 +20,10 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  server: {
+    allowedHosts: ['sms.bcf.or.id'],
+  },
+  preview: {
+    allowedHosts: ['sms.bcf.or.id'],
+  },
 })
