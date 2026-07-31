@@ -18,10 +18,13 @@ import {
 import { Button } from '../../../elements/Button';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
 import AddTorModal from '../../../fragments/AddTorModal';
+import { usePermission } from '../../../../hooks/usePermission';
+import { PERM } from '../../../../constants/permissions';
 
 export const Tor = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { can } = usePermission();
 
   const data = useSelector(selectAllTors);
   const loading = useSelector(selectTorLoading);
@@ -88,6 +91,7 @@ export const Tor = () => {
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
+        canCreate={can(PERM.PARTNERSHIPS_TOR_CREATE)}
         filters={filterOptions}
         onFilterSet={(f) => setFilters(f)}
         searchWidth='w-1/4'

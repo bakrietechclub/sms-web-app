@@ -20,10 +20,13 @@ import {
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
 
 import AddResearchPotentialModal from '../../fragments/AddResearchPotentialModal';
+import { usePermission } from '../../../hooks/usePermission';
+import { PERM } from '../../../constants/permissions';
 
 export const PotentialPartner = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { can } = usePermission();
 
   const data = useSelector(selectPotentials);
   const meta = useSelector(selectPotentialMeta);
@@ -93,6 +96,7 @@ export const PotentialPartner = () => {
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setOpenModal(true)} // Ini akan terpanggil jika addOptions TIDAK ADA
+        canCreate={can(PERM.RESEARCH_POTENTIAL_CREATE)}
         filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}
         searchWidth='w-1/4'

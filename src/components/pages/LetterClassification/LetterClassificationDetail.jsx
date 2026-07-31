@@ -17,13 +17,19 @@ import {
   selectSubClassifications,
   selectClassificationLoading,
 } from '../../../states/features/classification/classificationSelectors';
+import { usePermission } from '../../../hooks/usePermission';
+import { PERM } from '../../../constants/permissions';
 
 export const LetterClassificationDetail = () => {
   const { id } = useParams();
   const classificationId = Number(id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { can } = usePermission();
   const hasAccess = useSelector(selectHasAccess);
+  const canUpdate = hasAccess && can(PERM.LETTER_CLASSIFICATIONS_UPDATE);
+  const canDelete = hasAccess && can(PERM.LETTER_CLASSIFICATIONS_DELETE);
+  const canCreate = hasAccess && can(PERM.LETTER_CLASSIFICATIONS_CREATE);
 
   const [search, setSearch] = useState('');
   const [formModal, setFormModal] = useState({ open: false, mode: 'add', item: null });
@@ -92,17 +98,17 @@ export const LetterClassificationDetail = () => {
         <div className='flex items-center justify-center gap-2'>
           <button
             onClick={() => openEdit(item)}
-            disabled={!hasAccess}
+            disabled={!canUpdate}
             className='text-[#0D4690] hover:bg-[#E7EDF4] p-2 rounded-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed'
-            title='Ubah'
+            title={!canUpdate ? 'Anda tidak memiliki izin untuk mengubah' : 'Ubah'}
           >
             <Pencil size={16} />
           </button>
           <button
             onClick={() => setDeleteTarget(item)}
-            disabled={!hasAccess}
+            disabled={!canDelete}
             className='text-red-600 hover:bg-red-50 p-2 rounded-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed'
-            title='Hapus'
+            title={!canDelete ? 'Anda tidak memiliki izin untuk menghapus' : 'Hapus'}
           >
             <Trash2 size={16} />
           </button>
@@ -139,6 +145,7 @@ export const LetterClassificationDetail = () => {
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={openAdd}
+        canCreate={canCreate}
         searchWidth='w-1/4'
       />
 

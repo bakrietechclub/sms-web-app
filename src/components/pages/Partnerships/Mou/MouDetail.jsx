@@ -26,15 +26,20 @@ import ConfirmationModal from '../../../fragments/ConfirmationModal';
 import UpdateMouModal from '../../../fragments/UpdateMouModal';
 import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
 import { getButtonClasses } from '../../../../utils/styleConstants';
+import { usePermission } from '../../../../hooks/usePermission';
+import { PERM } from '../../../../constants/permissions';
 
 export default function MouDetail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { can } = usePermission();
 
   const { id } = useParams();
   const data = useSelector(selectMouDetail);
   const loading = useSelector(selectMouLoading);
   const hasAccess = useSelector(selectHasAccess);
+  const canUpdate = hasAccess && can(PERM.PARTNERSHIPS_MOU_UPDATE);
+  const canDelete = hasAccess && can(PERM.PARTNERSHIPS_MOU_DELETE);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
@@ -135,8 +140,8 @@ export default function MouDetail() {
     </div>
   );
 
-  const updateButtonClasses = `${getButtonClasses('primary', !hasAccess)} w-fit`;
-  const deleteButtonClasses = `${getButtonClasses('danger', !hasAccess)} w-fit flex items-center gap-2`;
+  const updateButtonClasses = `${getButtonClasses('primary', !canUpdate)} w-fit`;
+  const deleteButtonClasses = `${getButtonClasses('danger', !canDelete)} w-fit flex items-center gap-2`;
 
   return (
     <div className='max-w-7xl mx-auto pb-10'>
@@ -153,14 +158,16 @@ export default function MouDetail() {
         </div>
         <div className='flex gap-2'>
           <Button
-            disabled={!hasAccess}
+            disabled={!canUpdate}
+            title={!canUpdate ? 'Anda tidak memiliki izin untuk memperbarui MoU' : undefined}
             className={updateButtonClasses}
             onClick={() => setIsUpdateModalOpen(true)}
           >
             <Edit size={16} /> Perbarui Data
           </Button>
           <Button
-            disabled={!hasAccess}
+            disabled={!canDelete}
+            title={!canDelete ? 'Anda tidak memiliki izin untuk menghapus MoU' : undefined}
             className={deleteButtonClasses}
             onClick={() => setIsDeleteModalOpen(true)}
           >

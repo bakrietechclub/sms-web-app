@@ -18,10 +18,13 @@ import {
 } from '../../../states/features/research/collab/collabSelectors';
 import { asyncGetResearchCollab } from '../../../states/features/research/collab/collabThunks';
 import AddResearchCollabModal from '../../fragments/AddResearchCollabModal';
+import { usePermission } from '../../../hooks/usePermission';
+import { PERM } from '../../../constants/permissions';
 
 export const ColabPartner = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { can } = usePermission();
 
   const data = useSelector(selectCollabs);
   const loading = useSelector(selectCollabLoading);
@@ -75,6 +78,7 @@ export const ColabPartner = () => {
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
+        canCreate={can(PERM.RESEARCH_COLLAB_CREATE)}
         onFilterSet={() => console.log('Filter diset')}
         searchWidth='w-1/4'
       />

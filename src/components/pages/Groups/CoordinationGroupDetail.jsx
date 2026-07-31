@@ -28,10 +28,13 @@ import { asyncDeleteGroupById } from '../../../states/features/group/groupThunks
 import ConfirmationModal from '../../fragments/ConfirmationModal';
 import { selectHasAccess } from '../../../states/features/auth/authSelectors';
 import { getButtonClasses } from '../../../utils/styleConstants';
+import { usePermission } from '../../../hooks/usePermission';
+import { PERM } from '../../../constants/permissions';
 
 export default function CoordinationGroupDetail() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { can } = usePermission();
 
   const { id } = useParams();
   const data = useSelector(selectGroupDetail);
@@ -41,6 +44,8 @@ export default function CoordinationGroupDetail() {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const hasAccess = useSelector(selectHasAccess);
+  const canUpdate = hasAccess && can(PERM.GROUPS_UPDATE);
+  const canDelete = hasAccess && can(PERM.GROUPS_DELETE);
 
   useEffect(() => {
     dispatch(asyncGetGroupById({ id }));
@@ -102,8 +107,8 @@ export default function CoordinationGroupDetail() {
     );
   }
 
-  const updateButtonClasses = getButtonClasses('primary', !hasAccess);
-  const deleteButtonClasses = getButtonClasses('danger', !hasAccess);
+  const updateButtonClasses = getButtonClasses('primary', !canUpdate);
+  const deleteButtonClasses = getButtonClasses('danger', !canDelete);
 
   return (
     <div className='max-w-7xl mx-auto'>
@@ -120,14 +125,16 @@ export default function CoordinationGroupDetail() {
           <h1 className='text-2xl font-bold text-gray-800'>Grup Koordinasi</h1>
           <div className='flex gap-2'>
             <Button
-              disabled={!hasAccess}
+              disabled={!canUpdate}
+              title={!canUpdate ? 'Anda tidak memiliki izin untuk memperbarui grup' : undefined}
               className={updateButtonClasses}
               onClick={() => setIsUpdateModalOpen(true)}
             >
               Perbarui
             </Button>
             <Button
-              disabled={!hasAccess}
+              disabled={!canDelete}
+              title={!canDelete ? 'Anda tidak memiliki izin untuk menghapus grup' : undefined}
               className={deleteButtonClasses}
               onClick={() => setIsDeleteModalOpen(true)}
             >
@@ -185,6 +192,8 @@ export default function CoordinationGroupDetail() {
           </h2>
           <Button
             onClick={() => setOpenModal(true)}
+            disabled={!canUpdate}
+            title={!canUpdate ? 'Anda tidak memiliki izin untuk menambah kontak' : undefined}
             className={updateButtonClasses}
           >
             Tambah Kontak

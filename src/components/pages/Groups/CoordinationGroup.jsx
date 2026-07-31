@@ -18,10 +18,13 @@ import { asyncGetGroups } from '../../../states/features/group/groupThunks';
 
 import AddCoorGroupModal from '../../fragments/AddCoorGroupModal';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
+import { usePermission } from '../../../hooks/usePermission';
+import { PERM } from '../../../constants/permissions';
 
 export const CoordinationGroup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { can } = usePermission();
 
   const data = useSelector(selectGroups);
   const loading = useSelector(selectGroupLoading);
@@ -89,6 +92,7 @@ export const CoordinationGroup = () => {
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setOpenModal(true)}
+        canCreate={can(PERM.GROUPS_CREATE)}
         filters={filterOptions}
         searchWidth='w-1/4'
       />

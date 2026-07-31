@@ -18,6 +18,8 @@ import {
   selectLetterTypes,
   selectClassificationLoading,
 } from '../../../states/features/classification/classificationSelectors';
+import { usePermission } from '../../../hooks/usePermission';
+import { PERM } from '../../../constants/permissions';
 
 const TABS = [
   { key: 'classification', label: 'Klasifikasi' },
@@ -27,7 +29,11 @@ const TABS = [
 export const LetterClassifications = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { can } = usePermission();
   const hasAccess = useSelector(selectHasAccess);
+  const canUpdate = hasAccess && can(PERM.LETTER_CLASSIFICATIONS_UPDATE);
+  const canDelete = hasAccess && can(PERM.LETTER_CLASSIFICATIONS_DELETE);
+  const canCreate = hasAccess && can(PERM.LETTER_CLASSIFICATIONS_CREATE);
 
   const [activeTab, setActiveTab] = useState('classification');
   const [search, setSearch] = useState('');
@@ -81,17 +87,17 @@ export const LetterClassifications = () => {
       >
         <button
           onClick={() => openEdit(item)}
-          disabled={!hasAccess}
+          disabled={!canUpdate}
           className='text-[#0D4690] hover:bg-[#E7EDF4] p-2 rounded-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed'
-          title='Ubah'
+          title={!canUpdate ? 'Anda tidak memiliki izin untuk mengubah' : 'Ubah'}
         >
           <Pencil size={16} />
         </button>
         <button
           onClick={() => setDeleteTarget(item)}
-          disabled={!hasAccess}
+          disabled={!canDelete}
           className='text-red-600 hover:bg-red-50 p-2 rounded-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed'
-          title='Hapus'
+          title={!canDelete ? 'Anda tidak memiliki izin untuk menghapus' : 'Hapus'}
         >
           <Trash2 size={16} />
         </button>
@@ -168,6 +174,7 @@ export const LetterClassifications = () => {
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={openAdd}
+        canCreate={canCreate}
         searchWidth='w-1/4'
       />
 

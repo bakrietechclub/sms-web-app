@@ -5,8 +5,9 @@ import { DoorOpenIcon, ChevronDown } from 'lucide-react';
 import { asyncUnsetAuthUser } from '../../states/features/auth/authThunks';
 import logoBCF from '../../assets/img/logoBCF.png';
 import avatar from '../../assets/img/userAvatar.png';
+import { RoleIdentity } from './RoleIdentity';
 
-export const HeaderLandingPg = ({ username, role, isLoading }) => {
+export const HeaderLandingPg = ({ username, user, isLoading }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -43,12 +44,7 @@ export const HeaderLandingPg = ({ username, role, isLoading }) => {
               alt='Avatar'
               className='w-10 h-10'
             />
-            <div className='inline-grid'>
-              <strong className='font-semibold text-base w-32 h-6'>
-                {username}
-              </strong>
-              <span className='text-xs w-32 h-5'>{role}</span>
-            </div>
+            <RoleIdentity username={username} user={user} />
           </>
         )}
 

@@ -8,26 +8,28 @@ import { RadioTower } from 'lucide-react';
 import trophy from '../../assets/icons/trophy.png';
 import { setSelectedAccess } from '../../states/features/auth/authSlice';
 
-export const Card = ({ name, image, manageAccess, selectedAccess }) => {
+export const Card = ({ name, image, manageAccess, hasAccess = manageAccess, selectedAccess }) => {
   const isOutlined = manageAccess
     ? 'bg-[#E89229] text-white hover:bg-[#D18325]'
     : 'bg-white text-[#E89229] outline-1 outline-[#E89229] hover:bg-[#E89229] hover:text-white';
 
-  const buttonLabel = manageAccess ? 'Kelola' : 'Lihat';
+  const buttonLabel = !hasAccess ? 'Tidak ada akses' : manageAccess ? 'Kelola' : 'Lihat';
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleClick = () => {
+    // Tanpa akses SUNGGUHAN (role SMS_* dari SA), jangan biarkan masuk sama
+    // sekali -- sebelumnya semua kartu bisa diklik & masuk dashboard
+    // terlepas dari akses nyata, cuma beda label tombol.
+    if (!hasAccess) return;
     dispatch(setSelectedAccess(selectedAccess));
     localStorage.setItem('selectedAccess', selectedAccess);
     navigate('/dashboard/research/potential-partner');
-    // if (selectedAccess !== 'SCP-SMS') {
-    // } else navigate('/dashboard/research/partner');
   };
 
   return (
     <div
-      className='relative max-w-96 h-48 rounded-md shadow-sm p-4 flex flex-2/4 overflow-hidden'
+      className={`relative max-w-96 h-48 rounded-md shadow-sm p-4 flex flex-2/4 overflow-hidden ${!hasAccess ? 'opacity-50 grayscale' : ''}`}
       style={{
         backgroundImage: `url(${image})`,
         backgroundRepeat: 'no-repeat',
@@ -35,11 +37,18 @@ export const Card = ({ name, image, manageAccess, selectedAccess }) => {
       }}
     >
       <h2 className='font-semibold text-xl'>{name}</h2>
+      {!hasAccess && (
+        <span className='absolute top-3 right-3 bg-white/90 text-[#DC3545] text-xs font-semibold px-2 py-1 rounded-full'>
+          Tidak ada akses
+        </span>
+      )}
       <Button
         onClick={handleClick}
+        disabled={!hasAccess}
+        title={!hasAccess ? 'Anda tidak memiliki akses ke Divisi ini -- hubungi admin untuk mengaturnya lewat Atur Akses' : undefined}
         className={
-          isOutlined +
-          ` absolute bottom-5 right-5 rounded-lg px-4 py-2 mt-4 transition duration-300 ease-in-out cursor-pointer`
+          (hasAccess ? isOutlined : 'bg-gray-300 text-gray-500 cursor-not-allowed') +
+          ` absolute bottom-5 right-5 rounded-lg px-4 py-2 mt-4 transition duration-300 ease-in-out ${hasAccess ? 'cursor-pointer' : ''}`
         }
       >
         {buttonLabel}

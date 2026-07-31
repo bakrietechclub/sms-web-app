@@ -24,14 +24,19 @@ import UpdateAudienceModal from '../../fragments/UpdateAudienceModal';
 import { asyncDeleteAudienceById } from '../../../states/features/audience/audienceThunks';
 import { selectHasAccess } from '../../../states/features/auth/authSelectors';
 import { getButtonClasses } from '../../../utils/styleConstants';
+import { usePermission } from '../../../hooks/usePermission';
+import { PERM } from '../../../constants/permissions';
 
 export default function AudiencesDetail() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { can } = usePermission();
 
   const { id } = useParams();
   const data = useSelector(selectAudienceDetail);
   const hasAccess = useSelector(selectHasAccess);
+  const canUpdate = hasAccess && can(PERM.AUDIENCES_UPDATE);
+  const canDelete = hasAccess && can(PERM.AUDIENCES_DELETE);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
@@ -84,8 +89,8 @@ export default function AudiencesDetail() {
     );
   }
 
-  const updateButtonClasses = getButtonClasses('primary', !hasAccess);
-  const deleteButtonClasses = getButtonClasses('danger', !hasAccess);
+  const updateButtonClasses = getButtonClasses('primary', !canUpdate);
+  const deleteButtonClasses = getButtonClasses('danger', !canDelete);
 
   const handleUpdateSuccess = () => {
     dispatch(asyncGetAudienceById({ id }));
@@ -106,14 +111,16 @@ export default function AudiencesDetail() {
           <h1 className='text-2xl font-bold text-gray-800'>Detail Audiensi</h1>
           <div className='flex gap-2'>
             <Button
-              disabled={!hasAccess}
+              disabled={!canUpdate}
+              title={!canUpdate ? 'Anda tidak memiliki izin untuk memperbarui audiensi' : undefined}
               className={updateButtonClasses}
               onClick={() => setIsUpdateModalOpen(true)}
             >
               <Edit size={16} /> Perbarui
             </Button>
             <Button
-              disabled={!hasAccess}
+              disabled={!canDelete}
+              title={!canDelete ? 'Anda tidak memiliki izin untuk menghapus audiensi' : undefined}
               className={deleteButtonClasses}
               onClick={() => setIsDeleteModalOpen(true)}
             >

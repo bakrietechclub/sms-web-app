@@ -18,6 +18,10 @@ export const TableToolbar = ({
   filters = null,
   onFilterSet = () => {},
   searchWidth = 'w-1/4',
+  // Izin RBAC modul ini (mis. `can(PERM.AUDIENCES_CREATE)`) -- default true
+  // supaya halaman yang belum di-migrasi ke usePermission tidak mendadak
+  // terkunci. Dikombinasikan dengan `hasAccess` (Divisi) yang sudah ada.
+  canCreate = true,
 }) => {
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [expandedFields, setExpandedFields] = useState([]);
@@ -128,8 +132,9 @@ export const TableToolbar = ({
             onClick={
               addOptions ? () => setShowAddOptions(!showAddOptions) : onAddClick
             }
-            disabled={!hasAccess}
-            className={`${getButtonClasses('primary', !hasAccess)} mb-4 ml-2`}
+            disabled={!hasAccess || !canCreate}
+            title={!canCreate ? 'Anda tidak memiliki izin untuk menambah data ini' : undefined}
+            className={`${getButtonClasses('primary', !hasAccess || !canCreate)} mb-4 ml-2`}
           >
             <Plus className='w-4 h-4' />
             Tambah

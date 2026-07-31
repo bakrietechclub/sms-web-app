@@ -19,10 +19,13 @@ import {
 } from '../../../../states/features/partnerships/pks/pksSelectors';
 import { asyncGetPks } from '../../../../states/features/partnerships/pks/pksThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
+import { usePermission } from '../../../../hooks/usePermission';
+import { PERM } from '../../../../constants/permissions';
 
 export const Pks = () => {
   const nagigate = useNavigate();
   const dispatch = useDispatch();
+  const { can } = usePermission();
 
   const data = useSelector(selectAllPks);
   const loading = useSelector(selectPksLoading);
@@ -84,6 +87,7 @@ export const Pks = () => {
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
+        canCreate={can(PERM.PARTNERSHIPS_PKS_CREATE)}
         filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}
         searchWidth='w-1/4'

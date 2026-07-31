@@ -20,10 +20,13 @@ import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions.js';
 
 import { Button } from '../../../elements/Button';
 import AddSpkModal from '../../../fragments/AddSpkModal.jsx';
+import { usePermission } from '../../../../hooks/usePermission';
+import { PERM } from '../../../../constants/permissions';
 
 export const Spk = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { can } = usePermission();
 
   const data = useSelector(selectAllSpk);
   const loading = useSelector(selectSpkLoading);
@@ -86,6 +89,7 @@ export const Spk = () => {
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
+        canCreate={can(PERM.PARTNERSHIPS_SPK_CREATE)}
         filters={filterOptions}
         onFilterSet={(f) => setFilters(f)}
         searchWidth='w-1/4'

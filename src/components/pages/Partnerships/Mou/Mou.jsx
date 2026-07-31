@@ -17,10 +17,13 @@ import {
 import { asyncGetMou } from '../../../../states/features/partnerships/mou/mouThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
 import AddMouModal from '../../../fragments/AddMouModal';
+import { usePermission } from '../../../../hooks/usePermission';
+import { PERM } from '../../../../constants/permissions';
 
 export const Mou = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { can } = usePermission();
 
   const data = useSelector(selectMous);
   const loading = useSelector(selectMouLoading);
@@ -82,6 +85,7 @@ export const Mou = () => {
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
+        canCreate={can(PERM.PARTNERSHIPS_MOU_CREATE)}
         filters={filterOptions}
         onFilterSet={(f) => setFilters(f)}
         searchWidth='w-1/4'

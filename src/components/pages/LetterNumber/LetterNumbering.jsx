@@ -17,10 +17,13 @@ import {
 } from '../../../states/features/letter/letterSelectors';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
 import AddModalLetterNumbering from '../../fragments/AddModalLetterNumbering';
+import { usePermission } from '../../../hooks/usePermission';
+import { PERM } from '../../../constants/permissions';
 
 export const LetterNumbering = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { can } = usePermission();
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -96,6 +99,7 @@ export const LetterNumbering = () => {
         searchValue={search}
         onSearchChange={setSearch}
         onAddClick={() => setIsModalOpen(true)}
+        canCreate={can(PERM.LETTER_NUMBERS_CREATE)}
         filters={filterOptions} // Menggunakan filter yang sama untuk semua stakeholder
         onFilterSet={() => console.log('Filter diset')}
         searchWidth='w-1/4'

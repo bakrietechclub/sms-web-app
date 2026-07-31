@@ -20,10 +20,13 @@ import {
 } from '../../../../states/features/auth/authSelectors';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
 import AddIaModal from '../../../fragments/AddIaModal';
+import { usePermission } from '../../../../hooks/usePermission';
+import { PERM } from '../../../../constants/permissions';
 
 export const Ia = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { can } = usePermission();
 
   const data = useSelector(selectAllIAs);
   const loading = useSelector(selectIALoading);
@@ -105,6 +108,7 @@ export const Ia = () => {
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
+        canCreate={can(PERM.PARTNERSHIPS_IA_CREATE)}
         filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}
         searchWidth='w-1/4'

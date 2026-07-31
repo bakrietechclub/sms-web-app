@@ -27,13 +27,18 @@ import ConfirmationModal from '../../../fragments/ConfirmationModal';
 import UpdatePksModal from '../../../fragments/UpdatePksModal';
 import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
 import { getButtonClasses } from '../../../../utils/styleConstants';
+import { usePermission } from '../../../../hooks/usePermission';
+import { PERM } from '../../../../constants/permissions';
 
 export default function PksDetail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { can } = usePermission();
 
   const { id } = useParams();
   const hasAccess = useSelector(selectHasAccess);
+  const canUpdate = hasAccess && can(PERM.PARTNERSHIPS_PKS_UPDATE);
+  const canDelete = hasAccess && can(PERM.PARTNERSHIPS_PKS_DELETE);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
@@ -137,8 +142,8 @@ export default function PksDetail() {
     </div>
   );
 
-  const updateButtonClasses = `${getButtonClasses('primary', !hasAccess)} w-fit`;
-  const deleteButtonClasses = `${getButtonClasses('danger', !hasAccess)} w-fit flex items-center gap-2`;
+  const updateButtonClasses = `${getButtonClasses('primary', !canUpdate)} w-fit`;
+  const deleteButtonClasses = `${getButtonClasses('danger', !canDelete)} w-fit flex items-center gap-2`;
 
   return (
     <div className='max-w-7xl mx-auto pb-10'>
@@ -155,14 +160,16 @@ export default function PksDetail() {
         </div>
         <div className='flex gap-2'>
           <Button
-            disabled={!hasAccess}
+            disabled={!canUpdate}
+            title={!canUpdate ? 'Anda tidak memiliki izin untuk memperbarui PKS' : undefined}
             className={updateButtonClasses}
             onClick={() => setIsUpdateModalOpen(true)}
           >
             <Edit size={16} /> Perbarui Data
           </Button>
           <Button
-            disabled={!hasAccess}
+            disabled={!canDelete}
+            title={!canDelete ? 'Anda tidak memiliki izin untuk menghapus PKS' : undefined}
             className={deleteButtonClasses}
             onClick={() => setIsDeleteModalOpen(true)}
           >

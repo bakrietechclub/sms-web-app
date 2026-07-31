@@ -19,10 +19,13 @@ import { asyncGetAudiences } from '../../../states/features/audience/audienceThu
 import { useNavigate } from 'react-router-dom';
 import AddAudienceModal from '../../fragments/AddAudienceModal';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
+import { usePermission } from '../../../hooks/usePermission';
+import { PERM } from '../../../constants/permissions';
 
 export const Audiences = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { can } = usePermission();
 
   const data = useSelector(selectAudiences);
   const loading = useSelector(selectAudienceLoading);
@@ -101,6 +104,7 @@ export const Audiences = () => {
         searchValue={query}
         onSearchChange={setQuery}
         onAddClick={() => setIsModalOpen(true)}
+        canCreate={can(PERM.AUDIENCES_CREATE)}
         filters={filterOptions}
         onFilterSet={() => console.log('Filter diset')}
         searchWidth='w-1/4'

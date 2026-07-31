@@ -10,6 +10,7 @@ import {
   selectedAccess,
 } from '../../states/features/auth/authSelectors';
 import { unsetSelectedAccess } from '../../states/features/auth/authSlice';
+import { RoleIdentity } from './RoleIdentity';
 
 export const HeaderDashboard = () => {
   const dispatch = useDispatch();
@@ -52,7 +53,9 @@ export const HeaderDashboard = () => {
       ? 'Universitas, Lembaga (NGO) & Komunitas'
       : accessRole === 'SCP-SMS'
         ? 'Media Massa, Dunia Usaha & Pemerintahan'
-        : 'Lembaga Internasional (INGO)';
+        : accessRole === 'SDI-SMS'
+          ? 'Lembaga Internasional (INGO)'
+          : '';
 
   const navigate = useNavigate();
 
@@ -86,15 +89,7 @@ export const HeaderDashboard = () => {
                 alt='Avatar'
                 className='h-9'
               />
-              <div className='inline-grid text-[#1f1f1f]'>
-                <strong>{user?.fullName}</strong>
-                <div className='flex gap-2'>
-                  <span className='text-sm text-[#28A745]'>
-                    {user?.accessRole}
-                  </span>
-                  <span className='text-sm'>|</span>
-                </div>
-              </div>
+              <RoleIdentity username={user?.fullName} user={user} />
             </>
           )}
 

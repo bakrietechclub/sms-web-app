@@ -25,16 +25,21 @@ import {
   selectedAccessTypeInstitutionsId,
   selectHasAccess,
 } from '../../../states/features/auth/authSelectors';
+import { usePermission } from '../../../hooks/usePermission';
+import { PERM } from '../../../constants/permissions';
 export default function PotentialPartnerDetail() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { can } = usePermission();
 
   const [openModal, setOpenModal] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const accessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const hasAccess = useSelector(selectHasAccess);
+  const canUpdate = hasAccess && can(PERM.RESEARCH_POTENTIAL_UPDATE);
+  const canDelete = hasAccess && can(PERM.RESEARCH_POTENTIAL_DELETE);
   const data = useSelector(selectPotentialDetail);
   const loading = useSelector(selectPotentialLoading);
 
@@ -120,12 +125,12 @@ export default function PotentialPartnerDetail() {
 
   const updateButtonClasses = `
     rounded-md px-4 py-2 text-sm font-medium transition duration-200 shadow-sm
-    ${!hasAccess ? disabledClasses : 'bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer'}
+    ${!canUpdate ? disabledClasses : 'bg-[#0D4690] text-white hover:bg-blue-800 cursor-pointer'}
   `;
 
   const deleteButtonClasses = `
     rounded-md px-4 py-2 text-sm font-medium transition duration-200 shadow-sm
-    ${!hasAccess ? disabledClasses : 'bg-red-600 text-white hover:bg-red-700 cursor-pointer'}
+    ${!canDelete ? disabledClasses : 'bg-red-600 text-white hover:bg-red-700 cursor-pointer'}
   `;
 
   return (
@@ -148,14 +153,16 @@ export default function PotentialPartnerDetail() {
             </h1>
             <div className='flex gap-2'>
               <Button
-                disabled={!hasAccess}
+                disabled={!canUpdate}
+                title={!canUpdate ? 'Anda tidak memiliki izin untuk memperbarui' : undefined}
                 className={updateButtonClasses}
                 onClick={() => setOpenModal(true)}
               >
                 Perbarui
               </Button>
               <Button
-                disabled={!hasAccess}
+                disabled={!canDelete}
+                title={!canDelete ? 'Anda tidak memiliki izin untuk menghapus' : undefined}
                 className={deleteButtonClasses}
                 onClick={() => setIsDeleteModalOpen(true)}
               >
