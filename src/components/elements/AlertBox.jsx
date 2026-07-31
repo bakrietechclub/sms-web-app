@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { X, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
-export const AlertBox = ({ alertType, onClose }) => {
+export const AlertBox = ({ alertType, message, onClose }) => {
   const [visible, setVisible] = useState(false);
   const [alertMessages, setAlertMessages] = useState(null);
 
@@ -12,12 +12,7 @@ export const AlertBox = ({ alertType, onClose }) => {
 
   useEffect(() => {
     if (alertType === 'errorLogin') {
-      setAlertMessages(
-        <>
-          Email dan kata sandi tidak cocok. Hubungi{' '}
-          <strong>Super Admin.</strong>
-        </>,
-      );
+      setAlertMessages(message || 'Gagal masuk. Silakan coba lagi.');
     } else if (alertType === 'successCreate') {
       setAlertMessages(
         <>
@@ -47,7 +42,7 @@ export const AlertBox = ({ alertType, onClose }) => {
       clearTimeout(showTimer);
       clearTimeout(autoCloseTimer);
     };
-  }, [alertType, onClose]);
+  }, [alertType, message, onClose]);
 
   return (
     <div className='fixed top-4 left-1/2 transform -translate-x-1/2 z-50'>
