@@ -59,7 +59,6 @@ export default function AddTorModal({ isOpen, onClose, accessTypeId }) {
   }, [torSignatureDate, torTimePeriod, setValue]);
 
   const onSubmit = (data) => {
-    console.log('Form data:', data);
     setIsSubmitting(true);
     dispatch(asyncAddTor({ ...data, typeId: accessTypeId }))
       .unwrap()

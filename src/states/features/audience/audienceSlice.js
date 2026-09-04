@@ -25,10 +25,12 @@ const audienceSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Add
+      // Add -- thunk mengembalikan hasil refetch daftar lengkap ({result,
+      // meta}), sama seperti Get All.
       .addCase(asyncAddAudience.fulfilled, (state, action) => {
         state.loading = false;
-        state.audiences = action.payload;
+        state.audiences = action.payload.result || action.payload;
+        state.meta = action.payload.meta || state.meta;
       })
       // Get All
       .addCase(asyncGetAudiences.fulfilled, (state, action) => {
@@ -41,17 +43,17 @@ const audienceSlice = createSlice({
         state.loading = false;
         state.audienceDetail = action.payload;
       })
-      // Delete
+      // Delete -- item di `audiences` pakai field `audiencesId`, bukan `id`.
       .addCase(asyncDeleteAudienceById.fulfilled, (state, action) => {
         state.loading = false;
         state.audiences = state.audiences.filter(
-          (item) => item.id !== action.payload.id,
+          (item) => item.audiencesId !== action.payload.id,
         );
       })
-      // Update
-      .addCase(asyncUpdateAudienceById.fulfilled, (state, action) => {
+      // Update -- endpoint PUT tidak mengembalikan record yang diperbarui,
+      // dan halaman detail sudah refetch sendiri lewat onSuccess.
+      .addCase(asyncUpdateAudienceById.fulfilled, (state) => {
         state.loading = false;
-        state.audienceDetail = action.payload;
       })
       .addMatcher(
         (action) =>

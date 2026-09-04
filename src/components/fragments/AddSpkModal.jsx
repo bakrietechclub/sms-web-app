@@ -59,7 +59,6 @@ export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
   }, [spkSignatureDate, spkTimePeriod, setValue]);
 
   const onSubmit = (data) => {
-    console.log('Form data:', data);
     setIsSubmitting(true);
     dispatch(asyncAddSpk({ ...data, typeId: accessTypeId }))
       .unwrap()

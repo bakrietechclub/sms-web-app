@@ -37,10 +37,12 @@ const pksSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Add
+      // Add -- thunk mengembalikan hasil refetch daftar lengkap ({result,
+      // meta}), sama seperti Get All.
       .addCase(asyncAddPks.fulfilled, (state, action) => {
         state.loading = false;
-        state.pks = action.payload;
+        state.pks = action.payload.result || action.payload;
+        state.meta = action.payload.meta || state.meta;
       })
       // Get All
       .addCase(asyncGetPks.fulfilled, (state, action) => {
@@ -58,18 +60,17 @@ const pksSlice = createSlice({
         state.loading = false;
         state.pksDetail = action.payload;
       })
-      // Delete
+      // Delete -- item di `pks` pakai field `pksId`, bukan `id`.
       .addCase(asyncDeletePksById.fulfilled, (state, action) => {
         state.loading = false;
-        state.pks = state.pks.filter((item) => item.id !== action.payload.id);
+        state.pks = state.pks.filter(
+          (item) => item.pksId !== action.payload.id,
+        );
       })
-      // Update
-      .addCase(asyncUpdatePksById.fulfilled, (state, action) => {
+      // Update -- endpoint PUT tidak mengembalikan record yang diperbarui,
+      // dan halaman detail sudah refetch sendiri lewat onSuccess.
+      .addCase(asyncUpdatePksById.fulfilled, (state) => {
         state.loading = false;
-        state.pks = action.payload;
-        // state.pks = state.pks.map((item) =>
-        //   item.id === action.payload.id ? action.payload : item
-        // );
       })
       // Matcher untuk menangani status pending dan rejected secara umum
       .addMatcher((action) => action.type.endsWith('/pending'), handlePending)

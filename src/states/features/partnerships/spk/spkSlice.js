@@ -27,9 +27,12 @@ const spkSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Add -- thunk mengembalikan hasil refetch daftar lengkap ({result,
+      // meta}), sama seperti Get All.
       .addCase(asyncAddSpk.fulfilled, (state, action) => {
         state.loading = false;
-        state.spk = action.payload;
+        state.spk = action.payload.result || action.payload;
+        state.meta = action.payload.meta || state.meta;
       })
       .addCase(asyncGetSpk.fulfilled, (state, action) => {
         state.loading = false;
@@ -40,15 +43,17 @@ const spkSlice = createSlice({
         state.loading = false;
         state.spkDetail = action.payload;
       })
+      // Delete -- item di `spk` pakai field `spkId`, bukan `id`.
       .addCase(asyncDeleteSpkById.fulfilled, (state, action) => {
         state.loading = false;
-        state.spk = state.spk.filter((item) => item.id !== action.payload.id);
-      })
-      .addCase(asyncUpdateSpkById.fulfilled, (state, action) => {
-        state.loading = false;
-        state.spk = state.spk.map((item) =>
-          item.id === action.payload.id ? action.payload : item,
+        state.spk = state.spk.filter(
+          (item) => item.spkId !== action.payload.id,
         );
+      })
+      // Update -- endpoint PUT tidak mengembalikan record yang diperbarui,
+      // dan halaman detail sudah refetch sendiri lewat onSuccess.
+      .addCase(asyncUpdateSpkById.fulfilled, (state) => {
+        state.loading = false;
       })
       .addMatcher(
         (action) => action.type.endsWith('/pending'),

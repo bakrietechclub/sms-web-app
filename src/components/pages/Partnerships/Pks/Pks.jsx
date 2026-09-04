@@ -19,6 +19,7 @@ import {
 } from '../../../../states/features/partnerships/pks/pksSelectors';
 import { asyncGetPks } from '../../../../states/features/partnerships/pks/pksThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
+import { resolveTypeIdParam } from '../../../../utils/filterQueryParams';
 import { usePermission } from '../../../../hooks/usePermission';
 import { PERM } from '../../../../constants/permissions';
 
@@ -36,14 +37,23 @@ export const Pks = () => {
   const filterOptions = getFiltersByModuleAndRole('pks', seletedAccessRole);
 
   const [query, setQuery] = useState('');
+  const [activeFilters, setActiveFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     dispatch(
-      asyncGetPks({ query, typeId: selectedAccessTypeId, page: currentPage }),
+      asyncGetPks({
+        query,
+        typeId: resolveTypeIdParam(activeFilters, selectedAccessTypeId),
+        page: currentPage,
+      }),
     );
-  }, [dispatch, query, selectedAccessTypeId, currentPage]);
+  }, [dispatch, query, selectedAccessTypeId, currentPage, activeFilters]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, activeFilters]);
 
   const renderRowFreeze = (value, index) => (
     <tr
@@ -89,7 +99,7 @@ export const Pks = () => {
         onAddClick={() => setIsModalOpen(true)}
         canCreate={can(PERM.PARTNERSHIPS_PKS_CREATE)}
         filters={filterOptions}
-        onFilterSet={() => console.log('Filter diset')}
+        onFilterSet={setActiveFilters}
         searchWidth='w-1/4'
       />
       <div className='w-full overflow-hidden h-fit'>
@@ -109,6 +119,11 @@ export const Pks = () => {
           renderRowFreeze={renderRowFreeze}
           freezeCol={4}
           isLoading={loading}
+          emptyMessage={
+            query || Object.keys(activeFilters).length > 0
+              ? 'Tidak ada hasil yang cocok dengan pencarian/filter.'
+              : 'Belum ada PKS yang tercatat.'
+          }
         />
       </div>
       <Pagination

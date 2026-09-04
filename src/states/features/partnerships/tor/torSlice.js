@@ -29,9 +29,12 @@ const torSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Add -- thunk mengembalikan hasil refetch daftar lengkap ({result,
+      // meta}), sama seperti Get All.
       .addCase(asyncAddTor.fulfilled, (state, action) => {
         state.loading = false;
-        state.tor = action.payload;
+        state.tor = action.payload.result || action.payload;
+        state.meta = action.payload.meta || state.meta;
       })
       .addCase(asyncGetTor.fulfilled, (state, action) => {
         state.loading = false;
@@ -46,15 +49,17 @@ const torSlice = createSlice({
         state.loading = false;
         state.torDetail = action.payload;
       })
+      // Delete -- item di `tor` pakai field `torId`, bukan `id`.
       .addCase(asyncDeleteTorById.fulfilled, (state, action) => {
         state.loading = false;
-        state.tor = state.tor.filter((item) => item.id !== action.payload.id);
-      })
-      .addCase(asyncUpdateTorById.fulfilled, (state, action) => {
-        state.loading = false;
-        state.tor = state.tor.map((item) =>
-          item.id === action.payload.id ? action.payload : item,
+        state.tor = state.tor.filter(
+          (item) => item.torId !== action.payload.id,
         );
+      })
+      // Update -- endpoint PUT tidak mengembalikan record yang diperbarui,
+      // dan halaman detail sudah refetch sendiri lewat onSuccess.
+      .addCase(asyncUpdateTorById.fulfilled, (state) => {
+        state.loading = false;
       })
       .addMatcher(
         (action) => action.type.endsWith('/pending'),

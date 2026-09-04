@@ -48,7 +48,6 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
   }, [register]);
 
   const onSubmit = (data) => {
-    console.log('Form data:', data);
     setIsSubmitting(true);
     dispatch(asyncAddImplementationAgreement({ ...data, typeId: accessTypeId }))
       .unwrap()

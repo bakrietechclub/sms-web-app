@@ -17,6 +17,7 @@ import {
 } from '../../../../states/features/auth/authSelectors';
 import { Button } from '../../../elements/Button';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
+import { resolveTypeIdParam } from '../../../../utils/filterQueryParams';
 import AddTorModal from '../../../fragments/AddTorModal';
 import { usePermission } from '../../../../hooks/usePermission';
 import { PERM } from '../../../../constants/permissions';
@@ -35,15 +36,23 @@ export const Tor = () => {
   const filterOptions = getFiltersByModuleAndRole('tor', seletedAccessRole);
 
   const [query, setQuery] = useState('');
-  const [filters, setFilters] = useState({});
+  const [activeFilters, setActiveFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     dispatch(
-      asyncGetTor({ query, typeId: selectedAccessTypeId, page: currentPage }),
+      asyncGetTor({
+        query,
+        typeId: resolveTypeIdParam(activeFilters, selectedAccessTypeId),
+        page: currentPage,
+      }),
     );
-  }, [dispatch, query, selectedAccessTypeId, currentPage]);
+  }, [dispatch, query, selectedAccessTypeId, currentPage, activeFilters]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, activeFilters]);
 
   const renderRowFreeze = (value, index) => (
     <tr
@@ -93,7 +102,7 @@ export const Tor = () => {
         onAddClick={() => setIsModalOpen(true)}
         canCreate={can(PERM.PARTNERSHIPS_TOR_CREATE)}
         filters={filterOptions}
-        onFilterSet={(f) => setFilters(f)}
+        onFilterSet={setActiveFilters}
         searchWidth='w-1/4'
       />
 
@@ -113,6 +122,11 @@ export const Tor = () => {
         renderRowFreeze={renderRowFreeze}
         freezeCol={4}
         isLoading={loading}
+        emptyMessage={
+          query || Object.keys(activeFilters).length > 0
+            ? 'Tidak ada hasil yang cocok dengan pencarian/filter.'
+            : 'Belum ada TOR yang tercatat.'
+        }
       />
       <Pagination
         currentPage={meta?.page || 1}

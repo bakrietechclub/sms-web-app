@@ -19,6 +19,10 @@ import { asyncGetAudiences } from '../../../states/features/audience/audienceThu
 import { useNavigate } from 'react-router-dom';
 import AddAudienceModal from '../../fragments/AddAudienceModal';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
+import {
+  resolveTypeIdParam,
+  resolveFilterParam,
+} from '../../../utils/filterQueryParams';
 import { usePermission } from '../../../hooks/usePermission';
 import { PERM } from '../../../constants/permissions';
 
@@ -36,16 +40,22 @@ export const Audiences = () => {
 
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeFilters, setActiveFilters] = useState({});
 
   useEffect(() => {
     dispatch(
       asyncGetAudiences({
         query,
-        typeId: selectedAccessTypeId,
+        typeId: resolveTypeIdParam(activeFilters, selectedAccessTypeId),
+        status: resolveFilterParam(activeFilters, 'Status'),
         page: currentPage,
       }),
     );
-  }, [dispatch, query, selectedAccessTypeId, currentPage]);
+  }, [dispatch, query, selectedAccessTypeId, currentPage, activeFilters]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, activeFilters]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -106,7 +116,7 @@ export const Audiences = () => {
         onAddClick={() => setIsModalOpen(true)}
         canCreate={can(PERM.AUDIENCES_CREATE)}
         filters={filterOptions}
-        onFilterSet={() => console.log('Filter diset')}
+        onFilterSet={setActiveFilters}
         searchWidth='w-1/4'
       />
       <Table
@@ -123,6 +133,11 @@ export const Audiences = () => {
         data={data}
         renderRow={renderRow}
         isLoading={loading}
+        emptyMessage={
+          query || Object.keys(activeFilters).length > 0
+            ? 'Tidak ada hasil yang cocok dengan pencarian/filter.'
+            : 'Belum ada data audiensi yang tercatat.'
+        }
       />
       <Pagination
         currentPage={meta?.page || 1}

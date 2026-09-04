@@ -68,7 +68,6 @@ export default function AddModalLetterNumbering({
   const dropdownRef = useRef(null);
 
   const onSubmit = (data) => {
-    console.log('Form data:', data);
     setIsSubmitting(true);
     dispatch(asyncAddLetter(data))
       .unwrap()

@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { fetchWithAuth } from './client/apiClient';
+import { fetchWithAuth, buildQueryString } from './client/apiClient';
 
 /**
  * Menambahkan data MOU baru.
@@ -31,7 +31,7 @@ async function getMouById({ id }) {
  */
 async function getMou({ q, typeId, page = 1, pageSize = 10 }) {
   const responseJson = await fetchWithAuth(
-    `/partnerships/mou?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
+    `/partnerships/mou${buildQueryString({ q, typeId, page, pageSize })}`,
   );
   return responseJson.data;
 }
@@ -62,7 +62,6 @@ async function deleteMouById({ id }) {
  * @returns {Promise<object>} Data MOU yang diperbarui.
  */
 async function updateMouById({ id, payload }) {
-  console.log(id, payload);
   const responseJson = await fetchWithAuth(`/partnerships/mou/${id}`, {
     method: 'PUT',
     body: JSON.stringify(payload),

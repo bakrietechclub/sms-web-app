@@ -64,7 +64,6 @@ export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
   }, [pksSignatureDate, pksTimePeriod, setValue]);
 
   const onSubmit = (data) => {
-    console.log('Form data:', data);
     setIsSubmitting(true);
     dispatch(asyncAddPks({ ...data, typeId: accessTypeId }))
       .unwrap()

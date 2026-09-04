@@ -36,7 +36,6 @@ export const AddModalCooperationSignINGO = ({ isOpen, onClose }) => {
       ...data,
       nomorSuratBcf,
     };
-    console.log("Form data:", finalData);
     onClose();
   };
 

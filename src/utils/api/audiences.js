@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { fetchWithAuth } from './client/apiClient';
+import { fetchWithAuth, buildQueryString } from './client/apiClient';
 
 /**
  * Menambahkan data audiens baru.
@@ -29,9 +29,9 @@ async function getAudienceById({ id }) {
  * Mengambil semua data audiens.
  * @returns {Promise<array>} Array data audiens.
  */
-async function getAudiences({ q = '', typeId, page = 1, pageSize = 10 }) {
+async function getAudiences({ q = '', typeId, page = 1, pageSize = 10, status }) {
   const responseJson = await fetchWithAuth(
-    `/audiences?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
+    `/audiences${buildQueryString({ q, typeId, page, pageSize, status })}`,
   );
   return responseJson.data;
 }

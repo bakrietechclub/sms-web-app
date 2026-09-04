@@ -7,6 +7,7 @@ import {
   asyncUpdateInstitutionsById,
   asyncGetInstitutionsOptions,
   asyncGetInstitutionsOptionsById,
+  asyncGetInstitutionsStats,
 } from './institutionThunks';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   institutionDetail: null,
   institutionsOptions: [],
   institutionsOptionsDetail: null,
+  stats: [],
   loading: false,
   error: null,
 };
@@ -62,6 +64,10 @@ const institutionSlice = createSlice({
       .addCase(asyncGetInstitutionsOptionsById.fulfilled, (state, action) => {
         state.loading = false;
         state.institutionsOptionsDetail = action.payload;
+      })
+      .addCase(asyncGetInstitutionsStats.fulfilled, (state, action) => {
+        state.loading = false;
+        state.stats = action.payload;
       })
       .addMatcher(
         (action) =>

@@ -160,7 +160,6 @@ export default function AddResearchCollabModal({
   // --- Handlers ---
 
   const onSubmit = (data) => {
-    console.log('Form data:', data);
     setIsSubmitting(true);
     dispatch(asyncAddResearchCollab({ ...data, query, typeId: accessTypeId }))
       .unwrap()

@@ -31,9 +31,14 @@ export const asyncGetResearchPotentialById = createAsyncThunk(
 
 export const asyncGetResearchPotential = createAsyncThunk(
   'potential/asyncGetResearchPotential',
-  async ({ query, typeId, page = 1 }, { rejectWithValue }) => {
+  async ({ query, typeId, page = 1, contactStatus }, { rejectWithValue }) => {
     try {
-      const data = await api.getResearchPotential({ q: query, typeId, page });
+      const data = await api.getResearchPotential({
+        q: query,
+        typeId,
+        page,
+        contactStatus,
+      });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

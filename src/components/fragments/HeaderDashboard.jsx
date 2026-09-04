@@ -10,6 +10,7 @@ import {
   selectedAccess,
 } from '../../states/features/auth/authSelectors';
 import { unsetSelectedAccess } from '../../states/features/auth/authSlice';
+import { asyncUnsetAuthUser } from '../../states/features/auth/authThunks';
 import { RoleIdentity } from './RoleIdentity';
 
 export const HeaderDashboard = () => {
@@ -112,6 +113,7 @@ export const HeaderDashboard = () => {
                 className='px-4 py-2 hover:bg-[#fae1e3] cursor-pointer flex items-center text-sm w-full rounded-md transition duration-300 ease-in-out'
                 onClick={() => {
                   dispatch(unsetSelectedAccess());
+                  dispatch(asyncUnsetAuthUser());
                   navigate('/');
                 }}
               >

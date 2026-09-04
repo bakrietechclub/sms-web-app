@@ -25,10 +25,12 @@ const groupSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Add
+      // Add -- thunk mengembalikan hasil refetch daftar lengkap ({result,
+      // meta}), sama seperti Get All.
       .addCase(asyncAddGroup.fulfilled, (state, action) => {
         state.loading = false;
-        state.groups = action.payload;
+        state.groups = action.payload.result || action.payload;
+        state.meta = action.payload.meta || state.meta;
       })
       // Get All
       .addCase(asyncGetGroups.fulfilled, (state, action) => {
@@ -41,20 +43,17 @@ const groupSlice = createSlice({
         state.loading = false;
         state.groupDetail = action.payload;
       })
-      // Delete
+      // Delete -- item di `groups` pakai field `groupId`, bukan `id`.
       .addCase(asyncDeleteGroupById.fulfilled, (state, action) => {
         state.loading = false;
         state.groups = state.groups.filter(
-          (item) => item.id !== action.payload.id,
+          (item) => item.groupId !== action.payload.id,
         );
       })
-      // Update
-      .addCase(asyncUpdateGroupById.fulfilled, (state, action) => {
+      // Update -- endpoint PUT tidak mengembalikan record yang diperbarui,
+      // dan halaman detail sudah refetch sendiri lewat onSuccess.
+      .addCase(asyncUpdateGroupById.fulfilled, (state) => {
         state.loading = false;
-        state.groupDetail = action.payload;
-        // state.groups = state.groups.map((item) =>
-        //   item.id === action.payload.id ? action.payload : item
-        // );
       })
       .addMatcher(
         (action) =>

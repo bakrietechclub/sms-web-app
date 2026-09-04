@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { fetchWithAuth } from './client/apiClient';
+import { fetchWithAuth, buildQueryString } from './client/apiClient';
 
 /**
  * Menambahkan data grup baru.
@@ -31,7 +31,7 @@ async function getGroupById({ id }) {
  */
 async function getGroups({ q = '', typeId, page = 1, pageSize = 10 }) {
   const responseJson = await fetchWithAuth(
-    `/groups?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
+    `/groups${buildQueryString({ q, typeId, page, pageSize })}`,
   );
   return responseJson.data;
 }

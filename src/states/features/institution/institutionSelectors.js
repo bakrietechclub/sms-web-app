@@ -7,3 +7,4 @@ export const selectInstitutionsOptionsDetail = (state) =>
   state.institutions.institutionsOptionsDetail;
 export const selectInstitutionsLoading = (state) => state.institutions.loading;
 export const selectInstitutionsError = (state) => state.institutions.error;
+export const selectInstitutionsStats = (state) => state.institutions.stats;

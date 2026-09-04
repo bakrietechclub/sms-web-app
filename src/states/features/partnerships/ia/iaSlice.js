@@ -29,9 +29,12 @@ const iaSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Add -- thunk mengembalikan hasil refetch daftar lengkap ({result,
+      // meta}), sama seperti Get All.
       .addCase(asyncAddImplementationAgreement.fulfilled, (state, action) => {
         state.loading = false;
-        state.ia = action.payload;
+        state.ia = action.payload.result || action.payload;
+        state.meta = action.payload.meta || state.meta;
       })
       .addCase(asyncGetImplementationAgreements.fulfilled, (state, action) => {
         state.loading = false;
@@ -52,23 +55,21 @@ const iaSlice = createSlice({
           state.iaDetail = action.payload;
         },
       )
+      // Delete -- item di `ia` pakai field `iaId`, bukan `id`.
       .addCase(
         asyncDeleteImplementationAgreementById.fulfilled,
         (state, action) => {
           state.loading = false;
-          state.ia = state.ia.filter((item) => item.id !== action.payload.id);
+          state.ia = state.ia.filter(
+            (item) => item.iaId !== action.payload.id,
+          );
         },
       )
-      .addCase(
-        asyncUpdateImplementationAgreementById.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          state.ia = action.payload;
-          // state.ia = state.ia.map((item) =>
-          //   item.id === action.payload.id ? action.payload : item
-          // );
-        },
-      )
+      // Update -- endpoint PUT tidak mengembalikan record yang diperbarui,
+      // dan halaman detail sudah refetch sendiri lewat onSuccess.
+      .addCase(asyncUpdateImplementationAgreementById.fulfilled, (state) => {
+        state.loading = false;
+      })
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state) => {

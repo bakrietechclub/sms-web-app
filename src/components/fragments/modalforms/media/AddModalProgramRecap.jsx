@@ -33,7 +33,6 @@ export const AddModalProgramRecap = ({ isOpen, onClose }) => {
       ...data,
       nomorSuratBcf,
     };
-    console.log("Form data:", finalData);
     onClose();
   };
 

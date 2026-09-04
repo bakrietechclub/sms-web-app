@@ -63,7 +63,6 @@ export default function AddMouModal({ isOpen, onClose, accessTypeId }) {
   }, [mouSignatureDate, mouTimePeriod, setValue]);
 
   const onSubmit = (data) => {
-    console.log('Form data:', data);
     setIsSubmitting(true);
     dispatch(asyncAddMou({ ...data, query, typeId: accessTypeId }))
       .unwrap()

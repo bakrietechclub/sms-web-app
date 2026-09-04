@@ -33,11 +33,12 @@ const potentialSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Add
+      // Add -- thunk mengembalikan hasil refetch daftar lengkap ({result,
+      // meta}), sama seperti Get All.
       .addCase(asyncAddResearchPotential.fulfilled, (state, action) => {
         state.loading = false;
-        // state.potentials = action.payload;
         state.potentials = action.payload.result || action.payload;
+        state.meta = action.payload.meta || state.meta;
       })
       // Get All
       .addCase(asyncGetResearchPotential.fulfilled, (state, action) => {
@@ -84,13 +85,10 @@ const potentialSlice = createSlice({
           (item) => item.researchPotentialId !== action.payload.id,
         );
       })
-      // Update
-      .addCase(asyncUpdateResearchPotentialById.fulfilled, (state, action) => {
+      // Update -- endpoint PUT tidak mengembalikan record yang diperbarui,
+      // dan halaman detail sudah refetch sendiri lewat onSuccess.
+      .addCase(asyncUpdateResearchPotentialById.fulfilled, (state) => {
         state.loading = false;
-        state.potentials = action.payload;
-        // state.potentials = state.potentials.map((item) =>
-        //   item.id === action.payload.id ? action.payload : item
-        // );
       })
       .addMatcher(
         (action) =>

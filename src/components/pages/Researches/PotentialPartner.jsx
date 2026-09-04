@@ -18,6 +18,10 @@ import {
   selectedAccessTypeInstitutionsId,
 } from '../../../states/features/auth/authSelectors';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
+import {
+  resolveTypeIdParam,
+  resolveFilterParam,
+} from '../../../utils/filterQueryParams';
 
 import AddResearchPotentialModal from '../../fragments/AddResearchPotentialModal';
 import { usePermission } from '../../../hooks/usePermission';
@@ -37,16 +41,24 @@ export const PotentialPartner = () => {
   const [openModal, setOpenModal] = useState(false);
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeFilters, setActiveFilters] = useState({});
 
   useEffect(() => {
     dispatch(
       asyncGetResearchPotential({
         query,
-        typeId: selectedAccessTypeId,
+        typeId: resolveTypeIdParam(activeFilters, selectedAccessTypeId),
+        contactStatus: resolveFilterParam(activeFilters, 'Status Kontak'),
         page: currentPage,
       }),
     );
-  }, [dispatch, query, selectedAccessTypeId, currentPage]);
+  }, [dispatch, query, selectedAccessTypeId, currentPage, activeFilters]);
+
+  // Reset ke halaman 1 setiap kali pencarian/filter berubah -- kalau tidak,
+  // hasil yang menyempit bisa membuat halaman saat ini jadi kosong.
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, activeFilters]);
 
   const filterOptions = getFiltersByModuleAndRole(
     'potential',
@@ -55,16 +67,24 @@ export const PotentialPartner = () => {
 
   const renderRow = (value, index) => (
     <tr
-      key={index}
-      className='border-b border-[#E7EDF4] h-10'
+      key={value.researchPotentialId ?? index}
+      className='border-b border-[#E7EDF4] last:border-b-0 h-10'
     >
       <td className='py-3'>
         {(currentPage - 1) * (meta?.limit || 10) + index + 1}
       </td>
-      <td>{value.instituteName}</td>
+      <td className='text-left font-medium text-gray-900'>
+        {value.instituteName}
+      </td>
       <td>{value.partnershipResearchType}</td>
-      <td>{value.regionName}</td>
-      <td>{value.partnershipResearchProgram?.join(', ')}</td>
+      <td className='text-left'>{value.regionName}</td>
+      <td className='text-left max-w-xs'>
+        {value.partnershipResearchProgram?.length ? (
+          value.partnershipResearchProgram.join(', ')
+        ) : (
+          <span className='text-gray-400'>-</span>
+        )}
+      </td>
       <td>
         <Label
           label={value.contactStatus}
@@ -80,7 +100,7 @@ export const PotentialPartner = () => {
               `/dashboard/research/potential-partner/${value.researchPotentialId}`,
             );
           }}
-          className='text-[#0D4690] underline cursor-pointer'
+          className='text-[#0D4690] underline cursor-pointer rounded hover:text-[#092d5c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D4690]'
         >
           Lihat Detail
         </Button>
@@ -98,7 +118,7 @@ export const PotentialPartner = () => {
         onAddClick={() => setOpenModal(true)} // Ini akan terpanggil jika addOptions TIDAK ADA
         canCreate={can(PERM.RESEARCH_POTENTIAL_CREATE)}
         filters={filterOptions}
-        onFilterSet={() => console.log('Filter diset')}
+        onFilterSet={setActiveFilters}
         searchWidth='w-1/4'
       />
 
@@ -115,6 +135,11 @@ export const PotentialPartner = () => {
         data={data}
         renderRow={renderRow}
         isLoading={loading}
+        emptyMessage={
+          query || Object.keys(activeFilters).length > 0
+            ? 'Tidak ada hasil yang cocok dengan pencarian/filter.'
+            : 'Belum ada riset potensial mitra yang tercatat.'
+        }
       />
       <Pagination
         currentPage={meta?.page || 1}

@@ -27,10 +27,13 @@ const mouSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Add
+      // Add -- thunk mengembalikan hasil refetch daftar lengkap ({result,
+      // meta}), sama seperti Get All, jadi bentuknya harus diperlakukan sama
+      // supaya tidak menimpa `mous` (array) dengan objek wrapper.
       .addCase(asyncAddMou.fulfilled, (state, action) => {
         state.loading = false;
-        state.mous = action.payload;
+        state.mous = action.payload.result || action.payload;
+        state.meta = action.payload.meta || state.meta;
       })
       // Get All
       .addCase(asyncGetMou.fulfilled, (state, action) => {
@@ -47,18 +50,20 @@ const mouSlice = createSlice({
         state.loading = false;
         state.mouDetail = action.payload;
       })
-      // Delete
+      // Delete -- item di `mous` pakai field `mouId` (lihat GetMou entity di
+      // back-end-sms), bukan `id`, jadi filter berdasarkan `id` tidak pernah
+      // match dan item yang dihapus tetap terlihat sampai refetch berikutnya.
       .addCase(asyncDeleteMouById.fulfilled, (state, action) => {
         state.loading = false;
-        state.mous = state.mous.filter((item) => item.id !== action.payload.id);
+        state.mous = state.mous.filter(
+          (item) => item.mouId !== action.payload.id,
+        );
       })
-      // Update
-      .addCase(asyncUpdateMouById.fulfilled, (state, action) => {
+      // Update -- endpoint PUT backend tidak mengembalikan record yang
+      // diperbarui (cuma pesan sukses), dan halaman detail sudah refetch
+      // sendiri lewat onSuccess, jadi di sini cukup selesaikan loading state.
+      .addCase(asyncUpdateMouById.fulfilled, (state) => {
         state.loading = false;
-        state.mous = action.payload;
-        // state.mous = state.mous.map((item) =>
-        //   item.id === action.payload.id ? action.payload : item
-        // );
       })
       .addMatcher(
         (action) =>

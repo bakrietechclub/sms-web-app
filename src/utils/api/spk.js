@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { fetchWithAuth } from './client/apiClient';
+import { fetchWithAuth, buildQueryString } from './client/apiClient';
 
 /**
  * Menambahkan data SPK baru.
@@ -31,7 +31,7 @@ async function getSpkById({ id }) {
  */
 async function getSpk({ q = '', typeId, page = 1, pageSize = 10 }) {
   const responseJson = await fetchWithAuth(
-    `/partnerships/spk?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
+    `/partnerships/spk${buildQueryString({ q, typeId, page, pageSize })}`,
   );
   return responseJson.data;
 }

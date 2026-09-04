@@ -18,6 +18,7 @@ import { asyncGetGroups } from '../../../states/features/group/groupThunks';
 
 import AddCoorGroupModal from '../../fragments/AddCoorGroupModal';
 import { getFiltersByModuleAndRole } from '../../../utils/filterOptions';
+import { resolveTypeIdParam } from '../../../utils/filterQueryParams';
 import { usePermission } from '../../../hooks/usePermission';
 import { PERM } from '../../../constants/permissions';
 
@@ -36,17 +37,22 @@ export const CoordinationGroup = () => {
   const [query, setQuery] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeFilters, setActiveFilters] = useState({});
   const filterOptions = getFiltersByModuleAndRole('group', seletedAccessRole);
 
   useEffect(() => {
     dispatch(
       asyncGetGroups({
         query,
-        typeId: selectedAccessTypeId,
+        typeId: resolveTypeIdParam(activeFilters, selectedAccessTypeId),
         page: currentPage,
       }),
     );
-  }, [dispatch, query, selectedAccessTypeId, currentPage]);
+  }, [dispatch, query, selectedAccessTypeId, currentPage, activeFilters]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, activeFilters]);
 
   const renderRow = (value, index) => (
     <tr
@@ -94,6 +100,7 @@ export const CoordinationGroup = () => {
         onAddClick={() => setOpenModal(true)}
         canCreate={can(PERM.GROUPS_CREATE)}
         filters={filterOptions}
+        onFilterSet={setActiveFilters}
         searchWidth='w-1/4'
       />
 
@@ -108,6 +115,11 @@ export const CoordinationGroup = () => {
         data={data}
         renderRow={renderRow}
         isLoading={loading}
+        emptyMessage={
+          query || Object.keys(activeFilters).length > 0
+            ? 'Tidak ada hasil yang cocok dengan pencarian/filter.'
+            : 'Belum ada grup koordinasi yang tercatat.'
+        }
       />
       <Pagination
         currentPage={meta?.page || 1}

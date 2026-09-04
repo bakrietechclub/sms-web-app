@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { fetchWithAuth } from './client/apiClient';
+import { fetchWithAuth, buildQueryString } from './client/apiClient';
 
 /**
  * Menambahkan data TOR baru.
@@ -31,7 +31,7 @@ async function getTorById({ id }) {
  */
 async function getTor({ q = '', typeId, page = 1, pageSize = 10 }) {
   const responseJson = await fetchWithAuth(
-    `/partnerships/tor?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
+    `/partnerships/tor${buildQueryString({ q, typeId, page, pageSize })}`,
   );
   return responseJson.data;
 }

@@ -56,7 +56,6 @@ export default function AddResearchPotentialModal({
   }, [register]);
 
   const onSubmit = (data) => {
-    console.log('Form data:', data);
     setIsSubmitting(true);
     dispatch(
       asyncAddResearchPotential({ ...data, query, typeId: accessTypeId }),

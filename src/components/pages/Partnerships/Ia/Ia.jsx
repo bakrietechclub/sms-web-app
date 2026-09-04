@@ -19,6 +19,7 @@ import {
   selectedAccessTypeInstitutionsId,
 } from '../../../../states/features/auth/authSelectors';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
+import { resolveTypeIdParam } from '../../../../utils/filterQueryParams';
 import AddIaModal from '../../../fragments/AddIaModal';
 import { usePermission } from '../../../../hooks/usePermission';
 import { PERM } from '../../../../constants/permissions';
@@ -37,6 +38,7 @@ export const Ia = () => {
   const filterOptions = getFiltersByModuleAndRole('ia', seletedAccessRole);
 
   const [query, setQuery] = useState('');
+  const [activeFilters, setActiveFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -44,11 +46,15 @@ export const Ia = () => {
     dispatch(
       asyncGetImplementationAgreements({
         query,
-        typeId: selectedAccessTypeId,
+        typeId: resolveTypeIdParam(activeFilters, selectedAccessTypeId),
         page: currentPage,
       }),
     );
-  }, [dispatch, query, selectedAccessTypeId, currentPage]);
+  }, [dispatch, query, selectedAccessTypeId, currentPage, activeFilters]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, activeFilters]);
 
   const renderRowFreeze = (value, index) => (
     <tr
@@ -110,7 +116,7 @@ export const Ia = () => {
         onAddClick={() => setIsModalOpen(true)}
         canCreate={can(PERM.PARTNERSHIPS_IA_CREATE)}
         filters={filterOptions}
-        onFilterSet={() => console.log('Filter diset')}
+        onFilterSet={setActiveFilters}
         searchWidth='w-1/4'
       />
 
@@ -131,6 +137,11 @@ export const Ia = () => {
         renderRowFreeze={renderRowFreeze}
         freezeCol={4}
         isLoading={loading}
+        emptyMessage={
+          query || Object.keys(activeFilters).length > 0
+            ? 'Tidak ada hasil yang cocok dengan pencarian/filter.'
+            : 'Belum ada IA yang tercatat.'
+        }
       />
 
       <Pagination

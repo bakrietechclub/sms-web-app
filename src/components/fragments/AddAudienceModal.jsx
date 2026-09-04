@@ -44,7 +44,6 @@ export default function AddAudienceModal({ accessTypeId, isOpen, onClose }) {
   }, [register]);
 
   const onSubmit = async (data) => {
-    console.log('Form data:', data);
     setIsSubmitting(true);
     try {
       await dispatch(

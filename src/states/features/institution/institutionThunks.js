@@ -84,3 +84,15 @@ export const asyncGetInstitutionsOptionsById = createAsyncThunk(
     }
   },
 );
+
+export const asyncGetInstitutionsStats = createAsyncThunk(
+  'institutions/asyncGetInstitutionsStats',
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await api.getInstitutionsStats();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);

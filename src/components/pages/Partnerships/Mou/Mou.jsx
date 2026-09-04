@@ -16,6 +16,7 @@ import {
 } from '../../../../states/features/auth/authSelectors';
 import { asyncGetMou } from '../../../../states/features/partnerships/mou/mouThunks';
 import { getFiltersByModuleAndRole } from '../../../../utils/filterOptions';
+import { resolveTypeIdParam } from '../../../../utils/filterQueryParams';
 import AddMouModal from '../../../fragments/AddMouModal';
 import { usePermission } from '../../../../hooks/usePermission';
 import { PERM } from '../../../../constants/permissions';
@@ -34,15 +35,23 @@ export const Mou = () => {
   const filterOptions = getFiltersByModuleAndRole('mou', seletedAccessRole);
 
   const [query, setQuery] = useState('');
-  const [filters, setFilters] = useState({});
+  const [activeFilters, setActiveFilters] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     dispatch(
-      asyncGetMou({ query, typeId: selectedAccessTypeId, page: currentPage }),
+      asyncGetMou({
+        query,
+        typeId: resolveTypeIdParam(activeFilters, selectedAccessTypeId),
+        page: currentPage,
+      }),
     );
-  }, [dispatch, query, selectedAccessTypeId, currentPage]);
+  }, [dispatch, query, selectedAccessTypeId, currentPage, activeFilters]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, activeFilters]);
 
   const renderRowFreeze = (value, index) => (
     <tr
@@ -87,7 +96,7 @@ export const Mou = () => {
         onAddClick={() => setIsModalOpen(true)}
         canCreate={can(PERM.PARTNERSHIPS_MOU_CREATE)}
         filters={filterOptions}
-        onFilterSet={(f) => setFilters(f)}
+        onFilterSet={setActiveFilters}
         searchWidth='w-1/4'
       />
       <FreezeTable
@@ -105,6 +114,11 @@ export const Mou = () => {
         renderRow={renderRow}
         freezeCol={3}
         isLoading={loading}
+        emptyMessage={
+          query || Object.keys(activeFilters).length > 0
+            ? 'Tidak ada hasil yang cocok dengan pencarian/filter.'
+            : 'Belum ada MoU yang tercatat.'
+        }
       />
       <Pagination
         currentPage={meta?.page || 1}

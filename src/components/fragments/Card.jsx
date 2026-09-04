@@ -3,17 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '../elements/Button';
 import { useDispatch } from 'react-redux';
 // import { setActiveStakeholder } from '../../states/features/stakeholder/activeStakeholderSlice';
-import { RadioTower } from 'lucide-react';
+import { RadioTower, Lock, ArrowRight } from 'lucide-react';
 
 import trophy from '../../assets/icons/trophy.png';
 import { setSelectedAccess } from '../../states/features/auth/authSlice';
 
-export const Card = ({ name, image, manageAccess, hasAccess = manageAccess, selectedAccess }) => {
-  const isOutlined = manageAccess
-    ? 'bg-[#E89229] text-white hover:bg-[#D18325]'
-    : 'bg-white text-[#E89229] outline-1 outline-[#E89229] hover:bg-[#E89229] hover:text-white';
+const numberFormatter = new Intl.NumberFormat('id-ID');
 
-  const buttonLabel = !hasAccess ? 'Tidak ada akses' : manageAccess ? 'Kelola' : 'Lihat';
+// `count`: jumlah institusi Divisi ini (opsional -- lihat
+// asyncGetInstitutionsStats). Ditampilkan hanya kalau tersedia, tidak pernah
+// dipalsukan.
+export const Card = ({ name, image, hasAccess, selectedAccess, count }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -28,32 +28,54 @@ export const Card = ({ name, image, manageAccess, hasAccess = manageAccess, sele
   };
 
   return (
-    <div
-      className={`relative max-w-96 h-48 rounded-md shadow-sm p-4 flex flex-2/4 overflow-hidden ${!hasAccess ? 'opacity-50 grayscale' : ''}`}
+    <button
+      type='button'
+      onClick={handleClick}
+      disabled={!hasAccess}
+      aria-disabled={!hasAccess}
+      title={
+        !hasAccess
+          ? 'Anda tidak memiliki akses ke Divisi ini -- hubungi admin untuk mengaturnya lewat Atur Akses'
+          : undefined
+      }
+      className={`relative w-full min-h-[11rem] rounded-md shadow-sm p-4 flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-gray-50 ${
+        hasAccess
+          ? 'cursor-pointer hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D4690] focus-visible:ring-offset-2'
+          : 'cursor-not-allowed'
+      }`}
       style={{
         backgroundImage: `url(${image})`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'bottom -1rem left -1rem',
       }}
     >
-      <h2 className='font-semibold text-xl'>{name}</h2>
-      {!hasAccess && (
-        <span className='absolute top-3 right-3 bg-white/90 text-[#DC3545] text-xs font-semibold px-2 py-1 rounded-full'>
+      <div
+        className={`absolute inset-0 ${hasAccess ? 'bg-white/0' : 'bg-white/60'}`}
+      />
+      <h3 className='relative font-semibold text-lg text-gray-900'>{name}</h3>
+
+      {!hasAccess ? (
+        <span className='relative inline-flex items-center gap-1.5 self-start bg-white/90 text-[#DC3545] text-xs font-semibold px-2.5 py-1 rounded-full'>
+          <Lock className='w-3 h-3' />
           Tidak ada akses
         </span>
+      ) : (
+        <div className='relative flex items-end justify-between gap-2'>
+          {count != null && (
+            <div className='leading-tight'>
+              <p className='text-2xl font-bold text-[#0D4690]'>
+                {numberFormatter.format(count)}
+              </p>
+              <p className='text-xs text-gray-500'>institusi terdaftar</p>
+            </div>
+          )}
+          <span className='ml-auto inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium bg-[#E89229] text-white'>
+            Kelola
+            <ArrowRight className='w-4 h-4' />
+          </span>
+        </div>
       )}
-      <Button
-        onClick={handleClick}
-        disabled={!hasAccess}
-        title={!hasAccess ? 'Anda tidak memiliki akses ke Divisi ini -- hubungi admin untuk mengaturnya lewat Atur Akses' : undefined}
-        className={
-          (hasAccess ? isOutlined : 'bg-gray-300 text-gray-500 cursor-not-allowed') +
-          ` absolute bottom-5 right-5 rounded-lg px-4 py-2 mt-4 transition duration-300 ease-in-out ${hasAccess ? 'cursor-pointer' : ''}`
-        }
-      >
-        {buttonLabel}
-      </Button>
-    </div>
+    </button>
   );
 };
 

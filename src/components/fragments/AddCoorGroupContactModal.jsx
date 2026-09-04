@@ -31,7 +31,6 @@ export default function AddCoorGroupContactModal({ isOpen, onClose }) {
   });
 
   const onSubmit = async (data) => {
-    console.log('Form data:', data);
     setIsSubmitting(true);
     try {
       await dispatch(asyncAddContact(data)).unwrap();

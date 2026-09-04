@@ -43,7 +43,6 @@ export const AddModalCooperationSignMedia = ({ isOpen, onClose }) => {
       ...data,
       nomorSuratBcf,
     };
-    console.log("Form data:", finalData);
     onClose();
   };
 

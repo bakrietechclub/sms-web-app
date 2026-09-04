@@ -32,6 +32,17 @@ async function getInstitutionsOptionsById({ id }) {
   return responseJson.data;
 }
 
+/**
+ * Jumlah institusi per jenis (Universitas, Pemerintah, dst), dibatasi ke
+ * Divisi yang diakses employee ini. Dipakai untuk widget Hexahelix
+ * Stakeholder di halaman /home.
+ * @returns {Promise<Array<{typeId: number, typeName: string, total: number}>>}
+ */
+async function getInstitutionsStats() {
+  const responseJson = await fetchWithAuth('/institutions-stats');
+  return responseJson.data;
+}
+
 async function deleteInstitutionsById({ id }) {
   const responseJson = await fetchWithAuth(`/institutions/${id}`, {
     method: 'DELETE',
@@ -53,6 +64,7 @@ export {
   getInstitutions,
   getInstitutionsOptions,
   getInstitutionsOptionsById,
+  getInstitutionsStats,
   deleteInstitutionsById,
   updateInstitutionsById,
 };

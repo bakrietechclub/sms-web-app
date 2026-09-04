@@ -8,43 +8,61 @@ export const Table = ({
   data = [],
   renderRow,
   isLoading = false,
+  emptyMessage = 'Belum ada data untuk ditampilkan.',
 }) => (
-  <table className='table-auto text-center w-full border-separate border-spacing-0'>
-    {/* Header Section Styling */}
-    <thead className='text-[#0D4690] bg-[#E7EDF4]'>
-      <tr className='h-12'>
-        {headers.map((header, index) => (
-          <th
-            key={index}
-            className={`
-              text-sm font-semibold p-4
-              // Mengatur pembulatan sudut di sudut baris header
-              ${index === 0 ? 'rounded-tl-xl' : ''} 
-              ${index === headers.length - 1 ? 'rounded-tr-xl' : ''}
-            `}
-          >
-            {header}
-          </th>
-        ))}
-      </tr>
-    </thead>
+  // Wrapper rounded + overflow-hidden memberi sudut membulat yang konsisten
+  // di semua ukuran kolom, dan overflow-x-auto di dalamnya mencegah tabel
+  // "pecah" layout di layar sempit alih-alih memotong konten secara diam-diam.
+  <div className='w-full rounded-xl border border-[#E7EDF4] overflow-hidden'>
+    <div className='overflow-x-auto'>
+      <table
+        className='table-auto text-center w-full min-w-max border-separate border-spacing-0'
+        aria-busy={isLoading}
+      >
+        {/* Header Section Styling */}
+        <thead className='text-[#0D4690] bg-[#E7EDF4]'>
+          <tr className='h-12'>
+            {headers.map((header, index) => (
+              <th
+                key={index}
+                scope='col'
+                className='text-sm font-semibold p-4 whitespace-nowrap'
+              >
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
 
-    {/* Body Section Styling */}
-    <tbody className='text-sm font-normal text-gray-700'>
-      {isLoading ? (
-        <TableSkeleton
-          colCount={headers.length}
-          rowCount={data.length || 5}
-        />
-      ) : (
-        data?.map((item, index) => (
-          // Menggunakan renderRow untuk mengembalikan baris (<tr>) lengkap
-          // Catatan: Pastikan renderRow mengembalikan elemen <tr>
-          <React.Fragment key={index}>{renderRow(item, index)}</React.Fragment>
-        ))
-      )}
-    </tbody>
-  </table>
+        {/* Body Section Styling */}
+        <tbody className='text-sm font-normal text-gray-700 [&>tr]:transition-colors [&>tr:hover]:bg-[#F5F8FC]'>
+          {isLoading ? (
+            <TableSkeleton
+              colCount={headers.length}
+              rowCount={data.length || 5}
+            />
+          ) : data?.length ? (
+            data.map((item, index) => (
+              // Menggunakan renderRow untuk mengembalikan baris (<tr>) lengkap
+              // Catatan: Pastikan renderRow mengembalikan elemen <tr>
+              <React.Fragment key={index}>
+                {renderRow(item, index)}
+              </React.Fragment>
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan={headers.length || 1}
+                className='py-12 text-gray-400'
+              >
+                {emptyMessage}
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  </div>
 );
 
 // Fungsi sinkronisasi tinggi baris (diekstrak untuk kebersihan kode)
@@ -115,6 +133,7 @@ export const FreezeTable = ({
   withHeaderColumnBorders = false,
   // === PROPS BARU ===
   isLoading = false,
+  emptyMessage = 'Belum ada data untuk ditampilkan.',
 }) => {
   const frozenHeaders = headers.slice(0, freezeCol);
   const unfrozenHeaders = headers.slice(freezeCol);
@@ -178,12 +197,21 @@ export const FreezeTable = ({
                   colCount={freezeCol}
                   rowCount={data.length || 5}
                 />
-              ) : (
-                data?.map((item, index) => (
+              ) : data?.length ? (
+                data.map((item, index) => (
                   <React.Fragment key={index}>
                     {renderRowFreeze(item, index)}
                   </React.Fragment>
                 ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={freezeCol || 1}
+                    className='py-12 text-gray-400 text-center'
+                  >
+                    {emptyMessage}
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>

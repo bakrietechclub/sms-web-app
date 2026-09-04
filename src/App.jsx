@@ -11,17 +11,9 @@ import { Pks } from './components/pages/Partnerships/Pks/Pks';
 import { Spk } from './components/pages/Partnerships/Spk/Spk';
 import { Tor } from './components/pages/Partnerships/Tor/Tor';
 import { Ia } from './components/pages/Partnerships/Ia/Ia';
-import { CooperationSign } from './components/pages/Partnerships/CooperationSign';
 import { LetterNumbering } from './components/pages/LetterNumber/LetterNumbering';
 import { LetterClassifications } from './components/pages/LetterClassification/LetterClassifications';
 import { LetterClassificationDetail } from './components/pages/LetterClassification/LetterClassificationDetail';
-import { Pta } from './components/pages/Recap/Pta';
-import { Colab } from './components/pages/Recap/Colab';
-import { Media } from './components/pages/Recap/Media';
-import { Program } from './components/pages/Recap/Program';
-import { SatisfactionSurvey } from './components/pages/SatisfactionSurvey';
-import { BcfPartnership } from './components/pages/BcfPartnership';
-import { PartnershipAwards } from './components/pages/PartnershipAwards';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import {
@@ -176,10 +168,6 @@ const App = () => {
                 element={<SpkDetail />}
               />
             </Route>
-            <Route
-              path='coop-sign'
-              element={<CooperationSign />}
-            />
           </Route>
           <Route path='letter-numbers'>
             <Route
@@ -201,36 +189,6 @@ const App = () => {
               element={<LetterClassificationDetail />}
             />
           </Route>
-          <Route path='recap'>
-            <Route
-              path='pta'
-              element={<Pta />}
-            />
-            <Route
-              path='media'
-              element={<Media />}
-            />
-            <Route
-              path='program'
-              element={<Program />}
-            />
-            <Route
-              path='colab'
-              element={<Colab />}
-            />
-          </Route>
-          <Route
-            path='satisfaction-survey'
-            element={<SatisfactionSurvey />}
-          />
-          <Route
-            path='bcf-partner'
-            element={<BcfPartnership />}
-          />
-          <Route
-            path='partner-awards'
-            element={<PartnershipAwards />}
-          />
         </Route>
       </Route>
       <Route

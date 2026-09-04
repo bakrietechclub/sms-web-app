@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { fetchWithAuth } from './client/apiClient';
+import { fetchWithAuth, buildQueryString } from './client/apiClient';
 
 /**
  * Menambahkan data IA baru.
@@ -41,7 +41,7 @@ async function getImplementationAgreements({
   pageSize = 10,
 }) {
   const responseJson = await fetchWithAuth(
-    `/partnerships/implementation-agreements?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`
+    `/partnerships/implementation-agreements${buildQueryString({ q, typeId, page, pageSize })}`,
   );
   return responseJson.data;
 }

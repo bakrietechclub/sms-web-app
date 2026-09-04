@@ -53,7 +53,6 @@ export default function UpdateAudienceModal({
   }, [initialData, setValue]);
 
   const onSubmit = async (data) => {
-    console.log('Update Form data:', data);
     setIsSubmitting(true);
     try {
       await dispatch(asyncUpdateAudienceById({ id, payload: data })).unwrap();

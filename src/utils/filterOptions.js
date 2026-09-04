@@ -1,6 +1,21 @@
 /**
  * Mendefinisikan semua opsi filter yang mungkin.
  * Menggunakan objek untuk memetakan peran pengguna ke opsi filter mereka.
+ *
+ * PENTING: `value` di sini BUKAN cuma label tampilan -- ini nilai yang
+ * benar-benar dikirim ke backend (lihat pages/*.jsx yang memetakan
+ * `activeFilters['Jenis Instansi']` ke query param `typeId`, dst).
+ *
+ * ID jenis institusi (`Jenis Instansi`) ada di tabel `md_institutions_type`
+ * dan SAMA di semua modul (lihat roleInstitutionIdMap di authSelectors.js):
+ *   1 = Universitas, 2 = Lembaga Sosial, 3 = (khusus SDI-SMS, tanpa filter
+ *   Jenis Instansi di modul manapun saat ini), 4 = Pemerintah Pusat,
+ *   5 = Pemerintah Daerah, 6 = Dunia Usaha, 7 = Media Masa.
+ *
+ * `Status Kontak` (riset potensial) pakai 1/0 persis seperti dropdown di
+ * AddResearchPotentialModal. `Status` (audiensi) pakai string PERSIS seperti
+ * dropdown di AddAudienceModal ('Belum audiensi' / 'Re-audiensi' / 'Selesai')
+ * karena itu yang benar-benar tersimpan di kolom `status`.
  */
 const ROLE_FILTERS = {
   // MOU
@@ -9,8 +24,8 @@ const ROLE_FILTERS = {
       {
         label: 'Jenis Instansi',
         options: [
-          { label: 'Universitas', value: 'universitas' },
-          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
+          { label: 'Universitas', value: 1 },
+          { label: 'Lembaga Sosial', value: 2 },
         ],
       },
     ],
@@ -20,19 +35,19 @@ const ROLE_FILTERS = {
       {
         label: 'Jenis Instansi',
         options: [
-          { label: 'Universitas', value: 'universitas' },
-          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
+          { label: 'Universitas', value: 1 },
+          { label: 'Lembaga Sosial', value: 2 },
         ],
       },
     ],
-    'LSD-SCP': [
+    'SCP-SMS': [
       {
         label: 'Jenis Instansi',
         options: [
-          { label: 'Pemerintah Pusat', value: 'pemerintah pusat' },
-          { label: 'Pemerintah Daerah', value: 'pemerintah daerah' },
-          { label: 'Dunia Usaha', value: 'dunia usaha' },
-          { label: 'Media Massa', value: 'media massa' },
+          { label: 'Pemerintah Pusat', value: 4 },
+          { label: 'Pemerintah Daerah', value: 5 },
+          { label: 'Dunia Usaha', value: 6 },
+          { label: 'Media Masa', value: 7 },
         ],
       },
     ],
@@ -43,47 +58,35 @@ const ROLE_FILTERS = {
       {
         label: 'Jenis Instansi',
         options: [
-          { label: 'Universitas', value: 'universitas' },
-          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
+          { label: 'Universitas', value: 1 },
+          { label: 'Lembaga Sosial', value: 2 },
         ],
       },
     ],
-    'LSD-SCP': [
+    'SCP-SMS': [
       {
         label: 'Jenis Instansi',
         options: [
-          { label: 'Pemerintah Pusat', value: 'Pemerintah Pusat' },
-          { label: 'Pemerintah Daerah', value: 'Pemerintah Daerah' },
-          { label: 'Dunia Usaha', value: 'Dunia Usaha' },
-          { label: 'Media Massa', value: 'Media Massa' },
+          { label: 'Pemerintah Pusat', value: 4 },
+          { label: 'Pemerintah Daerah', value: 5 },
+          { label: 'Dunia Usaha', value: 6 },
+          { label: 'Media Masa', value: 7 },
         ],
       },
     ],
   },
-  // SPK dan TOR memiliki filter yang sama
+  // SPK dan TOR memiliki filter yang sama.
+  // Catatan: grup "Jenis Surat" (MoU/PKS) sengaja dihapus dari sini --
+  // data baris SPK/TOR dari backend tidak membawa informasi itu sama
+  // sekali (lihat GetSpk/GetTor di back-end-sms), jadi filter itu tidak
+  // bisa benar-benar dieksekusi tanpa perubahan backend lebih lanjut.
   spk: {
     'LSD-SMS': [
       {
-        label: 'Jenis Surat',
-        options: [
-          { label: 'MoU', value: 'mou' },
-          { label: 'PKS', value: 'pks' },
-        ],
-      },
-      {
         label: 'Jenis Instansi',
         options: [
-          { label: 'Universitas', value: 'universitas' },
-          { label: 'Lembaga', value: 'lembaga' },
-        ],
-      },
-    ],
-    'SDI-SMS': [
-      {
-        label: 'Jenis Surat',
-        options: [
-          { label: 'MoU', value: 'mou' },
-          { label: 'PKS', value: 'pks' },
+          { label: 'Universitas', value: 1 },
+          { label: 'Lembaga Sosial', value: 2 },
         ],
       },
     ],
@@ -91,26 +94,10 @@ const ROLE_FILTERS = {
   tor: {
     'LSD-SMS': [
       {
-        label: 'Jenis Surat',
-        options: [
-          { label: 'MoU', value: 'mou' },
-          { label: 'PKS', value: 'pks' },
-        ],
-      },
-      {
         label: 'Jenis Instansi',
         options: [
-          { label: 'Universitas', value: 'universitas' },
-          { label: 'Lembaga', value: 'lembaga' },
-        ],
-      },
-    ],
-    'SDI-SMS': [
-      {
-        label: 'Jenis Surat',
-        options: [
-          { label: 'MoU', value: 'mou' },
-          { label: 'PKS', value: 'pks' },
+          { label: 'Universitas', value: 1 },
+          { label: 'Lembaga Sosial', value: 2 },
         ],
       },
     ],
@@ -164,25 +151,22 @@ const ROLE_FILTERS = {
       {
         label: 'Status Kontak',
         options: [
-          { label: 'Sudah dikontak', value: 'sudah' },
-          { label: 'Belum dikontak', value: 'belum' },
+          { label: 'Sudah dikontak', value: 1 },
+          { label: 'Belum dikontak', value: 0 },
         ],
       },
     ],
+    // Catatan: grup "Cluster" sengaja dihapus dari sini -- baris riset
+    // potensial dari backend tidak membawa data cluster institusi sama
+    // sekali (lihat GetResearchPotential di back-end-sms), jadi filter ini
+    // tidak bisa benar-benar dieksekusi tanpa menambahkan field itu ke
+    // query backend terlebih dulu.
     'SDI-SMS': [
-      {
-        label: 'Cluster',
-        options: [
-          { label: 'Kesehatan', value: 'kesehatan' },
-          { label: 'Pendidikan', value: 'pendidikan' },
-          { label: 'Lingkungan', value: 'lingkungan' },
-        ],
-      },
       {
         label: 'Status Kontak',
         options: [
-          { label: 'Sudah dikontak', value: 'sudah' },
-          { label: 'Belum dikontak', value: 'belum' },
+          { label: 'Sudah dikontak', value: 1 },
+          { label: 'Belum dikontak', value: 0 },
         ],
       },
     ],
@@ -199,18 +183,17 @@ const ROLE_FILTERS = {
       {
         label: 'Status Kontak',
         options: [
-          { label: 'Sudah dikontak', value: 'sudah' },
-          { label: 'Belum dikontak', value: 'belum' },
+          { label: 'Sudah dikontak', value: 1 },
+          { label: 'Belum dikontak', value: 0 },
         ],
       },
     ],
     default: [
       {
-        label: 'Cluster',
+        label: 'Status Kontak',
         options: [
-          { label: 'Kesehatan', value: 'kesehatan' },
-          { label: 'Pendidikan', value: 'pendidikan' },
-          { label: 'Lingkungan', value: 'lingkungan' },
+          { label: 'Sudah dikontak', value: 1 },
+          { label: 'Belum dikontak', value: 0 },
         ],
       },
     ],
@@ -220,9 +203,9 @@ const ROLE_FILTERS = {
       {
         label: 'Status',
         options: [
-          { label: 'Belum Audiensi', value: 'belum' },
-          { label: 'Re-Audiensi', value: 're-audiensi' },
-          { label: 'Selesai', value: 'selesai' },
+          { label: 'Belum audiensi', value: 'Belum audiensi' },
+          { label: 'Re-audiensi', value: 'Re-audiensi' },
+          { label: 'Selesai', value: 'Selesai' },
         ],
       },
     ],
@@ -230,18 +213,18 @@ const ROLE_FILTERS = {
       {
         label: 'Jenis Instansi',
         options: [
-          { label: 'Pemerintah Pusat', value: 'pemerintah pusat' },
-          { label: 'Pemerintah Daerah', value: 'pemerintah daerah' },
-          { label: 'Dunia Usaha', value: 'dunia usaha' },
-          { label: 'Media Massa', value: 'media massa' },
+          { label: 'Pemerintah Pusat', value: 4 },
+          { label: 'Pemerintah Daerah', value: 5 },
+          { label: 'Dunia Usaha', value: 6 },
+          { label: 'Media Masa', value: 7 },
         ],
       },
       {
         label: 'Status',
         options: [
-          { label: 'Belum Audiensi', value: 'belum' },
-          { label: 'Re-Audiensi', value: 're-audiensi' },
-          { label: 'Selesai', value: 'selesai' },
+          { label: 'Belum audiensi', value: 'Belum audiensi' },
+          { label: 'Re-audiensi', value: 'Re-audiensi' },
+          { label: 'Selesai', value: 'Selesai' },
         ],
       },
     ],
@@ -249,9 +232,9 @@ const ROLE_FILTERS = {
       {
         label: 'Status',
         options: [
-          { label: 'Belum Audiensi', value: 'belum' },
-          { label: 'Re-Audiensi', value: 're-audiensi' },
-          { label: 'Selesai', value: 'selesai' },
+          { label: 'Belum audiensi', value: 'Belum audiensi' },
+          { label: 'Re-audiensi', value: 'Re-audiensi' },
+          { label: 'Selesai', value: 'Selesai' },
         ],
       },
     ],
@@ -261,8 +244,8 @@ const ROLE_FILTERS = {
       {
         label: 'Jenis Instansi',
         options: [
-          { label: 'Universitas', value: 'universitas' },
-          { label: 'Lembaga Sosial', value: 'lembaga sosial' },
+          { label: 'Universitas', value: 1 },
+          { label: 'Lembaga Sosial', value: 2 },
         ],
       },
     ],
@@ -270,10 +253,10 @@ const ROLE_FILTERS = {
       {
         label: 'Jenis Instansi',
         options: [
-          { label: 'Pemerintah Pusat', value: 'pemerintah pusat' },
-          { label: 'Pemerintah Daerah', value: 'pemerintah daerah' },
-          { label: 'Dunia Usaha', value: 'dunia usaha' },
-          { label: 'Media Massa', value: 'media massa' },
+          { label: 'Pemerintah Pusat', value: 4 },
+          { label: 'Pemerintah Daerah', value: 5 },
+          { label: 'Dunia Usaha', value: 6 },
+          { label: 'Media Masa', value: 7 },
         ],
       },
     ],

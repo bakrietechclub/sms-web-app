@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { fetchWithAuth } from './client/apiClient';
+import { fetchWithAuth, buildQueryString } from './client/apiClient';
 
 /**
  * Menambahkan data potensi riset baru.
@@ -19,9 +19,15 @@ async function addResearchPotential(payload) {
  * Mengambil semua data potensi riset.
  * @returns {Promise<array>} Array data potensi riset.
  */
-async function getResearchPotential({ q, typeId, page = 1, pageSize = 10 }) {
+async function getResearchPotential({
+  q,
+  typeId,
+  page = 1,
+  pageSize = 10,
+  contactStatus,
+}) {
   const responseJson = await fetchWithAuth(
-    `/research/potential?q=${q}&typeId=${typeId}&page=${page}&pageSize=${pageSize}`,
+    `/research/potential${buildQueryString({ q, typeId, page, pageSize, contactStatus })}`,
   );
   return responseJson.data;
 }

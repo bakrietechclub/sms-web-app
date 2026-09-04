@@ -3,32 +3,36 @@ import girlHero from '../../assets/img/girl-base.png';
 
 export const HeroLandingPg = ({ username, isLoading }) => {
   return (
-    <div className='flex items-center justify-center'>
-      <div className='relative bg-gradient-to-r from-[#0D4690] to-blue-50 w-full max-w-[80%] mx auto h-[300px] rounded-lg bg-cover bg-center text-white p-7 overflow-hidden'>
-        {isLoading ? (
-          <div className='h-9 w-64 bg-white/20 rounded animate-pulse mb-2.5' />
-        ) : (
-          <h2 className='font-semibold text-3xl mb-2.5'>Halo, {username}</h2>
-        )}
-        <h6 className='font-semibold text-base'>
-          Selamat Datang di Dashboard Utama Stakeholder
-        </h6>
-        <h6 className='font-semibold text-base'>Management System</h6>
-        <p className='mt-5 text-base'>
-          Solusi inovatif untuk mengelola data anda
-        </p>
+    // Tanpa rounded/border sendiri -- komponen ini dipasang sebagai strip
+    // paling atas di dalam panel (LandingPgLyt), sudut membulatnya diurus
+    // `overflow-hidden` milik panel itu.
+    <div className='relative bg-gradient-to-r from-[#0D4690] to-blue-50 w-full bg-cover bg-center text-white py-6 px-6 sm:px-8 overflow-hidden'>
+      {/* Dekorasi -- di belakang teks (z-0), disembunyikan di layar sempit
+          supaya tidak menimpa teks */}
+      <img
+        src={cubeHero}
+        alt=''
+        aria-hidden='true'
+        className='hidden md:block absolute -bottom-4 left-0 z-0 pointer-events-none'
+      />
+      <img
+        src={girlHero}
+        alt=''
+        aria-hidden='true'
+        className='hidden md:block absolute bottom-0 right-0 z-0 pointer-events-none'
+      />
 
-        {/* Decorative Images */}
-        <img
-          src={cubeHero}
-          alt='Cube Decoration'
-          className='absolute -bottom-4 left-0'
-        />
-        <img
-          src={girlHero}
-          alt='Girl Decoration'
-          className='absolute bottom-0 right-0'
-        />
+      <div className='relative z-10'>
+        {isLoading ? (
+          <div className='h-8 w-56 bg-white/20 rounded animate-pulse mb-1' />
+        ) : (
+          <h1 className='font-semibold text-2xl sm:text-3xl mb-1'>
+            Halo, {username}
+          </h1>
+        )}
+        <p className='font-medium text-sm sm:text-base'>
+          Selamat Datang di Dashboard Utama Stakeholder Management System
+        </p>
       </div>
     </div>
   );
