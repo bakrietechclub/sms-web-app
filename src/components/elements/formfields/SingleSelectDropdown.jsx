@@ -10,6 +10,8 @@ const SingleSelectDropdown = ({
   isRequired = false,
   onClick,
   defaultValue,
+  disabled = false,
+  placeholder,
 }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState('');
@@ -19,14 +21,17 @@ const SingleSelectDropdown = ({
       const option = options.find((opt) => opt.id === defaultValue);
       if (option) {
         setSelected(option.label);
-        // Ensure form value is also set if it hasn't been touched yet (optional but good practice)
-        // setValue(name, option.id); 
-        // Note: parent usually sets form defaultValues, so we primarily need to update the visual 'selected' label here.
+        return;
       }
     }
+    // `options` berubah (mis. Batch difilter ulang setelah ganti Program)
+    // dan pilihan lama tidak ada lagi di daftar baru -- bersihkan tampilan
+    // supaya tidak menampilkan label batch yang sudah tidak relevan.
+    setSelected('');
   }, [defaultValue, options]);
 
   const toggleDropdown = () => {
+    if (disabled) return;
     setOpen((prev) => !prev);
     if (onClick) onClick();
   };
@@ -45,17 +50,22 @@ const SingleSelectDropdown = ({
       <div className="relative">
         <input
           readOnly
+          disabled={disabled}
           value={selected}
-          placeholder={`Pilih ${label.toLowerCase()}`}
+          placeholder={placeholder || `Pilih ${label.toLowerCase()}`}
           {...register(name, { required: isRequired })}
           onClick={toggleDropdown}
-          className="w-full border border-gray-300 font-normal px-3 py-2 rounded pr-8 cursor-pointer"
+          className={`w-full border border-gray-300 font-normal px-3 py-2 rounded pr-8 ${
+            disabled
+              ? 'cursor-not-allowed bg-gray-100 text-gray-400'
+              : 'cursor-pointer'
+          }`}
         />
         <div className="absolute top-1/2 right-2 -translate-y-1/2 pointer-events-none">
           {open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
         </div>
       </div>
-      {open && (
+      {open && !disabled && (
         <div className="mt-2 border border-gray-300 rounded max-h-64 overflow-y-auto">
           {options.map((option) => (
             <div

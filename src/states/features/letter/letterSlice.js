@@ -59,15 +59,29 @@ const letterSlice = createSlice({
           item.id === action.payload.id ? action.payload : item,
         );
       })
+      // `asyncGetSubClassifications` sengaja DIKECUALIKAN dari matcher
+      // loading umum di bawah -- itu dipanggil di dalam UpdateLetterModal
+      // (untuk mengisi opsi Sub Klasifikasi saat form edit dibuka), yang
+      // di-mount berdampingan dengan halaman detail. Kalau ikut menyalakan
+      // `loading` yang sama dipakai skeleton halaman detail, hasilnya
+      // adalah unmount/dispatch/mount berulang tanpa henti (lihat catatan
+      // di UpdateLetterModal.jsx) -- halaman detail nyangkut permanen di
+      // skeleton.
       .addMatcher(
-        (action) => action.type.endsWith('/pending'),
+        (action) =>
+          action.type.startsWith('letter/') &&
+          action.type.endsWith('/pending') &&
+          action.type !== 'letter/asyncGetSubClassifications/pending',
         (state) => {
           state.loading = true;
           state.error = null;
         },
       )
       .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
+        (action) =>
+          action.type.startsWith('letter/') &&
+          action.type.endsWith('/rejected') &&
+          action.type !== 'letter/asyncGetSubClassifications/rejected',
         (state, action) => {
           state.loading = false;
           state.error = action.payload;

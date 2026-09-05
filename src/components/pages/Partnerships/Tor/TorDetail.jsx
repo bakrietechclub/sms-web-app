@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '../../../elements/Button';
-import { ChevronLeft, Building2, FileText, Calendar, Users, Briefcase, ExternalLink, Link as LinkIcon, Edit, ScrollText } from 'lucide-react';
+import { ChevronLeft, Building2, FileText, Calendar, Users, Briefcase, ExternalLink, Link as LinkIcon, Edit, ScrollText, Info, Network } from 'lucide-react';
 import { Label } from '../../../elements/Label';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,10 @@ import { asyncGetTorById, asyncDeleteTorById } from '../../../../states/features
 import { selectTorDetail, selectTorLoading } from '../../../../states/features/partnerships/tor/torSelectors';
 import ConfirmationModal from '../../../fragments/ConfirmationModal';
 import UpdateTorModal from '../../../fragments/UpdateTorModal';
-import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
+import {
+  selectHasAccess,
+  selectedAccessTypeInstitutionsId,
+} from '../../../../states/features/auth/authSelectors';
 import { getButtonClasses } from '../../../../utils/styleConstants';
 import { usePermission } from '../../../../hooks/usePermission';
 import { PERM } from '../../../../constants/permissions';
@@ -20,6 +23,7 @@ export default function TorDetail() {
 
   const { id } = useParams();
   const hasAccess = useSelector(selectHasAccess);
+  const accessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const canUpdate = hasAccess && can(PERM.PARTNERSHIPS_TOR_UPDATE);
   const canDelete = hasAccess && can(PERM.PARTNERSHIPS_TOR_DELETE);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -135,6 +139,13 @@ export default function TorDetail() {
         </div>
         <div className="flex gap-2">
           <Button
+            className='border border-[#0D4690] text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors w-fit'
+            onClick={() => navigate(`/partnerships/network/tor/${id}`)}
+            title='Lihat peta dokumen terkait TOR ini (MoU, PKS, IA, SPK)'
+          >
+            <Network size={16} /> Jejaring Surat
+          </Button>
+          <Button
             disabled={!canUpdate}
             title={!canUpdate ? 'Anda tidak memiliki izin untuk memperbarui TOR' : undefined}
             className={updateButtonClasses}
@@ -162,9 +173,23 @@ export default function TorDetail() {
               <Building2 size={20} className="text-[#0D4690]" /> Informasi Instansi & Kerjasama
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <InfoItem label="Nama Instansi" value={data?.instituteName} />
-              <InfoItem label="Jenis Instansi" value={data?.instituteTypeName} />
-              <InfoItem label="Divisi Instansi" value={data?.institutionDivision} />
+              {data?.instituteName ? (
+                <>
+                  <InfoItem label="Nama Instansi" value={data?.instituteName} />
+                  <InfoItem label="Jenis Instansi" value={data?.instituteTypeName} />
+                  <InfoItem label="Divisi Instansi" value={data?.institutionDivision} />
+                </>
+              ) : (
+                <div className="col-span-full flex items-start gap-2.5 rounded-lg bg-[#F5F9FF] border border-[#E7EDF4] px-3.5 py-3 text-sm text-gray-600">
+                  <Info size={16} className="text-[#0D4690] mt-0.5 shrink-0" />
+                  <span>
+                    Informasi instansi belum tersedia karena TOR ini belum
+                    ditautkan ke PKS atau IA manapun. Tautkan ke salah
+                    satunya lewat &quot;Perbarui Data&quot; agar nama, jenis,
+                    dan divisi instansi mitra ikut tampil di sini.
+                  </span>
+                </div>
+              )}
 
               <div className="mb-4">
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Status Kerjasama</p>
@@ -281,7 +306,7 @@ export default function TorDetail() {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
           dispatch(asyncDeleteTorById({ id }));
-          navigate('/dashboard/partnerships/tor');
+          navigate('/partnerships/tor');
         }}
         title="Hapus ToR"
         confirmLabel="Hapus"
@@ -291,6 +316,7 @@ export default function TorDetail() {
         isOpen={isUpdateModalOpen}
         onClose={() => setIsUpdateModalOpen(false)}
         initialData={data}
+        accessTypeId={accessTypeId}
         onSuccess={() => dispatch(asyncGetTorById({ id }))}
       />
     </div >

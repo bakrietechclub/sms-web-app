@@ -24,7 +24,7 @@ export const Card = ({ name, image, hasAccess, selectedAccess, count }) => {
     if (!hasAccess) return;
     dispatch(setSelectedAccess(selectedAccess));
     localStorage.setItem('selectedAccess', selectedAccess);
-    navigate('/dashboard/research/potential-partner');
+    navigate('/research/potential-partner');
   };
 
   return (

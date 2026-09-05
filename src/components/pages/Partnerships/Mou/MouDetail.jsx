@@ -10,13 +10,14 @@ import {
   ExternalLink,
   Link as LinkIcon,
   Edit,
+  Network,
 } from 'lucide-react';
-import { Label } from '../../../elements/Label';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   asyncDeleteMouById,
   asyncGetMouById,
+  asyncUpdateMouStatus,
 } from '../../../../states/features/partnerships/mou/mouThunks';
 import {
   selectMouDetail,
@@ -24,6 +25,7 @@ import {
 } from '../../../../states/features/partnerships/mou/mouSelectors';
 import ConfirmationModal from '../../../fragments/ConfirmationModal';
 import UpdateMouModal from '../../../fragments/UpdateMouModal';
+import { PartnershipStatusSelect } from '../../../fragments/PartnershipStatusSelect';
 import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
 import { getButtonClasses } from '../../../../utils/styleConstants';
 import { usePermission } from '../../../../hooks/usePermission';
@@ -158,6 +160,13 @@ export default function MouDetail() {
         </div>
         <div className='flex gap-2'>
           <Button
+            className='border border-[#0D4690] text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors w-fit'
+            onClick={() => navigate(`/partnerships/network/mou/${id}`)}
+            title='Lihat peta dokumen turunan MoU ini (PKS, IA, TOR, SPK)'
+          >
+            <Network size={16} /> Jejaring Surat
+          </Button>
+          <Button
             disabled={!canUpdate}
             title={!canUpdate ? 'Anda tidak memiliki izin untuk memperbarui MoU' : undefined}
             className={updateButtonClasses}
@@ -205,10 +214,13 @@ export default function MouDetail() {
                 <p className='text-xs font-medium text-gray-500 uppercase tracking-wide mb-1'>
                   Status Kemitraan
                 </p>
-                <Label
-                  label={data?.statusPartnership || 'Draft'}
-                  status={
-                    data?.statusPartnership === 'Active' ? 'success' : 'default'
+                <PartnershipStatusSelect
+                  currentLabel={data?.statusPartnership}
+                  disabled={!canUpdate}
+                  onChange={(partnershipStatusId) =>
+                    dispatch(
+                      asyncUpdateMouStatus({ id, partnershipStatusId }),
+                    ).unwrap()
                   }
                 />
               </div>
@@ -306,7 +318,7 @@ export default function MouDetail() {
                             className='text-[#0D4690] hover:text-blue-800 text-sm font-medium transition-colors cursor-pointer'
                             onClick={() =>
                               navigate(
-                                `/dashboard/partnerships/pks/${pks.pksId}`,
+                                `/partnerships/pks/${pks.pksId}`,
                               )
                             }
                           >
@@ -414,7 +426,7 @@ export default function MouDetail() {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
           dispatch(asyncDeleteMouById({ id }));
-          navigate('/dashboard/partnerships/mou');
+          navigate('/partnerships/mou');
         }}
         title='Hapus MoU'
         message={`Apakah Anda yakin ingin menghapus data MoU dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}

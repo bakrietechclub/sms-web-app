@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Eye } from 'lucide-react';
 
+import { Button } from '../../elements/Button';
 import { Table } from '../../fragments/Table';
 import { TableToolbar } from '../../fragments/TableToolbar';
 import { Pagination } from '../../fragments/Pagination';
@@ -22,6 +25,7 @@ import AddResearchPotentialModal from '../../fragments/AddResearchPotentialModal
 
 export const PotentialPartnerRecommendations = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const data = useSelector(selectPotentialsRecommendations);
   const loading = useSelector(selectPotentialLoading);
@@ -60,15 +64,40 @@ export const PotentialPartnerRecommendations = () => {
       <td>{value.instituteName}</td>
       <td>{value.typeName}</td>
       <td>{value.regionName}</td>
-      <td>{value.totalStudents}</td>
-      <td>{value.totalStudentsRegistered}</td>
-      <td>{value.totalStudentsActive}</td>
+      <td className='py-2 text-center'>
+        <p className='font-semibold text-gray-900'>
+          {value.totalStudents} Mahasiswa
+        </p>
+        <p className='text-xs text-gray-500'>
+          {value.totalStudentsRegistered} daftar &middot;{' '}
+          {value.totalStudentsActive} aktif
+        </p>
+      </td>
+      <td className='px-4'>
+        <Button
+          onClick={() => navigate(`/research/potential-recommendations/${value.instituteId}`)}
+          className='inline-flex items-center justify-center p-2 rounded-md text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D4690]'
+          aria-label='Lihat Detail'
+          title='Lihat Detail'
+        >
+          <Eye className='w-4 h-4' />
+        </Button>
+      </td>
     </tr>
   );
 
   return (
     <>
       <h1 className='text-2xl font-semibold'>Daftar Riset Potensial Mitra</h1>
+      <p className='text-sm text-gray-500 mt-1 mb-4'>
+        Rekomendasi lembaga potensial berdasarkan wilayah dan jenis institusi
+        yang menjadi cakupan akses Anda, membantu menyaring mitra baru yang
+        belum tercatat untuk didekati lebih lanjut. Daftar ini menyoroti
+        institusi yang sudah punya mahasiswa aktif di program magang BCF
+        (mis. Campus Leaders Program) tapi belum terikat kerja sama formal
+        (belum ada MoU/PKS) -- klik &quot;Lihat Detail&quot; pada satu baris
+        untuk melihat rincian per Program yang membuktikan angkanya.
+      </p>
 
       <TableToolbar
         searchValue={query}
@@ -84,9 +113,8 @@ export const PotentialPartnerRecommendations = () => {
           'Nama',
           'Jenis ',
           'Region',
-          'Total Mahasiswa',
-          'Total Pendaftar',
-          'Total Aktif',
+          'Mahasiswa',
+          'Aksi',
         ]}
         data={data}
         renderRow={renderRow}

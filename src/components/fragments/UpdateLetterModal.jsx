@@ -1,21 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { X, Loader2 } from 'lucide-react';
-import { asyncUpdateLetterById } from '../../states/features/letter/letterThunks';
+import { asyncUpdateLetterById, asyncGetSubClassifications } from '../../states/features/letter/letterThunks';
+import { asyncGetLetterTypes } from '../../states/features/classification/classificationThunks';
+import { selectLetterTypes } from '../../states/features/classification/classificationSelectors';
 import TextField from '../elements/formfields/TextField';
 import LetterNumberingField from '../elements/formfields/LetterNumberingField';
 import SingleSelectDropdown from '../elements/formfields/SingleSelectDropdown';
 
-import { LETTER_OPTIONS, formatDateInput } from '../../utils';
+import { PROGRAM_OPTIONS } from '../../utils';
 
-const LETTER_TYPE_OPTIONS = [
-  { id: 1, label: 'Surat Permohonan Kerjasama' },
-  { id: 2, label: 'Surat Undangan Audiensi' },
-  { id: 3, label: 'MoU (Nota Kesepahaman)' },
-  { id: 4, label: 'PKS (Perjanjian Kerjasama)' },
-  { id: 5, label: 'IA (Implementation Agreement)' },
-  { id: 6, label: 'SPK (Surat Pernyataan Komitmen)' },
+// Bulan singkat dipakai LetterNumberingField untuk field "Bulan" -- disusun
+// dari `letterNumberDate` (dd/mm/yyyy) supaya field itu tidak kosong saat
+// edit, konsisten dengan MONTHS_MAP di LetterNumberingField.jsx.
+const MONTH_NAMES = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+  'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des',
 ];
 
 export default function UpdateLetterModal({
@@ -27,6 +28,7 @@ export default function UpdateLetterModal({
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dropdownRef = useRef(null);
+  const letterTypes = useSelector(selectLetterTypes);
 
   const methods = useForm({
     mode: 'onChange',
@@ -40,48 +42,86 @@ export default function UpdateLetterModal({
     reset,
   } = methods;
 
+  // Jenis Surat -- ambil dari master data asli (md_ps_letter_number_type),
+  // bukan daftar hardcode 6 item yang dulu dipakai di sini: data nyata
+  // sudah punya 8 jenis ("Surat Rekomendasi", "Sertifikat" ikut ditambahkan
+  // belakangan), jadi edit surat berjenis itu selalu tampil kosong karena
+  // opsinya tidak ada di daftar hardcode tsb.
+  //
+  // Digerbang `isOpen`: parent (LetterNumberingDetail) me-mount modal ini
+  // TEPAT SETELAH `loading` halaman detail berubah jadi false -- tanpa
+  // gerbang ini, effect di sini langsung dispatch aksi ber-prefix 'letter/'
+  // (asyncGetSubClassifications) yang menyalakan lagi `letter.loading`,
+  // yang balik membuat halaman detail menampilkan skeleton -> meng-unmount
+  // modal ini -> effect ini jalan lagi begitu di-mount ulang -> loop
+  // selamanya, itulah sebabnya halaman detail nyangkut di skeleton terus.
   useEffect(() => {
-    if (initialData) {
-      // Find the type ID by name if possible (or default to something safe, though existing data should have it)
-      const typeOption = LETTER_TYPE_OPTIONS.find(
-        (opt) => opt.label === initialData.letterNumberType,
+    if (!isOpen) return;
+    dispatch(asyncGetLetterTypes());
+  }, [dispatch, isOpen]);
+
+  const letterTypeOptions = (letterTypes || []).map((t) => ({
+    id: t.id,
+    label: t.name,
+  }));
+
+  useEffect(() => {
+    if (isOpen && initialData) {
+      const [day, month, year] = (initialData.letterNumberDate || '').split('/');
+      const isoDate = day && month && year ? `${year}-${month}-${day}` : '';
+      const monthName = month ? MONTH_NAMES[Number(month) - 1] : '';
+      const programOption = PROGRAM_OPTIONS.find(
+        (opt) => opt.id === initialData.masterSecondTierProgramId,
       );
 
+      // Muat ulang daftar sub-klasifikasi milik Kelas surat ini SEBELUM
+      // reset() -- LetterNumberingField membaca opsinya dari redux
+      // (selectSubClassifications), bukan dari prop.
+      if (initialData.partnershipLetterNumberClassificationId) {
+        dispatch(
+          asyncGetSubClassifications({
+            id: initialData.partnershipLetterNumberClassificationId,
+          }),
+        );
+      }
+
       reset({
-        // Extract IDs if available in extended data or rely on UI to provide them or default
-        // The prompt only gives display strings in initialData, assuming standard defaults or parsing
-        // Logic to parse "letterReferenceNumber" for some fields if needed,
-        // but typically update endpoint might need new values or existing ones.
-        // Initializing with what we have:
+        partnershipLetterNumberSubClassificationId:
+          initialData.partnershipLetterNumberSubClassificationId,
+        partnershipLetterNumberTypeId: initialData.partnershipLetterNumberTypeId,
+        masterSecondTierProgramId: initialData.masterSecondTierProgramId,
 
-        partnershipLetterNumberSubClassificationId: 2, // Defaulting as per payload prompt requirement for now or needs to be selected
-        partnershipLetterNumberTypeId: typeOption ? typeOption.id : 2,
-        masterSecondTierProgramId: 3, // Default as per request
-
-        letterNumber: initialData.letterNumber,
-        letterNumberDate: formatDateInput(initialData.letterNumberDate),
+        letterNumber: initialData.letterReferenceNumber,
+        letterNumberDate: isoDate,
         letterNumberSubjectOfLetter:
           initialData.letterNumberSubjectOfLetter || '',
 
-        // For LetterNumberingField to work, it might need specific field names
-        // It seems LetterNumberingField manages its own internal state or expects specific form fields
-        // Since the prompt asks to update using specific payload structure:
-
-        // Note: LetterNumberingField is complex (likely handles parts of the letter number).
-        // If we just need to send the payload requested, we map the form values to it.
+        // Field tampilan yang dibaca LetterNumberingField (lihat catatan
+        // reset-on-mount di komponen itu -- transisi pertama sekarang
+        // dilewati supaya nilai ini tidak langsung terhapus lagi).
+        letterClass: initialData.classificationName || '',
+        subClassification: initialData.subClassificationName || '',
+        program: programOption?.label || '',
+        month: monthName,
+        year: year || '',
       });
     }
-  }, [initialData, reset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, initialData, reset]);
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
 
-    // Construct payload as requested
     const payload = {
       partnershipLetterNumberSubClassificationId:
         data.partnershipLetterNumberSubClassificationId,
       partnershipLetterNumberTypeId: data.partnershipLetterNumberTypeId,
       masterSecondTierProgramId: data.masterSecondTierProgramId,
+      // Nomor referensi ("32/ADM-CLP/1/I/2025") bersifat immutable -- surat
+      // ini sudah diregistrasi dengan nomor urut atomik, jadi dikirim balik
+      // apa adanya (bukan field yang bisa diedit user) supaya kolom NOT
+      // NULL ini tidak ikut ke-NULL-kan oleh update parsial.
+      referenceNumber: initialData?.letterReferenceNumber,
       letterNumberDate: data.letterNumberDate,
       letterNumberSubjectOfLetter: data.letterNumberSubjectOfLetter,
     };
@@ -138,25 +178,12 @@ export default function UpdateLetterModal({
                 name='partnershipLetterNumberTypeId'
                 label='Jenis Surat'
                 isRequired={true}
-                options={LETTER_TYPE_OPTIONS}
+                options={letterTypeOptions}
                 register={register}
                 setValue={setValue}
-                defaultValue={
-                  initialData?.partnershipLetterNumberTypeId ||
-                  LETTER_TYPE_OPTIONS.find(
-                    (opt) => opt.label === initialData?.letterNumberType,
-                  )?.id
-                }
+                defaultValue={initialData?.partnershipLetterNumberTypeId}
               />
 
-              {/* Using LetterNumberingField might be tricky if it expects to generate a NEW number. 
-                  For UPDATE, we might just be updating metadata components (date, subject, classification).
-                  The prompt implies updating these components.
-                  We will include the LetterNumberingField but ensure it populates correctly if needed, 
-                  or just use basic fields if we are only updating metadata. 
-                  However, the prompt asks to "get reference from AddModalLetterNumbering.jsx" which uses LetterNumberingField.
-                  Let's use it to maintain consistency, assuming it can handle updates or standard inputs.
-              */}
               <LetterNumberingField />
 
               <TextField

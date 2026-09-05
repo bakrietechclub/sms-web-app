@@ -10,6 +10,7 @@ import {
   Briefcase,
   ExternalLink,
   Edit,
+  Network,
 } from 'lucide-react';
 import { Label } from '../../../elements/Label';
 import { useDispatch, useSelector } from 'react-redux';
@@ -134,6 +135,13 @@ export default function IaDetail() {
           </h1>
         </div>
         <div className='flex gap-2'>
+          <Button
+            className='border border-[#0D4690] text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors w-fit'
+            onClick={() => navigate(`/partnerships/network/ia/${id}`)}
+            title='Lihat peta dokumen terkait IA ini (MoU, PKS, TOR, SPK)'
+          >
+            <Network size={16} /> Jejaring Surat
+          </Button>
           <Button
             disabled={!canUpdate}
             title={!canUpdate ? 'Anda tidak memiliki izin untuk memperbarui IA' : undefined}
@@ -282,7 +290,7 @@ export default function IaDetail() {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
           dispatch(asyncDeleteImplementationAgreementById({ id }));
-          navigate('/dashboard/partnerships/implementation-agreements');
+          navigate('/partnerships/implementation-agreements');
         }}
         title='Hapus IA'
         message={`Apakah Anda yakin ingin menghapus data IA dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}

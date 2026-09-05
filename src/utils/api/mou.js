@@ -69,6 +69,20 @@ async function updateMouById({ id, payload }) {
   return responseJson.data;
 }
 
+/**
+ * Memperbarui status kemitraan MOU saja (tanpa mengirim ulang field lain).
+ * @param {number} id - ID MOU.
+ * @param {number} partnershipStatusId - ID status baru (md_ps_status).
+ * @returns {Promise<object>} Data status yang diperbarui.
+ */
+async function updateMouStatus({ id, partnershipStatusId }) {
+  const responseJson = await fetchWithAuth(`/partnerships/mou/${id}/status`, {
+    method: 'PATCH',
+    body: JSON.stringify({ partnershipStatusId }),
+  });
+  return responseJson.data;
+}
+
 export {
   addMou,
   getMouById,
@@ -76,4 +90,5 @@ export {
   getMouOptions,
   deleteMouById,
   updateMouById,
+  updateMouStatus,
 };

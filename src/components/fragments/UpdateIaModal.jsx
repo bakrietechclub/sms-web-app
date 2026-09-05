@@ -5,6 +5,7 @@ import { X, Loader2 } from 'lucide-react';
 
 import TextField from '../elements/formfields/TextField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
+import { IaBatchSelector } from './IaBatchSelector';
 import { Button } from '../elements/Button';
 import { STATUS_OPTIONS } from '../../utils';
 import { asyncUpdateImplementationAgreementById } from '../../states/features/partnerships/ia/iaThunks';
@@ -22,11 +23,17 @@ export default function UpdateIaModal({
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { isValid },
     reset,
   } = useForm({
     mode: 'onChange',
   });
+
+  useEffect(() => {
+    register('batchId', { required: true });
+    register('programId', { required: true });
+  }, [register]);
 
   useEffect(() => {
     if (initialData) {
@@ -40,6 +47,8 @@ export default function UpdateIaModal({
 
       reset({
         partnershipStatusId: statusId,
+        batchId: initialData.batchId || null,
+        programId: initialData.programId || null,
         iaYearOfImplementation: initialData.iaYearOfImplementations || '',
         iaLetterNumberPartner: initialData.iaLetterNumberPartner || '',
         iaNameOfBcf: initialData.iaNameOfBcf || '',
@@ -48,6 +57,8 @@ export default function UpdateIaModal({
       });
     }
   }, [initialData, reset]);
+
+  const selectedBatchId = watch('batchId');
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
@@ -129,6 +140,19 @@ export default function UpdateIaModal({
                     (opt) => opt.label === initialData?.iaPartnershipStatusName,
                   )?.id
                 }
+              />
+            </div>
+
+            <div>
+              <label className='block mb-2 font-medium text-gray-700'>
+                Program &amp; Batch <span className='text-red-500'>*</span>
+              </label>
+              <IaBatchSelector
+                value={selectedBatchId}
+                onChange={({ batchId, programId }) => {
+                  setValue('batchId', batchId, { shouldValidate: true });
+                  setValue('programId', programId, { shouldValidate: true });
+                }}
               />
             </div>
 

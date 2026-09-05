@@ -85,6 +85,21 @@ async function updateImplementationAgreementById({ id, payload }) {
   return responseJson.data;
 }
 
+/**
+ * Mengambil opsi "Batch Program" untuk form IA, satu dropdown gabungan
+ * Program+Batch dikelompokkan per Program (mis. "Campus Leaders Program -
+ * Batch 8" berisi "Internship MSIB Reguler - Batch 8", "Internship Mandiri
+ * - Batch 8", dst) -- sesuai pola BatchSelector di web-app-clp, hanya saja
+ * datanya sekaligus dalam satu response (tidak perlu pilih Program dulu).
+ * @returns {Promise<Array<{mainProgramName, mainBatchName, subBatches}>>}
+ */
+async function getIABatchOptions() {
+  const responseJson = await fetchWithAuth(
+    '/partnerships/implementation-agreements-batches',
+  );
+  return responseJson.data;
+}
+
 export {
   addImplementationAgreement,
   getImplementationAgreements,
@@ -92,4 +107,5 @@ export {
   getImplementationAgreementById,
   deleteImplementationAgreementById,
   updateImplementationAgreementById,
+  getIABatchOptions,
 };

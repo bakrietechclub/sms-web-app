@@ -61,15 +61,24 @@ const torSlice = createSlice({
       .addCase(asyncUpdateTorById.fulfilled, (state) => {
         state.loading = false;
       })
+      // HARUS di-scope ke prefix 'tor/' -- endsWith('/pending') polos akan
+      // ikut cocok dengan thunk pending dari slice MANAPUN di seluruh app.
+      // Kalau ada thunk lain yang kebetulan pending setelah asyncGetTorById
+      // selesai, `loading` di sini akan menyala lagi dan tidak pernah
+      // dimatikan (karena tidak ada lagi action 'tor/*/fulfilled' atau
+      // 'tor/*/rejected' yang menyusul) -- itulah sebabnya halaman detail
+      // TOR bisa nyangkut permanen di skeleton loading.
       .addMatcher(
-        (action) => action.type.endsWith('/pending'),
+        (action) =>
+          action.type.startsWith('tor/') && action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
           state.error = null;
         },
       )
       .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
+        (action) =>
+          action.type.startsWith('tor/') && action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;

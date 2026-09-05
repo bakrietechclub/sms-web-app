@@ -1,3 +1,4 @@
+import { Eye } from 'lucide-react';
 import { Label } from '../../../elements/Label';
 import { Button } from '../../../elements/Button';
 import { FreezeTable } from '../../../fragments/Table';
@@ -59,21 +60,21 @@ export const Ia = () => {
   const renderRowFreeze = (value, index) => (
     <tr
       key={index}
-      className='border-b border-r border-[#E7EDF4] h-10'
+      className='border-b border-r border-[#E7EDF4] h-14'
     >
-      <td className='py-3 border-b border-gray-200'>
+      <td className='px-4 py-3 border-b border-gray-200'>
         {(currentPage - 1) * (meta?.limit || 10) + index + 1}
       </td>
-      <td className='border-b border-gray-200'>{value.instituteName}</td>
-      <td className='border-b border-gray-200'>{value.instituteTypeName}</td>
-      <td className='border-b border-gray-200'>{value.institutionDivision}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.instituteName}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.instituteTypeName}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.institutionDivision}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
     <tr
       key={index}
-      className='border-b border-[#E7EDF4] h-10'
+      className='border-b border-[#E7EDF4] h-14'
     >
       <td className='py-3 px-4 border-b border-gray-200'>
         <Label
@@ -95,12 +96,14 @@ export const Ia = () => {
         <Button
           onClick={() => {
             navigate(
-              `/dashboard/partnerships/implementation-agreements/${value.iaId}`,
+              `/partnerships/implementation-agreements/${value.iaId}`,
             );
           }}
-          className='text-[#0D4690] underline cursor-pointer'
+          className='inline-flex items-center justify-center p-2 rounded-md text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D4690]'
+          aria-label='Lihat Detail'
+          title='Lihat Detail'
         >
-          Lihat Detail
+          <Eye className='w-4 h-4' />
         </Button>
       </td>
     </tr>
@@ -109,6 +112,11 @@ export const Ia = () => {
   return (
     <div>
       <h1 className='text-2xl font-semibold'>Tabel IA</h1>
+      <p className='text-sm text-gray-500 mt-1 mb-4'>
+        Implementation Agreement, rincian teknis pelaksanaan program yang
+        diturunkan dari satu PKS, dibuat opsional bila program membutuhkan
+        rincian implementasi tersendiri.
+      </p>
 
       <TableToolbar
         searchValue={query}

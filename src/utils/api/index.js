@@ -12,6 +12,7 @@ import * as pks from './pks';
 import * as ia from './ia';
 import * as tor from './tor';
 import * as spk from './spk';
+import * as network from './network';
 import * as letter from './letter';
 import * as institutions from './institutions';
 import * as classifications from './classifications';
@@ -37,6 +38,7 @@ const api = {
   ...ia,
   ...tor,
   ...spk,
+  ...network,
   ...letter,
   ...institutions,
   ...classifications,

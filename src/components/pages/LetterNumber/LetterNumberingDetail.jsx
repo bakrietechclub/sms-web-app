@@ -90,16 +90,16 @@ export default function LetterNumberingDetail() {
 
     // Mapping tipe dokumen ke path route
     const routeMap = {
-      'PKS (Perjanjian Kerjasama)': `/dashboard/partnerships/pks/${doc.documentId}`,
-      'MoU (Nota Kesepahaman)': `/dashboard/partnerships/mou/${doc.documentId}`,
-      'IA (Implementation Agreement)': `/dashboard/partnerships/ia/${doc.documentId}`,
-      'SPK (Surat Pernyataan Komitmen)': `/dashboard/partnerships/spk/${doc.documentId}`,
+      'PKS (Perjanjian Kerjasama)': `/partnerships/pks/${doc.documentId}`,
+      'MoU (Nota Kesepahaman)': `/partnerships/mou/${doc.documentId}`,
+      'IA (Implementation Agreement)': `/partnerships/ia/${doc.documentId}`,
+      'SPK (Surat Pernyataan Komitmen)': `/partnerships/spk/${doc.documentId}`,
       // tambahkan sesuai tipe dokumen lain
     };
 
     const path =
       routeMap[doc.documentTypeName] ||
-      `/dashboard/partnerships/documents/${doc.documentId}`; // default fallback
+      `/partnerships/documents/${doc.documentId}`; // default fallback
 
     navigate(path);
   };
@@ -271,7 +271,7 @@ export default function LetterNumberingDetail() {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
           dispatch(asyncDeleteLetterById({ id }));
-          navigate('/dashboard/letter-numbers');
+          navigate('/letter-numbers');
         }}
         title='Hapus Nomor Surat'
         confirmLabel='Hapus'

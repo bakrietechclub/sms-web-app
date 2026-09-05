@@ -1,3 +1,4 @@
+import { Eye } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Label } from '../../elements/Label';
@@ -97,12 +98,14 @@ export const PotentialPartner = () => {
         <Button
           onClick={() => {
             navigate(
-              `/dashboard/research/potential-partner/${value.researchPotentialId}`,
+              `/research/potential-partner/${value.researchPotentialId}`,
             );
           }}
-          className='text-[#0D4690] underline cursor-pointer rounded hover:text-[#092d5c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D4690]'
+          className='inline-flex items-center justify-center p-2 rounded-md text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D4690]'
+          aria-label='Lihat Detail'
+          title='Lihat Detail'
         >
-          Lihat Detail
+          <Eye className='w-4 h-4' />
         </Button>
       </td>
     </tr>
@@ -111,6 +114,12 @@ export const PotentialPartner = () => {
   return (
     <>
       <h1 className='text-2xl font-semibold'>Daftar Riset Potensial Mitra</h1>
+      <p className='text-sm text-gray-500 mt-1 mb-4'>
+        Pendataan lembaga (universitas, NGO, komunitas, media, dunia usaha,
+        pemerintahan, hingga lembaga internasional) yang berpotensi menjadi
+        mitra kerja sama, lengkap dengan kontak penghubung, status kontak,
+        analisis SWOT, kebutuhan, dan program kerja sama yang dijajaki.
+      </p>
 
       <TableToolbar
         searchValue={query}

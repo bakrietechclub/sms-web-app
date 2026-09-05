@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '../../../elements/Button';
-import { Label } from '../../../elements/Label';
+import { PartnershipStatusSelect } from '../../../fragments/PartnershipStatusSelect';
 import {
   ChevronLeft,
   Building2,
@@ -14,10 +14,12 @@ import {
   Link as LinkIcon,
   Edit,
   ScrollText,
+  Network,
 } from 'lucide-react';
 import {
   asyncDeletePksById,
   asyncGetPksById,
+  asyncUpdatePksStatus,
 } from '../../../../states/features/partnerships/pks/pksThunks';
 import {
   selectPksDetail,
@@ -160,6 +162,13 @@ export default function PksDetail() {
         </div>
         <div className='flex gap-2'>
           <Button
+            className='border border-[#0D4690] text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors w-fit'
+            onClick={() => navigate(`/partnerships/network/pks/${id}`)}
+            title='Lihat peta dokumen terkait PKS ini (MoU, IA, TOR, SPK)'
+          >
+            <Network size={16} /> Jejaring Surat
+          </Button>
+          <Button
             disabled={!canUpdate}
             title={!canUpdate ? 'Anda tidak memiliki izin untuk memperbarui PKS' : undefined}
             className={updateButtonClasses}
@@ -207,9 +216,14 @@ export default function PksDetail() {
                 <p className='text-xs font-medium text-gray-500 uppercase tracking-wide mb-1'>
                   Status Kemitraan
                 </p>
-                <Label
-                  label={data?.statusPartnership}
-                  status='success'
+                <PartnershipStatusSelect
+                  currentLabel={data?.statusPartnership}
+                  disabled={!canUpdate}
+                  onChange={(partnershipStatusId) =>
+                    dispatch(
+                      asyncUpdatePksStatus({ id, partnershipStatusId }),
+                    ).unwrap()
+                  }
                 />
               </div>
               <div className='col-span-full'>
@@ -294,7 +308,7 @@ export default function PksDetail() {
                             className='text-[#0D4690] hover:text-blue-800 text-sm font-medium transition-colors cursor-pointer'
                             onClick={() =>
                               navigate(
-                                `/dashboard/partnerships/implementation-agreements/${value.iaId}`,
+                                `/partnerships/implementation-agreements/${value.iaId}`,
                               )
                             }
                           >
@@ -370,7 +384,7 @@ export default function PksDetail() {
                             className='text-[#0D4690] hover:text-blue-800 text-sm font-medium transition-colors cursor-pointer'
                             onClick={() =>
                               navigate(
-                                `/dashboard/partnerships/tor/${value.torId}`,
+                                `/partnerships/tor/${value.torId}`,
                               )
                             }
                           >
@@ -476,7 +490,7 @@ export default function PksDetail() {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
           dispatch(asyncDeletePksById({ id }));
-          navigate('/dashboard/partnerships/pks');
+          navigate('/partnerships/pks');
         }}
         title='Hapus PKS'
         message={`Apakah Anda yakin ingin menghapus data PKS dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}

@@ -55,15 +55,20 @@ const spkSlice = createSlice({
       .addCase(asyncUpdateSpkById.fulfilled, (state) => {
         state.loading = false;
       })
+      // HARUS di-scope ke prefix 'spk/' -- lihat catatan yang sama di
+      // torSlice soal kenapa endsWith('/pending') polos bikin halaman
+      // detail bisa nyangkut permanen di skeleton loading.
       .addMatcher(
-        (action) => action.type.endsWith('/pending'),
+        (action) =>
+          action.type.startsWith('spk/') && action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
           state.error = null;
         },
       )
       .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
+        (action) =>
+          action.type.startsWith('spk/') && action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;

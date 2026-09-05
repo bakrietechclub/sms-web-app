@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
 import { X, Loader2 } from 'lucide-react';
 
 import TextField from '../elements/formfields/TextField';
@@ -10,11 +11,16 @@ import { Button } from '../elements/Button';
 import { STATUS_OPTIONS, formatDateInput } from '../../utils';
 import { calculateDueDate } from '../../utils/dateHelpers';
 import { asyncUpdateTorById } from '../../states/features/partnerships/tor/torThunks';
+import { selectAllPksOptions } from '../../states/features/partnerships/pks/pksSelectors';
+import { selectAllIAsOptions } from '../../states/features/partnerships/ia/iaSelectors';
+import { asyncGetPksOptions } from '../../states/features/partnerships/pks/pksThunks';
+import { asyncGetImplementationAgreementsOptions } from '../../states/features/partnerships/ia/iaThunks';
 
 export default function UpdateTorModal({
   isOpen,
   onClose,
   initialData,
+  accessTypeId,
   onSuccess,
 }) {
   const dispatch = useDispatch();
@@ -31,6 +37,42 @@ export default function UpdateTorModal({
     mode: 'onChange',
   });
 
+  // PKS/IA opsional -- react-select bukan input native, jadi didaftarkan
+  // manual (pola sama dengan AddTorModal) supaya react-hook-form tetap
+  // ikut melacaknya walau tidak wajib diisi.
+  useEffect(() => {
+    register('partnershipIaId');
+    register('partnershipPksId');
+  }, [register]);
+
+  const [query, setQuery] = useState({ ia: '', pks: '' });
+  const [selectedIA, setSelectedIA] = useState(null);
+  const [selectedPkS, setSelectedPkS] = useState(null);
+  const iaOptions = useSelector(selectAllIAsOptions);
+  const pksOptions = useSelector(selectAllPksOptions);
+
+  const formattedIaOptions = iaOptions.map((item) => ({
+    value: item.id,
+    label: item.label,
+  }));
+  const formattedPksOptions = pksOptions.map((item) => ({
+    value: item.id,
+    label: item.label,
+  }));
+
+  useEffect(() => {
+    dispatch(
+      asyncGetImplementationAgreementsOptions({
+        query: query.ia,
+        typeId: accessTypeId,
+      }),
+    );
+  }, [accessTypeId, dispatch, query.ia]);
+
+  useEffect(() => {
+    dispatch(asyncGetPksOptions({ query: query.pks, typeId: accessTypeId }));
+  }, [accessTypeId, dispatch, query.pks]);
+
   useEffect(() => {
     if (initialData) {
       // Map status label to ID if only label is provided
@@ -43,6 +85,8 @@ export default function UpdateTorModal({
 
       reset({
         partnershipStatusId: statusId,
+        partnershipPksId: initialData.partnershipPksId || null,
+        partnershipIaId: initialData.partnershipIaId || null,
         torDetailPartnership: initialData.torDetailPartnership || '',
         torNameOfPartner: initialData.torNameOfPartner || '',
         torNameofBcf: initialData.torNameofBcf || '',
@@ -51,7 +95,32 @@ export default function UpdateTorModal({
         torDueDate: formatDateInput(initialData.torDueDate) || '',
         torDocumentUrl: initialData.torDocumentUrl || '',
       });
+
+      // Label PKS/IA yang sudah tertaut tidak ikut dikirim GetTorById (cuma
+      // id-nya) -- cari labelnya dari daftar opsi begitu tersedia supaya
+      // react-select tidak tampil kosong padahal sudah ada isinya.
+      setSelectedIA(
+        initialData.partnershipIaId
+          ? formattedIaOptions.find(
+              (opt) => opt.value === initialData.partnershipIaId,
+            ) || {
+              value: initialData.partnershipIaId,
+              label: `IA #${initialData.partnershipIaId}`,
+            }
+          : null,
+      );
+      setSelectedPkS(
+        initialData.partnershipPksId
+          ? formattedPksOptions.find(
+              (opt) => opt.value === initialData.partnershipPksId,
+            ) || {
+              value: initialData.partnershipPksId,
+              label: `PKS #${initialData.partnershipPksId}`,
+            }
+          : null,
+      );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData, reset]);
 
   // Auto-calculate torDueDate based on torSignatureDate + torTimePeriod (in years)
@@ -119,6 +188,75 @@ export default function UpdateTorModal({
             onSubmit={handleSubmit(onSubmit)}
             className='px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto'
           >
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
+              <div>
+                <label className='block mb-2 font-medium text-gray-700'>
+                  IA (Opsional)
+                </label>
+                <Select
+                  name='partnershipIaId'
+                  options={formattedIaOptions}
+                  placeholder='Cari & pilih IA'
+                  onInputChange={(val) =>
+                    setQuery((prev) => ({ ...prev, ia: val }))
+                  }
+                  onChange={(option) => {
+                    setSelectedIA(option);
+                    setValue('partnershipIaId', option ? option.value : null, {
+                      shouldValidate: true,
+                    });
+                  }}
+                  isClearable
+                  isSearchable
+                  value={selectedIA}
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      minHeight: '42px',
+                      borderColor: '#d1d5db',
+                      '&:hover': {
+                        borderColor: '#9ca3af',
+                      },
+                    }),
+                  }}
+                />
+              </div>
+              <div>
+                <label className='block mb-2 font-medium text-gray-700'>
+                  PkS (Opsional)
+                </label>
+                <Select
+                  name='partnershipPksId'
+                  options={formattedPksOptions}
+                  placeholder='Cari & pilih PkS'
+                  onInputChange={(val) =>
+                    setQuery((prev) => ({ ...prev, pks: val }))
+                  }
+                  onChange={(option) => {
+                    setSelectedPkS(option);
+                    setValue(
+                      'partnershipPksId',
+                      option ? option.value : null,
+                      { shouldValidate: true },
+                    );
+                  }}
+                  isClearable
+                  isSearchable
+                  value={selectedPkS}
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      minHeight: '42px',
+                      borderColor: '#d1d5db',
+                      '&:hover': {
+                        borderColor: '#9ca3af',
+                      },
+                    }),
+                  }}
+                />
+              </div>
+            </div>
+
             <TextField
               name='torDetailPartnership'
               label='Detail Kerjasama'

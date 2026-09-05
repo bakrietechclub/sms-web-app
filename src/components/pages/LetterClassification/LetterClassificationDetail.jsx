@@ -120,7 +120,7 @@ export const LetterClassificationDetail = () => {
   return (
     <div>
       <button
-        onClick={() => navigate('/dashboard/letter-classifications')}
+        onClick={() => navigate('/letter-classifications')}
         className='flex items-center gap-1 text-sm text-[#0D4690] hover:underline cursor-pointer mb-2'
       >
         <ChevronLeft size={16} />

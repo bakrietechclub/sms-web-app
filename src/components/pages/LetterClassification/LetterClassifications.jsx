@@ -37,7 +37,11 @@ export const LetterClassifications = () => {
 
   const [activeTab, setActiveTab] = useState('classification');
   const [search, setSearch] = useState('');
-  const [formModal, setFormModal] = useState({ open: false, mode: 'add', item: null });
+  const [formModal, setFormModal] = useState({
+    open: false,
+    mode: 'add',
+    item: null,
+  });
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -57,16 +61,21 @@ export const LetterClassifications = () => {
 
   const openAdd = () => setFormModal({ open: true, mode: 'add', item: null });
   const openEdit = (item) => setFormModal({ open: true, mode: 'edit', item });
-  const closeForm = () => setFormModal({ open: false, mode: 'add', item: null });
+  const closeForm = () =>
+    setFormModal({ open: false, mode: 'add', item: null });
 
   const confirmDelete = async () => {
     if (!deleteTarget) return;
     setIsDeleting(true);
     try {
       if (activeTab === 'classification') {
-        await dispatch(asyncDeleteClassificationById({ id: deleteTarget.id })).unwrap();
+        await dispatch(
+          asyncDeleteClassificationById({ id: deleteTarget.id }),
+        ).unwrap();
       } else {
-        await dispatch(asyncDeleteLetterTypeById({ id: deleteTarget.id })).unwrap();
+        await dispatch(
+          asyncDeleteLetterTypeById({ id: deleteTarget.id }),
+        ).unwrap();
       }
       setDeleteTarget(null);
     } catch (err) {
@@ -80,29 +89,33 @@ export const LetterClassifications = () => {
   };
 
   const renderActions = (item, options = {}) => (
-    <td className='p-3 border-b border-gray-200'>
+    <td className="p-3 border-b border-gray-200">
       <div
-        className='flex items-center justify-center gap-2'
+        className="flex items-center justify-center gap-2"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={() => openEdit(item)}
           disabled={!canUpdate}
-          className='text-[#0D4690] hover:bg-[#E7EDF4] p-2 rounded-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed'
-          title={!canUpdate ? 'Anda tidak memiliki izin untuk mengubah' : 'Ubah'}
+          className="text-[#0D4690] hover:bg-[#E7EDF4] p-2 rounded-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          title={
+            !canUpdate ? 'Anda tidak memiliki izin untuk mengubah' : 'Ubah'
+          }
         >
           <Pencil size={16} />
         </button>
         <button
           onClick={() => setDeleteTarget(item)}
           disabled={!canDelete}
-          className='text-red-600 hover:bg-red-50 p-2 rounded-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed'
-          title={!canDelete ? 'Anda tidak memiliki izin untuk menghapus' : 'Hapus'}
+          className="text-red-600 hover:bg-red-50 p-2 rounded-md cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          title={
+            !canDelete ? 'Anda tidak memiliki izin untuk menghapus' : 'Hapus'
+          }
         >
           <Trash2 size={16} />
         </button>
         {options.withChevron && (
-          <ChevronRight size={16} className='text-gray-300' />
+          <ChevronRight size={16} className="text-gray-300" />
         )}
       </div>
     </td>
@@ -111,21 +124,21 @@ export const LetterClassifications = () => {
   const renderClassificationRow = (item, index) => (
     <tr
       key={item.id}
-      onClick={() => navigate(`/dashboard/letter-classifications/${item.id}`)}
-      className='border-b border-[#E7EDF4] h-10 cursor-pointer hover:bg-[#F5F9FF]'
-      title='Kelola sub-klasifikasi dari klasifikasi ini'
+      onClick={() => navigate(`/letter-classifications/${item.id}`)}
+      className="border-b border-[#E7EDF4] h-10 cursor-pointer hover:bg-[#F5F9FF]"
+      title="Kelola sub-klasifikasi dari klasifikasi ini"
     >
-      <td className='py-3 border-b border-gray-200'>{index + 1}</td>
-      <td className='p-3 border-b border-gray-200'>{item.name}</td>
-      <td className='p-3 border-b border-gray-200'>{item.code || '-'}</td>
+      <td className="py-3 border-b border-gray-200">{index + 1}</td>
+      <td className="p-3 border-b border-gray-200">{item.name}</td>
+      <td className="p-3 border-b border-gray-200">{item.code || '-'}</td>
       {renderActions(item, { withChevron: true })}
     </tr>
   );
 
   const renderTypeRow = (item, index) => (
-    <tr key={item.id} className='border-b border-[#E7EDF4] h-10'>
-      <td className='py-3 border-b border-gray-200'>{index + 1}</td>
-      <td className='p-3 border-b border-gray-200'>{item.name}</td>
+    <tr key={item.id} className="border-b border-[#E7EDF4] h-10">
+      <td className="py-3 border-b border-gray-200">{index + 1}</td>
+      <td className="p-3 border-b border-gray-200">{item.name}</td>
       {renderActions(item)}
     </tr>
   );
@@ -143,7 +156,8 @@ export const LetterClassifications = () => {
       headers: ['No', 'Nama', 'Aksi'],
       data: letterTypes,
       renderRow: renderTypeRow,
-      matchesSearch: (item, keyword) => item.name?.toLowerCase().includes(keyword),
+      matchesSearch: (item, keyword) =>
+        item.name?.toLowerCase().includes(keyword),
     },
   };
 
@@ -163,22 +177,14 @@ export const LetterClassifications = () => {
 
   return (
     <div>
-      <h1 className='text-2xl font-semibold'>Klasifikasi Penomoran Surat</h1>
-      <p className='text-sm text-gray-500 mt-1'>
+      <h1 className="text-2xl font-semibold">Klasifikasi Penomoran Surat</h1>
+      <p className="text-sm text-gray-500 mt-1">
         Kelola klasifikasi dan jenis surat yang dipakai saat penomoran surat,
         sertifikat, dan surat rekomendasi. Klik salah satu klasifikasi untuk
         mengelola sub-klasifikasinya.
       </p>
 
-      <TableToolbar
-        searchValue={search}
-        onSearchChange={setSearch}
-        onAddClick={openAdd}
-        canCreate={canCreate}
-        searchWidth='w-1/4'
-      />
-
-      <div className='flex items-center gap-2 border-b border-gray-200'>
+      <div className="flex items-center gap-2 border-b border-gray-200">
         {TABS.map((tab) => (
           <button
             key={tab.key}
@@ -220,7 +226,7 @@ export const LetterClassifications = () => {
         onConfirm={confirmDelete}
         title={`Hapus ${TABS.find((t) => t.key === activeTab)?.label}`}
         message={`Apakah Anda yakin ingin menghapus "${deleteTarget?.name}"?`}
-        confirmLabel='Hapus'
+        confirmLabel="Hapus"
         isDanger
         isLoading={isDeleting}
       />

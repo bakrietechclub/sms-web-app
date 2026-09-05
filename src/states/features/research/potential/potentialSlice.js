@@ -9,11 +9,13 @@ import {
   asyncGetResearchPotentialOptionsById,
   asyncGetDetailResearchPotentialOptionsById,
   asyncGetResearchPotentialRecommendations,
+  asyncGetResearchPotentialRecommendationDetail,
 } from './potentialThunks';
 
 const initialState = {
   potentials: [],
   potentialsRecommendations: [],
+  recommendationDetail: null,
   potentialsOptions: [],
   potentialsOptionsDetail: null,
   potentialOptionDetail: null,
@@ -53,6 +55,13 @@ const potentialSlice = createSlice({
           state.potentialsRecommendations =
             action.payload.result || action.payload;
           state.meta = action.payload.meta || null;
+        },
+      )
+      .addCase(
+        asyncGetResearchPotentialRecommendationDetail.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.recommendationDetail = action.payload;
         },
       )
       .addCase(asyncGetResearchPotentialOptions.fulfilled, (state, action) => {

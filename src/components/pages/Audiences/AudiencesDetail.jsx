@@ -241,7 +241,7 @@ export default function AudiencesDetail() {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
           dispatch(asyncDeleteAudienceById({ id }));
-          navigate('/dashboard/audiences');
+          navigate('/audiences');
         }}
         title='Hapus Audiensi'
         message={`Apakah Anda yakin ingin menghapus data audiensi dengan "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}

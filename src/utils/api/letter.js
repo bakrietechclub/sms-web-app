@@ -1,4 +1,4 @@
-import { fetchWithAuth } from './client/apiClient';
+import { fetchWithAuth, buildQueryString } from './client/apiClient';
 
 async function addLetter(payload) {
   const responseJson = await fetchWithAuth('/letter-numbers', {
@@ -13,9 +13,9 @@ async function getLetterById({ id }) {
   return responseJson.data;
 }
 
-async function getLetter({ page = 1, pageSize = 10 } = {}) {
+async function getLetter({ q = '', page = 1, pageSize = 10 } = {}) {
   const responseJson = await fetchWithAuth(
-    `/letter-numbers?page=${page}&pageSize=${pageSize}`,
+    `/letter-numbers${buildQueryString({ q, page, pageSize })}`,
   );
   return responseJson.data;
 }

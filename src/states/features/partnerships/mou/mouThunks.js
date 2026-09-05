@@ -76,3 +76,15 @@ export const asyncUpdateMouById = createAsyncThunk(
     }
   },
 );
+
+export const asyncUpdateMouStatus = createAsyncThunk(
+  'mou/asyncUpdateMouStatus',
+  async ({ id, partnershipStatusId }, { rejectWithValue }) => {
+    try {
+      const data = await api.updateMouStatus({ id, partnershipStatusId });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);

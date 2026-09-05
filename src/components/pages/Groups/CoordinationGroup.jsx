@@ -1,3 +1,4 @@
+import { Eye } from 'lucide-react';
 import { Button } from '../../elements/Button';
 import { Table } from '../../fragments/Table';
 import { useState, useEffect } from 'react';
@@ -78,12 +79,14 @@ export const CoordinationGroup = () => {
       <td>{value.picName === null ? 'Belum ada PIC' : value.picName}</td>
       <td>
         <Button
-          className='text-[#0D4690] underline cursor-pointer'
+          className='inline-flex items-center justify-center p-2 rounded-md text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D4690]'
           onClick={() => {
-            navigate(`/dashboard/groups/${value.groupId}`);
+            navigate(`/groups/${value.groupId}`);
           }}
+          aria-label='Lihat Detail'
+          title='Lihat Detail'
         >
-          Lihat Detail
+          <Eye className='w-4 h-4' />
         </Button>
       </td>
     </tr>
@@ -93,6 +96,10 @@ export const CoordinationGroup = () => {
   return (
     <div>
       <h1 className='text-2xl font-semibold'>Tabel Grup Koordinasi</h1>
+      <p className='text-sm text-gray-500 mt-1 mb-4'>
+        Grup komunikasi (mis. WhatsApp) untuk setiap mitra, beserta daftar
+        kontak penghubung dan status keaktifannya di grup tersebut.
+      </p>
 
       <TableToolbar
         searchValue={query}

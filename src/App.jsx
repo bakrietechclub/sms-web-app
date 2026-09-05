@@ -11,6 +11,8 @@ import { Pks } from './components/pages/Partnerships/Pks/Pks';
 import { Spk } from './components/pages/Partnerships/Spk/Spk';
 import { Tor } from './components/pages/Partnerships/Tor/Tor';
 import { Ia } from './components/pages/Partnerships/Ia/Ia';
+import { PartnershipFlowOverview } from './components/pages/Partnerships/PartnershipFlowOverview';
+import { PartnershipNetworkPage } from './components/pages/Partnerships/PartnershipNetworkPage';
 import { LetterNumbering } from './components/pages/LetterNumber/LetterNumbering';
 import { LetterClassifications } from './components/pages/LetterClassification/LetterClassifications';
 import { LetterClassificationDetail } from './components/pages/LetterClassification/LetterClassificationDetail';
@@ -31,6 +33,7 @@ import SpkDetail from './components/pages/Partnerships/Spk/SpkDetail';
 import LetterNumberingDetail from './components/pages/LetterNumber/LetterNumberingDetail';
 import ColabPartnerDetail from './components/pages/Researches/ColabPartnerDetail';
 import { PotentialPartnerRecommendations } from './components/pages/Researches/PotentialPartnerRecommendations';
+import { PotentialPartnerRecommendationDetail } from './components/pages/Researches/PotentialPartnerRecommendationDetail';
 import CoordinationGroupContactUpdate from './components/pages/Groups/CoordinationGroupContactUpdate';
 import NotFoundPage from './components/pages/NotFoundPage';
 
@@ -61,12 +64,12 @@ const App = () => {
         path='/home'
         element={<LandingPage />}
       />
+      {/* Layout tanpa `path` -- anak-anaknya jadi route level-root
+          (/research/..., /partnerships/..., dst), bukan berat sebelah
+          /dashboard/research/... yang tidak menambah makna apa pun di URL.
+          Index lama di sini (duplikat PotentialPartner) dihapus karena
+          tidak ada satu pun link yang menuju path kosong ini. */}
       <Route element={<DashboardPage />}>
-        <Route path='dashboard'>
-          <Route
-            index
-            element={<PotentialPartner />}
-          />
           <Route path='research'>
             <Route path='potential-partner'>
               <Route
@@ -78,10 +81,16 @@ const App = () => {
                 element={<PotentialPartnerDetail />}
               />
             </Route>
-            <Route
-              path='potential-recommendations'
-              element={<PotentialPartnerRecommendations />}
-            />
+            <Route path='potential-recommendations'>
+              <Route
+                index
+                element={<PotentialPartnerRecommendations />}
+              />
+              <Route
+                path=':id'
+                element={<PotentialPartnerRecommendationDetail />}
+              />
+            </Route>
             <Route path='colab-partner'>
               <Route
                 index
@@ -118,6 +127,10 @@ const App = () => {
             />
           </Route>
           <Route path='partnerships'>
+            <Route
+              index
+              element={<PartnershipFlowOverview />}
+            />
             <Route path='mou'>
               <Route
                 index
@@ -128,6 +141,10 @@ const App = () => {
                 element={<MouDetail />}
               />
             </Route>
+            <Route
+              path='network/:type/:id'
+              element={<PartnershipNetworkPage />}
+            />
             <Route path='pks'>
               <Route
                 index
@@ -189,7 +206,6 @@ const App = () => {
               element={<LetterClassificationDetail />}
             />
           </Route>
-        </Route>
       </Route>
       <Route
         path='/*'

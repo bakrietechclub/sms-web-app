@@ -1,3 +1,4 @@
+import { Eye } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -58,33 +59,35 @@ export const Pks = () => {
   const renderRowFreeze = (value, index) => (
     <tr
       key={index}
-      className='border-b border-r border-[#E7EDF4] h-10'
+      className='border-b border-r border-[#E7EDF4] h-14'
     >
-      <td className='py-3 border-b border-gray-200'>
+      <td className='px-4 py-3 border-b border-gray-200'>
         {(currentPage - 1) * (meta?.limit || 10) + index + 1}
       </td>
-      <td className='border-b border-gray-200'>{value.instituteName}</td>
-      <td className='border-b border-gray-200'>{value.instituteTypeName}</td>
-      <td className='border-b border-gray-200'>{value.institutionDivision}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.instituteName}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.instituteTypeName}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.institutionDivision}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
     <tr
       key={index}
-      className='border-b border-[#E7EDF4] h-10'
+      className='border-b border-[#E7EDF4] h-14'
     >
-      <td className='border-b border-gray-200'>{value.pksSignatureDate}</td>
-      <td className='border-b border-gray-200'>{value.pksTimePeriod}</td>
-      <td className='border-b border-gray-200'>{value.pksDueDate}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.pksSignatureDate}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.pksTimePeriod}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.pksDueDate}</td>
       <td className='px-6 py-3 border-b border-gray-200'>
         <Button
-          className='text-[#0D4690] underline cursor-pointer'
+          className='inline-flex items-center justify-center p-2 rounded-md text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D4690]'
           onClick={() => {
-            nagigate(`/dashboard/partnerships/pks/${value.pksId}`);
+            nagigate(`/partnerships/pks/${value.pksId}`);
           }}
+          aria-label='Lihat Detail'
+          title='Lihat Detail'
         >
-          Lihat Detail
+          <Eye className='w-4 h-4' />
         </Button>
       </td>
     </tr>
@@ -93,6 +96,11 @@ export const Pks = () => {
   return (
     <div>
       <h1 className='text-2xl font-semibold'>Tabel PKS</h1>
+      <p className='text-sm text-gray-500 mt-1 mb-4'>
+        Perjanjian Kerja Sama yang menerjemahkan kesepakatan MoU menjadi
+        rincian kerja sama yang lebih spesifik, wajib mengacu ke MoU yang
+        sudah ada lebih dulu.
+      </p>
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}

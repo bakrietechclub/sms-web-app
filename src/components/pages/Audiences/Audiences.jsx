@@ -1,3 +1,4 @@
+import { Eye } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -97,11 +98,13 @@ export const Audiences = () => {
       <td>
         <Button
           onClick={() => {
-            navigate(`/dashboard/audiences/${value.audiencesId}`);
+            navigate(`/audiences/${value.audiencesId}`);
           }}
-          className='text-[#0D4690] underline cursor-pointer'
+          className='inline-flex items-center justify-center p-2 rounded-md text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D4690]'
+          aria-label='Lihat Detail'
+          title='Lihat Detail'
         >
-          Lihat Detail
+          <Eye className='w-4 h-4' />
         </Button>
       </td>
     </tr>
@@ -110,6 +113,11 @@ export const Audiences = () => {
   return (
     <div>
       <h1 className='text-2xl font-semibold'>Tabel Data Audiensi</h1>
+      <p className='text-sm text-gray-500 mt-1 mb-4'>
+        Jadwal pertemuan (audiensi) dengan lembaga yang sudah tercatat di
+        Riset Potensial, mencatat tanggal, waktu, jenis, lokasi, dan status
+        pelaksanaannya.
+      </p>
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}

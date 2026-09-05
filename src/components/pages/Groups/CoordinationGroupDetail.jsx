@@ -285,7 +285,7 @@ export default function CoordinationGroupDetail() {
                     </td>
                     <td className='px-4 py-3 text-center'>
                       <Link
-                        to={`/dashboard/groups/${id}/contact/${item.contactId}/edit`}
+                        to={`/groups/${id}/contact/${item.contactId}/edit`}
                         className='text-[#0D4690] hover:text-blue-800 font-medium inline-flex items-center gap-1 transition-colors'
                       >
                         <Edit size={14} /> Edit
@@ -325,7 +325,7 @@ export default function CoordinationGroupDetail() {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
           dispatch(asyncDeleteGroupById({ id }));
-          navigate('/dashboard/groups');
+          navigate('/groups');
         }}
         title='Hapus Grup Koordinasi'
         message={`Apakah Anda yakin ingin menghapus grup koordinasi "${data?.instituteName}"? Tindakan ini tidak dapat dibatalkan.`}

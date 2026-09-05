@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { STATUS_OPTIONS } from '../../../../utils';
 import {
   asyncAddPks,
   asyncGetPksById,
   asyncGetPks,
   asyncDeletePksById,
   asyncUpdatePksById,
+  asyncUpdatePksStatus,
   asyncGetPksOptions,
 } from './pksThunks';
 
@@ -72,10 +74,39 @@ const pksSlice = createSlice({
       .addCase(asyncUpdatePksById.fulfilled, (state) => {
         state.loading = false;
       })
-      // Matcher untuk menangani status pending dan rejected secara umum
-      .addMatcher((action) => action.type.endsWith('/pending'), handlePending)
+      // Ganti status cepat: update langsung di tempat dari STATUS_OPTIONS FE,
+      // tanpa refetch dan TANPA lewat matcher loading di bawah -- lihat
+      // pengecualiannya, supaya halaman detail tidak nge-blank hanya karena
+      // ganti satu dropdown status.
+      .addCase(asyncUpdatePksStatus.fulfilled, (state, action) => {
+        if (state.pksDetail) {
+          const selected = STATUS_OPTIONS.find(
+            (opt) => opt.id === action.payload.partnershipStatusId,
+          );
+          state.pksDetail.statusPartnership =
+            selected?.label || state.pksDetail.statusPartnership;
+          state.pksDetail.partnershipStatusId =
+            action.payload.partnershipStatusId;
+        }
+      })
+      // Matcher untuk menangani status pending dan rejected -- HARUS
+      // di-scope ke prefix 'pks/', bukan endsWith('/pending') polos. Tanpa
+      // prefix, thunk pending/rejected dari SLICE MANAPUN di seluruh app
+      // ikut menyalakan/mematikan `loading` di sini, jadi halaman detail PKS
+      // bisa nyangkut di skeleton kalau ada thunk tak terkait yang pending
+      // setelah asyncGetPksById selesai (bug yang sama ditemukan di torSlice).
       .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
+        (action) =>
+          action.type.startsWith('pks/') &&
+          action.type.endsWith('/pending') &&
+          !action.type.startsWith('pks/asyncUpdatePksStatus'),
+        handlePending,
+      )
+      .addMatcher(
+        (action) =>
+          action.type.startsWith('pks/') &&
+          action.type.endsWith('/rejected') &&
+          !action.type.startsWith('pks/asyncUpdatePksStatus'),
         handleRejected,
       );
   },

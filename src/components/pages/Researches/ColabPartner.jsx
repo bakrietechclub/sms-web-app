@@ -1,3 +1,4 @@
+import { Eye } from 'lucide-react';
 import { Button } from '../../elements/Button';
 import { Table } from '../../fragments/Table';
 import { Pagination } from '../../fragments/Pagination';
@@ -61,11 +62,13 @@ export const ColabPartner = () => {
       <td>
         <Button
           onClick={() => {
-            navigate(`/dashboard/research/colab-partner/${value.id}`);
+            navigate(`/research/colab-partner/${value.id}`);
           }}
-          className='text-[#0D4690] underline cursor-pointer'
+          className='inline-flex items-center justify-center p-2 rounded-md text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D4690]'
+          aria-label='Lihat Detail'
+          title='Lihat Detail'
         >
-          Lihat Detail
+          <Eye className='w-4 h-4' />
         </Button>
       </td>
     </tr>
@@ -74,6 +77,12 @@ export const ColabPartner = () => {
   return (
     <div>
       <h1 className='text-2xl font-semibold'>Daftar Riset Kolaborasi Mitra</h1>
+      <p className='text-sm text-gray-500 mt-1 mb-4'>
+        Tindak lanjut dari mitra potensial yang sudah dikontak, mencatat
+        rencana detail kolaborasi, program kerja sama, kebutuhan, serta
+        analisis SWOT untuk setiap mitra yang bergerak menuju penjajakan
+        kerja sama formal (PKS).
+      </p>
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}

@@ -1,3 +1,4 @@
+import { Eye } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../elements/Button';
@@ -56,32 +57,34 @@ export const Mou = () => {
   const renderRowFreeze = (value, index) => (
     <tr
       key={index}
-      className='border-b border-r border-[#E7EDF4] h-10'
+      className='border-b border-r border-[#E7EDF4] h-14'
     >
-      <td className='py-3'>
+      <td className='px-4 py-3'>
         {(currentPage - 1) * (meta?.limit || 10) + index + 1}
       </td>
-      <td>{value.instituteName}</td>
-      <td>{value.instituteTypeName}</td>
+      <td className='px-4 py-3'>{value.instituteName}</td>
+      <td className='px-4 py-3'>{value.instituteTypeName}</td>
     </tr>
   );
 
   const renderRow = (value, index) => (
     <tr
       key={index}
-      className='border-b border-[#E7EDF4] h-10'
+      className='border-b border-[#E7EDF4] h-14'
     >
-      <td className='border-b border-gray-200'>{value.mouSignatureDate}</td>
-      <td className='border-b border-gray-200'>{value.mouTimePeriod}</td>
-      <td className='border-b border-gray-200'>{value.mouDueDate}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.mouSignatureDate}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.mouTimePeriod}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.mouDueDate}</td>
       <td className='px-6 py-3 border-b border-gray-200'>
         <Button
-          className='text-[#0D4690] underline cursor-pointer'
+          className='inline-flex items-center justify-center p-2 rounded-md text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D4690]'
           onClick={() => {
-            navigate(`/dashboard/partnerships/mou/${value.mouId}`);
+            navigate(`/partnerships/mou/${value.mouId}`);
           }}
+          aria-label='Lihat Detail'
+          title='Lihat Detail'
         >
-          Lihat Detail
+          <Eye className='w-4 h-4' />
         </Button>
       </td>
     </tr>
@@ -90,6 +93,11 @@ export const Mou = () => {
   return (
     <div>
       <h1 className='text-2xl font-semibold'>Tabel MoU</h1>
+      <p className='text-sm text-gray-500 mt-1 mb-4'>
+        Nota Kesepahaman, kesepakatan payung yang menandai kedua pihak
+        sepakat bekerja sama, wajib berasal dari mitra yang sudah tercatat
+        di Riset Potensial.
+      </p>
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}

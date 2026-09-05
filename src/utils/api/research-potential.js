@@ -45,6 +45,18 @@ async function getResearchPotentialRecommendations({
   return responseJson.data;
 }
 
+/**
+ * Detail "pembuktian" satu rekomendasi -- header institusi + rincian per
+ * Program (bukan data mahasiswa individual).
+ * @param {number} id - ID institusi.
+ */
+async function getResearchPotentialRecommendationDetail({ id }) {
+  const responseJson = await fetchWithAuth(
+    `/research/potential-recommendations/${id}`,
+  );
+  return responseJson.data;
+}
+
 async function getResearchPotentialOptions({ q, typeId }) {
   const responseJson = await fetchWithAuth(
     `/research/potential-options?q=${q}&typeId=${typeId}`,
@@ -104,6 +116,7 @@ export {
   addResearchPotential,
   getResearchPotential,
   getResearchPotentialRecommendations,
+  getResearchPotentialRecommendationDetail,
   getResearchPotentialOptions,
   getResearchPotentialOptionsById,
   getDetailResearchPotentialOptionsById,

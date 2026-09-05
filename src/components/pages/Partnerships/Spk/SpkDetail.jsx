@@ -8,6 +8,7 @@ import {
   Users,
   ExternalLink,
   Edit,
+  Network,
 } from 'lucide-react';
 import { Label } from '../../../elements/Label';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -145,6 +146,13 @@ export default function SpkDetail() {
           </h1>
         </div>
         <div className='flex gap-2'>
+          <Button
+            className='border border-[#0D4690] text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors w-fit'
+            onClick={() => navigate(`/partnerships/network/spk/${id}`)}
+            title='Lihat peta dokumen terkait SPK ini (MoU, PKS, IA, TOR)'
+          >
+            <Network size={16} /> Jejaring Surat
+          </Button>
           <Button
             disabled={!canUpdate}
             title={!canUpdate ? 'Anda tidak memiliki izin untuk memperbarui SPK' : undefined}
@@ -302,7 +310,7 @@ export default function SpkDetail() {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
           dispatch(asyncDeleteSpkById({ id }));
-          navigate('/dashboard/partnerships/spk');
+          navigate('/partnerships/spk');
         }}
         title='Hapus SPK'
         confirmLabel='Hapus'

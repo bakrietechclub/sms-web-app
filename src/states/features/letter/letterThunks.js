@@ -51,9 +51,9 @@ export const asyncGetSubClassifications = createAsyncThunk(
 
 export const asyncGetLetters = createAsyncThunk(
   'letter/asyncGetLetters',
-  async ({ page = 1 } = {}, { rejectWithValue }) => {
+  async ({ query = '', page = 1 } = {}, { rejectWithValue }) => {
     try {
-      const data = await api.getLetter({ page });
+      const data = await api.getLetter({ q: query, page });
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

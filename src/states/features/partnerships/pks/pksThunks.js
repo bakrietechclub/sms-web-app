@@ -73,3 +73,15 @@ export const asyncUpdatePksById = createAsyncThunk(
     }
   },
 );
+
+export const asyncUpdatePksStatus = createAsyncThunk(
+  'pks/asyncUpdatePksStatus',
+  async ({ id, partnershipStatusId }, { rejectWithValue }) => {
+    try {
+      const data = await api.updatePksStatus({ id, partnershipStatusId });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);

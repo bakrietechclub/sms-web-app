@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,10 +46,18 @@ export default function LetterNumberingField() {
     });
   }, [register]);
 
-  // Reset Sub-Classification when Class changes
+  // Reset Sub-Classification saat Kelas BENAR-BENAR diganti user -- transisi
+  // pertama (undefined -> terisi, dari reset() saat mode edit meng-prefill
+  // data lama) SENGAJA dilewati, supaya subClassification yang barusan
+  // di-prefill tidak langsung dihapus lagi sebelum sempat terlihat. Ini
+  // penyebab form "Perbarui Data" selalu tampil kosong padahal datanya ada.
+  const prevLetterClass = useRef(letterClass);
   useEffect(() => {
-    setValue('subClassification', '', { shouldValidate: true });
-    setValue('partnershipLetterNumberSubClassificationId', '');
+    if (prevLetterClass.current && prevLetterClass.current !== letterClass) {
+      setValue('subClassification', '', { shouldValidate: true });
+      setValue('partnershipLetterNumberSubClassificationId', '');
+    }
+    prevLetterClass.current = letterClass;
   }, [letterClass, setValue]);
 
   // === HANDLERS ===

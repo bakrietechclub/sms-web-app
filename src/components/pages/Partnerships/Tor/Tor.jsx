@@ -1,3 +1,4 @@
+import { Eye } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FreezeTable } from '../../../fragments/Table';
@@ -57,16 +58,16 @@ export const Tor = () => {
   const renderRowFreeze = (value, index) => (
     <tr
       key={index}
-      className='border-b border-r border-[#E7EDF4] h-10'
+      className='border-b border-r border-[#E7EDF4] h-14'
     >
-      <td className='py-3 border-b border-gray-200'>
+      <td className='px-4 py-3 border-b border-gray-200'>
         {(currentPage - 1) * (meta?.limit || 10) + index + 1}
       </td>
-      <td className='border-b border-gray-200'>{value.instituteName || '-'}</td>
-      <td className='border-b border-gray-200'>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.instituteName || '-'}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>
         {value.instituteTypeName || '-'}
       </td>
-      <td className='border-b border-gray-200'>
+      <td className='px-4 py-3 border-b border-gray-200'>
         {value.institutionDivision || '-'}
       </td>
     </tr>
@@ -75,19 +76,21 @@ export const Tor = () => {
   const renderRow = (value, index) => (
     <tr
       key={index}
-      className='border-b border-[#E7EDF4] h-10'
+      className='border-b border-[#E7EDF4] h-14'
     >
-      <td className='border-b border-gray-200'>{value.torSignatureDate}</td>
-      <td className='border-b border-gray-200'>{value.torTimePeriod}</td>
-      <td className='border-b border-gray-200'>{value.torDueDate}</td>
-      <td className='px-5 border-b border-gray-200'>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.torSignatureDate}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.torTimePeriod}</td>
+      <td className='px-4 py-3 border-b border-gray-200'>{value.torDueDate}</td>
+      <td className='px-5 py-3 border-b border-gray-200'>
         <Button
           onClick={() => {
-            navigate(`/dashboard/partnerships/tor/${value.torId}`);
+            navigate(`/partnerships/tor/${value.torId}`);
           }}
-          className='text-[#0D4690] underline cursor-pointer'
+          className='inline-flex items-center justify-center p-2 rounded-md text-[#0D4690] hover:bg-[#F5F9FF] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D4690]'
+          aria-label='Lihat Detail'
+          title='Lihat Detail'
         >
-          Lihat Detail
+          <Eye className='w-4 h-4' />
         </Button>
       </td>
     </tr>
@@ -96,6 +99,10 @@ export const Tor = () => {
   return (
     <>
       <h1 className='text-2xl font-semibold'>Tabel Surat TOR</h1>
+      <p className='text-sm text-gray-500 mt-1 mb-4'>
+        Term of Reference, kerangka acuan kerja untuk pelaksanaan program di
+        lapangan, dapat dibuat langsung dari PKS atau melanjutkan IA bila ada.
+      </p>
       <TableToolbar
         searchValue={query}
         onSearchChange={setQuery}

@@ -69,6 +69,20 @@ async function updatePksById({ id, payload }) {
   return responseJson.data;
 }
 
+/**
+ * Memperbarui status kemitraan PKS saja (tanpa mengirim ulang field lain).
+ * @param {number} id - ID PKS.
+ * @param {number} partnershipStatusId - ID status baru (md_ps_status).
+ * @returns {Promise<object>} Data status yang diperbarui.
+ */
+async function updatePksStatus({ id, partnershipStatusId }) {
+  const responseJson = await fetchWithAuth(`/partnerships/pks/${id}/status`, {
+    method: 'PATCH',
+    body: JSON.stringify({ partnershipStatusId }),
+  });
+  return responseJson.data;
+}
+
 export {
   addPks,
   getPksById,
@@ -76,4 +90,5 @@ export {
   getPksOptions,
   deletePksById,
   updatePksById,
+  updatePksStatus,
 };

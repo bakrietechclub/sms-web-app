@@ -63,6 +63,18 @@ export const asyncGetResearchPotentialRecommendations = createAsyncThunk(
   },
 );
 
+export const asyncGetResearchPotentialRecommendationDetail = createAsyncThunk(
+  'potential/asyncGetResearchPotentialRecommendationDetail',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const data = await api.getResearchPotentialRecommendationDetail({ id });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const asyncGetResearchPotentialOptions = createAsyncThunk(
   'potential/asyncGetResearchPotentialOptions',
   async ({ query, typeId }, { rejectWithValue }) => {

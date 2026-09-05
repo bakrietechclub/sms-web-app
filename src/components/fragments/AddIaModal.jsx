@@ -6,10 +6,10 @@ import { selectAllPksOptions } from '../../states/features/partnerships/pks/pksS
 import { asyncGetPksOptions } from '../../states/features/partnerships/pks/pksThunks';
 import Select from 'react-select';
 import TextField from '../elements/formfields/TextField';
-import SingleSelectDropdown from '../elements/formfields/SingleSelectDropdown';
 import RedirectTextField from '../elements/formfields/RedirectTextField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
-import { BATCH_OPTIONS, PROGRAM_OPTIONS, STATUS_OPTIONS } from '../../utils';
+import { IaBatchSelector } from './IaBatchSelector';
+import { STATUS_OPTIONS } from '../../utils';
 import AddModalLetterNumbering from './AddModalLetterNumbering';
 import { X, Loader2 } from 'lucide-react';
 
@@ -22,6 +22,7 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { isValid },
   } = useForm({
     mode: 'onChange',
@@ -45,7 +46,11 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
   // Register Select field for validation
   useEffect(() => {
     register('partnershipPksId', { required: true });
+    register('batchId', { required: true });
+    register('programId', { required: true });
   }, [register]);
+
+  const selectedBatchId = watch('batchId');
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
@@ -171,22 +176,16 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
               />
             </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
-              <SingleSelectDropdown
-                name='programId'
-                label='Program Kerjasama'
-                options={PROGRAM_OPTIONS}
-                register={register}
-                setValue={setValue}
-                isRequired={true}
-              />
-              <SingleSelectDropdown
-                name='batchId'
-                label='Batch Program'
-                options={BATCH_OPTIONS}
-                register={register}
-                setValue={setValue}
-                isRequired={true}
+            <div>
+              <label className='block mb-2 font-medium text-gray-700'>
+                Program &amp; Batch <span className='text-red-500'>*</span>
+              </label>
+              <IaBatchSelector
+                value={selectedBatchId}
+                onChange={({ batchId, programId }) => {
+                  setValue('batchId', batchId, { shouldValidate: true });
+                  setValue('programId', programId, { shouldValidate: true });
+                }}
               />
             </div>
 

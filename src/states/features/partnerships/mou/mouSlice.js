@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { STATUS_OPTIONS } from '../../../../utils';
 import {
   asyncAddMou,
   asyncGetMouById,
   asyncGetMou,
   asyncDeleteMouById,
   asyncUpdateMouById,
+  asyncUpdateMouStatus,
   asyncGetMouOptions,
 } from './mouThunks';
 
@@ -65,9 +67,27 @@ const mouSlice = createSlice({
       .addCase(asyncUpdateMouById.fulfilled, (state) => {
         state.loading = false;
       })
+      // Ganti status cepat: update langsung di tempat memakai daftar
+      // STATUS_OPTIONS yang sudah ada di FE, tanpa refetch ke server dan
+      // TANPA lewat matcher loading di bawah (lihat pengecualiannya) --
+      // supaya halaman detail tidak nge-blank karena skeleton page-level
+      // hanya untuk ganti satu dropdown.
+      .addCase(asyncUpdateMouStatus.fulfilled, (state, action) => {
+        if (state.mouDetail) {
+          const selected = STATUS_OPTIONS.find(
+            (opt) => opt.id === action.payload.partnershipStatusId,
+          );
+          state.mouDetail.statusPartnership =
+            selected?.label || state.mouDetail.statusPartnership;
+          state.mouDetail.partnershipStatusId =
+            action.payload.partnershipStatusId;
+        }
+      })
       .addMatcher(
         (action) =>
-          action.type.startsWith('mou/') && action.type.endsWith('/pending'),
+          action.type.startsWith('mou/') &&
+          action.type.endsWith('/pending') &&
+          !action.type.startsWith('mou/asyncUpdateMouStatus'),
         (state) => {
           state.loading = true;
           state.error = null;
@@ -75,7 +95,9 @@ const mouSlice = createSlice({
       )
       .addMatcher(
         (action) =>
-          action.type.startsWith('mou/') && action.type.endsWith('/rejected'),
+          action.type.startsWith('mou/') &&
+          action.type.endsWith('/rejected') &&
+          !action.type.startsWith('mou/asyncUpdateMouStatus'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
