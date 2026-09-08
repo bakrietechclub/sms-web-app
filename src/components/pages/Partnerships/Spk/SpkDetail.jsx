@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '../../../elements/Button';
+import { getPartnershipStatusVariant } from '../../../../utils/partnershipStatusVariant';
 import {
   ChevronLeft,
   Building2,
@@ -204,7 +205,7 @@ export default function SpkDetail() {
                 </p>
                 <Label
                   label={data?.spkPartnershipStatus || 'Draft'}
-                  status='success'
+                  status={getPartnershipStatusVariant(data?.spkPartnershipStatus || 'Draft')}
                 />
               </div>
 

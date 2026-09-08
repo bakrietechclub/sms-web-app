@@ -6,17 +6,18 @@ import { selectAllPksOptions } from '../../states/features/partnerships/pks/pksS
 import { asyncGetPksOptions } from '../../states/features/partnerships/pks/pksThunks';
 import Select from 'react-select';
 import TextField from '../elements/formfields/TextField';
-import RedirectTextField from '../elements/formfields/RedirectTextField';
+import LetterNumberPickerField from '../elements/formfields/LetterNumberPickerField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
 import { IaBatchSelector } from './IaBatchSelector';
+import AlertModal from './AlertModal';
 import { STATUS_OPTIONS } from '../../utils';
-import AddModalLetterNumbering from './AddModalLetterNumbering';
 import { X, Loader2 } from 'lucide-react';
 
 export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const {
     register,
@@ -40,9 +41,6 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
     },
   });
 
-  const [letterReferenceNumber, setLetterReferenceNumber] = useState('');
-  const [openLetterModal, setOpenLetterModal] = useState(false);
-
   // Register Select field for validation
   useEffect(() => {
     register('partnershipPksId', { required: true });
@@ -54,25 +52,12 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
+    setSubmitError('');
     dispatch(asyncAddImplementationAgreement({ ...data, typeId: accessTypeId }))
       .unwrap()
       .then(() => onClose())
-      .catch((err) => console.error(err))
+      .catch((err) => setSubmitError(err || 'Gagal menyimpan IA.'))
       .finally(() => setIsSubmitting(false));
-  };
-
-  const handleRedirectToNomorSurat = () => {
-    setOpenLetterModal(true);
-  };
-
-  const handleNomorSuratSuccess = ({
-    letterNumberId,
-    letterReferenceNumber,
-  }) => {
-    setLetterReferenceNumber(letterReferenceNumber);
-    setValue('partnershipLetterNumberId', letterNumberId, {
-      shouldValidate: true,
-    });
   };
 
   const [query, setQuery] = useState('');
@@ -198,10 +183,12 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
                 setValue={setValue}
                 isRequired={true}
               />
-              <RedirectTextField
+              <LetterNumberPickerField
+                name='partnershipLetterNumberId'
                 label='Nomor Surat BCF'
-                value={letterReferenceNumber}
-                onRedirect={handleRedirectToNomorSurat}
+                typeId={5}
+                register={register}
+                setValue={setValue}
                 isRequired={true}
               />
             </div>
@@ -271,11 +258,12 @@ export default function AddIaModal({ isOpen, onClose, accessTypeId }) {
         </div>
       </div>
 
-      <AddModalLetterNumbering
-        isOpen={openLetterModal}
-        onClose={() => setOpenLetterModal(false)}
-        onSuccess={handleNomorSuratSuccess}
-        partnershipLetterNumberTypeId={5}
+      {/* ⬇️ Alert error submit -- gagal simpan IA (mis. nomor surat sudah dipakai) */}
+      <AlertModal
+        isOpen={!!submitError}
+        onClose={() => setSubmitError('')}
+        variant='error'
+        message={submitError}
       />
     </>
   );

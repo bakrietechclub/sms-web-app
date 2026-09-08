@@ -8,6 +8,7 @@ import {
   Phone,
   Mail,
   Edit,
+  Star,
 } from 'lucide-react';
 import { Label } from '../../elements/Label';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -23,7 +24,10 @@ import {
   selectContacts,
   selectContactLoading,
 } from '../../../states/features/group/contact/contactSelectors';
-import { asyncGetContactByGroupId } from '../../../states/features/group/contact/contactThunks';
+import {
+  asyncGetContactByGroupId,
+  asyncSetContactPic,
+} from '../../../states/features/group/contact/contactThunks';
 import { asyncDeleteGroupById } from '../../../states/features/group/groupThunks';
 import ConfirmationModal from '../../fragments/ConfirmationModal';
 import { selectHasAccess } from '../../../states/features/auth/authSelectors';
@@ -43,6 +47,7 @@ export default function CoordinationGroupDetail() {
   const [openModal, setOpenModal] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [settingPicId, setSettingPicId] = useState(null);
   const hasAccess = useSelector(selectHasAccess);
   const canUpdate = hasAccess && can(PERM.GROUPS_UPDATE);
   const canDelete = hasAccess && can(PERM.GROUPS_DELETE);
@@ -51,6 +56,18 @@ export default function CoordinationGroupDetail() {
     dispatch(asyncGetGroupById({ id }));
     dispatch(asyncGetContactByGroupId({ groupId: id }));
   }, [dispatch, id]);
+
+  // "Pilih PIC" -- satu pilihan per grup, backend melepas PIC lama +
+  // menandai yang baru dalam satu transaksi (lihat SetContactPicUseCase),
+  // jadi cukup satu aksi klik untuk memindahkan PIC dari satu kontak ke
+  // kontak lain.
+  const handleSetPic = (contactId) => {
+    setSettingPicId(contactId);
+    dispatch(asyncSetContactPic({ groupsId: id, contactId }))
+      .unwrap()
+      .catch((err) => console.error(err))
+      .finally(() => setSettingPicId(null));
+  };
 
   const groupLoading = useSelector(selectGroupLoading);
   const contactLoading = useSelector(selectContactLoading);
@@ -208,6 +225,7 @@ export default function CoordinationGroupDetail() {
                 <th className='px-4 py-3 text-left font-semibold rounded-tl-lg'>
                   No.
                 </th>
+                <th className='px-4 py-3 text-center font-semibold'>PIC</th>
                 <th className='px-4 py-3 text-left font-semibold'>Nama</th>
                 <th className='px-4 py-3 text-left font-semibold'>Jabatan</th>
                 <th className='px-4 py-3 text-left font-semibold'>No. HP</th>
@@ -229,6 +247,36 @@ export default function CoordinationGroupDetail() {
                     className='hover:bg-gray-50 transition-colors'
                   >
                     <td className='px-4 py-3 text-gray-700'>{index + 1}</td>
+                    <td className='px-4 py-3 text-center'>
+                      <button
+                        type='button'
+                        onClick={() => handleSetPic(item.contactId)}
+                        disabled={
+                          !canUpdate ||
+                          item?.contactIsPic ||
+                          settingPicId === item.contactId
+                        }
+                        title={
+                          item?.contactIsPic
+                            ? 'Kontak ini adalah PIC grup'
+                            : canUpdate
+                              ? 'Jadikan PIC grup'
+                              : 'Anda tidak memiliki izin untuk mengubah PIC'
+                        }
+                        className={`inline-flex items-center justify-center w-8 h-8 rounded-full transition-colors ${
+                          item?.contactIsPic
+                            ? 'text-[#E89229] cursor-default'
+                            : canUpdate
+                              ? 'text-gray-300 hover:text-[#E89229] hover:bg-[#FDF3E7] cursor-pointer disabled:opacity-50 disabled:cursor-wait'
+                              : 'text-gray-200 cursor-not-allowed'
+                        }`}
+                      >
+                        <Star
+                          size={18}
+                          fill={item?.contactIsPic ? 'currentColor' : 'none'}
+                        />
+                      </button>
+                    </td>
                     <td className='px-4 py-3 font-medium text-gray-900'>
                       {item?.contactName || '-'}
                     </td>
@@ -296,7 +344,7 @@ export default function CoordinationGroupDetail() {
               ) : (
                 <tr>
                   <td
-                    colSpan='8'
+                    colSpan='9'
                     className='px-4 py-8 text-center text-gray-500'
                   >
                     Belum ada kontak yang ditambahkan

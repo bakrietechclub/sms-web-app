@@ -1,5 +1,6 @@
 import { Eye } from 'lucide-react';
 import { Label } from '../../../elements/Label';
+import { getPartnershipStatusVariant } from '../../../../utils/partnershipStatusVariant';
 import { Button } from '../../../elements/Button';
 import { FreezeTable } from '../../../fragments/Table';
 import { Pagination } from '../../../fragments/Pagination';
@@ -79,7 +80,7 @@ export const Ia = () => {
       <td className='py-3 px-4 border-b border-gray-200'>
         <Label
           label={value.iaPartnershipStatusName}
-          status='success'
+          status={getPartnershipStatusVariant(value.iaPartnershipStatusName)}
         />
       </td>
       <td className='px-4 border-b border-gray-200'>

@@ -62,8 +62,17 @@ export const Mou = () => {
       <td className='px-4 py-3'>
         {(currentPage - 1) * (meta?.limit || 10) + index + 1}
       </td>
-      <td className='px-4 py-3'>{value.instituteName}</td>
-      <td className='px-4 py-3'>{value.instituteTypeName}</td>
+      <td className='px-4 py-3'>
+        {value.instituteName || (
+          <span
+            className='inline-flex items-center gap-1 rounded-full bg-[#FDF3E7] text-[#B9660A] text-xs font-semibold px-2.5 py-1'
+            title='Instansi mitra belum diisi -- buka detail untuk melengkapi.'
+          >
+            Instansi belum diisi
+          </span>
+        )}
+      </td>
+      <td className='px-4 py-3'>{value.instituteTypeName || '-'}</td>
     </tr>
   );
 
@@ -95,8 +104,9 @@ export const Mou = () => {
       <h1 className='text-2xl font-semibold'>Tabel MoU</h1>
       <p className='text-sm text-gray-500 mt-1 mb-4'>
         Nota Kesepahaman, kesepakatan payung yang menandai kedua pihak
-        sepakat bekerja sama, wajib berasal dari mitra yang sudah tercatat
-        di Riset Potensial.
+        sepakat bekerja sama. Bisa dibuat langsung dari Nama Instansi, atau
+        dari data Riset Potensial kalau MoU ini memang berasal dari proses
+        riset tersebut.
       </p>
       <TableToolbar
         searchValue={query}

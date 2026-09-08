@@ -16,6 +16,7 @@ import * as network from './network';
 import * as letter from './letter';
 import * as institutions from './institutions';
 import * as classifications from './classifications';
+import * as programs from './programs';
 // Anda dapat menambahkan modul lain di sini
 
 // Gabungkan semua fungsionalitas ke dalam satu objek API tunggal
@@ -42,6 +43,7 @@ const api = {
   ...letter,
   ...institutions,
   ...classifications,
+  ...programs,
 };
 
 export default api;

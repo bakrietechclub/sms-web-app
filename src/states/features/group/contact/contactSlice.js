@@ -5,6 +5,7 @@ import {
   asyncDeleteContactById,
   asyncUpdateContactById,
   asyncGetContactByGroupId,
+  asyncSetContactPic,
 } from './contactThunks';
 
 const initialState = {
@@ -43,6 +44,10 @@ const contactSlice = createSlice({
       .addCase(asyncUpdateContactById.fulfilled, (state, action) => {
         state.loading = false;
         state.contactDetail = action.payload;
+      })
+      .addCase(asyncSetContactPic.fulfilled, (state, action) => {
+        state.loading = false;
+        state.contacts = action.payload;
       })
       .addMatcher(
         (action) =>

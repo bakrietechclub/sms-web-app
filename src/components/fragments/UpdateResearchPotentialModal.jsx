@@ -1,19 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { asyncUpdateResearchPotentialById } from '../../states/features/research/potential/potentialThunks';
+import { asyncGetPrograms } from '../../states/features/programs/programsThunks';
+import { selectPrograms } from '../../states/features/programs/programsSelectors';
 import TextField from '../elements/formfields/TextField';
 import MultiSelectDropdown from '../elements/formfields/MultiSelectDropdown';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
 import SwotFields from '../elements/formfields/SwotFields';
 import ContactFields from '../elements/formfields/ContactFields';
 import { X, Loader2 } from 'lucide-react';
-
-const PROGRAM_OPTIONS = [
-  { id: 1, label: 'LEAD', name: 'LEAD Indonesia' },
-  { id: 2, label: 'CLP', name: 'Campus Leaders Program' },
-  { id: 3, label: 'HOL', name: 'Home of Leaders' },
-];
 
 const NEEDS_OPTIONS = [
   { id: 1, label: 'Surat Undangan Audiensi' },
@@ -35,6 +31,19 @@ export default function UpdateResearchPotentialModal({
 }) {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // "Program LSD" HARUS program sungguhan yang bisa diikuti mitra (bukan
+  // label payung seperti BCF) -- difilter ke is_program=1 di back-end
+  // (md_second_tier_program), menggantikan daftar hardcode yang dulu
+  // idnya beda-beda antara form Tambah dan form Perbarui ini.
+  const programOptions = useSelector(selectPrograms);
+  useEffect(() => {
+    if (isOpen) dispatch(asyncGetPrograms({ isProgram: 1 }));
+  }, [dispatch, isOpen]);
+  const programSelectOptions = programOptions.map((item) => ({
+    id: item.id,
+    label: item.name,
+  }));
 
   const {
     register,
@@ -66,9 +75,7 @@ export default function UpdateResearchPotentialModal({
 
     const programIds =
       initialData.partnershipResearchProgram
-        ?.map(
-          (p) => PROGRAM_OPTIONS.find((o) => o.label === p || o.name === p)?.id,
-        )
+        ?.map((p) => programOptions.find((o) => o.name === p)?.id)
         .filter(Boolean) || [];
 
     const needsIds =
@@ -86,7 +93,7 @@ export default function UpdateResearchPotentialModal({
       needsIds,
       statusId,
     };
-  }, [initialData]);
+  }, [initialData, programOptions]);
 
   // Sync initialData to Form
   useEffect(() => {
@@ -172,7 +179,7 @@ export default function UpdateResearchPotentialModal({
               <MultiSelectDropdown
                 name='partnershipResearchProgramIds'
                 label='Program LSD'
-                options={PROGRAM_OPTIONS}
+                options={programSelectOptions}
                 register={register}
                 setValue={setValue}
                 defaultValue={formattedDefaults.programIds}

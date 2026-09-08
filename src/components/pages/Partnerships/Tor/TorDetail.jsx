@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '../../../elements/Button';
 import { ChevronLeft, Building2, FileText, Calendar, Users, Briefcase, ExternalLink, Link as LinkIcon, Edit, ScrollText, Info, Network } from 'lucide-react';
 import { Label } from '../../../elements/Label';
+import { getPartnershipStatusVariant } from '../../../../utils/partnershipStatusVariant';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncGetTorById, asyncDeleteTorById } from '../../../../states/features/partnerships/tor/torThunks';
@@ -193,7 +194,7 @@ export default function TorDetail() {
 
               <div className="mb-4">
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Status Kerjasama</p>
-                <Label label={data?.torPartnershipStatus || 'Draft'} status="success" />
+                <Label label={data?.torPartnershipStatus || 'Draft'} status={getPartnershipStatusVariant(data?.torPartnershipStatus || 'Draft')} />
               </div>
 
               <div className="col-span-full">

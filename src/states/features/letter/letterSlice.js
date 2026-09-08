@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   asyncAddLetter,
   asyncDeleteLetterById,
+  asyncGetAvailableLetterNumbers,
   asyncGetLastLetterNumber,
   asyncGetLetterById,
   asyncGetLetters,
@@ -14,6 +15,7 @@ const initialState = {
   letterSuccessAdd: null,
   letterDetail: null,
   lastLetterNumber: null,
+  availableLetterNumbers: [],
   subClassifications: null,
   meta: null,
   loading: false,
@@ -46,6 +48,10 @@ const letterSlice = createSlice({
       .addCase(asyncGetSubClassifications.fulfilled, (state, action) => {
         state.loading = false;
         state.subClassifications = action.payload;
+      })
+      .addCase(asyncGetAvailableLetterNumbers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.availableLetterNumbers = action.payload;
       })
       .addCase(asyncDeleteLetterById.fulfilled, (state, action) => {
         state.loading = false;

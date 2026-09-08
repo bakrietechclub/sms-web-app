@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '../../elements/Button';
+import { getPartnershipStatusVariant } from '../../../utils/partnershipStatusVariant';
 import {
   ChevronLeft,
   MapPin,
@@ -193,7 +194,7 @@ export default function ColabPartnerDetail() {
             </p>
             <Label
               label={data?.MoUstatus}
-              status='success'
+              status={getPartnershipStatusVariant(data?.MoUstatus)}
             />
           </div>
         </div>

@@ -71,22 +71,29 @@ export const PotentialPartner = () => {
       key={value.researchPotentialId ?? index}
       className='border-b border-[#E7EDF4] last:border-b-0 h-10'
     >
-      <td className='py-3'>
+      <td className='px-4 py-3'>
         {(currentPage - 1) * (meta?.limit || 10) + index + 1}
       </td>
-      <td className='text-left font-medium text-gray-900'>
+      <td className='px-4 py-3 text-left font-medium text-gray-900'>
         {value.instituteName}
       </td>
-      <td>{value.partnershipResearchType}</td>
-      <td className='text-left'>{value.regionName}</td>
-      <td className='text-left max-w-xs'>
+      <td className='px-4 py-3'>{value.partnershipResearchType}</td>
+      <td className='px-4 py-3 text-left'>{value.regionName}</td>
+      <td
+        className='px-4 py-3 text-left max-w-xs truncate'
+        title={
+          value.partnershipResearchProgram?.length
+            ? value.partnershipResearchProgram.join(', ')
+            : undefined
+        }
+      >
         {value.partnershipResearchProgram?.length ? (
           value.partnershipResearchProgram.join(', ')
         ) : (
           <span className='text-gray-400'>-</span>
         )}
       </td>
-      <td>
+      <td className='px-4 py-3'>
         <Label
           label={value.contactStatus}
           status={
@@ -94,7 +101,7 @@ export const PotentialPartner = () => {
           }
         />
       </td>
-      <td>
+      <td className='px-4 py-3'>
         <Button
           onClick={() => {
             navigate(

@@ -37,6 +37,18 @@ export const asyncGetLastLetterNumber = createAsyncThunk(
   },
 );
 
+export const asyncGetAvailableLetterNumbers = createAsyncThunk(
+  'letter/asyncGetAvailableLetterNumbers',
+  async ({ typeId } = {}, { rejectWithValue }) => {
+    try {
+      const data = await api.getAvailableLetterNumbers({ typeId });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const asyncGetSubClassifications = createAsyncThunk(
   'letter/asyncGetSubClassifications',
   async ({ id }, { rejectWithValue }) => {

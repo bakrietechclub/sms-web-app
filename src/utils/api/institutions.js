@@ -43,6 +43,16 @@ async function getInstitutionsStats() {
   return responseJson.data;
 }
 
+/**
+ * Opsi dropdown "Divisi / Fakultas" untuk form PKS (AddPksModal/
+ * UpdatePksModal) -- jurusan kalau instansinya universitas, Divisi CLP
+ * kalau bukan. Lihat MasterInstitutionsRepositoryMySQL.readDivisionOptionsById.
+ */
+async function getInstitutionDivisionOptions({ id }) {
+  const responseJson = await fetchWithAuth(`/institutions/${id}/division-options`);
+  return responseJson.data;
+}
+
 async function deleteInstitutionsById({ id }) {
   const responseJson = await fetchWithAuth(`/institutions/${id}`, {
     method: 'DELETE',
@@ -65,6 +75,7 @@ export {
   getInstitutionsOptions,
   getInstitutionsOptionsById,
   getInstitutionsStats,
+  getInstitutionDivisionOptions,
   deleteInstitutionsById,
   updateInstitutionsById,
 };

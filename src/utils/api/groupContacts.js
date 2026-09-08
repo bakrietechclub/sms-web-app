@@ -69,10 +69,28 @@ async function updateContactById({ groupId, contactId, payload }) {
   return responseJson.data;
 }
 
+/**
+ * Menjadikan satu kontak sebagai PIC grup -- otomatis melepas PIC lama
+ * (satu pilihan per grup), lihat SetContactPicUseCase di back-end-sms.
+ * @param {string} groupsId - ID grup.
+ * @param {string} contactId - ID kontak yang dipilih sebagai PIC.
+ * @returns {Promise<string>} Pesan dari API.
+ */
+async function setContactPic({ groupsId, contactId }) {
+  const responseJson = await fetchWithAuth(
+    `/groups/${groupsId}/contact/${contactId}/pic`,
+    {
+      method: 'PATCH',
+    }
+  );
+  return responseJson.message;
+}
+
 export {
   addContact,
   getContactByGroupId,
   getContactById,
   deleteContactById,
   updateContactById,
+  setContactPic,
 };

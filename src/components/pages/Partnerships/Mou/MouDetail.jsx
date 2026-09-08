@@ -26,7 +26,10 @@ import {
 import ConfirmationModal from '../../../fragments/ConfirmationModal';
 import UpdateMouModal from '../../../fragments/UpdateMouModal';
 import { PartnershipStatusSelect } from '../../../fragments/PartnershipStatusSelect';
-import { selectHasAccess } from '../../../../states/features/auth/authSelectors';
+import {
+  selectHasAccess,
+  selectedAccessTypeInstitutionsId,
+} from '../../../../states/features/auth/authSelectors';
 import { getButtonClasses } from '../../../../utils/styleConstants';
 import { usePermission } from '../../../../hooks/usePermission';
 import { PERM } from '../../../../constants/permissions';
@@ -40,6 +43,7 @@ export default function MouDetail() {
   const data = useSelector(selectMouDetail);
   const loading = useSelector(selectMouLoading);
   const hasAccess = useSelector(selectHasAccess);
+  const selectedAccessTypeId = useSelector(selectedAccessTypeInstitutionsId);
   const canUpdate = hasAccess && can(PERM.PARTNERSHIPS_MOU_UPDATE);
   const canDelete = hasAccess && can(PERM.PARTNERSHIPS_MOU_DELETE);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -156,7 +160,17 @@ export default function MouDetail() {
           >
             <ChevronLeft size={20} /> Kembali
           </Button>
-          <h1 className='text-2xl font-bold text-gray-800'>Detail MoU</h1>
+          <div className='flex items-center gap-2'>
+            <h1 className='text-2xl font-bold text-gray-800'>Detail MoU</h1>
+            {!data?.instituteName && (
+              <span
+                className='inline-flex items-center gap-1 rounded-full bg-[#FDF3E7] text-[#B9660A] text-xs font-semibold px-2.5 py-1'
+                title='Instansi mitra belum diisi -- klik "Perbarui Data" untuk melengkapi.'
+              >
+                Instansi belum diisi
+              </span>
+            )}
+          </div>
         </div>
         <div className='flex gap-2'>
           <Button
@@ -438,6 +452,7 @@ export default function MouDetail() {
         onClose={() => setIsUpdateModalOpen(false)}
         initialData={data}
         onSuccess={() => dispatch(asyncGetMouById({ id }))}
+        accessTypeId={selectedAccessTypeId}
       />
     </div>
   );

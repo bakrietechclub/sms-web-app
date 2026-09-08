@@ -6,9 +6,11 @@ import { SIDEBAR_PATH_PERMISSION } from '../../../config/sidebarPermissions';
 // Urutan & syarat di bawah ini mengikuti tata kelola kerja sama BCF yang
 // sesungguhnya berlaku (bukan sekadar urutan menu). Catatan untuk tim
 // engineering:
-// - MoU merujuk ke tx_ps_research, yaitu tabel Riset POTENSIAL (bukan
-//   Kolaborasi) -- lihat FK tx_ps_mou.id_partnership_research REFERENCES
-//   tx_ps_research(id).
+// - MoU punya identitas mitra SENDIRI lewat tx_ps_mou.id_institution (lihat
+//   migrasi 003_mou_institution_decoupling.sql) -- MoU->Riset Potensial
+//   sekarang OPSIONAL, cuma catatan asal-usul (id_partnership_research
+//   nullable, ON DELETE SET NULL), TIDAK LAGI menentukan visibilitas atau
+//   identitas mitra. Garis dari Riset Mitra ke MoU digambar putus-putus.
 // - PKS->IA, PKS->TOR, dan IA->TOR OPSIONAL karena kolom relasinya nullable
 //   (tx_ps_ia.id_partnership_pks, tx_ps_tor.id_partnership_ia,
 //   tx_ps_tor.id_partnership_pks) -- satu PKS bisa langsung lanjut ke TOR
@@ -33,7 +35,7 @@ const NODES = {
     x: 220,
     y: 140,
     description: 'Kesepakatan payung yang menandai kedua pihak sepakat untuk bekerja sama.',
-    requirement: 'Wajib berasal dari mitra yang sudah tercatat di Riset Potensial.',
+    requirement: 'Wajib punya Instansi mitra; Riset Potensial opsional sebagai catatan asal-usul.',
   },
   pks: {
     key: 'pks',
@@ -89,7 +91,7 @@ const FLOW_STEPS = [
 // `required: true` -> garis solid ("wajib ada duluan"), `false` -> garis
 // putus-putus ("boleh dilewati / opsional"). Lihat catatan skema di atas.
 const EDGES = [
-  { from: 'riset', to: 'mou', required: true },
+  { from: 'riset', to: 'mou', required: false },
   { from: 'mou', to: 'pks', required: true },
   { from: 'pks', to: 'ia', required: false },
   { from: 'pks', to: 'tor', required: false },

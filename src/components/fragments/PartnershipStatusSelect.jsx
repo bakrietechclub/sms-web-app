@@ -1,14 +1,19 @@
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { STATUS_OPTIONS } from '../../utils';
+import { getPartnershipStatusVariant } from '../../utils/partnershipStatusVariant';
 
-// Warna badge per status -- dikelompokkan dari 13 status di md_ps_status
-// supaya tetap gampang dipindai sekilas, tanpa perlu warna unik per status.
-const STATUS_COLOR = {
-  Selesai: 'bg-[#DFF2E3] text-[#28a745] focus:ring-[#28a745]',
-  Terminasi: 'bg-[#Fae1e3] text-[#dc3545] focus:ring-[#dc3545]',
-  'Perlu Follow Up': 'bg-[#FFF6da] text-[#ffc107] focus:ring-[#ffc107]',
-  'Perlu Diperbarui': 'bg-[#FFF6da] text-[#ffc107] focus:ring-[#ffc107]',
+// Warna dropdown mengikuti getPartnershipStatusVariant -- sumber tunggal
+// yang sama dipakai <Label> di MoU/PKS/TOR/SPK/IA (lihat
+// utils/partnershipStatusVariant.js). Sebelumnya file ini punya STATUS_COLOR
+// sendiri yang gampang menyimpang dari label lain kalau salah satu diubah
+// tanpa yang lain.
+const VARIANT_CLASS = {
+  success: 'bg-[#DFF2E3] text-[#28a745] focus:ring-[#28a745]',
+  warning: 'bg-[#FFF6da] text-[#ffc107] focus:ring-[#ffc107]',
+  danger: 'bg-[#Fae1e3] text-[#dc3545] focus:ring-[#dc3545]',
+  info: 'bg-[#dbf7fd] text-[#0Dcaf0] focus:ring-[#0Dcaf0]',
+  white: 'bg-[#e6e6e6] text-[#999999] focus:ring-[#999999]',
 };
 const DEFAULT_COLOR = 'bg-[#dbe3ee] text-[#0D4690] focus:ring-[#0D4690]';
 
@@ -28,7 +33,7 @@ export const PartnershipStatusSelect = ({
 
   const selectedId =
     value ?? STATUS_OPTIONS.find((opt) => opt.label === currentLabel)?.id;
-  const colorClass = STATUS_COLOR[currentLabel] || DEFAULT_COLOR;
+  const colorClass = VARIANT_CLASS[getPartnershipStatusVariant(currentLabel)] || DEFAULT_COLOR;
 
   const handleChange = async (e) => {
     const nextId = Number(e.target.value);

@@ -61,3 +61,19 @@ export const asyncUpdateContactById = createAsyncThunk(
     }
   },
 );
+
+export const asyncSetContactPic = createAsyncThunk(
+  'contact/asyncSetContactPic',
+  async ({ groupsId, contactId }, { rejectWithValue }) => {
+    try {
+      await api.setContactPic({ groupsId, contactId });
+      // Refetch daftar kontak grup ini -- backend melepas PIC lama +
+      // menandai yang baru dalam satu transaksi, jadi satu refetch sudah
+      // merefleksikan kedua perubahan sekaligus.
+      const data = await api.getContactByGroupId({ groupId: groupsId });
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);

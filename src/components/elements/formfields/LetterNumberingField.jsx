@@ -4,7 +4,9 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncGetSubClassifications } from '../../../states/features/letter/letterThunks';
 import { selectSubClassifications } from '../../../states/features/letter/letterSelectors';
-import { LETTER_OPTIONS, PROGRAM_OPTIONS } from '../../../utils';
+import { asyncGetPrograms } from '../../../states/features/programs/programsThunks';
+import { selectAllPrograms } from '../../../states/features/programs/programsSelectors';
+import { LETTER_OPTIONS } from '../../../utils';
 
 // === CONSTANTS ===
 const MONTHS_MAP = {
@@ -21,9 +23,24 @@ const getFormattedDate = (monthName, year) => {
 };
 
 // === COMPONENT: LetterNumberingField ===
-export default function LetterNumberingField() {
+export default function LetterNumberingField({ autoFocusRef } = {}) {
   const dispatch = useDispatch();
   const subClassifications = useSelector(selectSubClassifications);
+  // Semua baris md_second_tier_program, TANPA filter is_program -- di sini
+  // (beda dari "Program LSD" di form Riset Potensial/Mitra) "BCF" tetap
+  // harus muncul sebagai pilihan sah, karena satu surat boleh ditujukan atas
+  // nama BCF sebagai payung tanpa terikat ke satu program tertentu. Diambil
+  // dinamis dari back-end (bukan daftar hardcode) supaya id-nya selalu
+  // sinkron dengan baris sungguhan -- id yang tidak sinkron dulu membuat
+  // penerbitan nomor surat gagal ("Program dengan id X tidak ditemukan").
+  const rawProgramOptions = useSelector(selectAllPrograms);
+  const programOptions = rawProgramOptions.map((item) => ({
+    id: item.id,
+    label: item.name,
+  }));
+  useEffect(() => {
+    dispatch(asyncGetPrograms({}));
+  }, [dispatch]);
   const { register, setValue, control } = useFormContext();
 
   // Watch form values needed for logic/display
@@ -117,6 +134,7 @@ export default function LetterNumberingField() {
           isOpen={openDropdown === 'letterClass'}
           onToggle={() => toggleDropdown('letterClass')}
           onSelect={handleSelectClass}
+          inputRef={autoFocusRef}
         />
 
         <DropdownField
@@ -134,7 +152,7 @@ export default function LetterNumberingField() {
       <DropdownField
         label="Program"
         value={program}
-        options={PROGRAM_OPTIONS}
+        options={programOptions}
         isOpen={openDropdown === 'program'}
         onToggle={() => toggleDropdown('program')}
         onSelect={handleSelectProgram}
@@ -182,10 +200,11 @@ export default function LetterNumberingField() {
 
 // === REUSABLE SUB-COMPONENTS ===
 
-function DropdownField({ label, value, options, isOpen, onToggle, onSelect, disabled }) {
+function DropdownField({ label, value, options, isOpen, onToggle, onSelect, disabled, inputRef }) {
   return (
     <div className="relative">
       <input
+        ref={inputRef}
         placeholder={label}
         readOnly
         disabled={disabled}

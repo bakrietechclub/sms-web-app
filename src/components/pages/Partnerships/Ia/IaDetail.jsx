@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '../../../elements/Button';
+import { getPartnershipStatusVariant } from '../../../../utils/partnershipStatusVariant';
 import {
   ChevronLeft,
   Building2,
@@ -211,7 +212,7 @@ export default function IaDetail() {
                 </p>
                 <Label
                   label={data?.iaPartnershipStatusName || 'Draft'}
-                  status='success'
+                  status={getPartnershipStatusVariant(data?.iaPartnershipStatusName || 'Draft')}
                 />
               </div>
             </div>

@@ -14,6 +14,7 @@ import spkReducer from './features/partnerships/spk/spkSlice';
 import letterReducer from './features/letter/letterSlice';
 import institutionReducer from './features/institution/institutionSlice';
 import classificationReducer from './features/classification/classificationSlice';
+import programsReducer from './features/programs/programsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -32,5 +33,6 @@ export const store = configureStore({
     letter: letterReducer,
     institutions: institutionReducer,
     classification: classificationReducer,
+    programs: programsReducer,
   },
 });

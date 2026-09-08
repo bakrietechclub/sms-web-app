@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { X, Loader2 } from 'lucide-react';
+import Select from 'react-select';
 
 import TextField from '../elements/formfields/TextField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
@@ -10,12 +11,15 @@ import { Button } from '../elements/Button';
 import { STATUS_OPTIONS, formatDateInput } from '../../utils';
 import { calculateDueDate } from '../../utils/dateHelpers';
 import { asyncUpdateMouById } from '../../states/features/partnerships/mou/mouThunks';
+import { asyncGetInstitutionsOptions } from '../../states/features/institution/institutionThunks';
+import { selectInstitutionsOptions } from '../../states/features/institution/institutionSelectors';
 
 export default function UpdateMouModal({
   isOpen,
   onClose,
   initialData,
   onSuccess,
+  accessTypeId,
 }) {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,8 +35,15 @@ export default function UpdateMouModal({
     mode: 'onChange',
   });
 
+  // Instansi mitra bisa diperbaiki/diganti dari sini -- ini satu-satunya
+  // jalan UI untuk melengkapi MoU lama yang belum punya instansi (lihat
+  // migrasi 003 & badge "Instansi belum diisi" di daftar/detail MoU).
   useEffect(() => {
-    if (initialData) {
+    register('institutionId', { required: true });
+  }, [register]);
+
+  useEffect(() => {
+    if (isOpen && initialData) {
       // Map status label to ID if only label is provided
       const statusId =
         initialData.partnershipStatusId ||
@@ -43,6 +54,7 @@ export default function UpdateMouModal({
 
       reset({
         partnershipStatusId: statusId,
+        institutionId: initialData.instituteId || null,
         mouPartnershipDetail: initialData.mouPartnershipDetail || '',
         mouPartnerLetterNumber: initialData.mouPartnerLetterNumber || '',
         mouPartnerName: initialData.mouPartnerName || '',
@@ -54,7 +66,7 @@ export default function UpdateMouModal({
         mouNote: initialData.mouNote || '',
       });
     }
-  }, [initialData, reset]);
+  }, [isOpen, initialData, reset]);
 
   // Auto-calculate mouDueDate based on mouSignatureDate + mouTimePeriod (in years)
   const mouSignatureDate = watch('mouSignatureDate');
@@ -70,6 +82,32 @@ export default function UpdateMouModal({
       }
     }
   }, [mouSignatureDate, mouTimePeriod, setValue]);
+
+  // Dropdown Instansi -- digerbang `isOpen` supaya tidak dispatch/fetch
+  // saat modal ini cuma di-mount tapi belum dibuka (pola yang sama dengan
+  // catatan di UpdateLetterModal.jsx: efek yang jalan saat modal masih
+  // tertutup bisa memicu loading state yang tidak semestinya).
+  const [institutionQuery, setInstitutionQuery] = useState('');
+  const institutionOptions = useSelector(selectInstitutionsOptions);
+  const institutionSelectOptions = institutionOptions.map((item) => ({
+    value: item.id,
+    label: item.label,
+  }));
+  const selectedInstitutionId = watch('institutionId');
+  const selectedInstitutionOption =
+    institutionSelectOptions.find(
+      (opt) => String(opt.value) === String(selectedInstitutionId),
+    ) ||
+    (initialData?.instituteId && initialData?.instituteName
+      ? { value: initialData.instituteId, label: initialData.instituteName }
+      : null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    dispatch(
+      asyncGetInstitutionsOptions({ query: institutionQuery, typeId: accessTypeId }),
+    );
+  }, [dispatch, isOpen, institutionQuery, accessTypeId]);
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
@@ -120,6 +158,42 @@ export default function UpdateMouModal({
             onSubmit={handleSubmit(onSubmit)}
             className='px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto'
           >
+            <div>
+              <label className='block mb-2 font-medium text-gray-700'>
+                Nama Instansi <span className='text-red-500'>*</span>
+              </label>
+              <Select
+                name='institutionId'
+                options={institutionSelectOptions}
+                placeholder='Cari & pilih nama instansi'
+                onInputChange={setInstitutionQuery}
+                onChange={(option) => {
+                  setValue('institutionId', option ? option.value : null, {
+                    shouldValidate: true,
+                  });
+                }}
+                isClearable
+                isSearchable
+                value={selectedInstitutionOption}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    minHeight: '42px',
+                    borderColor: '#d1d5db',
+                    '&:hover': {
+                      borderColor: '#9ca3af',
+                    },
+                  }),
+                }}
+              />
+              {!initialData?.instituteName && (
+                <p className='mt-1 text-xs text-[#B9660A]'>
+                  MoU ini belum punya instansi mitra -- pilih instansinya di
+                  atas untuk melengkapi.
+                </p>
+              )}
+            </div>
+
             <TextField
               name='mouPartnershipDetail'
               label='Detail Kerjasama'

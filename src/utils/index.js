@@ -53,12 +53,12 @@ const STATUS_OPTIONS = [
   },
 ];
 
-const PROGRAM_OPTIONS = [
-  { id: 1, label: 'LEAD' },
-  { id: 2, label: 'CLP' },
-  { id: 5, label: 'HOL' },
-  { id: 7, label: 'BCF' },
-];
+// PROGRAM_OPTIONS (hardcode) DIHAPUS -- id-nya ('BCF': 7) tidak sinkron
+// dengan data sungguhan di md_second_tier_program dan pernah menyebabkan
+// penerbitan nomor surat gagal. Dropdown "Program" sekarang mengambil
+// daftar dinamis dari back-end lewat asyncGetPrograms (lihat
+// LetterNumberingField.jsx, UpdateLetterModal.jsx, dan modal Riset
+// Potensial/Mitra untuk "Program LSD").
 
 const BATCH_OPTIONS = [
   { id: 1, label: 'Batch 8' },
@@ -95,7 +95,6 @@ const range = (start, end) => {
 
 export {
   STATUS_OPTIONS,
-  PROGRAM_OPTIONS,
   BATCH_OPTIONS,
   LETTER_OPTIONS,
   formatDateInput,

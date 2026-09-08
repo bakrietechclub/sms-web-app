@@ -4,6 +4,8 @@ export const selectLetterDetail = (state) => state.letter.letterDetail;
 export const selectLastletterNumber = (state) => state.letter.lastLetterNumber;
 export const selectSubClassifications = (state) =>
   state.letter.subClassifications;
+export const selectAvailableLetterNumbers = (state) =>
+  state.letter.availableLetterNumbers;
 export const selectLetterLoading = (state) => state.letter.loading;
 export const selectLetterError = (state) => state.letter.error;
 export const selectLetterMeta = (state) => state.letter.meta;

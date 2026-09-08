@@ -15,6 +15,8 @@ import {
   selectInstitutionsOptions,
   selectInstitutionsOptionsDetail,
 } from '../../states/features/institution/institutionSelectors';
+import { asyncGetPrograms } from '../../states/features/programs/programsThunks';
+import { selectPrograms } from '../../states/features/programs/programsSelectors';
 import Select from 'react-select';
 import { X, Loader2 } from 'lucide-react';
 
@@ -102,6 +104,19 @@ export default function AddResearchPotentialModal({
   useEffect(() => {
     dispatch(asyncGetInstitutionsOptions({ query, typeId: accessTypeId }));
   }, [dispatch, query, isOpen]);
+
+  // "Program LSD" HARUS program sungguhan yang bisa diikuti mitra (bukan
+  // label payung seperti BCF) -- difilter ke is_program=1 di back-end
+  // (md_second_tier_program), bukan daftar hardcode di sini yang dulu
+  // gampang beda id/isi dengan versi hardcode di form Perbarui Mitra.
+  const programOptions = useSelector(selectPrograms);
+  useEffect(() => {
+    if (isOpen) dispatch(asyncGetPrograms({ isProgram: 1 }));
+  }, [dispatch, isOpen]);
+  const programSelectOptions = programOptions.map((item) => ({
+    id: item.id,
+    label: item.name,
+  }));
 
   if (!isOpen) return null;
 
@@ -272,11 +287,7 @@ export default function AddResearchPotentialModal({
               <MultiSelectDropdown
                 name='partnershipResearchProgramIds'
                 label='Program LSD'
-                options={[
-                  { id: 1, label: 'LEAD' },
-                  { id: 2, label: 'CLP' },
-                  { id: 5, label: 'HOL' },
-                ]}
+                options={programSelectOptions}
                 register={register}
                 setValue={setValue}
                 isRequired={true}

@@ -3,21 +3,24 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMousOptions } from '../../states/features/partnerships/mou/mouSelectors';
 import { asyncGetMouOptions } from '../../states/features/partnerships/mou/mouThunks';
-import AddModalLetterNumbering from './AddModalLetterNumbering';
 import TextField from '../elements/formfields/TextField';
 import DatePickerField from '../elements/formfields/DatePickerField';
-import RedirectTextField from '../elements/formfields/RedirectTextField';
+import LetterNumberPickerField from '../elements/formfields/LetterNumberPickerField';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
+import AlertModal from './AlertModal';
 import { asyncAddPks } from '../../states/features/partnerships/pks/pksThunks';
 import { STATUS_OPTIONS } from '../../utils';
 import { X, Loader2 } from 'lucide-react';
 import { calculateDueDate } from '../../utils/dateHelpers';
+import { getInstitutionDivisionOptions } from '../../utils/api/institutions';
 
 export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const {
     register,
@@ -44,12 +47,10 @@ export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
     },
   });
 
-  const [letterReferenceNumber, setLetterReferenceNumber] = useState('');
-  const [openLetterModal, setOpenLetterModal] = useState(false);
-
   // Register Select field for validation
   useEffect(() => {
     register('partnershipMouId', { required: true });
+    register('pksInstituteDivision', { required: true });
   }, [register]);
 
   // Auto-calculate pksDueDate based on pksSignatureDate + pksTimePeriod (in years)
@@ -65,25 +66,12 @@ export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
+    setSubmitError('');
     dispatch(asyncAddPks({ ...data, typeId: accessTypeId }))
       .unwrap()
       .then(() => onClose())
-      .catch((err) => console.error(err))
+      .catch((err) => setSubmitError(err || 'Gagal menyimpan PKS.'))
       .finally(() => setIsSubmitting(false));
-  };
-
-  const handleRedirectToNomorSurat = () => {
-    setOpenLetterModal(true);
-  };
-
-  const handleNomorSuratSuccess = ({
-    letterNumberId,
-    letterReferenceNumber,
-  }) => {
-    setLetterReferenceNumber(letterReferenceNumber);
-    setValue('partnershipLetterNumberId', letterNumberId, {
-      shouldValidate: true,
-    });
   };
 
   const [query, setQuery] = useState('');
@@ -98,6 +86,57 @@ export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
   useEffect(() => {
     dispatch(asyncGetMouOptions({ query, typeId: accessTypeId }));
   }, [dispatch, query]);
+
+  // Opsi "Divisi / Fakultas" mengikuti instansi si MoU yang dipilih --
+  // jurusan kalau universitas, Divisi CLP kalau bukan (lihat
+  // MasterInstitutionsRepositoryMySQL.readDivisionOptionsById). Dipetik
+  // ulang dari `options` (bukan disimpan terpisah di state `selected`)
+  // supaya tetap sinkron kalau daftar MoU di-refetch (pencarian berubah).
+  const [divisionOptions, setDivisionOptions] = useState([]);
+  const [isDivisionLoading, setIsDivisionLoading] = useState(false);
+  const selectedMou = options.find((item) => item.id === selected?.value);
+
+  useEffect(() => {
+    setValue('pksInstituteDivision', '', { shouldValidate: true });
+    if (!selectedMou?.institutionId) {
+      setDivisionOptions([]);
+      return;
+    }
+    let isCancelled = false;
+    setIsDivisionLoading(true);
+    getInstitutionDivisionOptions({ id: selectedMou.institutionId })
+      .then((data) => {
+        if (!isCancelled) setDivisionOptions(data || []);
+      })
+      .catch(() => {
+        if (!isCancelled) setDivisionOptions([]);
+      })
+      .finally(() => {
+        if (!isCancelled) setIsDivisionLoading(false);
+      });
+    return () => {
+      isCancelled = true;
+    };
+  }, [selectedMou?.institutionId, setValue]);
+
+  const divisionSelectOptions = divisionOptions.map((item) => ({
+    value: item.label,
+    label: item.label,
+  }));
+  const currentDivisionText = watch('pksInstituteDivision');
+  const currentDivisionOption = currentDivisionText
+    ? { value: currentDivisionText, label: currentDivisionText }
+    : null;
+  // Divisi/jurusan diketik/dipilih, tapi TIDAK cocok dengan yang sudah
+  // tercatat resmi di instansi ini -- tetap boleh disimpan (input bebas
+  // memang tujuannya), tapi diberi tahu supaya bukan salah ketik yang
+  // tidak disadari.
+  const isUnknownDivision =
+    currentDivisionText &&
+    divisionOptions.length > 0 &&
+    !divisionOptions.some(
+      (item) => item.label.trim().toLowerCase() === currentDivisionText.trim().toLowerCase(),
+    );
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -172,13 +211,55 @@ export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
                   }}
                 />
               </div>
-              <TextField
-                name='pksInstituteDivision'
-                label='Divisi / Fakultas'
-                placeholder='Masukkan divisi'
-                register={register}
-                isRequired={true}
-              />
+              <div>
+                <label className='block mb-2 font-medium text-gray-700'>
+                  Divisi / Fakultas <span className='text-red-500'>*</span>
+                </label>
+                <CreatableSelect
+                  name='pksInstituteDivision'
+                  options={divisionSelectOptions}
+                  placeholder={
+                    isDivisionLoading
+                      ? 'Memuat opsi...'
+                      : selectedMou?.institutionId
+                        ? 'Cari, pilih, atau ketik divisi/jurusan baru'
+                        : 'Pilih MoU dahulu, atau langsung ketik manual'
+                  }
+                  formatCreateLabel={(input) => `Pakai "${input}" (belum tercatat)`}
+                  isLoading={isDivisionLoading}
+                  isClearable
+                  isSearchable
+                  value={currentDivisionOption}
+                  onChange={(option) => {
+                    setValue('pksInstituteDivision', option ? option.value : '', {
+                      shouldValidate: true,
+                    });
+                  }}
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      minHeight: '42px',
+                      borderColor: isUnknownDivision ? '#fbbf24' : '#d1d5db',
+                      '&:hover': { borderColor: isUnknownDivision ? '#f59e0b' : '#9ca3af' },
+                    }),
+                  }}
+                />
+                {isUnknownDivision ? (
+                  <p className='text-xs text-amber-600 mt-1 flex items-start gap-1'>
+                    <span>⚠</span>
+                    <span>
+                      &quot;{currentDivisionText}&quot; belum tercatat sebagai jurusan/Divisi
+                      resmi instansi ini. Tetap bisa disimpan -- cek dulu ejaannya kalau ini
+                      seharusnya salah satu yang sudah ada di daftar.
+                    </span>
+                  </p>
+                ) : selectedMou?.institutionId && divisionOptions.length === 0 ? (
+                  <p className='text-xs text-gray-400 mt-1'>
+                    Instansi ini belum punya jurusan/Divisi CLP tercatat -- ketik manual saja,
+                    tidak masalah.
+                  </p>
+                ) : null}
+              </div>
             </div>
 
             <TextField
@@ -198,10 +279,12 @@ export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
                 setValue={setValue}
                 isRequired
               />
-              <RedirectTextField
+              <LetterNumberPickerField
+                name='partnershipLetterNumberId'
                 label='Nomor Surat BCF'
-                value={letterReferenceNumber}
-                onRedirect={handleRedirectToNomorSurat}
+                typeId={4}
+                register={register}
+                setValue={setValue}
                 isRequired
               />
             </div>
@@ -306,12 +389,12 @@ export default function AddPksModal({ isOpen, onClose, accessTypeId }) {
         </div>
       </div>
 
-      {/* ⬇️ Modal AddNomorSurat */}
-      <AddModalLetterNumbering
-        isOpen={openLetterModal}
-        onClose={() => setOpenLetterModal(false)}
-        onSuccess={handleNomorSuratSuccess}
-        partnershipLetterNumberTypeId={4}
+      {/* ⬇️ Alert error submit -- gagal simpan PKS (mis. nomor surat sudah dipakai) */}
+      <AlertModal
+        isOpen={!!submitError}
+        onClose={() => setSubmitError('')}
+        variant='error'
+        message={submitError}
       />
     </>
   );

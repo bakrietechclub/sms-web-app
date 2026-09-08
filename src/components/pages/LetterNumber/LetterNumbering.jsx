@@ -186,7 +186,7 @@ export const LetterNumbering = () => {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSuccess={(value) => console.log(value)}
-          isInheritance={false}
+          variant='page'
         />
       )}
     </div>

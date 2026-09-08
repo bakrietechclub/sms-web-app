@@ -25,6 +25,17 @@ async function getLastLetterNumber() {
   return responseJson.data;
 }
 
+/**
+ * Nomor surat yang belum ditautkan ke dokumen mana pun -- dipakai dropdown
+ * "pilih nomor surat" di form Tambah MoU/PKS/IA/SPK (LetterNumberPickerField).
+ */
+async function getAvailableLetterNumbers({ typeId } = {}) {
+  const responseJson = await fetchWithAuth(
+    `/letter-numbers/available${buildQueryString({ typeId })}`,
+  );
+  return responseJson.data;
+}
+
 async function getSubClassifications({ id }) {
   const responseJson = await fetchWithAuth(
     `/letter-numbers/classifications/${id}`
@@ -52,6 +63,7 @@ export {
   getLetterById,
   getLetter,
   getLastLetterNumber,
+  getAvailableLetterNumbers,
   getSubClassifications,
   deleteLetterById,
   updateLetterById,

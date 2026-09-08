@@ -8,8 +8,7 @@ import { selectLetterTypes } from '../../states/features/classification/classifi
 import TextField from '../elements/formfields/TextField';
 import LetterNumberingField from '../elements/formfields/LetterNumberingField';
 import SingleSelectDropdown from '../elements/formfields/SingleSelectDropdown';
-
-import { PROGRAM_OPTIONS } from '../../utils';
+import { selectAllPrograms } from '../../states/features/programs/programsSelectors';
 
 // Bulan singkat dipakai LetterNumberingField untuk field "Bulan" -- disusun
 // dari `letterNumberDate` (dd/mm/yyyy) supaya field itu tidak kosong saat
@@ -29,6 +28,11 @@ export default function UpdateLetterModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dropdownRef = useRef(null);
   const letterTypes = useSelector(selectLetterTypes);
+  // Semua baris md_second_tier_program (termasuk "BCF", label payung --
+  // lihat catatan di LetterNumberingField.jsx), diambil dinamis dari
+  // back-end alih-alih daftar hardcode yang dulu bisa punya id tidak sinkron
+  // dengan data sungguhan.
+  const programOptions = useSelector(selectAllPrograms);
 
   const methods = useForm({
     mode: 'onChange',
@@ -70,7 +74,7 @@ export default function UpdateLetterModal({
       const [day, month, year] = (initialData.letterNumberDate || '').split('/');
       const isoDate = day && month && year ? `${year}-${month}-${day}` : '';
       const monthName = month ? MONTH_NAMES[Number(month) - 1] : '';
-      const programOption = PROGRAM_OPTIONS.find(
+      const programOption = programOptions.find(
         (opt) => opt.id === initialData.masterSecondTierProgramId,
       );
 
@@ -101,13 +105,17 @@ export default function UpdateLetterModal({
         // dilewati supaya nilai ini tidak langsung terhapus lagi).
         letterClass: initialData.classificationName || '',
         subClassification: initialData.subClassificationName || '',
-        program: programOption?.label || '',
+        program: programOption?.name || '',
         month: monthName,
         year: year || '',
       });
     }
+    // `programOptions` sengaja masuk dependency -- saat modal dibuka,
+    // daftar program dari back-end (dipicu LetterNumberingField) belum
+    // tentu sudah termuat; begitu terisi, effect ini jalan ulang supaya
+    // label "Program" ikut terisi (bukan cuma id-nya).
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, initialData, reset]);
+  }, [isOpen, initialData, reset, programOptions]);
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
