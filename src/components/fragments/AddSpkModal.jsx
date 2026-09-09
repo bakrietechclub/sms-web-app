@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncAddSpk } from '../../states/features/partnerships/spk/spkThunks';
 import { selectAllTorsOptions } from '../../states/features/partnerships/tor/torSelectors';
@@ -20,13 +20,7 @@ export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { isValid },
-  } = useForm({
+  const methods = useForm({
     mode: 'onChange',
     defaultValues: {
       partnershipTorId: null, // Optional = NULL
@@ -40,6 +34,7 @@ export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
       spkDueDate: '',
     },
   });
+  const { register, handleSubmit, setValue, watch } = methods;
 
   // Register Select field for validation
   useEffect(() => {
@@ -116,6 +111,7 @@ export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
             </button>
           </div>
 
+          <FormProvider {...methods}>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className='px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto'
@@ -217,10 +213,11 @@ export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
                 name='spkDueDate'
                 label='Tanggal Jatuh Tempo'
                 className='w-full'
-                placeholder='Masukkan jatuh tempo'
                 register={register}
                 setValue={setValue}
                 isRequired={true}
+                readOnly
+                helperText='Dihitung otomatis dari Tanggal Tanda Tangan + Jangka Waktu'
               />
             </div>
 
@@ -244,7 +241,7 @@ export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
               </button>
               <button
                 type='submit'
-                disabled={isSubmitting || !isValid}
+                disabled={isSubmitting}
                 className='px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center'
               >
                 {isSubmitting ? (
@@ -261,6 +258,7 @@ export default function AddSpkModal({ isOpen, onClose, accessTypeId }) {
               </button>
             </div>
           </form>
+          </FormProvider>
         </div>
       </div>
 

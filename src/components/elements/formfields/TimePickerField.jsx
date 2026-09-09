@@ -1,38 +1,46 @@
 import { useState, useEffect } from 'react';
 import { motion, useMotionValue, animate } from 'framer-motion';
+import { useFormContext, useWatch } from 'react-hook-form';
 import clock from '../../../assets/icons/clock.png';
 
 const TimePickerField = ({
   name = 'waktu',
   label = 'Waktu',
-  value,
-  register,
-  setValue,
+  register: registerProp,
+  setValue: setValueProp,
+  control: controlProp,
   onChange,
   placeholder = 'HH:mm:ss',
   className = '',
-  required = false,
+  isRequired,
+  required = false, // alias lama
   disabled = false,
 }) => {
+  const methods = useFormContext();
+  const register = registerProp || methods?.register;
+  const setValue = setValueProp || methods?.setValue;
+  const control = controlProp || methods?.control;
+  const errors = methods?.formState?.errors;
+  const fieldError = errors?.[name];
+  const requiredFlag = isRequired ?? required;
+
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState('hour');
   const [hour, setHour] = useState(12);
   const [minute, setMinute] = useState('00');
   const [amPm, setAmPm] = useState('AM');
-  const [localValue, setLocalValue] = useState(value || '');
+  // Nilai yang TAMPIL selalu dari react-hook-form (`useWatch`) -- dulu
+  // disimpan di `useState` lokal yang cuma di-set lewat prop `value`, yang
+  // di semua pemanggil tidak pernah dikirim (mereka mengirim `watch` --
+  // prop yang bahkan tidak pernah diterima komponen ini), jadi field ini
+  // efektif selalu tampak kosong setelah dipilih & form re-render.
+  const localValue = useWatch({ control, name }) || '';
 
   const radius = 100;
   const center = 120;
   const hours = [...Array(12)].map((_, i) => i + 1);
   const minutes = [...Array(12)].map((_, i) => String(i * 5).padStart(2, '0'));
   const numbers = step === 'hour' ? hours : minutes;
-
-  // Sync external value to internal localValue
-  useEffect(() => {
-    if (value !== undefined) {
-      setLocalValue(value);
-    }
-  }, [value]);
 
   const polarToCartesian = (r, angleInDegrees) => {
     const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180;
@@ -108,7 +116,6 @@ const TimePickerField = ({
       if (amPm === 'PM' && hour < 12) h += 12;
       if (amPm === 'AM' && hour === 12) h = 0;
       const formatted = `${String(h).padStart(2, '0')}:${minute}:00`;
-      setLocalValue(formatted);
       if (setValue) {
         setValue(name, formatted, { shouldValidate: true }); // update react-hook-form value
       }
@@ -130,18 +137,20 @@ const TimePickerField = ({
     <div className={`relative w-full ${className}`}>
       <label className="block mb-1 font-medium">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {requiredFlag && <span className="text-red-500 ml-1">*</span>}
       </label>
       <div className="relative">
         <input
           name={name}
           readOnly
-          {...register(name, { required: required })}
+          {...register(name, { required: requiredFlag })}
           value={localValue}
           placeholder={placeholder}
           onClick={handleInputClick}
           disabled={disabled}
-          className={`w-full border border-gray-300 px-3 py-2 rounded cursor-pointer pr-10 ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''
+          className={`w-full border px-3 py-2 rounded cursor-pointer pr-10 ${
+            fieldError ? 'border-red-400' : 'border-gray-300'
+          } ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''
             }`}
         />
         <div className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
@@ -253,6 +262,11 @@ const TimePickerField = ({
           </div>
         )}
       </div>
+      {fieldError && (
+        <p className="mt-1 text-xs text-red-500">
+          {fieldError.message || `${label} wajib diisi.`}
+        </p>
+      )}
     </div>
   );
 };

@@ -19,6 +19,9 @@ export const PERM = {
   LETTER_NUMBERS_CREATE: 'sms.letter_numbers.create',
   LETTER_NUMBERS_UPDATE: 'sms.letter_numbers.update',
   LETTER_NUMBERS_DELETE: 'sms.letter_numbers.delete',
+  // Terpisah dari CRUD di atas: mengubah letter_number_sequence berdampak
+  // ke CLP juga (kaunter global), bukan cuma modul Kemitraan SMS.
+  LETTER_NUMBERS_CONFIGURE_SEQUENCE: 'sms.letter_numbers.configure_sequence',
 
   LETTER_CLASSIFICATIONS_VIEW: 'sms.letter_classifications.view',
   LETTER_CLASSIFICATIONS_CREATE: 'sms.letter_classifications.create',

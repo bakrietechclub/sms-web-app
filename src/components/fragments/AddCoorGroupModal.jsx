@@ -18,7 +18,6 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
     register,
     handleSubmit,
     setValue,
-    formState: { isValid },
   } = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -137,7 +136,7 @@ export default function AddCoorGroupModal({ isOpen, onClose, accessTypeId }) {
               </button>
               <button
                 type='submit'
-                disabled={isSubmitting || !isValid}
+                disabled={isSubmitting}
                 className='px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center'
               >
                 {isSubmitting ? (

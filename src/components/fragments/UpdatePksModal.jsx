@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { X, Loader2 } from 'lucide-react';
 
@@ -21,16 +21,10 @@ export default function UpdatePksModal({
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { isValid },
-    reset,
-  } = useForm({
+  const methods = useForm({
     mode: 'onChange',
   });
+  const { register, handleSubmit, setValue, watch, reset } = methods;
 
   useEffect(() => {
     if (initialData) {
@@ -174,6 +168,7 @@ export default function UpdatePksModal({
             </button>
           </div>
 
+          <FormProvider {...methods}>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className='px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto'
@@ -289,10 +284,11 @@ export default function UpdatePksModal({
                 name='pksDueDate'
                 label='Jatuh Tempo'
                 className='w-full'
-                placeholder='Masukkan jatuh tempo'
                 register={register}
                 setValue={setValue}
                 isRequired={true}
+                readOnly
+                helperText='Dihitung otomatis dari Tanggal Tanda Tangan + Jangka Waktu'
               />
             </div>
 
@@ -323,7 +319,7 @@ export default function UpdatePksModal({
               </button>
               <button
                 type='submit'
-                disabled={isSubmitting || !isValid}
+                disabled={isSubmitting}
                 className='px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center'
               >
                 {isSubmitting ? (
@@ -337,6 +333,7 @@ export default function UpdatePksModal({
               </button>
             </div>
           </form>
+          </FormProvider>
         </div>
       </div>
     </>

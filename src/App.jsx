@@ -31,6 +31,7 @@ import IaDetail from './components/pages/Partnerships/Ia/IaDetail';
 import TorDetail from './components/pages/Partnerships/Tor/TorDetail';
 import SpkDetail from './components/pages/Partnerships/Spk/SpkDetail';
 import LetterNumberingDetail from './components/pages/LetterNumber/LetterNumberingDetail';
+import LetterNumberSequenceSettings from './components/pages/LetterNumber/LetterNumberSequenceSettings';
 import ColabPartnerDetail from './components/pages/Researches/ColabPartnerDetail';
 import { PotentialPartnerRecommendations } from './components/pages/Researches/PotentialPartnerRecommendations';
 import { PotentialPartnerRecommendationDetail } from './components/pages/Researches/PotentialPartnerRecommendationDetail';
@@ -190,6 +191,10 @@ const App = () => {
             <Route
               index
               element={<LetterNumbering />}
+            />
+            <Route
+              path='sequence'
+              element={<LetterNumberSequenceSettings />}
             />
             <Route
               path=':id'

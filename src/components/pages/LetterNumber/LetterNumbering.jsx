@@ -1,4 +1,4 @@
-import { ExternalLink, Eye } from 'lucide-react';
+import { ExternalLink, Eye, Settings } from 'lucide-react';
 import { Button } from '../../elements/Button';
 import { TableToolbar } from '../../fragments/TableToolbar';
 import { Table } from '../../fragments/Table';
@@ -136,12 +136,27 @@ export const LetterNumbering = () => {
 
   return (
     <div>
-      <h1 className='text-2xl font-semibold'>Tabel Penomoran Surat</h1>
-      <p className='text-sm text-gray-500 mt-1 mb-4'>
-        Nomor surat resmi yang diterbitkan untuk setiap dokumen kerja sama,
-        dibuat otomatis berdasarkan klasifikasi, jenis surat, dan program
-        yang dipilih.
-      </p>
+      <div className='flex items-start justify-between gap-4'>
+        <div>
+          <h1 className='text-2xl font-semibold'>Tabel Penomoran Surat</h1>
+          <p className='text-sm text-gray-500 mt-1 mb-4'>
+            Nomor surat resmi yang diterbitkan untuk setiap dokumen kerja
+            sama, dibuat otomatis berdasarkan klasifikasi, jenis surat, dan
+            program yang dipilih.
+          </p>
+        </div>
+        {can(PERM.LETTER_NUMBERS_CONFIGURE_SEQUENCE) && (
+          <button
+            type='button'
+            onClick={() => navigate('/letter-numbers/sequence')}
+            title='Pengaturan lanjutan nomor urut global -- memengaruhi seluruh sistem, bukan hanya SMS'
+            className='inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-600 hover:bg-gray-50 hover:text-gray-800 transition-colors shrink-0 cursor-pointer'
+          >
+            <Settings size={14} />
+            Pengaturan Nomor Urut
+          </button>
+        )}
+      </div>
 
       {/* TableToolbar untuk pencarian dan filter */}
       <TableToolbar

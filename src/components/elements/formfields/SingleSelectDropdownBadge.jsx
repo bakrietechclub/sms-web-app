@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 
 const badgeColorMap = {
@@ -17,33 +18,32 @@ const badgeColorMap = {
   'Tidak Aktif': 'bg-red-100 text-red-800',
 };
 
+// Sama seperti SingleSelectDropdown: nilai terpilih SELALU dibaca lewat
+// `useWatch`, tidak lagi disimpan sebagai state lokal terpisah yang gampang
+// desync dari react-hook-form saat form re-render karena hal lain.
 const SingleSelectDropdownBadge = ({
   label,
   name,
-  options,
-  register,
-  setValue,
+  options = [],
+  register: registerProp,
+  setValue: setValueProp,
+  control: controlProp,
   isRequired,
-  defaultValue,
 }) => {
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState('');
+  const methods = useFormContext();
+  const register = registerProp || methods?.register;
+  const setValue = setValueProp || methods?.setValue;
+  const control = controlProp || methods?.control;
+  const errors = methods?.formState?.errors;
+  const fieldError = errors?.[name];
 
-  useEffect(() => {
-    if (defaultValue !== undefined && defaultValue !== null) {
-      // Find option by ID
-      const option = options.find((o) => o.id === defaultValue);
-      if (option) {
-        setSelected(option);
-        setValue(name, option.id);
-      }
-    }
-  }, [defaultValue, options, name, setValue]);
+  const [open, setOpen] = useState(false);
+  const currentValue = useWatch({ control, name });
+  const selectedOption = options.find((o) => o.id === currentValue) || null;
 
   const toggleDropdown = () => setOpen((prev) => !prev);
 
   const handleSelect = (option) => {
-    setSelected(option);
     setValue(name, option.id, { shouldValidate: true });
     setOpen(false);
   };
@@ -56,11 +56,13 @@ const SingleSelectDropdownBadge = ({
       <div className="relative">
         <input
           readOnly
-          value={selected ? selected.label : ''}
+          value={selectedOption ? selectedOption.label : ''}
           placeholder={`Pilih ${label.toLowerCase()}`}
           {...register(name, { required: isRequired })}
           onClick={toggleDropdown}
-          className="w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer text-base"
+          className={`w-full border px-3 py-2 rounded pr-8 cursor-pointer text-base ${
+            fieldError ? 'border-red-400' : 'border-gray-300'
+          }`}
         />
         <div className="absolute top-1/2 right-2 -translate-y-1/2 pointer-events-none">
           {open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
@@ -81,6 +83,11 @@ const SingleSelectDropdownBadge = ({
           </div>
         )}
       </div>
+      {fieldError && (
+        <p className="mt-1 text-xs text-red-500">
+          {fieldError.message || `${label} wajib diisi.`}
+        </p>
+      )}
     </div>
   );
 };

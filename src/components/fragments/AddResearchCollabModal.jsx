@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Select from 'react-select';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import SwotFields from '../elements/formfields/SwotFields';
 import TextField from '../elements/formfields/TextField';
@@ -48,16 +48,11 @@ export default function AddResearchCollabModal({
   const [query, setQuery] = useState('');
 
   // Use watch to get the current values needed for Select components
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { isValid },
-  } = useForm({
+  const methods = useForm({
     mode: 'onChange',
     defaultValues: defaultFormValues,
   });
+  const { register, handleSubmit, setValue, watch } = methods;
 
   const researchId = watch('researchId');
   const researchPksId = watch('researchPksId');
@@ -226,6 +221,7 @@ export default function AddResearchCollabModal({
           </div>
 
           {/* Form */}
+          <FormProvider {...methods}>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className='px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto'
@@ -376,7 +372,7 @@ export default function AddResearchCollabModal({
               </button>
               <button
                 type='submit'
-                disabled={isSubmitting || !isValid}
+                disabled={isSubmitting}
                 className='px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center'
               >
                 {isSubmitting ? (
@@ -393,6 +389,7 @@ export default function AddResearchCollabModal({
               </button>
             </div>
           </form>
+          </FormProvider>
         </div>
       </div>
     </>

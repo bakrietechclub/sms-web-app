@@ -3,7 +3,7 @@ import TextField from '../elements/formfields/TextField';
 import MultiSelectDropdown from '../elements/formfields/MultiSelectDropdown';
 import SwotFields from '../elements/formfields/SwotFields';
 import ContactFields from '../elements/formfields/ContactFields';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import SingleSelectDropdownBadge from '../elements/formfields/SingleSelectDropdownBadge';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncAddResearchPotential } from '../../states/features/research/potential/potentialThunks';
@@ -28,13 +28,7 @@ export default function AddResearchPotentialModal({
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { isValid },
-  } = useForm({
+  const methods = useForm({
     mode: 'onChange',
     defaultValues: {
       partnershipResearchNeedsIds: [],
@@ -51,6 +45,7 @@ export default function AddResearchPotentialModal({
       documentUrl: '',
     },
   });
+  const { register, handleSubmit, setValue, watch } = methods;
 
   // Register Select field for validation
   useEffect(() => {
@@ -148,6 +143,7 @@ export default function AddResearchPotentialModal({
           </div>
 
           {/* Form */}
+          <FormProvider {...methods}>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className='px-5 py-4 space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto'
@@ -343,7 +339,7 @@ export default function AddResearchPotentialModal({
               </button>
               <button
                 type='submit'
-                disabled={isSubmitting || !isValid}
+                disabled={isSubmitting}
                 className='px-4 py-2 text-sm font-medium text-white bg-[#0D4690] rounded-lg hover:bg-blue-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center'
               >
                 {isSubmitting ? (
@@ -360,6 +356,7 @@ export default function AddResearchPotentialModal({
               </button>
             </div>
           </form>
+          </FormProvider>
         </div>
       </div>
     </>

@@ -58,6 +58,32 @@ async function updateLetterById({ id, payload }) {
   return responseJson.data;
 }
 
+// --- Konfigurasi kaunter global (letter_number_sequence) ------------------
+// PENTING: kaunter ini dibagi dengan CLP (back-end) -- lihat catatan di
+// MasterPartnershipLetterNumberRepositoryMySQL (back-end-sms). Endpoint ini
+// sengaja dipisah dari CRUD nomor surat biasa dan butuh permission
+// tersendiri (sms.letter_numbers.configure_sequence).
+
+async function getLetterSequence() {
+  const responseJson = await fetchWithAuth('/letter-numbers/sequence');
+  return responseJson.data;
+}
+
+async function updateLetterSequence({ newValue, reason }) {
+  const responseJson = await fetchWithAuth('/letter-numbers/sequence', {
+    method: 'PUT',
+    body: JSON.stringify({ newValue, reason }),
+  });
+  return responseJson;
+}
+
+async function getLetterSequenceAuditLog({ page = 1, pageSize = 20 } = {}) {
+  const responseJson = await fetchWithAuth(
+    `/letter-numbers/sequence/audit-log${buildQueryString({ page, pageSize })}`,
+  );
+  return responseJson.data;
+}
+
 export {
   addLetter,
   getLetterById,
@@ -67,4 +93,7 @@ export {
   getSubClassifications,
   deleteLetterById,
   updateLetterById,
+  getLetterSequence,
+  updateLetterSequence,
+  getLetterSequenceAuditLog,
 };

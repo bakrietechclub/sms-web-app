@@ -1,44 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 
+// `selected` (yang ditampilkan) SELALU dari `useWatch` -- react-hook-form
+// tetap satu-satunya sumber kebenaran. `tempSelected` TETAP state lokal,
+// tapi itu memang cuma "draf" checkbox selagi dropdown terbuka (belum
+// dikonfirmasi) -- disegarkan dari `selected` setiap kali dropdown dibuka,
+// bukan dipakai untuk menyimpan nilai final.
 const MultiSelectDropdown = ({
   label,
   name,
-  options,
-  register,
-  setValue,
+  options = [],
+  register: registerProp,
+  setValue: setValueProp,
+  control: controlProp,
   isRequired = false,
-  ...props
 }) => {
+  const methods = useFormContext();
+  const register = registerProp || methods?.register;
+  const setValue = setValueProp || methods?.setValue;
+  const control = controlProp || methods?.control;
+  const errors = methods?.formState?.errors;
+  const fieldError = errors?.[name];
+
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState([]);
   const [tempSelected, setTempSelected] = useState([]);
-
-  useEffect(() => {
-    if (register(name).value) {
-      // Fallback for whatever logic was intended, but prefer defaultValue
-      // This part is likely dead code if register returns standard object
-    }
-  }, [name, register]);
-
-  useEffect(() => {
-    if (props.defaultValue) {
-      let initialSelected = [];
-      if (Array.isArray(props.defaultValue)) {
-        // If defaultValue is array of IDs or Strings
-        initialSelected = props.defaultValue;
-      }
-      setSelected(initialSelected);
-      setTempSelected(initialSelected);
-      // Ensure the form is synced if not already
-      setValue(name, initialSelected);
-    }
-  }, [props.defaultValue, name, setValue]);
+  const watchedValue = useWatch({ control, name });
+  const selected = Array.isArray(watchedValue) ? watchedValue : [];
 
   const toggleDropdown = () => {
-    if (!open) {
-      setTempSelected(selected);
-    }
+    if (!open) setTempSelected(selected);
     setOpen((prev) => !prev);
   };
 
@@ -51,8 +42,7 @@ const MultiSelectDropdown = ({
   };
 
   const confirmSelection = () => {
-    setSelected(tempSelected);
-    setValue(name, tempSelected);
+    setValue(name, tempSelected, { shouldValidate: true });
     setOpen(false);
   };
 
@@ -71,7 +61,9 @@ const MultiSelectDropdown = ({
           placeholder={`Pilih ${label}`}
           {...register(name, { required: isRequired })}
           onClick={toggleDropdown}
-          className='w-full border border-gray-300 px-3 py-2 rounded pr-8 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+          className={`w-full border px-3 py-2 rounded pr-8 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+            fieldError ? 'border-red-400' : 'border-gray-300'
+          }`}
         />
         <div className='absolute top-1/2 right-2 -translate-y-1/2 pointer-events-none'>
           {open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
@@ -141,6 +133,11 @@ const MultiSelectDropdown = ({
           </div>
         )}
       </div>
+      {fieldError && (
+        <p className='mt-1 text-xs text-red-500'>
+          {fieldError.message || `${label} wajib diisi.`}
+        </p>
+      )}
     </div>
   );
 };

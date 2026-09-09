@@ -1,34 +1,41 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 
+/**
+ * PENTING: tampilan field ini SELALU diturunkan dari nilai react-hook-form
+ * (`useWatch`), BUKAN disimpan sebagai salinan di `useState` lokal seperti
+ * versi lama. Versi lama menyimpan `selected` di state sendiri lalu
+ * mensinkronkannya lewat `useEffect([defaultValue, options])` -- karena
+ * `options` adalah array baru di setiap render induk, dan banyak field lain
+ * di form yang sama TIDAK mengirim `defaultValue`, field ini jadi rawan balik
+ * kosong/ke nilai lama begitu bagian LAIN dari form berubah (mis. field lain
+ * dipilih, data async masuk) memicu re-render induk. Dengan `useWatch`, tidak
+ * ada state kedua yang bisa desync dari form -- apa pun yang bikin induk
+ * re-render, field ini tetap menampilkan nilai RHF yang sebenarnya.
+ */
 const SingleSelectDropdown = ({
   label,
   name,
-  options,
-  register,
-  setValue,
+  options = [],
+  register: registerProp,
+  setValue: setValueProp,
+  control: controlProp,
   isRequired = false,
-  onClick,
-  defaultValue,
   disabled = false,
   placeholder,
+  onClick,
 }) => {
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState('');
+  const methods = useFormContext();
+  const register = registerProp || methods?.register;
+  const setValue = setValueProp || methods?.setValue;
+  const control = controlProp || methods?.control;
+  const errors = methods?.formState?.errors;
+  const fieldError = errors?.[name];
 
-  useEffect(() => {
-    if (defaultValue && options) {
-      const option = options.find((opt) => opt.id === defaultValue);
-      if (option) {
-        setSelected(option.label);
-        return;
-      }
-    }
-    // `options` berubah (mis. Batch difilter ulang setelah ganti Program)
-    // dan pilihan lama tidak ada lagi di daftar baru -- bersihkan tampilan
-    // supaya tidak menampilkan label batch yang sudah tidak relevan.
-    setSelected('');
-  }, [defaultValue, options]);
+  const [open, setOpen] = useState(false);
+  const currentValue = useWatch({ control, name });
+  const selectedOption = options.find((opt) => opt.id === currentValue) || null;
 
   const toggleDropdown = () => {
     if (disabled) return;
@@ -36,9 +43,8 @@ const SingleSelectDropdown = ({
     if (onClick) onClick();
   };
 
-  const handleSelect = (value) => {
-    setSelected(value.label);
-    setValue(name, value.id, { shouldValidate: true });
+  const handleSelect = (option) => {
+    setValue(name, option.id, { shouldValidate: true });
     setOpen(false);
   };
 
@@ -51,11 +57,13 @@ const SingleSelectDropdown = ({
         <input
           readOnly
           disabled={disabled}
-          value={selected}
-          placeholder={placeholder || `Pilih ${label.toLowerCase()}`}
+          value={selectedOption?.label || ''}
+          placeholder={placeholder || `Pilih ${label?.toLowerCase()}`}
           {...register(name, { required: isRequired })}
           onClick={toggleDropdown}
-          className={`w-full border border-gray-300 font-normal px-3 py-2 rounded pr-8 ${
+          className={`w-full border px-3 py-2 rounded pr-8 ${
+            fieldError ? 'border-red-400' : 'border-gray-300'
+          } ${
             disabled
               ? 'cursor-not-allowed bg-gray-100 text-gray-400'
               : 'cursor-pointer'
@@ -67,16 +75,25 @@ const SingleSelectDropdown = ({
       </div>
       {open && !disabled && (
         <div className="mt-2 border border-gray-300 rounded max-h-64 overflow-y-auto">
-          {options.map((option) => (
-            <div
-              key={option.id}
-              onClick={() => handleSelect(option)}
-              className="px-3 py-2 hover:bg-[#e7edf4] cursor-pointer hover:text-[#0c3f82]"
-            >
-              {option.label}
-            </div>
-          ))}
+          {options.length > 0 ? (
+            options.map((option) => (
+              <div
+                key={option.id}
+                onClick={() => handleSelect(option)}
+                className="px-3 py-2 hover:bg-[#e7edf4] cursor-pointer hover:text-[#0c3f82]"
+              >
+                {option.label}
+              </div>
+            ))
+          ) : (
+            <div className="px-3 py-2 text-sm text-gray-400">Tidak ada opsi</div>
+          )}
         </div>
+      )}
+      {fieldError && (
+        <p className="mt-1 text-xs text-red-500">
+          {fieldError.message || `${label} wajib diisi.`}
+        </p>
       )}
     </div>
   );
